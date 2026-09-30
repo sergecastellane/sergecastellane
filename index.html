@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" integrity="sha384-OJTwghM0Gh3Zc+gmd6l0lz1pFw9KuHHq0mSEZgmQEKgMnuSWWDb3bU9KzuD7w2hU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 (function(){
@@ -1021,6 +1021,87 @@ body[data-rol="lectura"] .btn-add-event{display:none!important}
 .adm button.sec{background:#fff;color:#2c3e50}.adm button.dan{background:#8a3b3b;border-color:#8a3b3b}
 .adm .warn{background:#fbf3df;border:1px solid #e3cf98;padding:10px 14px;border-radius:6px}
 .adm .ok{color:#2f5d4b}.adm .ko{color:#8a3b3b}
+/* ===== ADMIN PRO (interactivo) ===== */
+.adm.adx{max-width:1040px;--c-bg:#fff;--c-line:#e7e1d5;--c-ink:#1f2933;--c-mut:#6f6a5e;--c-acc:#2f5d4b;--c-soft:#eef6f0;--c-ko:#a4443f;--c-warn:#b7862b;color:var(--c-ink)}
+@media(prefers-color-scheme:dark){.adm.adx{--c-bg:#1d2528;--c-line:#33403f;--c-ink:#e8ece9;--c-mut:#a3aeaa;--c-soft:#24332d}}
+.adx-hero{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:22px 26px;border-radius:16px;color:#fff;background:linear-gradient(135deg,#1f3d33,#2f5d4b 55%,#3e7a63);box-shadow:0 14px 34px rgba(31,61,51,.28);animation:adxUp .5s ease both}
+.adx-hero h2{color:#fff;margin:0}.adx-hero p{margin:4px 0 0;opacity:.85;font-size:.95rem}
+.adx-hero .adx-live{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);padding:6px 14px;border-radius:999px;font-size:.85rem}
+.adx-live i{width:9px;height:9px;border-radius:50%;background:#7be0a4;box-shadow:0 0 0 0 rgba(123,224,164,.7);animation:adxPulse 2s infinite}
+.adx-tabs{display:flex;gap:6px;overflow-x:auto;margin:20px 0 6px;padding:5px;background:var(--c-soft);border-radius:14px;position:sticky;top:0;z-index:5;backdrop-filter:blur(6px)}
+.adm .adx-tab{flex:1;min-width:max-content;background:transparent;color:var(--c-mut);border:0;border-radius:10px;padding:10px 16px;font-weight:600;transition:.2s}
+.adm .adx-tab:hover{color:var(--c-acc);background:rgba(47,93,75,.08)}
+.adm .adx-tab[aria-selected=true]{background:var(--c-acc);color:#fff;box-shadow:0 4px 12px rgba(47,93,75,.3)}
+.adx-panel{animation:adxUp .35s ease both}.adx-panel[hidden]{display:none}
+.adx-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin:16px 0}
+.adx-card{background:var(--c-bg);border:1px solid var(--c-line);border-radius:14px;padding:18px 20px;box-shadow:0 8px 24px rgba(44,62,80,.05);transition:transform .2s,box-shadow .2s}
+.adx-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(44,62,80,.1)}
+.adx-kpi small{display:block;color:var(--c-mut);font-size:.82rem;letter-spacing:.04em;text-transform:uppercase}
+.adx-kpi strong{display:block;font-size:2.2rem;font-family:'Cormorant Garamond',Georgia,serif;line-height:1.1;margin:4px 0}
+.adx-kpi span{font-size:.85rem;color:var(--c-mut)}
+.adx-two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.adx-card h3{margin:0 0 4px}.adx-card .mut{margin:0 0 12px}
+.adx-ring{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.adx-ring svg{width:112px;height:112px;flex:none}
+.adx-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.adx-ring .bg{stroke:var(--c-line)}.adx-ring .fg{stroke:var(--c-acc);stroke-dasharray:264;stroke-dashoffset:calc(264 - 264*var(--p)/100);transform:rotate(-90deg);transform-origin:50% 50%;animation:adxRing 1.1s ease-out both}
+.adx-ring text{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:700;fill:var(--c-ink);text-anchor:middle}
+.adx-checks{list-style:none;margin:0;padding:0;flex:1;min-width:200px}
+.adx-checks li{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--c-line);font-size:.92rem}.adx-checks li:first-child{border:0}
+.adx-checks b{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;color:#fff;background:var(--c-acc)}
+.adx-checks .no b{background:var(--c-warn)}.adx-checks small{display:block;color:var(--c-mut)}
+.adx-bars{display:flex;gap:10px;align-items:flex-end;height:150px;padding-top:8px}
+.adx-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;gap:2px;cursor:default}
+.adx-col span{width:100%;max-width:34px;border-radius:6px 6px 2px 2px;min-height:0;transition:height .8s cubic-bezier(.2,.8,.2,1)}
+.adx-col .ok{background:var(--c-acc)}.adx-col .ko{background:var(--c-ko)}.adx-col em{font-style:normal;font-size:.75rem;color:var(--c-mut);margin-top:4px}
+.adx-col:hover span{filter:brightness(1.15)}
+.adx-legend{display:flex;gap:14px;font-size:.82rem;color:var(--c-mut);margin-top:8px}.adx-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.adx-stack{display:flex;height:16px;border-radius:99px;overflow:hidden;background:var(--c-line);margin:10px 0}
+.adx-stack span{height:100%;transition:width .9s ease}
+.adx-quick{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.adm .adx-btn{display:inline-flex;align-items:center;gap:7px;border-radius:10px;padding:9px 16px;font-weight:600;transition:transform .15s,box-shadow .15s,background .15s}
+.adm .adx-btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(44,62,80,.18)}
+.adm .adx-btn.p{background:var(--c-acc);border-color:var(--c-acc);color:#fff}
+.adm .adx-btn.g{background:var(--c-bg);color:var(--c-ink);border:1px solid var(--c-line)}
+.adm .adx-btn.d{background:transparent;color:var(--c-ko);border:1px solid var(--c-ko)}.adm .adx-btn.d:hover{background:var(--c-ko);color:#fff}
+.adx-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.adx-tools input[type=search]{flex:1;min-width:220px;padding:11px 14px 11px 40px;border-radius:12px;border:1px solid var(--c-line);background:var(--c-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%23888' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") 13px center no-repeat;color:var(--c-ink)}
+.adx-chip{border:1px solid var(--c-line);background:var(--c-bg);color:var(--c-mut);border-radius:999px;padding:7px 14px;font-size:.85rem;cursor:pointer;transition:.15s}
+.adm .adx-chip{background:var(--c-bg);color:var(--c-mut);border:1px solid var(--c-line);border-radius:999px}
+.adm .adx-chip.on{background:var(--c-acc);color:#fff;border-color:var(--c-acc)}
+.adx-user{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center;background:var(--c-bg);border:1px solid var(--c-line);border-radius:14px;padding:16px 18px;margin:10px 0;transition:.2s;animation:adxUp .35s ease both}
+.adx-user:hover{border-color:#96c8a2;box-shadow:0 8px 22px rgba(47,93,75,.12)}.adx-user[hidden]{display:none}
+.adx-user.off{opacity:.62}
+.adx-av{grid-row:span 2;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:1.25rem}
+.adx-user h4{margin:0;font-size:1.05rem}.adx-user p{margin:0;font-size:.85rem;color:var(--c-mut)}
+.adx-ctrl{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-top:10px;border-top:1px dashed var(--c-line);margin-top:6px}
+.adm .adx-sw{display:inline-flex;align-items:center;gap:8px;background:none;border:0;color:var(--c-ink);padding:4px 6px}
+.adx-sw i{width:42px;height:24px;border-radius:99px;background:#b9b3a5;position:relative;transition:.2s}
+.adx-sw i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.adx-sw[aria-checked=true] i{background:var(--c-acc)}.adx-sw[aria-checked=true] i::after{transform:translateX(18px)}
+.adx-ctrl select{border-radius:10px}.adx-sp{flex:1}
+.adx-form{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:12px}
+.adx-form label{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--c-mut)}
+.adx-form input,.adx-form select{border-radius:10px;padding:10px 12px}
+details.adx-card summary{cursor:pointer;font-weight:700;list-style:none}details.adx-card summary::-webkit-details-marker{display:none}
+details.adx-card summary::before{content:"＋";display:inline-block;margin-right:8px;color:var(--c-acc);transition:transform .2s}
+details.adx-card[open] summary::before{transform:rotate(45deg)}
+.adx-meter{display:flex;gap:4px;margin-top:6px}.adx-meter i{flex:1;height:6px;border-radius:9px;background:var(--c-line);transition:.25s}
+.adx-meter[data-s="1"] i:nth-child(-n+1){background:#c0564b}.adx-meter[data-s="2"] i:nth-child(-n+2){background:#d08a3a}
+.adx-meter[data-s="3"] i:nth-child(-n+3){background:#7aa04f}.adx-meter[data-s="4"] i{background:#2f8f5b}
+.adx-meter+small{color:var(--c-mut);font-size:.8rem}
+.adx-store{margin:12px 0}.adx-store div{display:flex;justify-content:space-between;font-size:.9rem}
+.adx-track{height:10px;border-radius:9px;background:var(--c-line);overflow:hidden;margin-top:5px}.adx-track span{display:block;height:100%;background:linear-gradient(90deg,#3e7a63,#7aa04f);border-radius:9px;transition:width .9s ease}
+.adx-logrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 4px;border-top:1px solid var(--c-line)}
+.adx-logrow[hidden]{display:none}.adx-dot{width:11px;height:11px;border-radius:50%}
+.adx-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#1c2b3a;color:#fff;padding:13px 20px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.3);z-index:100001;animation:adxToast 4.5s ease forwards;max-width:min(92vw,440px)}
+.adx-empty{text-align:center;padding:28px;color:var(--c-mut)}
+@keyframes adxUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes adxRing{from{stroke-dashoffset:264}}
+@keyframes adxPulse{70%{box-shadow:0 0 0 9px rgba(123,224,164,0)}100%{box-shadow:0 0 0 0 rgba(123,224,164,0)}}
+@keyframes adxToast{0%{opacity:0;transform:translate(-50%,16px)}8%,88%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,8px)}}
+@media(max-width:560px){.adx-hero{padding:18px}.adx-user{grid-template-columns:1fr}.adx-av{grid-row:auto}}
+
 
 /* ===== PERFILES ===== */
 .role-badge{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#8a7548;border:1px solid #d9d2bf;border-radius:20px;padding:3px 10px;white-space:nowrap}
@@ -1101,9 +1182,20 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 .sidebar-nav .nav-more a[onclick*="toggleTV"]::before{content:"";-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3%205h18v12H3zM8%2021h8'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3%205h18v12H3zM8%2021h8'/%3E%3C/svg%3E") center/contain no-repeat}
 .sidebar-nav #navMoodle::before{content:"";-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12%203l9%205-9%205-9-5zM7%2011v5c0%201.5%202.2%203%205%203s5-1.5%205-3v-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12%203l9%205-9%205-9-5zM7%2011v5c0%201.5%202.2%203%205%203s5-1.5%205-3v-5'/%3E%3C/svg%3E") center/contain no-repeat}
 .sidebar-nav #navOutlook::before{content:"";-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3%206h18v12H3zM3%207l9%206%209-6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3%206h18v12H3zM3%207l9%206%209-6'/%3E%3C/svg%3E") center/contain no-repeat}
+.sidebar-nav #navDeadlines::before{content:"";-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8%202v4M16%202v4M3%209h18M5%204h14a2%202%200%200%201%202%202v13a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2V6a2%202%200%200%201%202-2zM9%2015l2%202%204-4'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8%202v4M16%202v4M3%209h18M5%204h14a2%202%200%200%201%202%202v13a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2V6a2%202%200%200%201%202-2zM9%2015l2%202%204-4'/%3E%3C/svg%3E") center/contain no-repeat}
+.dl-row{display:flex;gap:16px;align-items:baseline;width:100%;padding:14px 6px;border:0;border-bottom:1px solid var(--hair);background:none;font:inherit;color:var(--ink)}
+.dl-when{width:150px;flex-shrink:0;font-size:.82rem;font-weight:600;color:var(--navy)}
+.dl-when span{display:block;font-weight:400;color:var(--taupe);margin-top:2px}
+.dl-main{flex:1;min-width:0;font-size:1rem;line-height:1.45;word-break:break-word}
+.dl-note{font-size:.85rem;color:var(--taupe);margin-top:3px}
+.dl-late .dl-when{color:#a94442}
+.dl-today .dl-when{color:#a04a4a}
+.dl-acts{display:flex;gap:14px;flex-shrink:0}
+.dl-acts button{background:none;border:0;padding:2px 0;font:inherit;font-size:.8rem;color:var(--navy);text-decoration:underline;cursor:pointer}
+@media(max-width:600px){.dl-row{flex-wrap:wrap;gap:6px 12px}.dl-when{width:auto}.dl-main{flex-basis:100%;order:3}}
 .sidebar-nav #navDrive::before{content:"";-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3%206a2%202%200%200%201%202-2h4l2%202h8a2%202%200%200%201%202%202v9a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3%206a2%202%200%200%201%202-2h4l2%202h8a2%202%200%200%201%202%202v9a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2z'/%3E%3C/svg%3E") center/contain no-repeat}
-#bkBanner{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;max-width:560px;margin:0 auto;background:#1f3d33;color:#fbf9f4;padding:12px 14px;border-radius:4px;font-size:.88rem;line-height:1.5;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-#bkBanner button{margin:6px 8px 0 0;padding:6px 12px;background:transparent;border:1px solid #fbf9f4;color:#fbf9f4;border-radius:2px;font:inherit;font-size:.8rem;cursor:pointer}
+#bkBanner,#stBanner{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;max-width:560px;margin:0 auto;background:#1f3d33;color:#fbf9f4;padding:12px 14px;border-radius:4px;font-size:.88rem;line-height:1.5;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+#bkBanner button,#stBanner button{margin:6px 8px 0 0;padding:6px 12px;background:transparent;border:1px solid #fbf9f4;color:#fbf9f4;border-radius:2px;font:inherit;font-size:.8rem;cursor:pointer}
 .gd-crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 14px;font-size:.9rem;color:var(--taupe)}
 .gd-crumbs button{background:none;border:0;padding:2px 4px;font:inherit;color:var(--navy);cursor:pointer;text-decoration:underline}
 .gd-crumbs span.cur{color:var(--ink);font-weight:600}
@@ -1143,6 +1235,252 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
   .nav-more{margin:6px 0 0;padding:8px;border:1px solid #e3e8e5;border-radius:14px;background:#fff;box-shadow:0 10px 28px rgba(31,61,51,.10)}
   .nav-more>.nav-h:first-child{padding-top:6px}
 }
+
+/* ===== MEJORAS RESPONSIVE (móvil, tablet y pantallas bajas) ===== */
+.mini-toggle{display:none}
+.mc-dots{display:none}
+@media(max-width:600px){
+  /* Barra de navegación fija abajo y calendario plegable */
+  body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+  .mini-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;background:#fff;border:1px solid #e0e0e0;border-radius:3px;font:inherit;font-size:.9rem;font-weight:600;color:#2c3e50;cursor:pointer}
+  .mini-toggle::after{content:"\25BE"}
+  .mini-toggle[aria-expanded="true"]::after{content:"\25B4"}
+  .mini-calendar:not(.open){display:none}
+  .mini-calendar.open{margin-bottom:0}
+  .sidebar-nav{position:fixed;left:0;right:0;bottom:0;z-index:90;display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:#fff;border-top:1px solid #e0e0e0;box-shadow:0 -6px 20px rgba(0,0,0,.06)}
+  .sidebar-nav>a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;padding:6px 2px;font-size:.78rem;text-align:center;line-height:1.15;gap:2px;border-top:2px solid transparent}
+  .sidebar-nav>a.active{border-top-color:#8bb8c9}
+  .sidebar-nav .kbd{display:none}
+  .sidebar-nav .nav-more-btn{flex-direction:column;gap:0}
+  .sidebar-nav .nav-more{position:absolute;left:8px;right:8px;bottom:calc(100% + 8px);max-height:65dvh;overflow-y:auto;overscroll-behavior:contain;margin:0;padding:8px;border:1px solid #e3e8e5;border-radius:14px;background:#fff;box-shadow:0 10px 28px rgba(31,61,51,.18)}
+  .sidebar-nav .search-box{position:absolute;left:8px;right:8px;bottom:calc(100% + 8px);margin:0;padding:10px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.12)}
+  #bkBanner,#stBanner{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  #rolToast{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+  .mc-top{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  /* Vista de mes: puntos de color en lugar de textos diminutos */
+  .month-grid{gap:3px}
+  .month-cell{min-height:52px;padding:4px 2px;text-align:center}
+  .month-cell .mc-day{margin-bottom:3px;font-size:.85rem}
+  .month-cell .mc-uev,.month-cell .mc-acad,.month-cell .mc-event,.month-cell>div:not(.mc-day):not(.mc-dots){display:none}
+  .mc-dots{display:flex;flex-wrap:wrap;justify-content:center;gap:3px}
+  .mc-dots span{width:7px;height:7px;border-radius:50%;display:block}
+  /* Tabla de asistencia con desplazamiento lateral si no cabe */
+  .att-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* Textos que eran demasiado pequeños */
+.calendar-grid .day-name,
+.event-status,
+.week-event .we-time,
+.week-event .we-sub,
+.course-chip,
+.nav-badge,
+.login-sub,
+.login-box label,
+.login-remember,
+.login-session-note,
+.ql-eyebrow,
+.ql-link,
+.ql-tf label,
+.ql-count,
+.ql-ceye,
+.ql-cstate,
+.ql-cont .cm-text small,
+.ql-ev-date span,
+.ql-ev-when,
+.ql-acc-hint,
+.ql-btn,
+.ql-ff label,
+.ql-alt a,
+.ql-note,
+.acad-tag,
+.week-acad,
+.uev-tag,
+.week-uev,
+.att-kicker,
+.att-tab small,
+.att-btn,
+.att-sum span,
+.att-table th,
+.att-legend,
+.nt-meta,
+.nt-acts .att-btn,
+.role-badge,
+.nav-h{font-size:.8rem}
+.login-btn,
+.ql-eyebrow,
+.ql-link,
+.ql-tf label,
+.ql-ceye,
+.ql-cstate,
+.ql-cont .cm-text small,
+.ql-ev-date span,
+.ql-ev-when,
+.ql-btn,
+.ql-ff label,
+.ql-alt a,
+.att-kicker,
+.att-sum span,
+.att-table th,
+.nt-meta,
+.lg-tab,
+.lg-kicker,
+.lg-scroll h1,
+.lg-sign span,
+#roleBadge,
+.top-right button[onclick*="handleLogout"]{letter-spacing:.1em}
+}
+@media(max-width:700px){ .att-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch} }
+/* Tablet en vertical: la semana se desplaza en horizontal con columnas legibles */
+@media(min-width:601px) and (max-width:900px){
+  .week-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(210px,1fr);overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+  .week-col{scroll-snap-align:start}
+}
+/* Móvil en horizontal (poca altura): sin barras fijas que ocupen la pantalla */
+@media(max-height:500px) and (orientation:landscape){
+  .top-bar{position:static}
+  .top-logo img{height:44px}
+}
+@media(max-width:600px) and (max-height:500px){
+  body{padding-bottom:0}
+  .sidebar-nav{position:static;display:flex;flex-wrap:wrap;gap:6px 18px;box-shadow:none;border-top:0;padding:0}
+  .sidebar-nav>a{flex-direction:row;min-height:44px;border-top:0}
+  .sidebar-nav .nav-more,.sidebar-nav .search-box{position:static}
+}
+/* Pantallas muy estrechas (320 px) */
+@media(max-width:400px){
+.ql-acc .cm-item select,
+.ox-idrow input,
+.att-search,
+.gd-bar input{min-width:0}
+  .main-container{padding:8px}
+  .ql-card,.ox-card{padding-left:18px;padding-right:18px}
+}
+
+/* ===== Heurísticas de Nielsen: feedback, deshacer, ayuda ===== */
+.tb-btn{background:none;border:1px solid transparent;border-radius:8px;cursor:pointer;font:600 .85rem/1 inherit;color:#2c3e50;padding:6px 9px;min-width:32px;min-height:32px}
+.tb-btn:hover{background:rgba(31,61,51,.08)}
+.tb-btn:focus-visible,.sidebar-nav a:focus-visible{outline:2px solid #2f5d4b;outline-offset:2px}
+#toastRegion{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:10000;width:min(92vw,420px);pointer-events:none}
+.toast{pointer-events:auto;display:flex;align-items:center;gap:12px;background:#1f3d33;color:#fff;padding:11px 14px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-size:.9rem;animation:toastIn .2s ease}
+.toast.err{background:#8a2d2d}
+.toast span{flex:1}
+.toast button{background:none;border:0;color:#bfe3d0;font:700 .85rem inherit;cursor:pointer;text-decoration:underline;padding:4px}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.toast{animation:none}}
+#helpOverlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:10001;padding:16px}
+#helpOverlay.on{display:flex}
+.help-box{background:#fff;color:#1c2b3a;border-radius:14px;max-width:460px;width:100%;max-height:85vh;overflow:auto;padding:22px 24px;position:relative}
+.help-box h2{margin:0 0 10px;font-size:1.15rem}.help-box h3{margin:16px 0 6px;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:#5c6b64}
+.help-box dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}.help-box dt{font-weight:700}.help-box dd{margin:0}
+.help-box kbd{font:600 .75rem inherit;border:1px solid #cfd6d2;border-radius:5px;padding:2px 7px;background:#f6f8f7}
+.help-box ul{margin:0;padding-left:18px}.help-x{position:absolute;top:8px;right:10px;border:0;background:none;font-size:1.6rem;cursor:pointer;color:#2c3e50}
+
+/* Atajos discretos: sin caja, tenues; se marcan al pasar o enfocar */
+.kbd{border:0;background:none;padding:0;font-size:.64rem;font-weight:500;letter-spacing:.04em;color:#a9b3ae;opacity:.55;transition:opacity .15s,color .15s}
+.sidebar-nav a:hover .kbd,.sidebar-nav a:focus-visible .kbd,.sidebar-nav a.active .kbd{opacity:1;color:#6b7a73}
+
+.nav-more a.kx{display:flex;align-items:center}
+.nav-more a.kx .kbd{margin-left:auto}
+.nav-more a:hover .kbd,.nav-more a:focus-visible .kbd,.nav-more a.active .kbd{opacity:1;color:#6b7a73}
+
+/* ===== Botón y panel de Ayuda · estilo Eton (marfil, verde Eton, doble filete) ===== */
+.tb-help{width:34px;height:34px;border-radius:50%;flex:none;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center;
+  background:#fbf9f4;border:3px double #7fb69a;color:#2f5d4b;box-shadow:0 1px 3px rgba(31,61,51,.15);
+  font:italic 700 1.3rem/1 'Cormorant Garamond',Baskerville,Georgia,serif;transition:background .18s,color .18s,border-color .18s,transform .18s,box-shadow .18s}
+.tb-help span{display:block;transform:translateY(-1px)}
+.tb-help:hover{background:#2f5d4b;border-color:#a88b4a;color:#fbf9f4;box-shadow:0 3px 10px rgba(31,61,51,.28);transform:translateY(-1px)}
+.tb-help:active{transform:none}
+.tb-help:focus-visible{outline:2px solid #a88b4a;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.tb-help{transition:none}.tb-help:hover{transform:none}}
+.help-box{background:#fbf9f4;border:1px solid #ddd6c6;border-top:3px double #7fb69a;border-radius:6px;box-shadow:0 18px 50px rgba(28,43,58,.35)}
+.help-box h2{font:600 1.7rem/1.15 'Cormorant Garamond',Baskerville,Georgia,serif;color:#2f5d4b;text-align:center;letter-spacing:.02em;margin:4px 0 0}
+.help-box h2::after{content:"\2766";display:block;color:#a88b4a;font-size:1rem;margin:4px 0 2px}
+.help-box h3{font:600 1rem 'Cormorant Garamond',Baskerville,Georgia,serif;font-variant:small-caps;letter-spacing:.14em;text-transform:none;color:#2f5d4b;border-bottom:1px solid #ddd6c6;padding-bottom:3px}
+.help-box kbd{font-family:'Cormorant Garamond',Baskerville,Georgia,serif;font-weight:700;font-size:.9rem;color:#2f5d4b;background:#fff;border:1px solid #96c8a2;border-bottom-width:2px;border-radius:4px}
+.help-box dt,.help-box dd,.help-box li{font-size:.92rem}
+.help-x{color:#2f5d4b}.help-x:hover{color:#a88b4a}
+
+/* ===== Zona superior derecha · estilo Eton coherente ===== */
+.top-right{gap:10px!important}
+.top-right .tb-exit{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px 0 11px!important;cursor:pointer;
+  background:#fbf9f4!important;border:1px solid #96c8a2!important;border-radius:20px;color:#1f3d33!important;
+  font:700 .92rem/1 'Cormorant Garamond',Georgia,serif!important;letter-spacing:.16em;text-transform:uppercase;
+  box-shadow:0 1px 3px rgba(31,61,51,.12);transition:background .18s,color .18s,border-color .18s,box-shadow .18s}
+.top-right .tb-exit svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;cursor:pointer;transition:transform .18s}
+.top-right .tb-exit:hover{background:#2f5d4b!important;border-color:#a88b4a!important;color:#fbf9f4!important;box-shadow:0 3px 10px rgba(31,61,51,.28)}
+.top-right .tb-exit:hover svg{transform:translateX(2px)}
+.top-right .tb-exit:focus-visible{outline:2px solid #a88b4a;outline-offset:3px}
+.top-right a.tb-mail{text-decoration:none}
+.top-right .tb-mail svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;cursor:pointer}
+.top-right a.tb-help:focus-visible{outline:2px solid #a88b4a;outline-offset:3px}
+@media(max-width:480px){.top-right .tb-exit span{display:none}.top-right .tb-exit{width:34px;padding:0!important;justify-content:center}}
+@media(prefers-reduced-motion:reduce){.top-right .tb-exit,.top-right .tb-exit svg{transition:none}.top-right .tb-exit:hover svg{transform:none}}
+
+/* ===== Acceso con Microsoft / Google (mismo formato que el login) ===== */
+.sso-box{margin-top:10px}.sso-box[hidden]{display:none}
+.sso-or{display:flex;align-items:center;gap:10px;color:rgba(44,62,80,.55);font:italic 600 .9rem 'Cormorant Garamond',Georgia,serif;letter-spacing:.06em}
+.sso-or::before,.sso-or::after{content:"";flex:1;height:1px;background:rgba(201,184,150,.7)}
+.sso-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.sso-btn{display:flex;align-items:center;justify-content:center;gap:9px;padding:10px;background:transparent;color:rgba(44,62,80,.8);border:1px solid rgba(201,184,150,.55);border-radius:2px;
+  font:500 .75rem/1 inherit;font-family:inherit;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .25s,border-color .25s}
+.sso-btn svg{width:16px;height:16px;flex:none;opacity:.6;transition:opacity .25s}
+.sso-btn svg *{fill:currentColor!important}
+.sso-btn:hover svg{opacity:.9}
+.sso-btn:hover{background:rgba(201,184,150,.1);border-color:#c9b896}
+.sso-btn:focus-visible{outline:2px solid #c9b896;outline-offset:2px}
+.sso-btn:disabled{opacity:.5;cursor:wait}
+@media(max-width:380px){.sso-row{grid-template-columns:1fr}}
+
+/* ===== Gráfica de asistencia ===== */
+.att-chart{margin:8px 0 22px;padding:16px 18px;background:#fbf9f4;border:1px solid var(--rule);border-top:3px double #96c8a2}
+.att-chart h4{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:600;color:var(--green);margin:0 0 10px}
+.ac-scope{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.ac-grid2{display:grid;grid-template-columns:minmax(230px,1fr) 2fr;gap:14px;margin-bottom:14px}
+@media(max-width:800px){.ac-grid2{grid-template-columns:1fr}}
+.ac-card{background:#fff;border:1px solid var(--rule);padding:12px 14px}
+.ac-card h5{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.15rem;font-weight:600;color:var(--ink);margin:0 0 8px}
+.ac-card h5 small{font:400 .72rem Inter,system-ui,sans-serif;color:var(--mute);letter-spacing:.04em}
+.ac-donutwrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ac-donut{width:120px;height:120px;flex:none}.ac-big{font:700 20px 'Cormorant Garamond',Georgia,serif;fill:var(--green)}
+.ac-sm{font:10px Inter,system-ui,sans-serif;fill:#7b8680}
+.ac-tot{list-style:none;margin:0;padding:0;font-size:.85rem;line-height:1.8}.ac-tot .mut{color:var(--mute);font-size:.75rem}
+.ac-tot i,.ac-leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px}
+.sP{background:#7fb69a}.sF{background:#8a3b3b}.sR{background:#b08a2e}.sJ{background:#5a6f8a}
+.ac-bars{width:100%;height:auto;display:block}.ac-grid{stroke:#e5e0d2;stroke-width:1}.ac-goal{stroke:#a88b4a;stroke-width:1;stroke-dasharray:4 4}
+.ac-note{font-size:.72rem;color:var(--mute);margin-top:4px}
+.ac-leg{display:flex;flex-wrap:wrap;gap:14px;font-size:.75rem;color:var(--mute);margin-bottom:8px}
+.ac-rows{display:flex;flex-direction:column;gap:5px;max-height:340px;overflow:auto}
+.ac-row{display:grid;grid-template-columns:minmax(90px,200px) 1fr 84px;align-items:center;gap:10px;font-size:.82rem}
+.ac-nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.ac-track{display:flex;height:14px;background:#f1eee4;border-radius:3px;overflow:hidden}.ac-track i{display:block;height:100%}
+.ac-val{text-align:right;color:var(--mute);font-variant-numeric:tabular-nums}.ac-row.warn .ac-nm,.ac-row.warn .ac-val{color:#8a3b3b;font-weight:600}
+.ac-empty{color:var(--mute);font-style:italic}
+@media print{.att-chart{break-inside:avoid}}
+
+/* ===== Barra superior · minimalista ===== */
+.top-bar{background:#fff;border-bottom:1px solid #ebe7da;box-shadow:none}
+.top-bar .top-right{gap:6px!important}
+.top-bar .tb-help,.top-bar a.tb-help{width:32px;height:32px;background:transparent;border:1px solid rgba(31,61,51,.28);box-shadow:none;color:#1f3d33;transform:none;font-size:1.15rem}
+.top-bar .tb-help:hover,.top-bar a.tb-help:hover{background:rgba(31,61,51,.06);border-color:#2f5d4b;color:#1f3d33;box-shadow:none;transform:none}
+.top-bar .top-right .tb-exit{height:32px;padding:0 10px!important;gap:6px;background:transparent!important;border:1px solid transparent!important;border-radius:16px;color:#1f3d33!important;
+  font-size:.82rem!important;letter-spacing:.18em;box-shadow:none!important}
+.top-bar .top-right .tb-exit svg{width:15px;height:15px;stroke-width:1.6;opacity:.8}
+.top-bar .top-right .tb-exit:hover{background:rgba(31,61,51,.06)!important;border-color:transparent!important;color:#1f3d33!important;box-shadow:none!important}
+.top-bar .top-left{height:32px;padding:0 12px 0 9px;background:transparent;border:1px solid transparent;box-shadow:none;color:#1f3d33;font-size:.82rem;letter-spacing:.18em}
+.top-bar .top-left svg{width:15px;height:15px;opacity:.8}
+.top-bar .top-left:hover{background:rgba(31,61,51,.06);border-color:transparent;color:#1f3d33;box-shadow:none}
+.top-bar .top-left:hover svg{transform:none}
+.top-logo img{filter:none}
+
+/* ===== Botón Inicio · icono en círculo suave ===== */
+.top-bar .top-left{flex-direction:row;align-items:center;gap:9px;height:36px;padding:0 14px 0 5px;border-radius:18px;
+  font:700 .92rem/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.18em;text-transform:uppercase;color:#1f3d33;transition:background .2s,color .2s}
+.top-bar .top-left svg{width:28px;height:28px;padding:6px;box-sizing:border-box;border-radius:50%;fill:none;stroke:#2f5d4b;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
+  background:rgba(127,182,154,.22);opacity:1;transition:background .2s,stroke .2s}
+.top-bar .top-left:hover{background:rgba(31,61,51,.05);color:#2f5d4b}
+.top-bar .top-left:hover svg{background:#2f5d4b;stroke:#fbf9f4}
+.top-bar .top-left:focus-visible{outline:2px solid #a88b4a;outline-offset:2px}
+@media(max-width:480px){.top-bar .top-left{padding:0 4px}.top-bar .top-left span{display:none}}
+@media(prefers-reduced-motion:reduce){.top-bar .top-left,.top-bar .top-left svg{transition:none}}
 </style>
 </head>
 <body>
@@ -1151,8 +1489,8 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 <div id="loginScreen" class="login-screen">
   <div class="login-main">
   <form class="login-box" id="loginForm" onsubmit="handleLogin(event)" novalidate>
-    <label for="loginUser" class="sr-only-label">Usuario</label>
-    <input type="text" id="loginUser" name="usuario" placeholder="Nom d'usuari" autocomplete="username" aria-describedby="loginError" required>
+    <label for="loginUser" class="sr-only-label">Usuario o correo</label>
+    <input type="text" id="loginUser" name="usuario" placeholder="Nom d'usuari o correu" autocomplete="username" aria-describedby="loginError" required>
     <label for="loginPass" class="sr-only-label">Contraseña</label>
     <div class="login-pass-wrap">
       <input type="password" id="loginPass" name="password" placeholder="Contrasenya" autocomplete="current-password" aria-describedby="loginError" required>
@@ -1168,6 +1506,14 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
     <div id="loginError" class="login-error" role="alert" aria-live="assertive"></div>
     <button type="submit" class="login-btn" id="loginSubmitBtn">Inicia la sessió</button>
     <p class="login-session-note" id="loginSessionNote"></p>
+    <button type="button" class="login-forgot" id="loginModeBtn" onclick="loginSetMode()" style="background:none;border:0;cursor:pointer;width:100%;text-align:center"></button>
+    <div class="sso-box" id="ssoBox" hidden>
+      <div class="sso-or"><span>o entra amb</span></div>
+      <div class="sso-row">
+        <button type="button" class="sso-btn" id="ssoMs" onclick="ssoMicrosoft()"><svg viewBox="0 0 21 21" aria-hidden="true"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect y="11" width="10" height="10" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg><span>Microsoft</span></button>
+        <button type="button" class="sso-btn" id="ssoGg" onclick="ssoGoogle()"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg><span>Google</span></button>
+      </div>
+    </div>
     <button type="button" class="login-forgot" onclick="setLoginError('Pide a tu profesor o al centro que te recuerde tus credenciales.')">Heu oblidat la contrasenya?</button>
     <div class="lg-mini"><button type="button" class="lg-link" onclick="openLegal('priv')">Política de privacidad</button></div>
   </form>
@@ -1181,7 +1527,7 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 <!-- ===== TOP BAR ===== -->
 <header class="top-bar">
   <div class="top-left" onclick="goToday()" role="button" tabindex="0" aria-label="Ir a hoy" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goToday();}">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h4.5v-5.5h4v5.5h4.5V10"/></svg>
     <span id="topLeftLabel">Inicio</span>
   </div>
   <div class="top-logo">
@@ -1189,11 +1535,8 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
   </div>
   <div class="top-right" style="display:flex;align-items:center;gap:14px;">
     <span id="roleBadge" class="role-badge" aria-label="Perfil activo"></span>
-    <button onclick="handleLogout()" aria-label="Cerrar sesión" style="background:none;border:none;cursor:pointer;font-size:.85rem;color:#2c3e50;font-weight:600;padding:0;">Salir</button>
-    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Contacto">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-    </svg>
-  </div>
+    <button type="button" class="tb-exit" onclick="handleLogout()" aria-label="Cerrar sesión" title="Cerrar sesión"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M16 8l4 4-4 4M20 12H9"/></svg><span>Salir</span></button>
+    </div>
 </header>
 
 <!-- ===== PAGE TITLE ===== -->
@@ -1204,7 +1547,8 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="mini-calendar">
+    <button type="button" class="mini-toggle" id="miniToggle" aria-expanded="false" aria-controls="miniCal" onclick="toggleMini()">Calendario y hora</button>
+    <div class="mini-calendar" id="miniCal">
       <div class="live-clock" role="timer" aria-label="Hora actual">
         <div class="live-clock-time"><span id="clockHM">--:--</span><span class="live-clock-sec" id="clockSec">:--</span></div>
         <div class="live-clock-date" id="clockDate"></div>
@@ -1228,16 +1572,18 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
       <a id="navMoreBtn" class="nav-more-btn" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="navMore" onclick="toggleMoreMenu()">Más opciones <span class="nav-caret" aria-hidden="true">&#9662;</span><span class="nav-badge nav-more-badge" id="navMoreBadge" style="display:none"></span></a>
       <div class="nav-more" id="navMore" hidden>
         <div class="nav-h">Trabajo</div>
-        <a onclick="setView('courses');closeMoreMenu()" id="navCourses" tabindex="0" role="button">Mis cursos</a>
-        <a onclick="setView('diary');closeMoreMenu()" id="navDiary" tabindex="0" role="button">Diario de clase</a>
-        <a onclick="setView('att');closeMoreMenu()" id="navAtt" tabindex="0" role="button">Control de asistencia</a>
-        <a onclick="setView('notes');closeMoreMenu()" id="navNotes" tabindex="0" role="button">Apuntes personales</a>
+        <a onclick="setView('courses');closeMoreMenu()" id="navCourses" class="kx" tabindex="0" role="button" aria-keyshortcuts="C">Mis cursos<span class="kbd" aria-hidden="true">C</span></a>
+        <a onclick="setView('diary');closeMoreMenu()" id="navDiary" class="kx" tabindex="0" role="button" aria-keyshortcuts="J">Diario de clase<span class="kbd" aria-hidden="true">J</span></a>
+        <a onclick="setView('att');closeMoreMenu()" id="navAtt" class="kx" tabindex="0" role="button" aria-keyshortcuts="A">Control de asistencia<span class="kbd" aria-hidden="true">A</span></a>
+        <a onclick="setView('notes');closeMoreMenu()" id="navNotes" class="kx" tabindex="0" role="button" aria-keyshortcuts="N">Apuntes personales<span class="kbd" aria-hidden="true">N</span></a>
+        <a onclick="setView('deadlines');closeMoreMenu()" id="navDeadlines" tabindex="0" role="button">Próximas entregas</a>
         <div class="nav-h">Herramientas</div>
         <a onclick="toggleSearch();closeMoreMenu()" id="navSearch" tabindex="0" role="button">Buscar</a>
         <a onclick="toggleDyslexia();closeMoreMenu()" id="navDys" tabindex="0" role="button" aria-pressed="false">Modo lectura fácil</a>
         <a onclick="cycleDysFont();closeMoreMenu()" id="navDysFont" tabindex="0" role="button">Letra de lectura: Lexend</a>
         <a onclick="cycleDysSize();closeMoreMenu()" id="navDysSize" tabindex="0" role="button">Tamaño de letra: normal</a>
         <a onclick="toggleTV();closeMoreMenu()" tabindex="0" role="button">Pantalla grande (TV)</a>
+        <a onclick="openHelp();closeMoreMenu()" tabindex="0" role="button">Ayuda y atajos<span class="kbd" aria-hidden="true">?</span></a>
         <div class="nav-h">Conectar</div>
         <a onclick="setView('moodle');closeMoreMenu()" id="navMoodle" tabindex="0" role="button">Moodle</a>
         <a onclick="setView('outlook');closeMoreMenu()" id="navOutlook" tabindex="0" role="button">Outlook de la escuela</a>
@@ -1499,6 +1845,10 @@ function onMonthYearChange(){
 }
 
 /* ===== NAVEGACIÓN ===== */
+function toggleMini(){
+  const c=document.getElementById('miniCal'), b=document.getElementById('miniToggle'); if(!c||!b) return;
+  const on=c.classList.toggle('open'); b.setAttribute('aria-expanded',on?'true':'false');
+}
 function toggleMoreMenu(force){
   const m=document.getElementById('navMore'), b=document.getElementById('navMoreBtn');
   const open = typeof force==='boolean' ? force : m.hidden;
@@ -1529,10 +1879,11 @@ function setView(view){
   else if(view==='diary'){ document.getElementById('navDiary').classList.add('active'); }
   else if(view==='outlook'){ document.getElementById('navOutlook').classList.add('active'); }
   else if(view==='drive'){ document.getElementById('navDrive').classList.add('active'); }
+  else if(view==='deadlines'){ document.getElementById('navDeadlines').classList.add('active'); }
   else if(view==='att'){ document.getElementById('navAtt').classList.add('active'); }
   else if(view==='notes'){ document.getElementById('navNotes').classList.add('active'); }
   else if(view==='admin'){ document.getElementById('navAdmin').classList.add('active'); }
-  if(view==='admin'||view==='courses'||view==='moodle'||view==='diary'||view==='outlook'||view==='drive'||view==='att'||view==='notes') document.getElementById('navMoreBtn').classList.add('active');
+  if(view==='admin'||view==='courses'||view==='moodle'||view==='diary'||view==='outlook'||view==='drive'||view==='deadlines'||view==='att'||view==='notes') document.getElementById('navMoreBtn').classList.add('active');
   renderCurrentView();
 }
 
@@ -1569,7 +1920,7 @@ function renderCurrentView(){
   // En la vista de Moodle se oculta el título "Calendario"
   const pt = document.getElementById('pageTitle');
   document.body.classList.toggle('att-on', currentView==='att'||currentView==='notes');
-  if(pt) pt.hidden = (currentView==='admin' || currentView==='moodle' || currentView==='outlook' || currentView==='drive' || currentView==='att' || currentView==='notes');
+  if(pt) pt.hidden = (currentView==='admin' || currentView==='moodle' || currentView==='outlook' || currentView==='drive' || currentView==='deadlines' || currentView==='att' || currentView==='notes');
   if(currentView==='day' || currentView==='today'){
     renderDayView(content);
   } else if(currentView==='week'){
@@ -1588,6 +1939,8 @@ function renderCurrentView(){
     renderOutlookView(content);
   } else if(currentView==='drive'){
     renderDriveView(content);
+  } else if(currentView==='deadlines'){
+    renderDeadlinesView(content);
   } else if(currentView==='att'){
     renderAttView(content);
   } else if(currentView==='notes'){
@@ -1796,6 +2149,8 @@ function renderMonthView(container){
     const isToday = isSameDay(thisDate, today);
     html += `<div class="month-cell ${isToday?'today':''}" onclick="selectDateFromMonth(${year},${month},${d})">
       <div class="mc-day">${d}${dayHasNotes(thisDate)?'<span class="note-dot" title="Tiene notas"></span>':''}</div>`;
+    const dots=[]; uev.forEach(u=>dots.push((UEV_TYPES[u.type]||UEV_TYPES.otro)[1])); acad.forEach(a=>dots.push(a.fest?'#a04a4a':'#3f8f9c')); if(events.length) dots.push('#2c3e50');
+    if(dots.length) html += `<div class="mc-dots" aria-hidden="true">${dots.slice(0,4).map(c=>`<span style="background:${c}"></span>`).join('')}</div>`;
     uev.slice(0,2).forEach(u=>{ html += `<div class="mc-uev" style="border-left-color:${(UEV_TYPES[u.type]||UEV_TYPES.otro)[1]}" title="${escapeAttr(u.title)}">${u.start?escapeHtml(u.start)+' ':''}${escapeHtml(u.title)}</div>`; });
     if(uev.length>2) html += `<div style="font-size:.6rem;color:#7f8c8d;">+${uev.length-2} eventos</div>`;
     acad.slice(0,2).forEach(a=>{ html += `<div class="mc-acad${a.fest?' fest':''}" title="${escapeAttr(a.text)}">${escapeHtml(a.text)}</div>`; });
@@ -1981,9 +2336,9 @@ function saveEventForm(id){
   closeModal(); renderCurrentView();
 }
 function deleteEvent(id){
-  if(!confirm('¿Eliminar este evento?')) return;
-  loadUev(); uevData = uevData.filter(x=>x.id!==id); saveUev();
+  loadUev(); const old = uevData.slice(); uevData = uevData.filter(x=>x.id!==id); saveUev();
   closeModal(); renderCurrentView();
+  toast('Evento eliminado',{undo:function(){ uevData = old; saveUev(); renderCurrentView(); toast('Evento restaurado'); }});
 }
 function uevOpenFromCell(id){ openEventForm(id); }
 
@@ -2053,8 +2408,8 @@ function flushDiary(key){
   renderCalendar();
 }
 function deleteDiary(key){
-  if(!confirm('¿Borrar esta nota?')) return;
-  loadDiary(); diaryData[key] = {text:'', updated:Date.now()}; saveDiary(); renderCurrentView();
+  loadDiary(); const prev = diaryData[key]; diaryData[key] = {text:'', updated:Date.now()}; saveDiary(); renderCurrentView();
+  toast('Nota borrada',{undo:function(){ diaryData[key] = prev; saveDiary(); renderCurrentView(); toast('Nota restaurada'); }});
 }
 
 /* --- vista "Diario": todas las notas ordenadas --- */
@@ -3472,6 +3827,52 @@ function renderDriveView(container){
     </div>`;
 }
 
+/* ===== PR\u00d3XIMAS ENTREGAS ===== */
+let dlAll = false;
+function dlSet(all){ dlAll = !!all; renderCurrentView(); }
+function dlDays(dateStr){
+  const d = parseYMD(dateStr), n = new Date(), t = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  return Math.round((d - t) / 86400000);
+}
+function dlLabel(n){
+  if(n === 0) return 'Hoy';
+  if(n === 1) return 'Ma\u00f1ana';
+  if(n > 1) return 'En ' + n + ' d\u00edas';
+  if(n === -1) return 'Ayer';
+  return 'Hace ' + (-n) + ' d\u00edas';
+}
+function dlGroups(list, all){
+  const keep = e => all || e.type === 'examen' || e.type === 'entrega';
+  const items = list.filter(keep).map(e => ({e:e, n:dlDays(e.date)}))
+    .sort((a,b) => a.e.date.localeCompare(b.e.date) || (a.e.start||'99:99').localeCompare(b.e.start||'99:99') || a.e.title.localeCompare(b.e.title));
+  return [
+    ['Vencidas en las \u00faltimas dos semanas', items.filter(x => x.n < 0 && x.n >= -14), 'dl-late'],
+    ['Hoy', items.filter(x => x.n === 0), 'dl-today'],
+    ['Esta semana', items.filter(x => x.n >= 1 && x.n <= 7), ''],
+    ['M\u00e1s adelante', items.filter(x => x.n > 7), '']
+  ];
+}
+function dlRow(x, cls){
+  const e = x.e, d = parseYMD(e.date);
+  const when = d.toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short'});
+  return '<div class="dl-row ' + cls + '"><div class="dl-when">' + escapeHtml(dlLabel(x.n)) + '<span>' + escapeHtml(when) + ' \u00b7 ' + escapeHtml(uevTime(e)) + '</span></div>' +
+    '<div class="dl-main">' + uevTag(e) + escapeHtml(e.title) + (e.note ? '<div class="dl-note">' + escapeHtml(e.note) + '</div>' : '') + '</div>' +
+    '<div class="dl-acts"><button type="button" onclick="selectDateFromMonth(' + d.getFullYear() + ',' + d.getMonth() + ',' + d.getDate() + ')">Ver d\u00eda</button>' +
+    '<button type="button" onclick="openEventForm(\'' + escapeAttr(e.id) + '\')">Editar</button></div></div>';
+}
+function renderDeadlinesView(container){
+  const groups = dlGroups(loadUev(), dlAll);
+  let body = '';
+  groups.forEach(function(g){
+    if(!g[1].length) return;
+    body += '<section class="ox-sec"><h3>' + escapeHtml(g[0]) + '</h3>' + g[1].map(function(x){ return dlRow(x, g[2]); }).join('') + '</section>';
+  });
+  if(!body) body = '<div class="ql-empty">No hay ' + (dlAll ? 'eventos' : 'ex\u00e1menes ni entregas') + ' pendientes. Puedes a\u00f1adirlos desde el d\u00eda correspondiente con \u00abA\u00f1adir\u00bb; elige el tipo Examen o Entrega.</div>';
+  container.innerHTML = '<div class="ql-scope"><header class="ql-head"><div><div class="ql-eyebrow">Fechas l\u00edmite</div><h2 class="ql-greet">Pr\u00f3ximas entregas</h2></div>' +
+    '<div class="ox-actions"><button type="button" class="ql-link" onclick="dlSet(false)"' + (dlAll ? '' : ' aria-pressed="true" style="font-weight:700"') + '>Ex\u00e1menes y entregas</button>' +
+    '<button type="button" class="ql-link" onclick="dlSet(true)"' + (dlAll ? ' aria-pressed="true" style="font-weight:700"' : '') + '>Todos mis eventos</button></div></header>' + body + '</div>';
+}
+
 /* ===== LOGIN / LOGOUT =====
    Aviso: esta comprobación se hace en el navegador (JavaScript), no en un
    servidor. Cualquier persona con conocimientos básicos podría ver estas
@@ -3525,11 +3926,20 @@ async function profileSwitchIn(name){
   try{ localStorage.setItem(OWNER_KEY,name); localStorage.removeItem(STASH_PRE+String(name).toLowerCase()); }catch(e){}
   return 'switched';
 }
+let loginReg = false;   // false = entrar · true = crear mi cuenta (siempre de alumno)
+function loginSetMode(reg){
+  loginReg = (typeof reg === 'boolean') ? reg : !loginReg;
+  const b = document.getElementById('loginSubmitBtn'), n = document.getElementById('loginSessionNote'), m = document.getElementById('loginModeBtn'), p = document.getElementById('loginPass');
+  if(b){ if(!b.dataset.txt) b.dataset.txt = b.textContent; b.textContent = loginReg ? 'Crear mi cuenta' : b.dataset.txt; }
+  if(m) m.textContent = loginReg ? '\u00bfYa tienes cuenta? Iniciar sesi\u00f3n' : '\u00bfPrimera vez? Crear mi cuenta';
+  if(p) p.autocomplete = loginReg ? 'new-password' : 'current-password';
+  if(n) n.textContent = loginReg ? 'Elige un usuario (3 a 30 letras, n\u00fameros, punto, guion) y una contrase\u00f1a de 8 caracteres o m\u00e1s. Tu cuenta ser\u00e1 de alumno y no necesitas a ning\u00fan administrador.' : '';
+  setLoginError('');
+}
 function loginFirstRun(){
   const first = !lsGet(USERS_KEY,[]).length;
-  const b = document.getElementById('loginSubmitBtn'), n = document.getElementById('loginSessionNote');
-  if(b){ if(!b.dataset.txt) b.dataset.txt = b.textContent; b.textContent = first ? 'Crear administrador' : b.dataset.txt; }
-  if(n && first) n.textContent = 'Primera vez en este navegador: elige el usuario y la contrase\u00f1a (m\u00ednimo 8 caracteres) del administrador.';
+  const sso = document.getElementById('ssoBox'); if(sso) sso.hidden = false;
+  loginSetMode(first);   // en un navegador sin cuentas se abre directamente "Crear mi cuenta"
 }
 function loadRememberedUser(){
   try{
@@ -3637,6 +4047,27 @@ function applyRole(){
   return true;
 }
 
+async function completeLogin(acc,users,rem){
+    setLoginError('');
+    setFailCount(0);
+    acc.last=Date.now(); lsSet(USERS_KEY,users); logAccess(true,acc.u);
+    const expiry = Date.now() + sessionMs();
+    try{
+      localStorage.setItem(AUTH_STORAGE_KEY, String(expiry));
+      localStorage.setItem(ROLE_KEY, acc.u);
+      if(rem!==undefined){ if(document.getElementById('loginRemember').checked) localStorage.setItem(AUTH_REMEMBER_KEY, rem); else localStorage.removeItem(AUTH_REMEMBER_KEY); }
+    }catch(err){}
+    let sw='same'; try{ sw=await profileSwitchIn(acc.u); }catch(err){ sw='fail'; }
+    if(sw==='fail'){
+      try{ localStorage.removeItem(AUTH_STORAGE_KEY); localStorage.removeItem(ROLE_KEY); }catch(err){}
+      setLoginError('No se ha podido cambiar de perfil porque falta espacio en el navegador. No se ha perdido nada.');
+      return;
+    }
+    if(sw==='switched'){ location.reload(); return; }
+    document.getElementById('loginSessionNote').textContent = `Sesi\u00f3n activa hasta el ${formatExpiry(expiry)}`;
+    showApp();
+}
+
 async function handleLogin(event){
   event.preventDefault();
   const submitBtn = document.getElementById('loginSubmitBtn');
@@ -3651,38 +4082,20 @@ async function handleLogin(event){
   const user = document.getElementById('loginUser').value.trim().toLowerCase();
   const pass = document.getElementById('loginPass').value;
   const users = await getUsers();
-  if(!users.length){ // primera vez en este navegador: se crea el administrador
-    if(!/^[a-z0-9._-]{3,30}$/i.test(user)){ setLoginError('Elige un usuario de 3 a 30 caracteres, sin espacios.'); return; }
+  if(loginReg){ // autoregistro: siempre rol "alumno", nunca administrador
+    if(!/^[a-z0-9._-]{3,30}$/i.test(user)){ setLoginError('Elige un usuario de 3 a 30 caracteres, sin espacios ni @.'); return; }
     if(pass.length<8 || pass.toLowerCase()===user){ setLoginError('La contrase\u00f1a debe tener al menos 8 caracteres y ser distinta del usuario.'); return; }
-    const salt=newSalt(); users.push({u:user,s:salt,h:await hashPass(pass,salt),role:'admin',active:true,created:Date.now(),last:null});
+    if(users.some(x=>x.u.toLowerCase()===user)){ setLoginError('Ese usuario ya existe. Elige otro o inicia sesi\u00f3n.'); return; }
+    const salt=newSalt(); users.push({u:user,s:salt,h:await hashPass(pass,salt),role:'alumno',active:true,created:Date.now(),last:null});
     lsSet(USERS_KEY,users);
   }
-  const acc = users.find(x=>x.u.toLowerCase()===user);
+  const acc = users.find(x=>x.u.toLowerCase()===user || (x.email && x.email.toLowerCase()===user));
   const ok = acc && acc.active!==false && (await hashPass(pass,acc.s))===acc.h;
   if(ok){
-    setLoginError('');
-    setFailCount(0);
-    acc.last=Date.now(); lsSet(USERS_KEY,users); logAccess(true,acc.u);
-    const expiry = Date.now() + sessionMs();
-    try{
-      localStorage.setItem(AUTH_STORAGE_KEY, String(expiry));
-      localStorage.setItem(ROLE_KEY, acc.u);
-      const remember = document.getElementById('loginRemember').checked;
-      if(remember) localStorage.setItem(AUTH_REMEMBER_KEY, user);
-      else localStorage.removeItem(AUTH_REMEMBER_KEY);
-    }catch(err){}
-    let sw='same'; try{ sw=await profileSwitchIn(acc.u); }catch(err){ sw='fail'; }
-    if(sw==='fail'){
-      try{ localStorage.removeItem(AUTH_STORAGE_KEY); localStorage.removeItem(ROLE_KEY); }catch(err){}
-      setLoginError('No se ha podido cambiar de perfil porque falta espacio en el navegador. No se ha perdido nada.');
-      return;
-    }
-    if(sw==='switched'){ location.reload(); return; }
-    document.getElementById('loginSessionNote').textContent = `Sesi\u00f3n activa hasta el ${formatExpiry(expiry)}`;
-    showApp();
+    await completeLogin(acc,users,user);
   } else {
     setFailCount(fails + 1); logAccess(false,user||'(vac\u00edo)');
-    setLoginError(acc&&acc.active===false?'Esta cuenta est\u00e1 desactivada. Contacta con el administrador.':'Usuario o contrase\u00f1a incorrectos.');
+    setLoginError(acc&&acc.active===false?'Esta cuenta est\u00e1 desactivada. Contacta con el administrador.':(acc&&acc.sso&&!acc.h?'Esta cuenta entra con Microsoft o Google.':'Usuario o contrase\u00f1a incorrectos.'));
     document.getElementById('loginPass').value = '';
     document.getElementById('loginPass').focus();
   }
@@ -3703,6 +4116,20 @@ function handleLogout(){
   document.getElementById('loginUser').focus();
 }
 
+function stUsage(){
+  let n=0; try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); n+=k.length+(localStorage.getItem(k)||'').length; } }catch(e){}
+  return n; // caracteres; el navegador suele permitir unos 5 millones
+}
+function stRemind(){
+  if(sessionStorage.getItem('daw_st_shown')) return false;
+  const pct=Math.round(stUsage()/5000000*100);
+  if(pct<70) return false;
+  try{ sessionStorage.setItem('daw_st_shown','1'); }catch(e){}
+  const d=document.createElement('div'); d.id='stBanner'; d.setAttribute('role','status');
+  d.innerHTML='Se ha usado aproximadamente el '+Math.min(pct,100)+' % del espacio que el navegador reserva para esta p\u00e1gina. Haz una copia de seguridad y borra lo que ya no necesites antes de que deje de guardar. <button type="button" onclick="fullBackup()">Hacer copia ahora</button> <button type="button" onclick="this.parentNode.remove()" aria-label="Cerrar aviso">Ahora no</button>';
+  document.body.appendChild(d);
+  return true;
+}
 function bkRemind(){
   if(!can('editar') || sessionStorage.getItem('daw_bk_shown')) return;
   let last=0; try{ last=parseInt(localStorage.getItem('daw_ultima_copia')||'0',10)||0; }catch(e){}
@@ -3716,7 +4143,7 @@ function bkRemind(){
 function showApp(){
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appContent').style.display = 'block';
-  getUsers().then(applyRole).then(function(){ try{ bkRemind(); }catch(e){} });
+  getUsers().then(applyRole).then(function(){ try{ if(!stRemind()) bkRemind(); }catch(e){} });
   init();
   oxAppShown = true; oxMaybeOpen();
 }
@@ -3816,7 +4243,7 @@ function renderAttView(container){
   const s=slots.find(x=>x.start===attHour), k=attKey(), m=A.marks[k]||{};
   h+=`<div class="att-sess"><div><h3>${escapeHtml(s.subject)}</h3><p>${s.start} – ${s.end}${s.teacher?' · '+escapeHtml(s.teacher):''}${s.room?' · '+escapeHtml(s.room):''}</p></div>
     <div class="att-tools att-noprint"><button class="att-btn" onclick="attAll('P')">Todos presentes</button><button class="att-btn" onclick="attAll('')">Limpiar</button>
-    <button class="att-btn" onclick="attToggleEdit()">Lista de alumnos</button><button class="att-btn" onclick="attCSV()">Exportar CSV</button><button class="att-btn" onclick="attExport('doc')">Word</button><button class="att-btn solid" onclick="attExport('pdf')">PDF</button></div></div>`;
+    <button class="att-btn" onclick="attToggleChart()" aria-pressed="${attChart}">${attChart?'Ocultar gráfica':'Gráfica'}</button><button class="att-btn" onclick="attToggleEdit()">Lista de alumnos</button><button class="att-btn" onclick="attCSV()">Exportar CSV</button><button class="att-btn" onclick="attExport('doc')">Word</button><button class="att-btn solid" onclick="attExport('pdf')">PDF</button></div></div>`;
   if(attEdit||!A.roster.length){
     h+=`<div class="att-roster"><p>Escribe un alumno por línea (apellidos, nombre). Se guarda en este navegador.</p>
       <textarea id="attRoster" aria-label="Lista de alumnos">${escapeHtml(A.roster.map(x=>x.name).join('\n'))}</textarea>
@@ -3824,7 +4251,7 @@ function renderAttView(container){
   }
   if(A.roster.length){
     const c=attCounts(k), done=A.roster.length-c.N, pct=done?Math.round((c.P+c.R+c.J)*100/done):0;
-    h+=`<div class="att-sum"><div><b>${c.P}</b><span>Presentes</span></div><div><b style="color:var(--claret)">${c.F}</b><span>Faltas</span></div><div><b style="color:var(--amber)">${c.R}</b><span>Retrasos</span></div><div><b style="color:var(--slate)">${c.J}</b><span>Justificadas</span></div><div><b>${done?pct+'%':'—'}</b><span>Asistencia</span></div></div>
+    h+=`<div class="att-sum"><div><b>${c.P}</b><span>Presentes</span></div><div><b style="color:var(--claret)">${c.F}</b><span>Faltas</span></div><div><b style="color:var(--amber)">${c.R}</b><span>Retrasos</span></div><div><b style="color:var(--slate)">${c.J}</b><span>Justificadas</span></div><div><b>${done?pct+'%':'—'}</b><span>Asistencia</span></div></div>${attChart?attChartHTML(s.subject):''}
     <table class="att-table"><thead><tr><th>N.º</th><th>Alumno</th><th class="c">Registro</th><th class="acc c">Faltas acum.</th></tr></thead><tbody>`;
     A.roster.forEach((st,i)=>{
       h+=`<tr><td class="n">${i+1}</td><td class="nm">${escapeHtml(st.name)}</td><td class="c"><span class="att-marks">`+
@@ -3834,6 +4261,65 @@ function renderAttView(container){
     h+=`</tbody></table><div class="att-legend"><b>P</b> Presente &nbsp;·&nbsp; <b>F</b> Falta &nbsp;·&nbsp; <b>R</b> Retraso &nbsp;·&nbsp; <b>J</b> Justificada</div>`;
   }
   container.innerHTML=h+`</div>`;
+}
+/* ===== Gráfica de control de asistencia ===== */
+let attChart=false, attChartScope='all';
+function attToggleChart(){ attChart=!attChart; renderCurrentView(); }
+function attSetScope(v){ attChartScope=v; renderCurrentView(); }
+function attStats(subj){
+  const A=loadAtt(), M=A.marks, ids=A.roster.map(x=>x.id);
+  const sess=[], per={}, tot={P:0,F:0,R:0,J:0};
+  ids.forEach(id=>per[id]={P:0,F:0,R:0,J:0});
+  Object.keys(M).sort().forEach(k=>{
+    const parts=k.split('|'), dt=parseYMD(parts[0]); if(!dt) return;
+    const sl=(SCHEDULE[dt.getDay()]||[]).find(x=>x.start===parts[1]), name=sl?sl.subject:'—';
+    if(subj && name!==subj) return;
+    const c={P:0,F:0,R:0,J:0}; let n=0;
+    ids.forEach(id=>{ const v=M[k][id]; if(v && c[v]!==undefined){ c[v]++; n++; per[id][v]++; tot[v]++; } });
+    if(n) sess.push({d:parts[0],st:parts[1],subj:name,c:c,n:n,pct:Math.round((c.P+c.R+c.J)*100/n)});
+  });
+  return {sess:sess,per:per,tot:tot};
+}
+function attDonut(tot){
+  const n=tot.P+tot.F+tot.R+tot.J, r=42, C=2*Math.PI*r, col={P:'#7fb69a',F:'#8a3b3b',R:'#b08a2e',J:'#5a6f8a'};
+  let off=0, segs='';
+  ['P','F','R','J'].forEach(k=>{ if(!tot[k]) return; const len=C*tot[k]/n;
+    segs+=`<circle cx="60" cy="60" r="${r}" fill="none" stroke="${col[k]}" stroke-width="16" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 60 60)"><title>${{P:'Presentes',F:'Faltas',R:'Retrasos',J:'Justificadas'}[k]}: ${tot[k]}</title></circle>`; off+=len; });
+  const pct=Math.round((tot.P+tot.R+tot.J)*100/n);
+  return `<svg class="ac-donut" viewBox="0 0 120 120" role="img" aria-label="Asistencia global ${pct}%">${segs}<text x="60" y="58" text-anchor="middle" class="ac-big">${pct}%</text><text x="60" y="74" text-anchor="middle" class="ac-sm">asistencia</text></svg>`;
+}
+function attBars(sess){
+  const last=sess.slice(-20), W=640, H=220, L=36, T=14, B=34, ch=H-T-B, bw=(W-L-10)/last.length, w=Math.min(30,bw*.66);
+  let g='';
+  [0,50,80,100].forEach(v=>{ const y=T+ch*(1-v/100);
+    g+=`<line x1="${L}" x2="${W-6}" y1="${y}" y2="${y}" class="${v===80?'ac-goal':'ac-grid'}"/><text x="${L-6}" y="${y+3}" text-anchor="end" class="ac-sm">${v}%</text>`; });
+  last.forEach((x,i)=>{
+    const cx=L+bw*i+bw/2, h=ch*x.pct/100, y=T+ch-h, cl=x.pct>=90?'#7fb69a':x.pct>=75?'#b08a2e':'#8a3b3b';
+    const dd=x.d.slice(8,10)+'/'+x.d.slice(5,7);
+    g+=`<rect x="${cx-w/2}" y="${y}" width="${w}" height="${Math.max(h,1)}" rx="2" fill="${cl}"><title>${dd} · ${x.st} · ${escapeHtml(x.subj)}: ${x.pct}% (P ${x.c.P} · F ${x.c.F} · R ${x.c.R} · J ${x.c.J})</title></rect>`;
+    if(last.length<=12) g+=`<text x="${cx}" y="${y-4}" text-anchor="middle" class="ac-sm">${x.pct}</text>`;
+    if(last.length<=10||i%2===0) g+=`<text x="${cx}" y="${H-T-B+T+16}" text-anchor="middle" class="ac-sm">${dd}</text>`;
+  });
+  return `<svg class="ac-bars" viewBox="0 0 ${W} ${H}" role="img" aria-label="Porcentaje de asistencia por sesión">${g}</svg>`;
+}
+function attChartHTML(curSubj){
+  const A=loadAtt(), subj=attChartScope==='subj'?curSubj:null, st=attStats(subj);
+  const sel=`<div class="ac-scope" role="group" aria-label="Alcance de la gráfica"><button class="att-btn${!subj?' solid':''}" onclick="attSetScope('all')">Todas las asignaturas</button><button class="att-btn${subj?' solid':''}" onclick="attSetScope('subj')">Solo ${escapeHtml(curSubj)}</button></div>`;
+  if(!st.sess.length) return `<section class="att-chart"><h4>Gráfica de control</h4>${sel}<p class="ac-empty">Todavía no hay registros${subj?' de esta asignatura':''}. Marca la asistencia de una clase y aparecerá aquí.</p></section>`;
+  const t=st.tot, n=t.P+t.F+t.R+t.J;
+  const rows=A.roster.map(x=>{ const p=st.per[x.id], m=p.P+p.F+p.R+p.J; return {name:x.name,p:p,m:m,pct:m?Math.round((p.P+p.R+p.J)*100/m):null}; })
+    .filter(r=>r.m).sort((a,b)=>b.p.F-a.p.F||(a.pct-b.pct)||a.name.localeCompare(b.name));
+  const mx=Math.max.apply(null,rows.map(r=>r.m));
+  const stud=rows.map(r=>{
+    const seg=k=>r.p[k]?`<i class="s${k}" style="width:${r.p[k]*100/mx}%" title="${{P:'Presentes',F:'Faltas',R:'Retrasos',J:'Justificadas'}[k]}: ${r.p[k]}"></i>`:'';
+    const warn=r.pct!==null&&r.pct<75;
+    return `<div class="ac-row${warn?' warn':''}"><span class="ac-nm" title="${escapeAttr(r.name)}">${escapeHtml(r.name)}</span><span class="ac-track">${seg('P')}${seg('R')}${seg('J')}${seg('F')}</span><span class="ac-val">${r.p.F} F · ${r.pct}%</span></div>`;
+  }).join('');
+  const leg=`<div class="ac-leg"><span><i class="sP"></i>Presente</span><span><i class="sR"></i>Retraso</span><span><i class="sJ"></i>Justificada</span><span><i class="sF"></i>Falta</span></div>`;
+  return `<section class="att-chart"><h4>Gráfica de control</h4>${sel}
+    <div class="ac-grid2"><div class="ac-card"><h5>Resumen global</h5><div class="ac-donutwrap">${attDonut(t)}<ul class="ac-tot"><li><i class="sP"></i>Presentes <b>${t.P}</b></li><li><i class="sF"></i>Faltas <b>${t.F}</b></li><li><i class="sR"></i>Retrasos <b>${t.R}</b></li><li><i class="sJ"></i>Justificadas <b>${t.J}</b></li><li class="mut">${st.sess.length} sesión(es) · ${n} registros</li></ul></div></div>
+    <div class="ac-card"><h5>Evolución por sesión <small>(últimas ${Math.min(20,st.sess.length)})</small></h5>${attBars(st.sess)}<p class="ac-note">Línea discontinua: objetivo del 80 %. Verde ≥ 90 % · ámbar ≥ 75 % · rojo &lt; 75 %.</p></div></div>
+    <div class="ac-card"><h5>Por alumno <small>(más faltas primero)</small></h5>${leg}<div class="ac-rows">${stud}</div></div></section>`;
 }
 function attSetHour(t){ attHour=t; renderCurrentView(); }
 function attToggleEdit(){ attEdit=!attEdit; renderCurrentView(); }
@@ -3987,7 +4473,7 @@ function toggleTV(){
 }
 async function fullBackup(){
   try{ localStorage.setItem('daw_ultima_copia', String(Date.now())); }catch(e){}
-  const bkb=document.getElementById('bkBanner'); if(bkb) bkb.remove();
+  ['bkBanner','stBanner'].forEach(function(i){ const el=document.getElementById(i); if(el) el.remove(); });
   const o={};
   try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k.startsWith('daw_')&&!BK_SKIP.test(k)) o[k]=localStorage.getItem(k); } }catch(e){}
   const txt=JSON.stringify({app:'horario-daw',fecha:new Date().toISOString(),datos:o},null,2), name='Horario_DAW_copia_'+ymd(new Date())+'.json';
@@ -4013,41 +4499,111 @@ function fullRestore(input){
 }
 
 
-/* ===== PANEL DE ADMINISTRACI\u00d3N ===== */
+/* ===== PANEL DE ADMINISTRACIÓN (versión interactiva) ===== */
 const ADM_DATA={'Diario de clase':'daw_diario_clase','Apuntes personales':'daw_apuntes','Control de asistencia':'daw_asistencia','Eventos propios':'daw_eventos_propios','Datos de cursos':'daw_cursos_datos'};
-let admMsg='';
+let admMsg='',admTab='resumen',admRoleF='all';
 function fmtDT(t){if(!t)return 'nunca';const d=new Date(t),p=n=>String(n).padStart(2,'0');return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes())}
 function admBytes(){let n=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('daw_'))n+=k.length+(localStorage.getItem(k)||'').length}}catch(e){}return n}
+function admSize(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB'}
 function admSay(m){admMsg=m;renderCurrentView()}
+function admColor(n){let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))%360;return 'hsl('+h+' 32% 38%)'}
+function admStrength(v){let s=0;if(v.length>=6)s++;if(v.length>=10)s++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v)&&/\d/.test(v))s++;if(/[^A-Za-z0-9]/.test(v)&&v.length>=8)s++;return Math.min(s,4)}
+function admMeter(inp,id){const m=document.getElementById(id);if(!m)return;const s=inp.value?admStrength(inp.value):0;m.dataset.s=s;m.nextElementSibling.textContent=inp.value?['Muy débil','Débil','Aceptable','Buena','Excelente'][s]:''}
+function admGo(t){admTab=t;document.querySelectorAll('.adx-tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('.adx-panel').forEach(p=>p.hidden=p.dataset.t!==t);if(t==='resumen')admAnimate(document)}
+function admChip(r){admRoleF=r;document.querySelectorAll('.adx-chip').forEach(c=>c.classList.toggle('on',c.dataset.r===r));admFilter()}
+function admFilter(){const q=((document.getElementById('admQ')||{}).value||'').toLowerCase().trim();let v=0;const cards=document.querySelectorAll('.adx-user');cards.forEach(c=>{const ok=(admRoleF==='all'||c.dataset.r===admRoleF||(admRoleF==='off'&&c.classList.contains('off')))&&(!q||c.dataset.n.includes(q));c.hidden=!ok;if(ok)v++});const e=document.getElementById('admEmpty'),n=document.getElementById('admCount');if(e)e.hidden=v>0;if(n)n.textContent=v+' de '+cards.length+' perfiles'}
+function admLogF(k){document.querySelectorAll('.adx-lf').forEach(c=>c.classList.toggle('on',c.dataset.k===k));document.querySelectorAll('.adx-logrow').forEach(r=>r.hidden=!(k==='all'||r.dataset.k===k))}
+function admCsv(){const l=lsGet(LOG_KEY,[]);const csv='Fecha;Usuario;Resultado\n'+l.map(x=>fmtDT(x.t)+';'+String(x.u).replace(/;/g,',')+';'+(x.ok?'Correcto':'Fallido')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='registro-accesos.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+function admAnimate(root){const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;root.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count;if(rm||!to){el.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min((t-t0)/800,1);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)})}
 async function renderAdminView(c){
   const users=await getUsers(), me=currentUser(), cfg=lsGet(CFG_KEY,{dias:7}), log=lsGet(LOG_KEY,[]);
-  const exp=getSessionExpiry(), kb=(admBytes()/1024).toFixed(1);
-  const def=users.some(u=>u.def);
-  const rows=users.map((u,i)=>`<div class="adm-row"><b>${escapeHtml(u.u)}${u.u===me?' (t\u00fa)':''}</b>
-    <select onchange="admRole(${i},this.value)" aria-label="Rol de ${escapeHtml(u.u)}">${Object.keys(ROLES).map(r=>`<option value="${r}"${u.role===r?' selected':''}>${ROLES[r]}</option>`).join('')}</select>
-    <span class="mut">${u.active===false?'desactivada':'activa'} \u00b7 \u00faltimo acceso: ${fmtDT(u.last)}</span>
-    <button class="sec" onclick="admToggle(${i})">${u.active===false?'Activar':'Desactivar'}</button>
-    <button class="sec" onclick="admReset(${i})">Nueva contrase\u00f1a</button>
-    <button class="dan" onclick="admDel(${i})">Eliminar</button></div>`).join('');
-  const logs=log.slice(0,15).map(l=>`<div class="adm-row"><span class="${l.ok?'ok':'ko'}">${l.ok?'Acceso correcto':'Intento fallido'}</span><span>${escapeHtml(l.u)}</span><span class="mut">${fmtDT(l.t)}</span></div>`).join('')||'<p class="mut">Todav\u00eda no hay accesos registrados.</p>';
-  const cats=Object.keys(ADM_DATA).map(n=>`<button class="sec" onclick="admClear('${n}')">Borrar ${n.toLowerCase()}</button>`).join(' ');
-  c.innerHTML=`<div class="adm"><h2>Panel de administraci\u00f3n</h2>
-  <p class="mut">Sesi\u00f3n de <b>${escapeHtml(me)}</b> (${ROLES[currentRole()]}), activa hasta el ${exp?fmtDT(exp):'-'}.</p>
-  ${admMsg?`<p class="warn" role="status">${escapeHtml(admMsg)}</p>`:''}
-  ${def?'<p class="warn">Todavía usas la contraseña por defecto del administrador. Cámbiala en la sección «Mi contraseña».</p>':''}
-  <div class="adm-sec"><h3>Resumen</h3><p>Hay ${users.length} perfil(es) con acceso, y los datos de la aplicaci\u00f3n ocupan unos ${kb} KB en este navegador. La sincronizaci\u00f3n con Supabase est\u00e1 ${document.getElementById('syMenu')&&/activa/.test(document.getElementById('syMenu').textContent)?'activa':'sin activar'}.</p></div>
-  <div class="adm-sec"><h3>Perfiles de acceso</h3><p class="mut"><b>Administrador:</b> gestiona perfiles, datos y este panel. <b>Alumno:</b> usa toda la agenda (eventos, diario, apuntes, asistencia, cursos, Moodle y copias), pero no ve el panel. <b>Solo lectura:</b> consulta todo sin poder crear, editar, borrar ni importar nada.</p>${rows}
-    <h3 style="margin-top:16px">Crear perfil</h3>
-    <div class="adm-row"><input id="admNU" placeholder="Usuario" autocomplete="off"><input id="admNP" type="password" placeholder="Contrase\u00f1a (m\u00edn. 6)" autocomplete="new-password">
-    <select id="admNR"><option value="alumno">Alumno</option><option value="lectura">Solo lectura</option><option value="admin">Administrador</option></select><button onclick="admAdd()">Crear</button></div></div>
-  <div class="adm-sec"><h3>Mi contrase\u00f1a</h3><div class="adm-row"><input id="admP1" type="password" placeholder="Nueva contrase\u00f1a" autocomplete="new-password"><button onclick="admMine()">Cambiar</button></div></div>
-  <div class="adm-sec"><h3>Sesi\u00f3n y datos</h3><div class="adm-row"><label for="admDias">Duraci\u00f3n de la sesi\u00f3n</label>
-    <select id="admDias" onchange="admDias(this.value)">${[1,7,30].map(d=>`<option value="${d}"${cfg.dias==d?' selected':''}>${d} d\u00eda${d>1?'s':''}</option>`).join('')}</select></div>
-    <div class="adm-row"><button onclick="fullBackup()">Descargar copia completa</button><button class="sec" onclick="document.getElementById('fullFile').click()">Restaurar copia</button></div>
-    <p class="mut">Borrado por categor\u00edas (pide confirmaci\u00f3n):</p><div class="adm-row">${cats}</div></div>
-  <div class="adm-sec"><h3>Registro de accesos</h3>${logs}<div class="adm-row"><button class="sec" onclick="admClearLog()">Vaciar registro</button></div></div>
-  <p class="mut">Aviso: los perfiles se comprueban en el navegador, as\u00ed que sirven de barrera sencilla y no de seguridad real.</p></div>`;
-  admMsg='';
+  const exp=getSessionExpiry(), total=admBytes(), def=users.some(u=>u.def);
+  const activos=users.filter(u=>u.active!==false).length, admins=nAdmins(users);
+  const okN=log.filter(l=>l.ok).length, koN=log.length-okN, f24=log.filter(l=>!l.ok&&Date.now()-l.t<864e5).length;
+  const syncOn=!!(document.getElementById('syMenu')&&/activa/.test(document.getElementById('syMenu').textContent));
+  const checks=[[!def,'La contraseña por defecto ya no se usa','Cámbiala en «Mi contraseña» (pestaña Seguridad).'],
+    [admins>=2,'Hay dos o más administradores activos','Con uno solo, un bloqueo te dejaría sin acceso.'],
+    [(cfg.dias||7)<=7,'La sesión dura una semana o menos','Las sesiones largas son un riesgo en equipos compartidos.'],
+    [f24<5,'Sin ráfagas de intentos fallidos en 24 h',f24+' intento(s) fallido(s) en las últimas 24 horas.'],
+    [users.filter(u=>u.role==='admin').every(u=>u.email),'Todos los administradores tienen correo asociado','Asocia un correo para poder entrar con Microsoft o Google.']];
+  const score=Math.round(checks.filter(x=>x[0]).length/checks.length*100);
+  const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(6-i));const a=d.getTime(),b=a+864e5;return{l:['D','L','M','X','J','V','S'][d.getDay()],ok:log.filter(x=>x.ok&&x.t>=a&&x.t<b).length,ko:log.filter(x=>!x.ok&&x.t>=a&&x.t<b).length}});
+  const mx=Math.max(1,...days.map(d=>d.ok+d.ko));
+  const bars=days.map(d=>`<div class="adx-col" title="${d.ok} correctos · ${d.ko} fallidos"><span class="ko" style="height:${d.ko/mx*100}%"></span><span class="ok" style="height:${d.ok/mx*100}%"></span><em>${d.l}</em></div>`).join('');
+  const rc={admin:users.filter(u=>u.role==='admin').length,alumno:users.filter(u=>u.role==='alumno').length,lectura:users.filter(u=>u.role==='lectura').length};
+  const rcol={admin:'#2f5d4b',alumno:'#7aa04f',lectura:'#c9a24b'};
+  const stack=Object.keys(rc).map(r=>`<span style="width:${users.length?rc[r]/users.length*100:0}%;background:${rcol[r]}" title="${ROLES[r]}: ${rc[r]}"></span>`).join('');
+  const legend=Object.keys(rc).map(r=>`<span><i style="background:${rcol[r]}"></i>${ROLES[r]} (${rc[r]})</span>`).join('');
+  const cards=users.map((u,i)=>{const on=u.active!==false;return `<article class="adx-user${on?'':' off'}" data-r="${u.role}" data-n="${escapeHtml((u.u+' '+(u.email||'')).toLowerCase())}">
+    <div class="adx-av" style="background:${admColor(u.u)}" aria-hidden="true">${escapeHtml(String(u.u).charAt(0).toUpperCase())}</div>
+    <div><h4>${escapeHtml(u.u)}${u.u===me?' <small>(tú)</small>':''}</h4><p>${u.email?escapeHtml(u.email):'Sin correo asociado'} · Último acceso: ${fmtDT(u.last)}</p></div>
+    <div class="adx-ctrl"><select onchange="admRole(${i},this.value)" aria-label="Rol de ${escapeHtml(u.u)}">${Object.keys(ROLES).map(r=>`<option value="${r}"${u.role===r?' selected':''}>${ROLES[r]}</option>`).join('')}</select>
+    <button class="adx-sw" role="switch" aria-checked="${on}" onclick="admToggle(${i})"><i></i>${on?'Activa':'Desactivada'}</button><span class="adx-sp"></span>
+    <button class="adx-btn g" onclick="admEmail(${i})">Correo</button><button class="adx-btn g" onclick="admReset(${i})">Nueva contraseña</button><button class="adx-btn d" onclick="admDel(${i})">Eliminar</button></div></article>`}).join('');
+  const store=Object.keys(ADM_DATA).map(n=>{let b=0;try{const v=localStorage.getItem(ADM_DATA[n]);b=v?ADM_DATA[n].length+v.length:0}catch(e){}return `<div class="adx-store"><div><span>${n}</span><b>${admSize(b)}</b></div><div class="adx-track"><span style="width:${Math.max(b?2:0,b/5242880*100)}%"></span></div><button class="adx-btn d" style="margin-top:8px" onclick="admClear('${n}')">Borrar ${n.toLowerCase()}</button></div>`}).join('');
+  const logs=log.slice(0,50).map(l=>`<div class="adx-logrow" data-k="${l.ok?'ok':'ko'}"><span class="adx-dot" style="background:${l.ok?'#2f5d4b':'#a4443f'}"></span><span><b>${escapeHtml(l.u)}</b> · ${l.ok?'Acceso correcto':'Intento fallido'}</span><span class="mut">${fmtDT(l.t)}</span></div>`).join('')||'<p class="adx-empty">Todavía no hay accesos registrados.</p>';
+  const chk=checks.map(x=>`<li class="${x[0]?'':'no'}"><b>${x[0]?'✓':'!'}</b><span>${x[1]}${x[0]?'':'<small>'+x[2]+'</small>'}</span></li>`).join('');
+  c.innerHTML=`<div class="adm adx">
+  <header class="adx-hero"><div><h2>Panel de administración</h2><p>Sesión de <b>${escapeHtml(me)}</b> · ${ROLES[currentRole()]} · activa hasta el ${exp?fmtDT(exp):'-'}</p></div><span class="adx-live"><i></i>Sincronización ${syncOn?'activa':'sin activar'}</span></header>
+  ${admMsg?`<div class="adx-toast" role="status">${escapeHtml(admMsg)}</div>`:''}
+  <nav class="adx-tabs" role="tablist">${[['resumen','Resumen'],['perfiles','Perfiles'],['seguridad','Seguridad'],['datos','Datos'],['registro','Registro']].map(t=>`<button class="adx-tab" role="tab" data-t="${t[0]}" aria-selected="${t[0]===admTab}" onclick="admGo('${t[0]}')">${t[1]}</button>`).join('')}</nav>
+
+  <section class="adx-panel" data-t="resumen"${admTab==='resumen'?'':' hidden'}>
+    <div class="adx-grid">
+      <div class="adx-card adx-kpi"><small>Perfiles</small><strong data-count="${users.length}">0</strong><span>${activos} activos</span></div>
+      <div class="adx-card adx-kpi"><small>Administradores</small><strong data-count="${admins}">0</strong><span>con acceso completo</span></div>
+      <div class="adx-card adx-kpi"><small>Accesos correctos</small><strong data-count="${okN}">0</strong><span>${koN} intento(s) fallido(s)</span></div>
+      <div class="adx-card adx-kpi"><small>Datos guardados</small><strong>${admSize(total)}</strong><span>${(total/5242880*100).toFixed(1)}% del espacio del navegador</span></div>
+    </div>
+    <div class="adx-two">
+      <div class="adx-card"><h3>Salud de seguridad</h3><p class="mut">Cinco comprobaciones automáticas de tu configuración.</p>
+        <div class="adx-ring"><svg viewBox="0 0 100 100" role="img" aria-label="Puntuación ${score} sobre 100"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" cx="50" cy="50" r="42" style="--p:${score}"/><text x="50" y="58">${score}</text></svg><ul class="adx-checks">${chk}</ul></div></div>
+      <div class="adx-card"><h3>Actividad de la última semana</h3><p class="mut">Pasa el ratón sobre una barra para ver el detalle.</p><div class="adx-bars">${bars}</div>
+        <div class="adx-legend"><span><i style="background:#2f5d4b"></i>Correctos</span><span><i style="background:#a4443f"></i>Fallidos</span></div>
+        <h3 style="margin-top:22px">Reparto de roles</h3><div class="adx-stack">${stack}</div><div class="adx-legend">${legend}</div></div>
+    </div>
+    <div class="adx-card" style="margin-top:14px"><h3>Acciones rápidas</h3><div class="adx-quick">
+      <button class="adx-btn p" onclick="admGo('perfiles');document.getElementById('admForm').open=true">Crear perfil</button>
+      <button class="adx-btn g" onclick="fullBackup()">Descargar copia completa</button>
+      <button class="adx-btn g" onclick="admGo('registro')">Ver registro de accesos</button></div></div>
+  </section>
+
+  <section class="adx-panel" data-t="perfiles"${admTab==='perfiles'?'':' hidden'}>
+    <div class="adx-card"><p class="mut" style="margin:0"><b>Administrador:</b> gestiona perfiles, datos y este panel. <b>Alumno:</b> usa toda la agenda, pero no ve el panel. <b>Solo lectura:</b> consulta todo sin poder modificar nada.</p></div>
+    <div class="adx-tools"><input type="search" id="admQ" placeholder="Buscar por usuario o correo…" oninput="admFilter()" aria-label="Buscar perfiles">
+      ${[['all','Todos'],['admin','Administradores'],['alumno','Alumnos'],['lectura','Solo lectura'],['off','Desactivados']].map(x=>`<button class="adx-chip${x[0]==='all'?' on':''}" data-r="${x[0]}" onclick="admChip('${x[0]}')">${x[1]}</button>`).join('')}</div>
+    <p class="mut" id="admCount" role="status">${users.length} de ${users.length} perfiles</p>
+    ${cards}<p class="adx-empty" id="admEmpty" hidden>Ningún perfil coincide con la búsqueda.</p>
+    <details class="adx-card" id="admForm"><summary>Crear un perfil nuevo</summary>
+      <div class="adx-form"><label>Usuario<input id="admNU" autocomplete="off"></label><label>Correo (Microsoft o Google)<input id="admNE" type="email" autocomplete="off"></label>
+      <label>Contraseña (mínimo 6)<input id="admNP" type="password" autocomplete="new-password" oninput="admMeter(this,'admM2')"><div class="adx-meter" id="admM2" data-s="0"><i></i><i></i><i></i><i></i></div><small></small></label>
+      <label>Rol<select id="admNR"><option value="alumno">Alumno</option><option value="lectura">Solo lectura</option><option value="admin">Administrador</option></select></label></div>
+      <div class="adx-quick" style="margin-top:14px"><button class="adx-btn p" onclick="admAdd()">Crear perfil</button></div></details>
+  </section>
+
+  <section class="adx-panel" data-t="seguridad"${admTab==='seguridad'?'':' hidden'}>
+    ${def?'<p class="warn">Todavía usas la contraseña por defecto del administrador. Cámbiala ahora.</p>':''}
+    <div class="adx-two">
+    <div class="adx-card"><h3>Mi contraseña</h3><p class="mut">Usa al menos 10 caracteres con mayúsculas, minúsculas y números.</p>
+      <div class="adx-form" style="grid-template-columns:1fr"><label>Nueva contraseña<input id="admP1" type="password" autocomplete="new-password" oninput="admMeter(this,'admM1')"><div class="adx-meter" id="admM1" data-s="0"><i></i><i></i><i></i><i></i></div><small></small></label></div>
+      <div class="adx-quick" style="margin-top:12px"><button class="adx-btn p" onclick="admMine()">Cambiar contraseña</button></div></div>
+    <div class="adx-card"><h3>Duración de la sesión</h3><p class="mut">Se aplica a los inicios de sesión nuevos.</p>
+      <div class="adx-quick">${[1,7,30].map(d=>`<button class="adx-chip${(cfg.dias||7)==d?' on':''}" onclick="admDias(${d})">${d} día${d>1?'s':''}</button>`).join('')}</div></div></div>
+    <p class="mut">Aviso: los perfiles se comprueban en el navegador, así que sirven de barrera sencilla y no de seguridad real.</p>
+  </section>
+
+  <section class="adx-panel" data-t="datos"${admTab==='datos'?'':' hidden'}>
+    <div class="adx-card"><h3>Copias de seguridad</h3><p class="mut">Descarga una copia antes de borrar nada: el borrado no se puede deshacer.</p>
+      <div class="adx-quick"><button class="adx-btn p" onclick="fullBackup()">Descargar copia completa</button><button class="adx-btn g" onclick="document.getElementById('fullFile').click()">Restaurar copia</button></div></div>
+    <div class="adx-card" style="margin-top:14px"><h3>Espacio por categoría</h3><p class="mut">Cada barra se mide sobre 5 MB, el límite habitual del navegador.</p>${store}</div>
+  </section>
+
+  <section class="adx-panel" data-t="registro"${admTab==='registro'?'':' hidden'}>
+    <div class="adx-tools">${[['all','Todos'],['ok','Correctos'],['ko','Fallidos']].map(x=>`<button class="adx-chip adx-lf${x[0]==='all'?' on':''}" data-k="${x[0]}" onclick="admLogF('${x[0]}')">${x[1]}</button>`).join('')}<span class="adx-sp" style="flex:1"></span>
+      <button class="adx-btn g" onclick="admCsv()">Exportar CSV</button><button class="adx-btn d" onclick="admClearLog()">Vaciar registro</button></div>
+    <div class="adx-card">${logs}</div><p class="mut">Se muestran los 50 accesos más recientes.</p>
+  </section></div>`;
+  admMsg='';admAnimate(c);
 }
 function nAdmins(u){return u.filter(x=>x.role==='admin'&&x.active!==false).length}
 async function admSave(u,m){lsSet(USERS_KEY,u);applyRole();admSay(m||'')}
@@ -4055,12 +4611,23 @@ async function admAdd(){
   const n=document.getElementById('admNU').value.trim(),p=document.getElementById('admNP').value,r=document.getElementById('admNR').value,u=await getUsers();
   if(!n||p.length<6)return admSay('Indica un usuario y una contrase\u00f1a de al menos 6 caracteres.');
   if(u.some(x=>x.u.toLowerCase()===n.toLowerCase()))return admSay('Ese usuario ya existe.');
-  const s=newSalt();u.push({u:n,s:s,h:await hashPass(p,s),role:r,active:true,created:Date.now(),last:null});admSave(u,'Perfil "'+n+'" creado.');
+  const em=(document.getElementById('admNE').value||'').trim().toLowerCase();
+  if(em&&!/^\S+@\S+\.\S+$/.test(em))return admSay('El correo no parece v\u00e1lido.');
+  if(em&&u.some(x=>(x.email||'').toLowerCase()===em||x.u.toLowerCase()===em))return admSay('Ese correo ya est\u00e1 asociado a otro perfil.');
+  const s=newSalt();u.push({u:n,s:s,h:await hashPass(p,s),role:r,email:em||undefined,active:true,created:Date.now(),last:null});admSave(u,'Perfil "'+n+'" creado.');
 }
 async function admRole(i,r){const u=await getUsers();if(u[i].role==='admin'&&r!=='admin'&&nAdmins(u)<2){return admSay('Debe quedar al menos un administrador activo.')}u[i].role=r;admSave(u,'Rol actualizado.')}
 async function admToggle(i){const u=await getUsers();if(u[i].active!==false&&u[i].role==='admin'&&nAdmins(u)<2)return admSay('No puedes desactivar al \u00fanico administrador.');if(u[i].u===currentUser()&&u[i].active!==false&&!confirm('Vas a desactivar tu propia cuenta. \u00bfContinuar?'))return;u[i].active=u[i].active===false;admSave(u,'Estado actualizado.')}
 async function admReset(i){const u=await getUsers(),p=prompt('Nueva contrase\u00f1a para '+u[i].u+' (m\u00edn. 6):');if(!p)return;if(p.length<6)return admSay('La contrase\u00f1a es demasiado corta.');u[i].s=newSalt();u[i].h=await hashPass(p,u[i].s);delete u[i].def;admSave(u,'Contrase\u00f1a de '+u[i].u+' actualizada.')}
 async function admDel(i){const u=await getUsers();if(u[i].role==='admin'&&nAdmins(u)<2&&u[i].active!==false)return admSay('No puedes eliminar al \u00fanico administrador.');if(!confirm('\u00bfEliminar el perfil "'+u[i].u+'"?'))return;const me=u[i].u===currentUser();try{localStorage.removeItem(STASH_PRE+String(u[i].u).toLowerCase())}catch(e){}u.splice(i,1);lsSet(USERS_KEY,u);if(me)handleLogout();else admSay('Perfil eliminado.')}
+async function admEmail(i){
+  const u=await getUsers(),c=prompt('Correo de Microsoft o Google para "'+u[i].u+'" (vac\u00edo para quitarlo):',u[i].email||'');
+  if(c===null)return; const em=c.trim().toLowerCase();
+  if(em&&!/^\S+@\S+\.\S+$/.test(em))return admSay('El correo no parece v\u00e1lido.');
+  if(em&&u.some((x,k)=>k!==i&&((x.email||'').toLowerCase()===em||x.u.toLowerCase()===em)))return admSay('Ese correo ya est\u00e1 asociado a otro perfil.');
+  if(em)u[i].email=em; else delete u[i].email;
+  admSave(u,em?'Correo asociado a "'+u[i].u+'".':'Correo quitado.');
+}
 async function admMine(){const p=document.getElementById('admP1').value;if(p.length<6)return admSay('La contrase\u00f1a debe tener al menos 6 caracteres.');const u=await getUsers(),a=u.find(x=>x.u===currentUser());if(!a)return;a.s=newSalt();a.h=await hashPass(p,a.s);delete a.def;admSave(u,'Tu contrase\u00f1a se ha cambiado.')}
 function admDias(d){const c=lsGet(CFG_KEY,{});c.dias=parseInt(d,10)||7;lsSet(CFG_KEY,c);admSay('Las sesiones nuevas durar\u00e1n '+c.dias+' d\u00eda(s).')}
 function admClear(n){if(!confirm('Se borrar\u00e1n: '+n+'. Esta acci\u00f3n no se puede deshacer (haz antes una copia completa). \u00bfContinuar?'))return;try{localStorage.removeItem(ADM_DATA[n])}catch(e){}location.reload()}
@@ -4125,5 +4692,154 @@ addEventListener('keydown',function(e){
   var m={h:'today',d:'day',s:'week',m:'month'},k=e.key.toLowerCase();
   if(m[k]){e.preventDefault();setView(m[k])}else if(e.key==='/'){e.preventDefault();toggleSearch()}
 });})();</script>
+
+<div id="toastRegion" role="status" aria-live="polite" aria-atomic="false"></div>
+<div id="helpOverlay" role="dialog" aria-modal="true" aria-labelledby="helpTitle" onclick="if(event.target===this)closeHelp()">
+  <div class="help-box">
+    <button type="button" class="help-x" onclick="closeHelp()" aria-label="Cerrar ayuda">&times;</button>
+    <h2 id="helpTitle">Ayuda rápida</h2>
+    <h3>Atajos de teclado</h3>
+    <dl><dt><kbd>H</kbd></dt><dd>Ir a hoy</dd><dt><kbd>D</kbd></dt><dd>Vista día</dd><dt><kbd>S</kbd></dt><dd>Vista semana</dd><dt><kbd>M</kbd></dt><dd>Vista mes</dd><dt><kbd>C</kbd></dt><dd>Mis cursos</dd><dt><kbd>J</kbd></dt><dd>Diario de clase</dd><dt><kbd>A</kbd></dt><dd>Control de asistencia</dd><dt><kbd>N</kbd></dt><dd>Apuntes personales</dd><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Día anterior / siguiente (vista día)</dd><dt><kbd>?</kbd></dt><dd>Abrir esta ayuda</dd><dt><kbd>Esc</kbd></dt><dd>Cerrar ventanas y menús</dd></dl>
+    <h3>Tareas frecuentes</h3>
+    <ul><li>Añadir un evento: botón «+ Añadir evento».</li><li>Borraste algo sin querer: pulsa «Deshacer» en el aviso inferior.</li><li>Guardar tus datos: Más opciones → Copia de seguridad.</li><li>Cambiar de dispositivo: Más opciones → Sincronización.</li><li>Leer mejor: Más opciones → Modo lectura fácil.</li></ul>
+  </div>
+</div>
+<script>
+(function(){
+  var reg=document.getElementById('toastRegion');
+  window.toast=function(msg,o){
+    o=o||{}; var t=document.createElement('div'); t.className='toast'+(o.error?' err':'');
+    var sp=document.createElement('span'); sp.textContent=msg; t.appendChild(sp);
+    var timer;
+    function done(){clearTimeout(timer); if(t.parentNode)t.parentNode.removeChild(t);}
+    if(o.undo){var b=document.createElement('button'); b.type='button'; b.textContent='Deshacer'; b.onclick=function(){done(); o.undo();}; t.appendChild(b);}
+    reg.appendChild(t); timer=setTimeout(done,o.undo?8000:4000);
+  };
+  // Los avisos de alert() pasan a mensajes no bloqueantes (errores en rojo)
+  window.alert=function(m){ toast(String(m),{error:true}); };
+  window.addEventListener('offline',function(){toast('Sin conexión: tus datos locales siguen disponibles.',{error:true});});
+  window.addEventListener('online',function(){toast('Conexión restablecida.');});
+  var ho=document.getElementById('helpOverlay'),last=null;
+  window.openHelp=function(){last=document.activeElement; ho.classList.add('on'); ho.querySelector('.help-x').focus();};
+  window.closeHelp=function(){ho.classList.remove('on'); if(last&&last.focus)last.focus();};
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&ho.classList.contains('on')){closeHelp();return;}
+    var tg=(e.target.tagName||'').toLowerCase();
+    if(e.key==='?'&&tg!=='input'&&tg!=='textarea'&&tg!=='select'&&!e.target.isContentEditable){e.preventDefault(); ho.classList.contains('on')?closeHelp():openHelp();}
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var map={c:'navCourses',j:'navDiary',a:'navAtt',n:'navNotes'};
+  document.addEventListener('keydown',function(e){
+    if(e.ctrlKey||e.metaKey||e.altKey||e.shiftKey)return;
+    var t=e.target,tg=(t&&t.tagName||'').toLowerCase();
+    if(tg==='input'||tg==='textarea'||tg==='select'||(t&&t.isContentEditable))return;
+    var id=map[e.key.toLowerCase()]; if(!id)return;
+    var ac=document.getElementById('appContent'); if(!ac||ac.style.display==='none')return;
+    var mo=document.getElementById('modalOverlay'); if(mo&&mo.classList.contains('active'))return;
+    if(document.getElementById('helpOverlay').classList.contains('on'))return;
+    var el=document.getElementById(id); if(!el||el.style.display==='none')return;
+    e.preventDefault(); el.click();
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var SSO_FLAG='daw_sso_ms';
+  function busy(on){['ssoMs','ssoGg'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=on;});}
+  var SSO_ADMIN='scruceta@fp.lasalle.es';   // \u00fanico correo que entra como administrador
+  var SSO_ALLOWED=[];                        // dominios permitidos, p. ej. ['fp.lasalle.es'] (vac\u00edo = cualquiera)
+  async function ssoFinish(list){
+    var users=await getUsers();
+    var ems=[];
+    list.forEach(function(x){x=String(x||'').trim().toLowerCase();if(/^\S+@\S+\.\S+$/.test(x)&&ems.indexOf(x)<0)ems.push(x);});
+    if(!ems.length){setLoginError('No se pudo obtener el correo de esa cuenta.');return;}
+    function hit(x){return ems.some(function(e){return (x.email||'').toLowerCase()===e||x.u.toLowerCase()===e;});}
+    var isAdm=ems.indexOf(SSO_ADMIN)>=0;
+    var acc=users.find(hit);
+    if(acc&&acc.active===false){
+      logAccess(false,ems[0]);
+      setLoginError('Esta cuenta est\u00e1 desactivada. Contacta con el administrador.');
+      return;
+    }
+    if(!acc){
+      if(SSO_ALLOWED.length&&!ems.some(function(e){return SSO_ALLOWED.indexOf(e.split('@')[1])>=0;})){
+        logAccess(false,ems[0]);
+        setLoginError('Solo se admiten cuentas de: '+SSO_ALLOWED.join(', ')+'.');
+        return;
+      }
+      if(isAdm){ // se vincula al administrador existente que a\u00fan no tiene correo
+        acc=users.find(function(x){return x.role==='admin'&&x.active!==false&&!x.email;});
+        if(acc)acc.email=SSO_ADMIN;
+      }
+      if(!acc){
+        var em=isAdm?SSO_ADMIN:ems[0];
+        acc={u:em,email:em,s:'',h:'',role:isAdm?'admin':'alumno',active:true,created:Date.now(),last:null,sso:true};
+        users.push(acc);
+      }
+    }else if(isAdm&&acc.role!=='admin'){acc.role='admin';}
+    lsSet(USERS_KEY,users);
+    await completeLogin(acc,users);
+  }
+  function msApp(id){
+    return new msal.PublicClientApplication({auth:{clientId:id,authority:OX_AUTHORITY,redirectUri:oxRedirectUri(),postLogoutRedirectUri:oxRedirectUri(),navigateToLoginRequestUrl:false},cache:{cacheLocation:'localStorage'}});
+  }
+  async function msEmails(res){
+    var c=res.idTokenClaims||{},l=[c.email,c.preferred_username,res.account&&res.account.username];
+    try{
+      var r=await fetch('https://graph.microsoft.com/v1.0/me?$select=mail,userPrincipalName',{headers:{Authorization:'Bearer '+res.accessToken}});
+      if(r.ok){var j=await r.json();l.unshift(j.mail,j.userPrincipalName);}
+    }catch(e){}
+    return l;
+  }
+  window.ssoMicrosoft=async function(){
+    setLoginError('');
+    var id=oxClientId();
+    if(!oxSupported()){setLoginError('Microsoft solo funciona si abres la app desde una direcci\u00f3n http(s), no como archivo suelto.');return;}
+    if(!oxValidId(id)||typeof msal==='undefined'){setLoginError('Microsoft a\u00fan no est\u00e1 configurado. El administrador debe guardar el ID de aplicaci\u00f3n en Outlook de la escuela.');return;}
+    busy(true);
+    try{ sessionStorage.setItem(SSO_FLAG,'1'); await msApp(id).loginRedirect({scopes:['User.Read'],prompt:'select_account'}); }
+    catch(e){ sessionStorage.removeItem(SSO_FLAG); busy(false); setLoginError('No se pudo iniciar con Microsoft. Int\u00e9ntalo de nuevo.'); }
+  };
+  window.ssoGoogle=function(){
+    setLoginError('');
+    var id=gdClientId();
+    if(!id){setLoginError('Google a\u00fan no est\u00e1 configurado. El administrador debe guardar el ID de cliente en Google Drive personal.');return;}
+    if(!(window.google&&google.accounts&&google.accounts.oauth2)){setLoginError('No se pudo cargar Google. Revisa tu conexi\u00f3n e int\u00e9ntalo de nuevo.');return;}
+    busy(true);
+    google.accounts.oauth2.initTokenClient({
+      client_id:id,scope:'openid email profile',
+      callback:async function(t){
+        try{
+          if(!t||!t.access_token)throw new Error('sin token');
+          var r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+t.access_token}});
+          var j=await r.json();
+          if(!j.email||j.email_verified===false)throw new Error('correo no verificado');
+          await ssoFinish([j.email]);
+        }catch(e){setLoginError('No se pudo comprobar tu cuenta de Google.');}
+        busy(false);
+      },
+      error_callback:function(e){busy(false);setLoginError(e&&e.type==='popup_failed_to_open'?'El navegador ha bloqueado la ventana de Google. Perm\u00edtela e int\u00e9ntalo de nuevo.':'La ventana de Google se cerr\u00f3 antes de terminar. Si no lleg\u00f3 a abrirse bien, revisa que esta direcci\u00f3n est\u00e9 autorizada en tu ID de cliente de Google.');}
+    }).requestAccessToken({prompt:'select_account'});
+  };
+  // Vuelta de Microsoft tras la redirecci\u00f3n
+  (async function(){
+    var flag=null;try{flag=sessionStorage.getItem(SSO_FLAG);}catch(e){}
+    if(!flag)return;
+    try{sessionStorage.removeItem(SSO_FLAG);}catch(e){}
+    var id=oxClientId();
+    if(!oxValidId(id)||typeof msal==='undefined')return;
+    try{
+      var res=await msApp(id).handleRedirectPromise();
+      history.replaceState(null,'',location.pathname+location.search);
+      if(res&&res.account)await ssoFinish(await msEmails(res));
+    }catch(e){setLoginError('No se pudo iniciar con Microsoft. Int\u00e9ntalo de nuevo.');}
+  })();
+})();
+</script>
 </body>
 </html>
