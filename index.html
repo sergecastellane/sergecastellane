@@ -5,6 +5,9 @@
 <meta name="author" content="Sergi Cruceta Arboles">
 <meta name="copyright" content="© 2026 Sergi Cruceta Arboles. Todos los derechos reservados.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; manifest-src 'self' data:; object-src 'none'; base-uri 'self'; frame-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="Horario DAW · La Salle Gràcia: horario, diario de clase, asistencia y apuntes del ciclo de Desarrollo de Aplicaciones Web.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1096,6 +1099,16 @@ details.adx-card[open] summary::before{transform:rotate(45deg)}
 .adx-logrow[hidden]{display:none}.adx-dot{width:11px;height:11px;border-radius:50%}
 .adx-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#1c2b3a;color:#fff;padding:13px 20px;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.3);z-index:100001;animation:adxToast 4.5s ease forwards;max-width:min(92vw,440px)}
 .adx-empty{text-align:center;padding:28px;color:var(--c-mut)}
+.adx-tw{overflow-x:auto;border:1px solid var(--c-line);border-radius:14px;background:var(--c-bg)}
+.adx-tw table{width:100%;border-collapse:collapse;font-size:.92rem;text-align:left}
+.adx-tw th,.adx-tw td{padding:12px 14px;border-top:1px solid var(--c-line);white-space:nowrap}
+.adx-tw thead th{border-top:0;background:var(--c-soft);position:sticky;top:0}
+.adx-tw tbody tr{transition:background .15s}.adx-tw tbody tr:hover{background:var(--c-soft)}
+.adm .adx-th{background:none;border:0;color:var(--c-ink);font-weight:700;padding:0;cursor:pointer}
+.adm .adx-th::after{content:" ↕";color:var(--c-mut);font-weight:400}
+th[aria-sort=ascending] .adx-th::after{content:" ↑";color:var(--c-acc)}th[aria-sort=descending] .adx-th::after{content:" ↓";color:var(--c-acc)}
+.adx-pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.78rem;font-weight:600;background:var(--c-soft);color:var(--c-acc)}
+.adx-pill.lectura{background:#f6ecd6;color:#8a6a1f}.adx-pill.off{background:#f3dcdc;color:var(--c-ko)}
 @keyframes adxUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes adxRing{from{stroke-dashoffset:264}}
 @keyframes adxPulse{70%{box-shadow:0 0 0 9px rgba(123,224,164,0)}100%{box-shadow:0 0 0 0 rgba(123,224,164,0)}}
@@ -1456,6 +1469,30 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 .ac-empty{color:var(--mute);font-style:italic}
 @media print{.att-chart{break-inside:avoid}}
 
+/* ===== PIC 2026-27 · control de asistencia según normativa ===== */
+.att-pic{margin:8px 0 22px;padding:16px 18px;background:#fbf9f4;border:1px solid var(--rule);border-top:3px double #a88b4a}
+.att-pic h4{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;font-weight:600;color:var(--green);margin:0 0 4px}
+.pic-sub{font-size:.78rem;color:var(--mute);margin:0 0 12px;letter-spacing:.03em}
+.pic-rules{list-style:none;margin:0 0 14px;padding:12px 14px;background:#fff;border:1px solid var(--rule);font-size:.84rem;line-height:1.65;color:var(--ink)}
+.pic-rules li{padding-left:14px;position:relative}.pic-rules li:before{content:"";position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--gold)}
+.pic-rules b{color:var(--green)}
+.pic-mod{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0 0 12px;font-size:.84rem}
+.pic-mod span{color:var(--mute)}.pic-mod b{color:var(--ink);font-variant-numeric:tabular-nums}
+.pic-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.pic-wrap{overflow-x:auto;background:#fff;border:1px solid var(--rule);margin-bottom:12px}
+.pic-tbl{width:100%;border-collapse:collapse;font-size:.82rem;font-variant-numeric:tabular-nums}
+.pic-tbl th{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
+.pic-tbl td{padding:8px 10px;border-bottom:1px solid #eee9db;white-space:nowrap}
+.pic-tbl .c{text-align:center}.pic-tbl .nm{white-space:normal;min-width:130px}
+.pic-bar{display:inline-block;width:90px;height:8px;background:#f1eee4;border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:8px}
+.pic-bar i{display:block;height:100%}
+.pic-st{font-size:.7rem;letter-spacing:.06em;font-weight:600}
+.pic-ok{color:#3f7a5c}.pic-warn{color:#b08a2e}.pic-edge{color:#b0642e}.pic-lost{color:#8a3b3b}
+.pic-bar .pic-ok-b{background:#7fb69a}.pic-bar .pic-warn-b{background:#b08a2e}.pic-bar .pic-edge-b{background:#b0642e}.pic-bar .pic-lost-b{background:#8a3b3b}
+.pic-none{color:var(--mute);font-style:italic;font-size:.84rem}
+.pic-hint{font-size:.72rem;color:var(--mute);margin-top:6px}
+@media print{.att-pic{break-inside:avoid}}
+
 /* ===== Barra superior · minimalista ===== */
 .top-bar{background:#fff;border-bottom:1px solid #ebe7da;box-shadow:none}
 .top-bar .top-right{gap:6px!important}
@@ -1484,6 +1521,7 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 </style>
 </head>
 <body>
+<noscript><div style="max-width:32rem;margin:15vh auto;padding:1.5rem;font-family:Georgia,serif;text-align:center;color:#1f3d33;border:1px solid #c9b896">Esta aplicación necesita JavaScript. Actívalo en tu navegador para usar Horario DAW.</div></noscript>
 
 <!-- ===== PANTALLA DE LOGIN ===== -->
 <div id="loginScreen" class="login-screen">
@@ -3938,7 +3976,14 @@ function loginSetMode(reg){
 }
 function loginFirstRun(){
   const first = !lsGet(USERS_KEY,[]).length;
-  const sso = document.getElementById('ssoBox'); if(sso) sso.hidden = false;
+  try{
+    const gOk = !!(typeof gdClientId==='function' && gdValidId(gdClientId()));
+    const mOk = !!(typeof oxClientId==='function' && oxValidId(oxClientId()));
+    const g = document.getElementById('ssoGg'), m = document.getElementById('ssoMs'), box = document.getElementById('ssoBox');
+    if(g) g.style.display = gOk ? '' : 'none';
+    if(m) m.style.display = mOk ? '' : 'none';
+    if(box) box.hidden = !(gOk || mOk);   // sin ning\u00fan ID configurado no se muestra el bloque
+  }catch(e){}
   loginSetMode(first);   // en un navegador sin cuentas se abre directamente "Crear mi cuenta"
 }
 function loadRememberedUser(){
@@ -4243,7 +4288,7 @@ function renderAttView(container){
   const s=slots.find(x=>x.start===attHour), k=attKey(), m=A.marks[k]||{};
   h+=`<div class="att-sess"><div><h3>${escapeHtml(s.subject)}</h3><p>${s.start} – ${s.end}${s.teacher?' · '+escapeHtml(s.teacher):''}${s.room?' · '+escapeHtml(s.room):''}</p></div>
     <div class="att-tools att-noprint"><button class="att-btn" onclick="attAll('P')">Todos presentes</button><button class="att-btn" onclick="attAll('')">Limpiar</button>
-    <button class="att-btn" onclick="attToggleChart()" aria-pressed="${attChart}">${attChart?'Ocultar gráfica':'Gráfica'}</button><button class="att-btn" onclick="attToggleEdit()">Lista de alumnos</button><button class="att-btn" onclick="attCSV()">Exportar CSV</button><button class="att-btn" onclick="attExport('doc')">Word</button><button class="att-btn solid" onclick="attExport('pdf')">PDF</button></div></div>`;
+    <button class="att-btn" onclick="attToggleChart()" aria-pressed="${attChart}">${attChart?'Ocultar gráfica':'Gráfica'}</button><button class="att-btn" onclick="attTogglePic()" aria-pressed="${attPic}">${attPic?'Ocultar PIC':'Control PIC'}</button><button class="att-btn" onclick="attToggleEdit()">Lista de alumnos</button><button class="att-btn" onclick="attCSV()">Exportar CSV</button><button class="att-btn" onclick="attExport('doc')">Word</button><button class="att-btn solid" onclick="attExport('pdf')">PDF</button></div></div>`;
   if(attEdit||!A.roster.length){
     h+=`<div class="att-roster"><p>Escribe un alumno por línea (apellidos, nombre). Se guarda en este navegador.</p>
       <textarea id="attRoster" aria-label="Lista de alumnos">${escapeHtml(A.roster.map(x=>x.name).join('\n'))}</textarea>
@@ -4251,7 +4296,7 @@ function renderAttView(container){
   }
   if(A.roster.length){
     const c=attCounts(k), done=A.roster.length-c.N, pct=done?Math.round((c.P+c.R+c.J)*100/done):0;
-    h+=`<div class="att-sum"><div><b>${c.P}</b><span>Presentes</span></div><div><b style="color:var(--claret)">${c.F}</b><span>Faltas</span></div><div><b style="color:var(--amber)">${c.R}</b><span>Retrasos</span></div><div><b style="color:var(--slate)">${c.J}</b><span>Justificadas</span></div><div><b>${done?pct+'%':'—'}</b><span>Asistencia</span></div></div>${attChart?attChartHTML(s.subject):''}
+    h+=`<div class="att-sum"><div><b>${c.P}</b><span>Presentes</span></div><div><b style="color:var(--claret)">${c.F}</b><span>Faltas</span></div><div><b style="color:var(--amber)">${c.R}</b><span>Retrasos</span></div><div><b style="color:var(--slate)">${c.J}</b><span>Justificadas</span></div><div><b>${done?pct+'%':'—'}</b><span>Asistencia</span></div></div>${attChart?attChartHTML(s.subject):''}${attPic?attPicHTML(s.subject):''}
     <table class="att-table"><thead><tr><th>N.º</th><th>Alumno</th><th class="c">Registro</th><th class="acc c">Faltas acum.</th></tr></thead><tbody>`;
     A.roster.forEach((st,i)=>{
       h+=`<tr><td class="n">${i+1}</td><td class="nm">${escapeHtml(st.name)}</td><td class="c"><span class="att-marks">`+
@@ -4320,6 +4365,59 @@ function attChartHTML(curSubj){
     <div class="ac-grid2"><div class="ac-card"><h5>Resumen global</h5><div class="ac-donutwrap">${attDonut(t)}<ul class="ac-tot"><li><i class="sP"></i>Presentes <b>${t.P}</b></li><li><i class="sF"></i>Faltas <b>${t.F}</b></li><li><i class="sR"></i>Retrasos <b>${t.R}</b></li><li><i class="sJ"></i>Justificadas <b>${t.J}</b></li><li class="mut">${st.sess.length} sesión(es) · ${n} registros</li></ul></div></div>
     <div class="ac-card"><h5>Evolución por sesión <small>(últimas ${Math.min(20,st.sess.length)})</small></h5>${attBars(st.sess)}<p class="ac-note">Línea discontinua: objetivo del 80 %. Verde ≥ 90 % · ámbar ≥ 75 % · rojo &lt; 75 %.</p></div></div>
     <div class="ac-card"><h5>Por alumno <small>(más faltas primero)</small></h5>${leg}<div class="ac-rows">${stud}</div></div></section>`;
+}
+/* ===== PIC 2026-27 · normas de asistencia (Pla d'Inici de Curs) ===== */
+const PIC_MODS={
+  'Anglès':{code:'0179',name:'Anglès professional',h:66,extra:'En este módulo, superar el 20 % de faltas te quita la evaluación continua y el examen final ordinario: irías a la convocatoria extraordinaria, aunque puedes seguir asistiendo para hacer prácticas y ejercicios.'},
+  'BBDD':{code:'0484',name:'Bases de dades',h:132},
+  'Prog. E.S.':{code:'0485 + 0487 + 1708',name:'Programació, Entorns de desenvolupament i Sostenibilitat (se evalúan como un único módulo)',h:297},
+  'DIW':{code:'0615',name:"Disseny d'interfícies web",h:66},
+  'Sistemes':{code:'0483',name:'Sistemes informàtics',h:99},
+  'IPO1':{code:'1709',name:"Itinerari personal per a l'ocupabilitat I",h:99},
+  'Web i Digitalització':{code:'0373 + 1665',name:'Llenguatges de marques i Digitalització aplicada (horas del centro)',h:99}
+};
+let attPic=false, attPicJ=true;
+function attTogglePic(){ attPic=!attPic; renderCurrentView(); }
+function attPicToggleJ(){ attPicJ=!attPicJ; renderCurrentView(); }
+function picState(eq,lim){
+  if(eq>lim) return {k:'lost',t:'Pierde evaluación continua'};
+  if(eq===lim) return {k:'edge',t:'En el límite'};
+  if(eq>=Math.ceil(lim*0.7)) return {k:'warn',t:'Cerca del límite'};
+  return {k:'ok',t:'Correcto'};
+}
+function attPicHTML(curSubj){
+  const A=loadAtt(), mod=PIC_MODS[curSubj];
+  const rules=`<ul class="pic-rules">
+    <li>Hace falta un mínimo del <b>80 % de asistencia</b> en cada módulo para que se aplique la evaluación continua (es decir, como máximo un 20 % de faltas).</li>
+    <li>Llegar tarde <b>menos de 10 minutos</b> cuenta como retraso, y <b>2 retrasos equivalen a 1 falta</b>.</li>
+    <li>A partir de <b>10 minutos</b> (incluidos) ya es una falta, y el profesorado decide si te deja entrar en el aula.</li>
+    <li>La asistencia a las actividades complementarias programadas es obligatoria y puede evaluarse.</li>
+    <li>Las comunicaciones con el profesorado se hacen solo con el correo corporativo de La Salle, y las entregas solo por Sallenet (no por email ni fuera de plazo).</li>
+  </ul>`;
+  let h=`<section class="att-pic" aria-label="Control de asistencia según el PIC"><h4>Control según el PIC 2026-2027</h4>
+    <p class="pic-sub">Pla d'Inici de Curs · La Salle Gràcia · Criterios generales de evaluación (puntos 7, 10 y 28-29)</p>${rules}`;
+  if(!mod){
+    h+=`<p class="pic-none">«${escapeHtml(curSubj)}» no aparece como módulo en la tabla de horas del PIC, así que no hay límite de faltas que calcular.</p></section>`;
+    return h;
+  }
+  const lim=Math.floor(mod.h*0.2);
+  h+=`<div class="pic-mod"><span>Módulo <b>${escapeHtml(mod.code)}</b></span><span>Horas en el centro <b>${mod.h} h</b></span><span>Faltas máximas (20 %) <b>${lim}</b></span></div>
+    <p class="pic-hint" style="margin:-6px 0 12px">${escapeHtml(mod.name)}</p>`;
+  if(mod.extra) h+=`<p class="pic-hint" style="margin:-4px 0 12px;color:var(--ink)">${escapeHtml(mod.extra)}</p>`;
+  h+=`<div class="pic-tools"><button class="att-btn${attPicJ?' solid':''}" onclick="attPicToggleJ()" aria-pressed="${attPicJ}">Las justificadas cuentan como falta: ${attPicJ?'sí':'no'}</button></div>`;
+  if(!A.roster.length){ h+=`<p class="pic-none">Añade la lista de alumnos para ver el cómputo.</p></section>`; return h; }
+  const st=attStats(curSubj);
+  const rows=A.roster.map(x=>{
+    const p=st.per[x.id]||{P:0,F:0,R:0,J:0};
+    const seen=p.P+p.F+p.R+p.J, extraF=Math.floor(p.R/2), eq=p.F+extraF+(attPicJ?p.J:0), s=picState(eq,lim);
+    return {name:x.name,p:p,seen:seen,eq:eq,left:lim-eq,s:s,pct:Math.min(100,Math.round(eq*100/Math.max(lim,1)))};
+  }).sort((a,b)=>b.eq-a.eq||a.name.localeCompare(b.name));
+  h+=`<div class="pic-wrap"><table class="pic-tbl"><thead><tr><th>Alumno</th><th class="c">F</th><th class="c">R</th><th class="c">J</th><th class="c">Faltas eq.</th><th>Uso del límite (${lim})</th><th class="c">Quedan</th><th>Estado</th></tr></thead><tbody>`+
+    rows.map(r=>`<tr><td class="nm">${escapeHtml(r.name)}</td><td class="c">${r.p.F}</td><td class="c">${r.p.R}</td><td class="c">${r.p.J}</td><td class="c"><b>${r.eq}</b></td>
+      <td><span class="pic-bar"><i class="pic-${r.s.k}-b" style="width:${r.pct}%"></i></span>${r.pct}%</td>
+      <td class="c">${r.left>=0?r.left:'−'+Math.abs(r.left)}</td><td class="pic-st pic-${r.s.k}">${r.seen?r.s.t:'Sin registros'}</td></tr>`).join('')+
+    `</tbody></table></div><p class="pic-hint">Faltas equivalentes = F + un punto por cada 2 R${attPicJ?' + J':''}. Cada casilla marcada cuenta como 1 hora lectiva. El PIC no exime las faltas justificadas, por eso cuentan por defecto.</p></section>`;
+  return h;
 }
 function attSetHour(t){ attHour=t; renderCurrentView(); }
 function attToggleEdit(){ attEdit=!attEdit; renderCurrentView(); }
@@ -4515,6 +4613,43 @@ function admFilter(){const q=((document.getElementById('admQ')||{}).value||'').t
 function admLogF(k){document.querySelectorAll('.adx-lf').forEach(c=>c.classList.toggle('on',c.dataset.k===k));document.querySelectorAll('.adx-logrow').forEach(r=>r.hidden=!(k==='all'||r.dataset.k===k))}
 function admCsv(){const l=lsGet(LOG_KEY,[]);const csv='Fecha;Usuario;Resultado\n'+l.map(x=>fmtDT(x.t)+';'+String(x.u).replace(/;/g,',')+';'+(x.ok?'Correcto':'Fallido')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='registro-accesos.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 function admAnimate(root){const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;root.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count;if(rm||!to){el.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min((t-t0)/800,1);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)})}
+let admUS={k:'created',d:-1},admUR=[];
+function admUTable(){
+  const tb=document.getElementById('admUBody');if(!tb)return;
+  const q=((document.getElementById('admUQ')||{}).value||'').toLowerCase().trim(),k=admUS.k,d=admUS.d;
+  const rows=admUR.filter(r=>!q||(r.u+' '+r.email).toLowerCase().includes(q)).sort((a,b)=>{const x=a[k],y=b[k];return (typeof x==='string'?x.localeCompare(y):x-y)*d});
+  tb.innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td><b>${escapeHtml(r.u)}</b></td><td>${r.email?escapeHtml(r.email):'<span class="mut">—</span>'}</td><td><span class="adx-pill ${r.role}">${ROLES[r.role]||r.role}</span></td><td><span class="adx-pill${r.act?'':' off'}">${r.act?'Activa':'Desactivada'}</span></td><td>${r.sso?'Microsoft / Google':'Contraseña'}</td><td>${fmtDT(r.created)}</td><td>${fmtDT(r.last)}</td></tr>`).join('')||'<tr><td colspan="8" class="adx-empty">Ningún usuario coincide.</td></tr>';
+  document.getElementById('admUCount').textContent=rows.length+' de '+admUR.length+' usuarios registrados';
+  document.querySelectorAll('#admUHead th[data-k]').forEach(h=>h.setAttribute('aria-sort',h.dataset.k===k?(d>0?'ascending':'descending'):'none'));
+}
+function admWorkerCode(){var e=document.getElementById('grokWorkerSrc');return e?e.textContent.replace(/^\n/,''):''}
+async function admWorkerCopy(){var t=admWorkerCode();try{await navigator.clipboard.writeText(t);admSay('Código del Worker copiado. Pégalo en Cloudflare.')}catch(e){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');admSay('Código del Worker copiado. Pégalo en Cloudflare.')}catch(_){admSay('No se pudo copiar. Usa el botón Descargar.')}a.remove()}}
+function admWorkerDownload(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([admWorkerCode()],{type:'text/javascript'}));a.download='grok-proxy-worker.js';a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},2000)}
+function admGrokForget(){try{localStorage.removeItem('daw_grok_url')}catch(e){}admSay('URL olvidada en este navegador.')}
+async function admGrokTest(){
+  const out=document.getElementById('admGT'),url=(document.getElementById('admGU').value||'').trim(),rows=[];
+  const draw=()=>{out.innerHTML=rows.map(r=>`<div class="adx-logrow"><span class="adx-dot" style="background:${{ok:'#2f5d4b',ko:'#a4443f',warn:'#b7862b'}[r[0]]}"></span><span><b>${escapeHtml(r[1])}</b>${r[2]?'<br><span class="mut">'+escapeHtml(r[2])+'</span>':''}</span><span></span></div>`).join('')};
+  if(!/^https:\/\/\S+$/.test(url)){rows.push(['ko','La URL debe empezar por https://','Cópiala entera desde Cloudflare (Workers › tu Worker).']);return draw()}
+  rows.push(['ok','La URL tiene buen formato']);out.innerHTML='<p class="mut">Probando…</p>';
+  try{
+    const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);
+    const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ping:true}),signal:ctl.signal});clearTimeout(to);
+    let j={};try{j=await r.json()}catch(e){}
+    if(r.status===403){rows.push(['ko','Cloudflare rechaza esta dirección web','ALLOWED_ORIGIN debe ser exactamente '+location.origin+' (sin barra final).'])}
+    else{
+      rows.push(['ok','El servidor responde y acepta tu dirección web']);
+      if(j.ok){
+        rows.push(['ok','La clave de xAI es válida']);
+        rows.push([j.model?'ok':'ko',j.model?'Modelo disponible: '+j.model:'No hay ningún modelo compatible',j.model?'':'Añade la variable GROK_MODEL con un nombre de la lista de console.x.ai › Models.']);
+        rows.push([j.rate?'ok':'warn','Límite diario por persona '+(j.rate?'activo':'sin activar'),j.rate?'':'Recomendado: enlaza un KV Namespace con el nombre RATE.']);
+        if(j.model){try{localStorage.setItem('daw_grok_url',url)}catch(e){}rows.push(['ok','Todo listo: Grok ya funciona en este navegador','Para que funcione para todos los alumnos, pega esta URL en GROK_PROXY_URL dentro del archivo de la página.'])}
+      }else rows.push(['ko',j.error||'El Worker no ha podido comprobar la clave','Revisa la variable XAI_API_KEY y pulsa Deploy.']);
+    }
+  }catch(e){rows.push(['ko','No se puede conectar con esa URL','Comprueba que el Worker está desplegado y que la URL está bien copiada. Si abres la página desde un archivo de tu ordenador, súbela antes a tu web.'])}
+  draw();
+}
+function admSort(k){admUS.d=admUS.k===k?-admUS.d:1;admUS.k=k;admUTable()}
+function admUsersCsv(){const csv='Usuario;Correo;Rol;Estado;Acceso;Registro;Ultimo acceso\n'+admUR.map(r=>[r.u,r.email,ROLES[r.role]||r.role,r.act?'Activa':'Desactivada',r.sso?'Microsoft/Google':'Contraseña',fmtDT(r.created),fmtDT(r.last)].map(x=>String(x).replace(/;/g,',')).join(';')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='usuarios-registrados.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 async function renderAdminView(c){
   const users=await getUsers(), me=currentUser(), cfg=lsGet(CFG_KEY,{dias:7}), log=lsGet(LOG_KEY,[]);
   const exp=getSessionExpiry(), total=admBytes(), def=users.some(u=>u.def);
@@ -4543,10 +4678,11 @@ async function renderAdminView(c){
   const store=Object.keys(ADM_DATA).map(n=>{let b=0;try{const v=localStorage.getItem(ADM_DATA[n]);b=v?ADM_DATA[n].length+v.length:0}catch(e){}return `<div class="adx-store"><div><span>${n}</span><b>${admSize(b)}</b></div><div class="adx-track"><span style="width:${Math.max(b?2:0,b/5242880*100)}%"></span></div><button class="adx-btn d" style="margin-top:8px" onclick="admClear('${n}')">Borrar ${n.toLowerCase()}</button></div>`}).join('');
   const logs=log.slice(0,50).map(l=>`<div class="adx-logrow" data-k="${l.ok?'ok':'ko'}"><span class="adx-dot" style="background:${l.ok?'#2f5d4b':'#a4443f'}"></span><span><b>${escapeHtml(l.u)}</b> · ${l.ok?'Acceso correcto':'Intento fallido'}</span><span class="mut">${fmtDT(l.t)}</span></div>`).join('')||'<p class="adx-empty">Todavía no hay accesos registrados.</p>';
   const chk=checks.map(x=>`<li class="${x[0]?'':'no'}"><b>${x[0]?'✓':'!'}</b><span>${x[1]}${x[0]?'':'<small>'+x[2]+'</small>'}</span></li>`).join('');
+  admUR=users.map(u=>({u:String(u.u),email:u.email||'',role:u.role,act:u.active!==false?1:0,sso:u.sso?1:0,created:u.created||0,last:u.last||0}));
   c.innerHTML=`<div class="adm adx">
   <header class="adx-hero"><div><h2>Panel de administración</h2><p>Sesión de <b>${escapeHtml(me)}</b> · ${ROLES[currentRole()]} · activa hasta el ${exp?fmtDT(exp):'-'}</p></div><span class="adx-live"><i></i>Sincronización ${syncOn?'activa':'sin activar'}</span></header>
   ${admMsg?`<div class="adx-toast" role="status">${escapeHtml(admMsg)}</div>`:''}
-  <nav class="adx-tabs" role="tablist">${[['resumen','Resumen'],['perfiles','Perfiles'],['seguridad','Seguridad'],['datos','Datos'],['registro','Registro']].map(t=>`<button class="adx-tab" role="tab" data-t="${t[0]}" aria-selected="${t[0]===admTab}" onclick="admGo('${t[0]}')">${t[1]}</button>`).join('')}</nav>
+  <nav class="adx-tabs" role="tablist">${[['resumen','Resumen'],['perfiles','Perfiles'],['usuarios','Usuarios registrados'],['asistente','Asistente IA'],['seguridad','Seguridad'],['datos','Datos'],['registro','Registro']].map(t=>`<button class="adx-tab" role="tab" data-t="${t[0]}" aria-selected="${t[0]===admTab}" onclick="admGo('${t[0]}')">${t[1]}</button>`).join('')}</nav>
 
   <section class="adx-panel" data-t="resumen"${admTab==='resumen'?'':' hidden'}>
     <div class="adx-grid">
@@ -4581,6 +4717,22 @@ async function renderAdminView(c){
       <div class="adx-quick" style="margin-top:14px"><button class="adx-btn p" onclick="admAdd()">Crear perfil</button></div></details>
   </section>
 
+  <section class="adx-panel" data-t="usuarios"${admTab==='usuarios'?'':' hidden'}>
+    <div class="adx-card"><h3>Usuarios registrados</h3><p class="mut" style="margin:0">Lista visible solo para administradores. Pulsa el título de una columna para ordenar. Nunca se muestran ni se exportan contraseñas.</p></div>
+    <div class="adx-tools"><input type="search" id="admUQ" placeholder="Buscar usuario o correo…" oninput="admUTable()" aria-label="Buscar usuarios registrados"><button class="adx-btn g" onclick="admUsersCsv()">Exportar CSV</button></div>
+    <p class="mut" id="admUCount" role="status"></p>
+    <div class="adx-tw"><table><thead><tr id="admUHead"><th>Nº</th><th data-k="u" aria-sort="none"><button class="adx-th" onclick="admSort('u')">Usuario</button></th><th data-k="email" aria-sort="none"><button class="adx-th" onclick="admSort('email')">Correo</button></th><th data-k="role" aria-sort="none"><button class="adx-th" onclick="admSort('role')">Rol</button></th><th data-k="act" aria-sort="none"><button class="adx-th" onclick="admSort('act')">Estado</button></th><th data-k="sso" aria-sort="none"><button class="adx-th" onclick="admSort('sso')">Acceso</button></th><th data-k="created" aria-sort="none"><button class="adx-th" onclick="admSort('created')">Registro</button></th><th data-k="last" aria-sort="none"><button class="adx-th" onclick="admSort('last')">Último acceso</button></th></tr></thead><tbody id="admUBody"></tbody></table></div>
+  </section>
+
+  <section class="adx-panel" data-t="asistente"${admTab==='asistente'?'':' hidden'}>
+    <div class="adx-card" style="margin-top:14px"><h3>Paso 1: el código del Worker</h3><p class="mut">Este código ya viene dentro de la página. Es el puente seguro entre la página y Grok: la clave de xAI se queda en Cloudflare y nunca llega al navegador. Pulsa Copiar, abre Cloudflare, crea un Worker nuevo, pega el código y pulsa Deploy.</p><div class="adx-quick" style="margin-top:12px"><button class="adx-btn p" onclick="admWorkerCopy()">Copiar código del Worker</button><button class="adx-btn g" onclick="admWorkerDownload()">Descargar grok-proxy-worker.js</button></div><p class="mut" style="margin:12px 0 0">Después, en la configuración del Worker, guarda tu clave de console.x.ai como Secret con el nombre <b>XAI_API_KEY</b> y crea la variable <b>ALLOWED_ORIGIN</b> con el valor <b>${escapeHtml(location.origin)}</b>. Pulsa Deploy otra vez, copia la URL del Worker y pégala en el paso 2.</p></div>
+    <div class="adx-card"><h3>Paso 2: conexión con Grok</h3><p class="mut">Pega la URL de tu Worker de Cloudflare y pulsa «Probar conexión». La prueba revisa la dirección, la clave de xAI y el modelo sin gastar mensajes.</p>
+      <div class="adx-form" style="grid-template-columns:1fr"><label>URL del Worker<input id="admGU" type="url" placeholder="https://claude-daw.tu-cuenta.workers.dev" value="${escapeHtml(typeof clUrl==='function'?clUrl():'')}"></label></div>
+      <div class="adx-quick" style="margin-top:12px"><button class="adx-btn p" onclick="admGrokTest()">Probar conexión</button><button class="adx-btn g" onclick="admGrokForget()">Olvidar URL de este navegador</button></div>
+      <div id="admGT" role="status" style="margin-top:14px"></div></div>
+    <div class="adx-card" style="margin-top:14px"><h3>Si algo falla</h3><p class="mut" style="margin:0">Si sale «Cloudflare rechaza esta dirección», la variable <b>ALLOWED_ORIGIN</b> debe ser exactamente <b>${escapeHtml(location.origin)}</b>, sin barra final. Si sale «clave no válida», vuelve a crear la clave en console.x.ai y guárdala como Secret llamado <b>XAI_API_KEY</b>. No olvides pulsar Deploy después de cambiar variables o código.</p></div>
+  </section>
+
   <section class="adx-panel" data-t="seguridad"${admTab==='seguridad'?'':' hidden'}>
     ${def?'<p class="warn">Todavía usas la contraseña por defecto del administrador. Cámbiala ahora.</p>':''}
     <div class="adx-two">
@@ -4603,7 +4755,7 @@ async function renderAdminView(c){
       <button class="adx-btn g" onclick="admCsv()">Exportar CSV</button><button class="adx-btn d" onclick="admClearLog()">Vaciar registro</button></div>
     <div class="adx-card">${logs}</div><p class="mut">Se muestran los 50 accesos más recientes.</p>
   </section></div>`;
-  admMsg='';admAnimate(c);
+  admMsg='';admAnimate(c);admUTable();
 }
 function nAdmins(u){return u.filter(x=>x.role==='admin'&&x.active!==false).length}
 async function admSave(u,m){lsSet(USERS_KEY,u);applyRole();admSay(m||'')}
@@ -4659,7 +4811,7 @@ document.addEventListener('keydown',function(e){
     'addTask','toggleTask','deleteTask','addExam','deleteExam','addLink','deleteLink','saveCourseNotes',
     'handleMoodleFile','importMoodle','runMoodleSync','mdlApplyCourses',
     'attMark','attAll','attSaveRoster','attToggleEdit','ntEdit','ntSave','ntDelete','fullRestore'];
-  const ADMIN=['renderAdminView','admAdd','admRole','admToggle','admReset','admDel','admMine','admDias','admClear','admClearLog'];
+  const ADMIN=['renderAdminView','admGrokTest','admGrokForget','admWorkerCopy','admWorkerDownload','admUsersCsv','admUTable','admSort','admAdd','admRole','admToggle','admReset','admDel','admMine','admDias','admClear','admClearLog'];
   function wrap(list,perm,msg){list.forEach(function(n){
     const f=window[n]; if(typeof f!=='function')return;
     window[n]=function(){ if(!can(perm)){deny(msg);return} return f.apply(this,arguments) };
@@ -4800,7 +4952,7 @@ addEventListener('keydown',function(e){
     setLoginError('');
     var id=oxClientId();
     if(!oxSupported()){setLoginError('Microsoft solo funciona si abres la app desde una direcci\u00f3n http(s), no como archivo suelto.');return;}
-    if(!oxValidId(id)||typeof msal==='undefined'){setLoginError('Microsoft a\u00fan no est\u00e1 configurado. El administrador debe guardar el ID de aplicaci\u00f3n en Outlook de la escuela.');return;}
+    if(!oxValidId(id)||typeof msal==='undefined'){setLoginError('El acceso con Microsoft no est\u00e1 disponible. Usa \u00abCrear mi cuenta\u00bb o inicia sesi\u00f3n con tu usuario y contrase\u00f1a.');return;}
     busy(true);
     try{ sessionStorage.setItem(SSO_FLAG,'1'); await msApp(id).loginRedirect({scopes:['User.Read'],prompt:'select_account'}); }
     catch(e){ sessionStorage.removeItem(SSO_FLAG); busy(false); setLoginError('No se pudo iniciar con Microsoft. Int\u00e9ntalo de nuevo.'); }
@@ -4808,7 +4960,7 @@ addEventListener('keydown',function(e){
   window.ssoGoogle=function(){
     setLoginError('');
     var id=gdClientId();
-    if(!id){setLoginError('Google a\u00fan no est\u00e1 configurado. El administrador debe guardar el ID de cliente en Google Drive personal.');return;}
+    if(!id){setLoginError('El acceso con Google no est\u00e1 disponible. Usa \u00abCrear mi cuenta\u00bb o inicia sesi\u00f3n con tu usuario y contrase\u00f1a.');return;}
     if(!(window.google&&google.accounts&&google.accounts.oauth2)){setLoginError('No se pudo cargar Google. Revisa tu conexi\u00f3n e int\u00e9ntalo de nuevo.');return;}
     busy(true);
     google.accounts.oauth2.initTokenClient({
@@ -4840,6 +4992,328 @@ addEventListener('keydown',function(e){
     }catch(e){setLoginError('No se pudo iniciar con Microsoft. Int\u00e9ntalo de nuevo.');}
   })();
 })();
+</script>
+
+<script type="text/plain" id="grokWorkerSrc">
+/**
+ * grok-proxy-worker.js
+ * Proxy de Grok (xAI) para la agenda DAW. Se despliega como Cloudflare Worker.
+ *
+ * Qué hace:
+ *  1. Guarda la clave de xAI en el servidor (la página nunca la ve).
+ *  2. Solo acepta peticiones que vengan de tu web (ALLOWED_ORIGIN).
+ *  3. Elige solo el modelo correcto: usa GROK_MODEL si existe en tu cuenta;
+ *     si no, prueba grok-4.7 y después grok-4.3, o el Grok más reciente de tu lista.
+ *  4. Aplica un límite diario de mensajes por persona (si enlazas un KV llamado RATE).
+ *  5. Devuelve la respuesta en streaming con el formato que ya lee la página.
+ *
+ * Variables (Workers › tu Worker › Settings › Variables and Secrets):
+ *  - XAI_API_KEY    (Secret, obligatoria)  Clave creada en console.x.ai
+ *  - ALLOWED_ORIGIN (Variable, obligatoria) Tu web, sin barra final. Ejemplo: https://tuweb.com
+ *                   Puedes poner varias separadas por comas.
+ *  - GROK_MODEL     (Variable, opcional)   Fuerza un modelo concreto.
+ *  - DAILY_LIMIT    (Variable, opcional)   Mensajes por persona y día. Por defecto 40.
+ *  - RATE           (KV Namespace, opcional) Activa el límite diario.
+ */
+
+const XAI = 'https://api.x.ai/v1';
+const PREFERRED = ['grok-4.7', 'grok-4.3'];
+const FALLBACK_MODEL = 'grok-4.7';
+const DEFAULT_LIMIT = 40;
+const MAX_BODY = 200000;
+const MAX_MSGS = 20;
+const MAX_CHARS = 6000;
+const CACHE_MS = 10 * 60 * 1000;
+
+let modelCache = { name: '', at: 0 };
+
+const BASE = [
+  'Eres Grok, el asistente de estudio de una agenda personal de un alumno de 2º de Desarrollo de Aplicaciones Web (DAW), en formato online, en La Salle Gràcia.',
+  'Responde en el idioma en que te escriba el alumno: castellano por defecto y catalán si lo usa.',
+  'Escribe pensando en lectura fácil, apta para personas con dislexia: frases cortas, párrafos breves separados por una línea en blanco, una idea por párrafo, y sin listas largas ni tablas.',
+  'Define cada término técnico la primera vez que aparezca y da ejemplos concretos.',
+  'Explica con el rigor de un buen profesor universitario, pero sin jerga innecesaria.',
+  'Solo puedes usar **negrita**, `código en línea` y bloques de código con tres comillas invertidas. No uses títulos con # ni tablas.',
+  'Si no estás seguro de algo, dilo en lugar de inventarlo. No pidas ni repitas contraseñas, claves ni datos personales.',
+  'Salvo que te pidan más, responde en unas 250 palabras como máximo.'
+].join(' ');
+
+const MODES = {
+  estudio: 'Modo Estudiar. Cuando te pregunten un concepto, explícalo así, en párrafos: qué es, para qué sirve, un ejemplo pequeño y un error frecuente. Termina con una pregunta corta para comprobar que se ha entendido.',
+  codigo: 'Modo Código. Analiza el código del alumno: explica primero qué falla y por qué, después muestra el código corregido en un bloque, y por último explica cada cambio en un párrafo. Si falta contexto, pídelo con una sola pregunta.',
+  examen: 'Modo Examen. Haz preguntas de práctica de nivel DAW, UNA cada vez, y espera la respuesta. Corrige explicando el porqué de cada fallo, di una nota sobre 10 y sube o baja la dificultad según los aciertos. No des la respuesta antes de que el alumno lo intente.',
+  ayuda: 'Modo Ayuda de la página. Explica cómo usar la agenda del alumno: eventos, cursos, diario de clase, asistencia, apuntes y copias de seguridad. Si te preguntan algo concreto de la página que no conoces, dilo con honestidad y sugiere revisar la sección correspondiente.'
+};
+
+export default {
+  async fetch(request, env) {
+    const origin = (request.headers.get('Origin') || '').replace(/\/+$/, '');
+    const allowed = String(env.ALLOWED_ORIGIN || '').split(',').map(s => s.trim().replace(/\/+$/, '')).filter(Boolean);
+    const cors = {
+      'Access-Control-Allow-Origin': origin,
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400',
+      'Vary': 'Origin'
+    };
+
+    if (!allowed.length || !allowed.includes(origin)) {
+      return json({ error: 'Origen no permitido. ALLOWED_ORIGIN debe ser exactamente ' + (origin || 'la dirección de tu web') + ' (sin barra final).' }, 403, cors);
+    }
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
+    if (request.method !== 'POST') return json({ error: 'Método no permitido.' }, 405, cors);
+    if (!env.XAI_API_KEY) return json({ ok: false, error: 'Falta la variable XAI_API_KEY en el Worker. Créala como Secret y pulsa Deploy.' }, 200, cors);
+
+    let raw = '';
+    try { raw = await request.text(); } catch (e) { return json({ error: 'No se pudo leer la petición.' }, 400, cors); }
+    if (raw.length > MAX_BODY) return json({ error: 'El mensaje es demasiado largo. Acórtalo e inténtalo de nuevo.' }, 413, cors);
+    let body = {};
+    try { body = JSON.parse(raw || '{}'); } catch (e) { return json({ error: 'Petición no válida.' }, 400, cors); }
+
+    if (body.ping) return ping(env, cors);
+    return chat(request, env, body, cors);
+  }
+};
+
+/* ---------- Prueba de conexión (no gasta mensajes) ---------- */
+async function ping(env, cors) {
+  const r = await pickModel(env, true);
+  if (r.error === 'key') return json({ ok: false, error: 'La clave de xAI no es válida o ha caducado. Vuelve a crearla en console.x.ai y guárdala como Secret XAI_API_KEY.' }, 200, cors);
+  if (r.error) return json({ ok: false, error: 'xAI no responde ahora mismo (' + r.error + '). Inténtalo en unos minutos.' }, 200, cors);
+  return json({ ok: true, model: r.model || '', rate: !!env.RATE }, 200, cors);
+}
+
+/* ---------- Chat en streaming ---------- */
+async function chat(request, env, body, cors) {
+  const msgs = cleanMessages(body.messages);
+  if (!msgs.length) return json({ error: 'Escribe un mensaje para Grok.' }, 400, cors);
+
+  const limited = await rateLimit(request, env);
+  if (limited) return json({ error: 'Has llegado al límite de mensajes de hoy (' + limited + '). Mañana podrás seguir preguntando.' }, 429, cors);
+
+  const picked = await pickModel(env, false);
+  if (picked.error === 'key') return json({ error: 'Grok no está bien configurado: la clave de xAI no es válida. Avisa al administrador.' }, 502, cors);
+  const model = picked.model || FALLBACK_MODEL;
+
+  const view = String((body.context && body.context.view) || '').replace(/[^\w\- ]/g, '').slice(0, 40);
+  const mode = MODES[body.mode] ? body.mode : 'estudio';
+  const system = BASE + '\n\n' + MODES[mode] + (view ? '\n\nEl alumno está ahora en la sección «' + view + '» de la agenda.' : '');
+
+  let up;
+  try {
+    up = await fetch(XAI + '/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + env.XAI_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, stream: true, messages: [{ role: 'system', content: system }].concat(msgs) })
+    });
+  } catch (e) {
+    return json({ error: 'No he podido conectar con xAI. Inténtalo de nuevo en unos minutos.' }, 502, cors);
+  }
+
+  if (!up.ok) {
+    if (up.status === 404 || up.status === 400) modelCache = { name: '', at: 0 };
+    return json({ error: upstreamMessage(up.status) }, up.status === 429 ? 429 : 502, cors);
+  }
+
+  return new Response(up.body, {
+    status: 200,
+    headers: Object.assign({ 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no' }, cors)
+  });
+}
+
+function upstreamMessage(status) {
+  if (status === 401) return 'Grok no está bien configurado: la clave de xAI no es válida. Avisa al administrador.';
+  if (status === 402 || status === 403) return 'La cuenta de xAI no tiene crédito o permiso ahora mismo. Avisa al administrador.';
+  if (status === 429) return 'Grok está muy saturado en este momento. Espera un minuto e inténtalo de nuevo.';
+  if (status === 404 || status === 400) return 'Grok ha cambiado de modelo y estoy reajustando la conexión. Inténtalo de nuevo.';
+  return 'No he podido responder ahora mismo. Inténtalo de nuevo en unos minutos.';
+}
+
+/* ---------- Mensajes ---------- */
+function cleanMessages(list) {
+  if (!Array.isArray(list)) return [];
+  let out = list.slice(-MAX_MSGS)
+    .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
+    .map(m => ({ role: m.role, content: m.content.slice(0, MAX_CHARS) }));
+  while (out.length && out[0].role !== 'user') out.shift();
+  if (!out.length || out[out.length - 1].role !== 'user') return [];
+  return out;
+}
+
+/* ---------- Elección automática del modelo ---------- */
+async function pickModel(env, force) {
+  const wanted = String(env.GROK_MODEL || '').trim();
+  if (!force && modelCache.name && Date.now() - modelCache.at < CACHE_MS) return { model: modelCache.name };
+
+  let r;
+  try {
+    r = await fetch(XAI + '/models', { headers: { 'Authorization': 'Bearer ' + env.XAI_API_KEY } });
+  } catch (e) {
+    return force ? { error: 'sin conexión' } : { model: wanted || FALLBACK_MODEL };
+  }
+  if (r.status === 401) return { error: 'key' };
+  if (!r.ok) return force ? { error: 'HTTP ' + r.status } : { model: wanted || FALLBACK_MODEL };
+
+  let ids = [];
+  try { const j = await r.json(); ids = (j.data || []).map(x => x && x.id).filter(Boolean); } catch (e) {}
+
+  let model = '';
+  if (wanted && ids.includes(wanted)) model = wanted;
+  if (!model) model = PREFERRED.find(p => ids.includes(p)) || '';
+  if (!model) {
+    model = ids.filter(id => /^grok-\d/.test(id) && !/imagine|image|video|vision|embed|build|code/i.test(id)).sort().reverse()[0] || '';
+  }
+  if (model) modelCache = { name: model, at: Date.now() };
+  return { model };
+}
+
+/* ---------- Límite diario por persona (opcional) ---------- */
+async function rateLimit(request, env) {
+  if (!env.RATE) return 0;
+  const limit = Math.max(1, parseInt(env.DAILY_LIMIT, 10) || DEFAULT_LIMIT);
+  const ip = request.headers.get('CF-Connecting-IP') || 'anon';
+  const key = 'rl:' + ip + ':' + new Date().toISOString().slice(0, 10);
+  try {
+    const n = parseInt(await env.RATE.get(key), 10) || 0;
+    if (n >= limit) return limit;
+    await env.RATE.put(key, String(n + 1), { expirationTtl: 172800 });
+  } catch (e) { /* si el KV falla, no bloqueamos al alumno */ }
+  return 0;
+}
+
+function json(obj, status, cors) {
+  return new Response(JSON.stringify(obj), { status, headers: Object.assign({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }, cors) });
+}
+
+</script>
+<!-- ===== ASISTENTE GROK ===== -->
+<style>
+#clBtn{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:0;background:linear-gradient(135deg,#1f3d33,#3e7a63);color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 10px 26px rgba(31,61,51,.4);z-index:9000;display:none;transition:transform .2s}
+#clBtn:hover{transform:scale(1.08)}#clBtn.on{display:grid;place-items:center}
+#clPanel{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom,0px));width:min(430px,calc(100vw - 24px));height:min(620px,calc(100dvh - 120px));background:#fff;color:#1f2933;border:1px solid #e7e1d5;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.28);display:none;flex-direction:column;overflow:hidden;z-index:9001;line-height:1.7;font-size:1rem}
+#clPanel.open{display:flex;animation:clUp .25s ease}
+@keyframes clUp{from{opacity:0;transform:translateY(14px)}}
+.cl-head{display:flex;align-items:center;gap:10px;padding:14px 16px;background:linear-gradient(135deg,#1f3d33,#2f5d4b);color:#fff}
+.cl-head b{flex:1;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.25rem}.cl-head small{display:block;font:400 .72rem/1.2 system-ui,sans-serif;opacity:.8}
+.cl-head button{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font:inherit;font-size:.82rem}
+.cl-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#faf8f3;scroll-behavior:smooth}
+.cl-m{max-width:92%;padding:10px 14px;border-radius:14px;text-align:left;word-wrap:break-word;overflow-wrap:anywhere}
+.cl-m p{margin:0 0 9px}.cl-m p:last-child{margin:0}.cl-m code{background:rgba(47,93,75,.1);padding:1px 6px;border-radius:5px;font-size:.9em}
+.cl-u{align-self:flex-end;background:#2f5d4b;color:#fff;border-bottom-right-radius:4px}
+.cl-a{align-self:flex-start;background:#fff;border:1px solid #e7e1d5;border-bottom-left-radius:4px}
+.cl-e{align-self:flex-start;background:#fbf3df;border:1px solid #e3cf98;color:#1f2933}
+.cl-code{position:relative;margin:8px 0}.cl-code pre{margin:0;background:#16212a;color:#e6edf3;padding:12px 14px;border-radius:10px;overflow-x:auto;font-size:.85rem;line-height:1.55}.cl-code pre code{background:none;padding:0;color:inherit}
+.cl-code button{position:absolute;top:6px;right:6px;border:0;border-radius:6px;background:rgba(255,255,255,.16);color:#fff;font:inherit;font-size:.72rem;padding:3px 9px;cursor:pointer}
+.cl-chips{display:flex;flex-wrap:wrap;gap:8px}.cl-chips button{border:1px solid #96c8a2;background:#eef6f0;color:#2f5d4b;border-radius:99px;padding:7px 13px;cursor:pointer;font:inherit;font-size:.86rem}
+.cl-dots i{display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:50%;background:#7aa04f;animation:clD 1s infinite}.cl-dots i:nth-child(2){animation-delay:.15s}.cl-dots i:nth-child(3){animation-delay:.3s}
+@keyframes clD{50%{transform:translateY(-5px);opacity:.4}}
+.cl-in{display:flex;gap:8px;padding:12px 12px 6px;border-top:1px solid #e7e1d5;background:#fff}
+.cl-in textarea{flex:1;resize:none;font:inherit;padding:10px 12px;border:1px solid #d9d2bf;border-radius:12px;max-height:120px;background:#fbf9f5;color:#1f2933}
+.cl-in button{border:0;border-radius:12px;background:#2f5d4b;color:#fff;padding:0 16px;cursor:pointer;font:inherit;font-weight:600}.cl-in button.stop{background:#a4443f}
+.cl-foot{padding:0 14px 10px;font-size:.72rem;color:#7b7568;background:#fff;text-align:center}
+@media(prefers-color-scheme:dark){#clPanel{background:#1d2528;color:#e8ece9;border-color:#33403f}.cl-msgs{background:#161d1f}.cl-a,.cl-in,.cl-foot{background:#1d2528;border-color:#33403f}.cl-in textarea{background:#161d1f;color:#e8ece9;border-color:#33403f}}
+.cl-modes{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;background:#f3efe6;border-bottom:1px solid #e7e1d5}
+.cl-modes button{flex:none;border:1px solid #d9d2bf;background:#fff;color:#1f2933;border-radius:99px;padding:6px 13px;font:inherit;font-size:.84rem;cursor:pointer;transition:.15s}
+.cl-modes button.on{background:#2f5d4b;border-color:#2f5d4b;color:#fff}
+.cl-cp{display:block;margin-top:8px;border:0;background:none;color:#7b7568;font:inherit;font-size:.78rem;cursor:pointer;padding:0}.cl-cp:hover{color:#2f5d4b}
+#clPanel.big{width:min(940px,calc(100vw - 24px));height:min(88dvh,calc(100dvh - 120px))}
+@media(prefers-color-scheme:dark){.cl-modes{background:#161d1f;border-color:#33403f}.cl-modes button{background:#1d2528;color:#e8ece9;border-color:#33403f}}
+@media(prefers-reduced-motion:reduce){.cl-dots i,#clPanel.open{animation:none}}
+</style>
+<button type="button" id="clBtn" aria-label="Abrir el asistente Grok" onclick="clToggle()">✦</button>
+<section id="clPanel" role="dialog" aria-label="Asistente Grok">
+  <div class="cl-head"><b>Grok<small>Asistente de estudio DAW</small></b><button type="button" onclick="clExpand()" aria-label="Ampliar el chat" title="Ampliar">⤢</button><button type="button" onclick="clExport()" aria-label="Descargar la conversación" title="Descargar conversación">⬇</button><button type="button" onclick="clReset()">Nueva</button><button type="button" onclick="clToggle()" aria-label="Cerrar">✕</button></div>
+  <div class="cl-modes" id="clModes" role="tablist" aria-label="Tipo de ayuda"></div>
+  <div class="cl-msgs" id="clMsgs" aria-live="polite"></div>
+  <form class="cl-in" onsubmit="clSend(event)"><textarea id="clInput" rows="1" maxlength="4000" placeholder="Escribe tu pregunta…" aria-label="Tu pregunta" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea><button type="submit" id="clSendBtn">Enviar</button></form>
+  <div class="cl-foot">Grok puede equivocarse: contrasta lo importante con tus apuntes.</div>
+</section>
+<script>
+/* URL de tu proxy de Grok (ver grok-proxy-worker.js). NUNCA pongas tu clave de API en este archivo. */
+const GROK_PROXY_URL = '';
+function clUrl(){ let v = ''; try{ v = localStorage.getItem('daw_grok_url') || ''; }catch(e){} return (GROK_PROXY_URL || v).trim(); }
+const CL_KEY = 'daw_grok_hist';
+const CL_MODES = {
+  estudio:{n:'Estudiar',ph:'Pregunta cualquier concepto de DAW…',hi:'Puedo explicarte cualquier concepto de desarrollo web con ejemplos claros. ¿Qué quieres aprender hoy?',chips:['Explícame qué es una API REST','¿Qué diferencia hay entre var, let y const?','Explícame el modelo de cajas de CSS']},
+  codigo:{n:'Código',ph:'Pega tu código y cuéntame qué falla…',hi:'Pega tu código y te ayudo a entenderlo, corregirlo o mejorarlo, explicando cada cambio.',chips:['Revisa este código: ','Escribe una función que valide un formulario','¿Por qué me da este error? ']},
+  examen:{n:'Examen',ph:'Dime el tema del que quieres practicar…',hi:'Te hago preguntas de práctica, una a una, y corrijo tus respuestas explicándote los fallos. ¿De qué tema quieres examinarte?',chips:['Examen de HTML y CSS','Examen de JavaScript','Examen de bases de datos y SQL']},
+  ayuda:{n:'Ayuda de la página',ph:'Pregunta cómo se usa esta agenda…',hi:'Te explico cómo usar esta agenda: eventos, cursos, diario, asistencia, apuntes y copias de seguridad.',chips:['¿Cómo añado un evento?','¿Cómo hago una copia de seguridad?','¿Qué atajos de teclado hay?']}
+};
+let clMode = 'estudio'; try{ const m = sessionStorage.getItem('daw_grok_mode'); if(CL_MODES[m]) clMode = m; }catch(e){}
+function clModesBar(){ const b = document.getElementById('clModes'); b.innerHTML = ''; Object.keys(CL_MODES).forEach(k=>{ const x = document.createElement('button'); x.type = 'button'; x.textContent = CL_MODES[k].n; x.className = k === clMode ? 'on' : ''; x.setAttribute('role','tab'); x.setAttribute('aria-selected', k === clMode); x.onclick = ()=>clSetMode(k); b.appendChild(x); }); document.getElementById('clInput').placeholder = CL_MODES[clMode].ph; }
+function clSetMode(k){ clMode = k; try{ sessionStorage.setItem('daw_grok_mode', k); }catch(e){} clModesBar(); if(!clHist.length) clRender(); }
+function clExpand(){ document.getElementById('clPanel').classList.toggle('big'); }
+function clExport(){ if(!clHist.length) return; const t = clHist.map(m=>(m.role === 'user' ? 'TÚ' : 'GROK') + ':\n' + m.content).join('\n\n----------\n\n'); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + t], {type:'text/plain'})); a.download = 'conversacion-grok.txt'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000); }
+function clDecorate(w, text){ const b = document.createElement('button'); b.type = 'button'; b.className = 'cl-cp'; b.textContent = 'Copiar respuesta'; b.onclick = ()=>{ try{ navigator.clipboard.writeText(text); b.textContent = 'Copiado ✓'; setTimeout(()=>b.textContent = 'Copiar respuesta', 1600); }catch(e){} }; w.appendChild(b); }
+let clHist = [], clBusy = false, clCtl = null, clOwner = null;
+const clName = () => 'Grok';
+const clErr = m => { const e = new Error(m); e.cl = 1; return e; };
+function clUser(){ try{ return currentUser() || ''; }catch(e){ return ''; } }
+function clIsAdmin(){ try{ return currentRole() === 'admin'; }catch(e){ return false; } }
+function clSave(){ try{ sessionStorage.setItem(CL_KEY + ':' + clUser(), JSON.stringify(clHist.slice(-20))); }catch(e){} }
+function clLoad(){ try{ clHist = JSON.parse(sessionStorage.getItem(CL_KEY + ':' + clUser()) || '[]'); }catch(e){ clHist = []; } }
+function clMd(t){ /* markdown ligero: primero se escapa todo el texto, después se marca */
+  return String(t).split('```').map((seg,i)=>{
+    if(i%2) return '<div class="cl-code"><button type="button" onclick="clCopy(this)">Copiar</button><pre><code>' + escapeHtml(seg.replace(/^[a-zA-Z0-9+#-]*\n/,'').replace(/\n$/,'')) + '</code></pre></div>';
+    return seg.split(/\n{2,}/).filter(x=>x.trim()).map(x=>'<p>' + escapeHtml(x).replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\*\*([^*\n]+)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>') + '</p>').join('');
+  }).join('');
+}
+function clCopy(b){ try{ navigator.clipboard.writeText(b.nextElementSibling.innerText); b.textContent = 'Copiado ✓'; setTimeout(()=>b.textContent = 'Copiar', 1600); }catch(e){} }
+function clAdd(cls, html){ const b = document.getElementById('clMsgs'), d = document.createElement('div'); d.className = 'cl-m ' + cls; d.innerHTML = html; b.appendChild(d); b.scrollTop = b.scrollHeight; return d; }
+function clRender(){
+  const b = document.getElementById('clMsgs'); b.innerHTML = ''; clOwner = clUser(); clModesBar();
+  if(!clUrl()){ clAdd('cl-a','<p>Grok todavía no está conectado. El administrador debe configurarlo en Panel de administración › Asistente IA.</p>'); return; }
+  if(!clHist.length){
+    clAdd('cl-a','<p>Hola, soy Grok. ' + CL_MODES[clMode].hi + '</p>');
+    const c = document.createElement('div'); c.className = 'cl-chips';
+    CL_MODES[clMode].chips.forEach(t=>{ const x = document.createElement('button'); x.type = 'button'; x.textContent = t; x.onclick = ()=>{ const i = document.getElementById('clInput'); i.value = t; i.focus(); }; c.appendChild(x); }); b.appendChild(c);
+  } else clHist.forEach(m=>{ const d = clAdd(m.role === 'user' ? 'cl-u' : 'cl-a', clMd(m.content)); if(m.role !== 'user') clDecorate(d, m.content); });
+}
+function clReset(){ if(clCtl) clCtl.abort(); clHist = []; clSave(); clRender(); }
+function clToggle(){
+  const p = document.getElementById('clPanel'); p.classList.toggle('open');
+  if(p.classList.contains('open')){ if(clOwner !== clUser()){ clLoad(); clRender(); } document.getElementById('clInput').focus(); }
+}
+async function clSend(e){
+  if(e && e.preventDefault) e.preventDefault();
+  const btn = document.getElementById('clSendBtn');
+  if(clBusy){ if(clCtl) clCtl.abort(); return; }
+  if(!clUrl()) return;
+  const i = document.getElementById('clInput'), t = i.value.trim(); if(!t) return;
+  i.value = ''; i.style.height = 'auto';
+  const ch = document.querySelector('#clMsgs .cl-chips'); if(ch) ch.remove();
+  clAdd('cl-u', clMd(t)); clHist.push({role:'user', content:t});
+  clBusy = true; btn.textContent = 'Detener'; btn.className = 'stop';
+  const w = clAdd('cl-a', '<span class="cl-dots"><i></i><i></i><i></i></span>'), box = document.getElementById('clMsgs');
+  let acc = ''; clCtl = new AbortController();
+  try{
+    const r = await fetch(clUrl(), {method:'POST', headers:{'Content-Type':'application/json'}, signal:clCtl.signal,
+      body:JSON.stringify({mode:clMode, messages:clHist.slice(-20), context:{view: (typeof currentView !== 'undefined' ? currentView : '')}})});
+    if(!r.ok){ let m = 'No he podido responder ahora mismo. Inténtalo de nuevo en unos minutos.'; try{ const j = await r.json(); if(j.error) m = j.error; }catch(_){} throw clErr(m); }
+    const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '';
+    for(;;){
+      const {done, value} = await rd.read(); if(done) break;
+      buf += dec.decode(value, {stream:true}); const lines = buf.split('\n'); buf = lines.pop();
+      for(const ln of lines){
+        if(!ln.startsWith('data:')) continue;
+        let ev; try{ ev = JSON.parse(ln.slice(5)); }catch(_){ continue; }
+        if(ev.choices && ev.choices[0] && ev.choices[0].delta && ev.choices[0].delta.content){ acc += ev.choices[0].delta.content; w.innerHTML = clMd(acc); box.scrollTop = box.scrollHeight; }
+        else if(ev.type === 'error') throw clErr('La respuesta se ha interrumpido. Inténtalo de nuevo.');
+      }
+    }
+    if(!acc) throw clErr('No he recibido respuesta. Inténtalo de nuevo.');
+    clHist.push({role:'assistant', content:acc}); clDecorate(w, acc);
+  }catch(err){
+    if(acc){ clHist.push({role:'assistant', content:acc}); }
+    else { clHist.pop(); if(err.name === 'AbortError') w.remove(); else { w.className = 'cl-m cl-e'; w.innerHTML = '<p>' + escapeHtml(err.cl ? err.message : 'Sin conexión con Grok. Revisa tu conexión e inténtalo de nuevo.' + (clIsAdmin() ? ' (Administrador: prueba la conexión en Panel de administración › Asistente IA.)' : '')) + '</p>'; } }
+  }
+  clSave(); clBusy = false; clCtl = null; btn.textContent = 'Enviar'; btn.className = ''; i.focus();
+}
+document.getElementById('clInput').addEventListener('keydown', function(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); clSend(e); } if(e.key === 'Escape') clToggle(); });
+/* El botón solo aparece con una sesión iniciada; al cerrar sesión se cierra el chat */
+(function(){ const app = document.getElementById('appContent'), b = document.getElementById('clBtn');
+  function sync(){ const on = app && app.style.display !== 'none'; b.classList.toggle('on', !!on); if(!on){ document.getElementById('clPanel').classList.remove('open'); clOwner = null; } }
+  if(app) new MutationObserver(sync).observe(app, {attributes:true, attributeFilter:['style']}); sync(); })();
 </script>
 </body>
 </html>
