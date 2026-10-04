@@ -766,6 +766,17 @@ body.dys .diary-text{line-height:1.9;letter-spacing:.02em}
 body.dys .acad-item{background:#fdfaf0}
 body.dys .acad-item.fest{background:#fbf0e8}
 
+/* Casilla "Hecho" en eventos */
+.uev-done{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;color:#4a7c59;font-weight:600;cursor:pointer;flex-shrink:0;white-space:nowrap}
+.uev-done input{width:16px;height:16px;margin:0;accent-color:#4a7c59;cursor:pointer}
+.uev-item.done .uev-title,.dl-row.dl-done .dl-main{text-decoration:line-through;opacity:.6}
+
+.fn-head{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:#7f8c8d;margin:18px 0 6px}
+.fn-add{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0 16px}
+.fn-add label{font-size:.78rem;font-weight:700;color:#2c3e50;text-transform:uppercase;letter-spacing:.04em}
+.fn-add select{flex:1;min-width:150px;padding:8px 10px;border:1px solid #cfd8dc;border-radius:3px;font:inherit;font-size:.9rem;color:#2c3e50;background:#fff}
+.fn-add button{background:#2c3e50;color:#fff;border:none;padding:9px 16px;font-size:.85rem;font-weight:600;cursor:pointer}
+
 /* Mis eventos */
 .btn-add-event{width:100%;background:#2c3e50;color:#fff;border:none;padding:11px 14px;font-size:.9rem;font-weight:600;cursor:pointer;margin-bottom:18px}
 .btn-add-event:hover{background:#1a252f}
@@ -2010,12 +2021,12 @@ function renderDayView(container){
   html += acadListHTML(currentDate);
   html += uevListHTML(currentDate);
   if(isFestDay(currentDate)){
-    html += `<div class="empty-state">No hay clases este día.</div>`;
+    html += `<div class="empty-state">No hay clases este día.</div>` + dayNoteHTML(currentDate);
     container.innerHTML = html;
     return;
   }
   if(dayOfWeek===0 || dayOfWeek===6){
-    html += `<div class="empty-state">No hi ha classes aquest dia (cap de setmana).</div>`;
+    html += `<div class="empty-state">No hi ha classes aquest dia (cap de setmana).</div>` + dayNoteHTML(currentDate);
     container.innerHTML = html;
     return;
   }
@@ -2072,6 +2083,7 @@ function renderDayView(container){
     }
   });
   html += `</div>`;
+  html += dayNoteHTML(currentDate);
   container.innerHTML = html;
 }
 
@@ -2274,6 +2286,25 @@ const ACAD_RANGES = [
   ['2027-06-03','2027-06-04','Recuperacions EXT CCFF',false],
   ['2027-06-07','2027-06-09','Recuperacions EXT CCFF',false]
 ];
+/* ===== FESTIVOS OFICIALES (Cataluña / Barcelona), calculados para cualquier año =====
+   Se suman al calendario del colegio solo si ese día no está ya marcado como festivo.
+   Los festivos locales de Barcelona (Mercè y Segona Pasqua) los fija cada año el Ajuntament:
+   aquí van los habituales; el calendario del colegio manda cuando los trae. */
+function easterSunday(y){
+  const a=y%19, b=Math.floor(y/100), c=y%100, d=Math.floor(b/4), e=b%4, f=Math.floor((b+8)/25), g=Math.floor((b-f+1)/3),
+        h=(19*a+b-d-g+15)%30, i=Math.floor(c/4), k=c%4, l=(32+2*e+2*i-h-k)%7, m=Math.floor((a+11*h+22*l)/451),
+        mo=Math.floor((h+l-7*m+114)/31), da=((h+l-7*m+114)%31)+1;
+  return new Date(y, mo-1, da);
+}
+function officialHolidays(y){
+  const fixed = [[0,1,'Any Nou'],[0,6,'Reis'],[4,1,'Festa del Treball'],[5,24,'Sant Joan'],[7,15,"L'Assumpció"],
+    [8,11,'Diada de Catalunya'],[8,24,'La Mercè (Barcelona)'],[9,12,"Festa Nacional d'Espanya"],[10,1,'Tots Sants'],
+    [11,6,'Dia de la Constitució'],[11,8,'La Immaculada'],[11,25,'Nadal'],[11,26,'Sant Esteve']];
+  const out = fixed.map(([m,d,t])=>({date:new Date(y,m,d), text:'Festiu: '+t}));
+  const e = easterSunday(y), off = n=>new Date(e.getFullYear(), e.getMonth(), e.getDate()+n);
+  out.push({date:off(-2), text:'Festiu: Divendres Sant'}, {date:off(1), text:'Festiu: Dilluns de Pasqua'}, {date:off(50), text:'Festiu: Segona Pasqua (Barcelona)'});
+  return out;
+}
 let _acadMap = null;
 function acadMap(){
   if(_acadMap) return _acadMap;
@@ -2285,13 +2316,17 @@ function acadMap(){
   ACAD_RANGES.forEach(([a,b,text,fest])=>{
     for(let d = parseYMD(a), end = parseYMD(b); d <= end; d = new Date(d.getFullYear(), d.getMonth(), d.getDate()+1)) add(ymd(d), text, fest);
   });
+  for(let y = 2024; y <= 2031; y++) officialHolidays(y).forEach(h=>{
+    const k = ymd(h.date);
+    if(!(m[k]||[]).some(x=>x.fest)) (m[k] = m[k]||[]).push({text:h.text, fest:true, off:true});
+  });
   _acadMap = m; return m;
 }
 function acadEvents(date){ return acadMap()[ymd(date)] || []; }
 function isFestDay(date){ return acadEvents(date).some(e=>e.fest); }
 function acadListHTML(date){
   const ev = acadEvents(date); if(!ev.length) return '';
-  return `<div class="acad-list">`+ev.map(e=>`<div class="acad-item${e.fest?' fest':''}"><span class="acad-tag">${e.fest?'Sin clase':'Calendario'}</span>${escapeHtml(e.text)}</div>`).join('')+`</div>`;
+  return `<div class="acad-list">`+ev.map(e=>`<div class="acad-item${e.fest?' fest':''}"><span class="acad-tag">${e.off?'Festivo':e.fest?'Sin clase':'Calendario'}</span>${escapeHtml(e.text)}</div>`).join('')+`</div>`;
 }
 
 /* ===== MIS EVENTOS (los creas tú; se guardan en el navegador) ===== */
@@ -2318,9 +2353,10 @@ function uevListHTML(date){
   html += `<div class="uev-list">`;
   list.forEach(e=>{
     const t = UEV_TYPES[e.type] || UEV_TYPES.otro;
-    html += `<div class="uev-item" style="border-left-color:${t[1]}">
+    html += `<div class="uev-item${e.done?' done':''}" style="border-left-color:${t[1]}">
       <div class="uev-time">${escapeHtml(uevTime(e))}</div>
       <div class="uev-body"><div class="uev-title">${uevTag(e)}${escapeHtml(e.title)}</div>${e.note?`<div class="uev-note">${escapeHtml(e.note)}</div>`:''}</div>
+      <label class="uev-done"><input type="checkbox" ${e.done?'checked':''} onchange="toggleUevDone('${escapeAttr(e.id)}')" aria-label="Marcar como hecho: ${escapeAttr(e.title)}">Hecho</label>
       <button class="uev-edit" onclick="openEventForm('${escapeAttr(e.id)}')">Editar</button></div>`;
   });
   return html + `</div>`;
@@ -2379,6 +2415,13 @@ function deleteEvent(id){
   toast('Evento eliminado',{undo:function(){ uevData = old; saveUev(); renderCurrentView(); toast('Evento restaurado'); }});
 }
 function uevOpenFromCell(id){ openEventForm(id); }
+function toggleUevDone(id){
+  if(typeof can==='function' && !can('editar')){ deny(); renderCurrentView(); return; }
+  loadUev(); const ev = uevData.find(x=>x.id===id); if(!ev) return;
+  ev.done = !ev.done; if(ev.done) ev.doneAt = Date.now(); else delete ev.doneAt;
+  if(!saveUev()){ ev.done = !ev.done; toast('No se ha podido guardar: el navegador bloquea el almacenamiento'); }
+  renderCurrentView();
+}
 
 /* ===== DIARIO DE CLASE (notas guardadas en el navegador) ===== */
 const DIARY_KEY = 'daw_diario_clase';
@@ -2404,6 +2447,29 @@ function diaryKey(date, dow, idx){ return ymd(date)+'|'+SCHEDULE[dow][idx].subje
 function did(key){ return String(key).replace(/[^A-Za-z0-9]/g,'_'); }
 function hasNote(key){ const n = loadDiary()[key]; return !!(n && n.text && n.text.trim()); }
 function dayHasNotes(date){ const pre = ymd(date)+'|'; return Object.keys(loadDiary()).some(k=>k.startsWith(pre) && hasNote(k)); }
+const DAYNOTE = 'Nota del día';
+function isDayNoteKey(key){ return String(key).split('|')[2] === '00:00'; }
+function dayNoteKey(date, subj){ return ymd(date)+'|'+(subj||DAYNOTE)+'|00:00'; }
+let freeDrafts = {};
+function dayNoteHTML(date){
+  const ds = ymd(date), data = loadDiary();
+  const keys = Object.keys(data).filter(k=>k.startsWith(ds+'|') && isDayNoteKey(k) && hasNote(k));
+  (freeDrafts[ds]||[]).forEach(k=>{ if(!keys.includes(k)) keys.push(k); });
+  keys.sort();
+  const opts = `<option value="">General (sin asignatura)</option>` + buildCourses().map(c=>`<option value="${escapeAttr(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+  let h = `<div class="fn-head">Notas del día</div>`;
+  keys.forEach(k=>{ const n = data[k]; h += diaryEditorHTML(k, n && n.text || ''); });
+  h += `<div class="fn-add"><label for="fnSubj">Asignatura</label><select id="fnSubj">${opts}</select><button type="button" onclick="addFreeNote('${ds}')">+ Añadir nota</button></div>`;
+  return h;
+}
+function addFreeNote(ds){
+  const d = parseYMD(ds); if(!d) return;
+  const sel = document.getElementById('fnSubj'), subj = sel ? sel.value : '';
+  const key = dayNoteKey(d, subj);
+  if(!hasNote(key)){ (freeDrafts[ds] = freeDrafts[ds]||[]); if(!freeDrafts[ds].includes(key)) freeDrafts[ds].push(key); }
+  renderCurrentView();
+  const t = document.getElementById('dt-'+did(key)); if(t) t.focus();
+}
 function diaryBoxHTML(key){
   const n = loadDiary()[key]; const has = hasNote(key); const k = escapeAttr(key);
   if(!has){
@@ -2414,8 +2480,8 @@ function diaryBoxHTML(key){
 function diaryEditorHTML(key, text){
   const k = escapeAttr(key); const has = hasNote(key);
   return `<div class="diary-box" id="dbox-${did(key)}">
-    <label class="diary-label" for="dt-${did(key)}">Qué he hecho en clase</label>
-    <textarea class="diary-text" id="dt-${did(key)}" data-key="${k}" placeholder="Ej.: Hemos visto las JOIN en SQL y hecho 5 ejercicios..." oninput="onDiaryInput(this)" onblur="flushDiary(this.dataset.key)">${escapeHtml(text||'')}</textarea>
+    <label class="diary-label" for="dt-${did(key)}">${isDayNoteKey(key)?(key.split('|')[1]===DAYNOTE?'Nota general del día':'Nota de '+escapeHtml(key.split('|')[1])):'Qué he hecho en clase'}</label>
+    <textarea class="diary-text" id="dt-${did(key)}" data-key="${k}" placeholder="${isDayNoteKey(key)?'Ej.: He repasado SQL y avanzado el proyecto de Prog. E.S....':'Ej.: Hemos visto las JOIN en SQL y hecho 5 ejercicios...'}" oninput="onDiaryInput(this)" onblur="flushDiary(this.dataset.key)">${escapeHtml(text||'')}</textarea>
     <div class="diary-foot"><span id="ds-${did(key)}">${has?'Guardado':'Se guarda solo al escribir'}</span>${has?`<button class="diary-del" onclick="deleteDiary('${k}')">Borrar nota</button>`:''}</div>
   </div>`;
 }
@@ -2463,13 +2529,13 @@ function renderDiaryView(container){
     <input type="file" id="diaryFile" accept=".json,application/json" hidden onchange="restoreDiary(this)"></div>`;
   if(diaryFailed) html += `<div class="empty-state">El navegador no deja guardar datos aquí. Abre el archivo desde una carpeta normal o descarga una copia.</div>`;
   if(!shown.length){
-    html += `<div class="empty-state">${keys.length?'No hay notas que coincidan con la búsqueda.':'Todavía no hay notas. Ve a Vista Día y pulsa «Añadir nota de clase» en una asignatura.'}</div>`;
+    html += `<div class="empty-state">${keys.length?'No hay notas que coincidan con la búsqueda.':'Todavía no hay notas. Ve a Vista Día y pulsa «Añadir nota de clase» en una asignatura, o elige asignatura en «Notas del día» (también en fines de semana y festivos).'}</div>`;
   } else {
     shown.forEach(k=>{
       const m = parseDiaryKey(k); const d = parseYMD(m.date);
       html += `<div class="diary-entry" style="border-left-color:${subjectColor(m.subject)}">
         <h3>${escapeHtml(m.subject)}</h3>
-        <div class="de-meta">${d?escapeHtml(formatDate(d)):escapeHtml(m.date)} · desde las ${escapeHtml(m.start)}</div>
+        <div class="de-meta">${d?escapeHtml(formatDate(d)):escapeHtml(m.date)} ${m.start==='00:00'?'':' · desde las '+escapeHtml(m.start)}</div>
         <div class="de-text">${escapeHtml(data[k].text)}</div>
         <button class="de-go" onclick="goToDiaryDay('${escapeAttr(m.date)}')">Ver ese día</button></div>`;
     });
@@ -2491,7 +2557,7 @@ function exportDiary(){
   const data = loadDiary(); const keys = Object.keys(data).filter(hasNote).sort();
   let out = 'DIARIO DE CLASE · DAW · La Salle Gràcia\r\n\r\n';
   keys.forEach(k=>{ const m = parseDiaryKey(k); const d = parseYMD(m.date);
-    out += (d?formatDate(d):m.date)+' · '+m.subject+' ('+m.start+')\r\n'+data[k].text.replace(/\n/g,'\r\n')+'\r\n\r\n----------------------------------------\r\n\r\n'; });
+    out += (d?formatDate(d):m.date)+' · '+m.subject+(m.start==='00:00'?'':' ('+m.start+')')+'\r\n'+data[k].text.replace(/\n/g,'\r\n')+'\r\n\r\n----------------------------------------\r\n\r\n'; });
   downloadText('Diario_de_clase.txt', out, 'text/plain');
 }
 function backupDiary(){ downloadText('Diario_de_clase_copia.json', JSON.stringify(loadDiary(), null, 2), 'application/json'); }
@@ -3893,9 +3959,9 @@ function dlGroups(list, all){
 function dlRow(x, cls){
   const e = x.e, d = parseYMD(e.date);
   const when = d.toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short'});
-  return '<div class="dl-row ' + cls + '"><div class="dl-when">' + escapeHtml(dlLabel(x.n)) + '<span>' + escapeHtml(when) + ' \u00b7 ' + escapeHtml(uevTime(e)) + '</span></div>' +
+  return '<div class="dl-row ' + cls + (e.done ? ' dl-done' : '') + '"><div class="dl-when">' + escapeHtml(dlLabel(x.n)) + '<span>' + escapeHtml(when) + ' \u00b7 ' + escapeHtml(uevTime(e)) + '</span></div>' +
     '<div class="dl-main">' + uevTag(e) + escapeHtml(e.title) + (e.note ? '<div class="dl-note">' + escapeHtml(e.note) + '</div>' : '') + '</div>' +
-    '<div class="dl-acts"><button type="button" onclick="selectDateFromMonth(' + d.getFullYear() + ',' + d.getMonth() + ',' + d.getDate() + ')">Ver d\u00eda</button>' +
+    '<div class="dl-acts"><button type="button" onclick="toggleUevDone(\'' + escapeAttr(e.id) + '\')">' + (e.done ? 'Deshacer' : 'Marcar hecho') + '</button>' + '<button type="button" onclick="selectDateFromMonth(' + d.getFullYear() + ',' + d.getMonth() + ',' + d.getDate() + ')">Ver d\u00eda</button>' +
     '<button type="button" onclick="openEventForm(\'' + escapeAttr(e.id) + '\')">Editar</button></div></div>';
 }
 function renderDeadlinesView(container){
