@@ -609,6 +609,111 @@ body.dys .event-title,body.dys .course-name,body.dys .day-title,body.dys .page-t
 .ql-scope select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:24px;max-width:100%;
   background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238a8175' stroke-width='1'/%3E%3C/svg%3E") no-repeat right 4px center}
 .ql-count{margin-left:auto;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);padding-bottom:12px}
+.ds-box{padding:6px 2px 4px}
+.ds-count{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);padding:14px 0 6px}
+.ds-row{display:flex;gap:16px;align-items:flex-start;padding:14px 4px 14px 6px;border-top:1px solid var(--hair)}
+.ds-body{flex:1;min-width:0}
+.ds-meta{font-size:.8rem;color:var(--taupe);margin-top:4px;line-height:1.4}
+@media(max-width:600px){.ds-row{flex-wrap:wrap}.ds-row .ql-link{margin-left:48px}}
+
+/* Mensajes de Moodle */
+.ql-badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;margin-left:12px;border-radius:999px;background:var(--navy);color:#fff;font-family:Inter,'Segoe UI',Arial,sans-serif;font-size:.72rem;font-weight:600;letter-spacing:0;vertical-align:middle}
+.ql-badge[hidden]{display:none}
+.ql-badge.sm{min-width:20px;height:20px;padding:0 6px;margin:6px 0 0;font-size:.66rem;background:var(--gold-d)}
+.ql-h .ql-badge{margin-left:0}
+.ql-msgs-bar{display:flex;gap:22px;flex-wrap:wrap;align-items:center;padding:12px 2px 6px}
+.ql-msgs-bar .ql-link{text-decoration:none}
+.ql-msgs-sync{margin-left:auto;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe)}
+.ql-msgs-toggle{margin-left:auto;text-decoration:none;white-space:nowrap;font-family:Inter,'Segoe UI',Arial,sans-serif;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase}
+.ql-msgs.is-hidden .ql-h{margin-bottom:0}
+.ql-msgs-hint{margin:8px 2px 0;font-size:.84rem;color:var(--taupe)}
+.ql-msgs-body{background:var(--ivory);border:1px solid var(--hair);border-radius:14px;padding:6px;min-height:80px}
+.ql-convs{display:flex;flex-direction:column;max-height:430px;overflow:auto}
+.ql-conv{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;background:transparent;border:none;border-bottom:1px solid var(--hair);border-radius:10px;padding:13px 12px;cursor:pointer;transition:background .15s}
+.ql-conv:last-child{border-bottom:none}
+.ql-conv:hover,.ql-conv:focus-visible{background:#fff;outline:none}
+.ql-conv:focus-visible{box-shadow:inset 0 0 0 2px var(--gold)}
+.ql-av{position:relative;flex:0 0 42px;width:42px;height:42px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,var(--navy),#3d556b);display:inline-block}
+.ql-av-i{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#e6d3a3;font-size:.8rem;font-weight:600;letter-spacing:.04em}
+.ql-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ql-conv-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ql-conv-n{font-size:.92rem;font-weight:600;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ql-conv-p{font-size:.84rem;color:#4a5560;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
+.ql-conv.unread .ql-conv-p{color:var(--ink);font-weight:600}
+.ql-conv-m{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;font-size:.7rem;letter-spacing:.06em;color:var(--taupe)}
+.ql-thread-wrap{padding:6px}
+.ql-thread-head{display:flex;align-items:center;gap:16px;padding:8px 6px;border-bottom:1px solid var(--hair);min-width:0}
+.ql-thread-head b{color:var(--navy);font-size:.98rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ql-thread{height:360px;overflow:auto;padding:14px 8px;display:flex;flex-direction:column;gap:6px;background:var(--sand);border-radius:10px;margin:10px 0}
+.ql-dsep{text-align:center;margin:8px 0 2px}
+.ql-dsep span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);background:var(--ivory);border-radius:999px;padding:4px 12px}
+.ql-bub{max-width:78%;padding:9px 13px 6px;border-radius:14px;font-size:.92rem;line-height:1.5;display:flex;flex-direction:column;gap:2px;overflow-wrap:anywhere}
+.ql-bub.me{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:4px}
+.ql-bub.them{align-self:flex-start;background:#fff;color:var(--ink);border:1px solid var(--hair);border-bottom-left-radius:4px}
+.ql-bub-t{white-space:pre-wrap}
+.ql-bub a{color:inherit;text-decoration:underline}
+.ql-bub-w{font-size:.7rem;font-weight:600;color:var(--gold-d)}
+.ql-bub-h{align-self:flex-end;font-size:.62rem;opacity:.65}
+.ql-compose{display:flex;gap:10px;align-items:flex-end}
+.ql-compose textarea{flex:1;min-width:0;resize:vertical;min-height:46px;max-height:160px;padding:11px 14px;border:1px solid #ddd6c8;border-radius:12px;font:inherit;font-size:.94rem;color:var(--ink);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}
+.ql-compose textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(179,155,110,.18)}
+.ql-send{border:none;border-radius:12px;background:linear-gradient(135deg,var(--navy),#3d556b);color:#fff;font:inherit;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:14px 22px;cursor:pointer;transition:filter .2s}
+.ql-send:hover{filter:brightness(1.12)}
+.ql-send:disabled{opacity:.6;cursor:wait}
+.ql-msg-err{min-height:1.2em;margin-top:8px;font-size:.84rem;color:#8c3532}
+@media(max-width:600px){.ql-thread{height:300px}.ql-bub{max-width:90%}.ql-msgs-sync{margin-left:0;flex-basis:100%}.ql-compose{flex-direction:column;align-items:stretch}.ql-send{padding:13px}}
+body.dys .ql-msgs-body{background:#fdfaf0}
+/* Foto de perfil y favoritos */
+.ql-who{display:flex;align-items:center;gap:20px;min-width:0}
+.ql-avatar{position:relative;flex:0 0 78px;width:78px;height:78px;border-radius:50%;border:2px solid var(--gold);padding:0;overflow:hidden;cursor:pointer;background:linear-gradient(145deg,var(--navy),#3d556b);box-shadow:0 8px 20px rgba(44,62,80,.18),0 0 0 5px rgba(179,155,110,.12)}
+.ql-initials{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#e6d3a3;font-family:'Cormorant Garamond',Georgia,serif;font-size:2rem;font-weight:500;letter-spacing:.04em}
+.ql-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ql-avatar::after{content:"Cambiar";position:absolute;left:0;right:0;bottom:0;padding:6px 0 8px;background:rgba(44,62,80,.74);color:#fff;font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;text-align:center;opacity:0;transition:opacity .2s}
+.ql-avatar:hover::after,.ql-avatar:focus-visible::after{opacity:1}
+.ql-avatar:focus-visible{outline:3px solid rgba(179,155,110,.55);outline-offset:3px}
+@media(pointer:coarse){.ql-avatar::after{opacity:1}}
+.ql-photo-acts{display:flex;gap:18px;margin-top:6px;flex-wrap:wrap}
+.ql-photo-acts .ql-link[hidden]{display:none}
+.ql-cw{position:relative}
+.ql-cw .ql-course{padding-right:58px}
+.ql-fav{position:absolute;top:10px;right:10px;width:38px;height:38px;border:none;border-radius:50%;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s}
+.ql-fav svg,.ql-favtoggle svg{width:19px;height:19px;fill:none;stroke:var(--taupe);stroke-width:1.5;stroke-linejoin:round;transition:fill .2s,stroke .2s}
+.ql-fav:hover{background:var(--sand)}
+.ql-fav:active{transform:scale(.9)}
+.ql-fav:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.ql-fav.on svg,.ql-favtoggle.on svg{fill:var(--gold);stroke:var(--gold-d)}
+.ql-cw.is-fav .ql-course{border-color:var(--gold)}
+.ql-favtoggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--hair);border-radius:999px;background:#fff;font:inherit;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);padding:9px 16px;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+.ql-favtoggle svg{width:15px;height:15px}
+.ql-favtoggle:hover{border-color:var(--gold);color:var(--navy)}
+.ql-favtoggle.on{border-color:var(--gold);background:rgba(179,155,110,.12);color:var(--navy)}
+@media(max-width:600px){.ql-who{gap:14px}.ql-avatar{flex-basis:64px;width:64px;height:64px}.ql-initials{font-size:1.6rem}}
+body.dys .ql-favtoggle{background:#fdfaf0}
+/* Interfaz de Moodle conectada */
+.ql-searchbar{display:flex;align-items:center;gap:6px;margin-top:22px;padding:6px 6px 6px 16px;background:#fff;border:1px solid #ddd6c8;border-radius:14px;box-shadow:0 8px 24px rgba(44,62,80,.05);transition:border-color .2s,box-shadow .2s}
+.ql-searchbar:focus-within{border-color:var(--gold);box-shadow:0 0 0 4px rgba(179,155,110,.18),0 8px 24px rgba(44,62,80,.05)}
+.ql-searchbar svg{flex:0 0 19px;width:19px;height:19px;stroke:var(--taupe);fill:none;stroke-width:1.6;stroke-linecap:round}
+.ql-searchbar input{flex:1;min-width:0;border:none;outline:none;background:transparent;font:inherit;font-size:1rem;color:var(--ink);padding:11px 4px}
+.ql-searchbar input::placeholder{color:#b0a89b}
+.ql-searchbar button{border:none;border-radius:10px;background:linear-gradient(135deg,var(--navy),#3d556b);color:#fff;font:inherit;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:12px 22px;cursor:pointer;transition:filter .2s}
+.ql-searchbar button:hover{filter:brightness(1.12)}
+.ql-searchbar button:focus-visible{outline:3px solid rgba(179,155,110,.5);outline-offset:2px}
+.ql-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 0}
+.ql-stat{background:var(--ivory);border:1px solid var(--hair);border-radius:12px;padding:16px 18px}
+.ql-stat b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:2rem;line-height:1.1;color:var(--navy)}
+.ql-stat span{display:block;margin-top:4px;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe)}
+.ql-prog{display:block;margin-top:9px;height:4px;border-radius:2px;background:var(--hair);overflow:hidden}
+.ql-prog i{display:block;height:100%;background:var(--gold)}
+.sk{border-radius:8px;background:linear-gradient(90deg,#f1ece2 0%,#faf7f1 45%,#f1ece2 90%);background-size:200% 100%;animation:skShim 1.3s ease-in-out infinite}
+.sk-bar{height:54px;margin-top:22px;border-radius:14px}
+.sk-card{height:82px}
+@keyframes skShim{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+@media(max-width:600px){
+  .ql-stats{gap:8px}.ql-stat{padding:12px 12px}.ql-stat b{font-size:1.5rem}.ql-stat span{font-size:.54rem;letter-spacing:.12em}
+  .ql-searchbar{padding-left:12px}.ql-searchbar button{padding:12px 14px}
+}
+body.dys .ql-stat{background:#fdfaf0}
 .ql-h{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:1.75rem;color:var(--navy);margin:40px 0 4px;display:flex;align-items:center;gap:16px;letter-spacing:.01em}
 .ql-h::after{content:"";flex:1;height:1px;background:var(--hair)}
 .ql-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:18px}
@@ -683,6 +788,52 @@ body.dys .event-title,body.dys .course-name,body.dys .day-title,body.dys .page-t
 .ql-alt a{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);text-decoration:none;border-bottom:1px solid var(--hair);padding-bottom:3px;transition:color .2s,border-color .2s}
 .ql-alt a:hover{color:var(--navy);border-color:var(--gold)}
 .ql-note{margin:16px 0 0;font-size:.74rem;line-height:1.55;color:#a89f92}
+
+/* Formulario de acceso a Moodle */
+.mdl-login{padding:34px 0 56px;background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(179,155,110,.14),transparent 70%)}
+.mdl-card{position:relative;max-width:440px;border-radius:14px;padding:50px 40px 30px;background:linear-gradient(180deg,#fff 0%,var(--ivory) 100%);border:1px solid var(--hair);box-shadow:0 2px 6px rgba(44,62,80,.04),0 28px 64px rgba(44,62,80,.10);overflow:hidden}
+.mdl-card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--navy),var(--gold),var(--navy))}
+.mdl-card .ql-crest{width:66px;height:66px;margin-bottom:18px;border:none;background:linear-gradient(145deg,var(--navy),#3d556b);color:#e6d3a3;box-shadow:0 10px 24px rgba(44,62,80,.25),0 0 0 6px rgba(179,155,110,.14)}
+.mdl-card .ql-crest svg{width:30px;height:30px}
+.mdl-card .ql-title{font-size:2.7rem;margin:6px 0 10px}
+.mdl-card .ql-sub{margin-bottom:30px;font-size:.9rem}
+.mdl-card .ql-ff{margin-bottom:20px}
+.mdl-card .ql-ff label{font-size:.66rem;font-weight:600;color:var(--navy);margin-bottom:7px}
+.ql-in{position:relative}
+.ql-in>svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--taupe);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transition:stroke .2s}
+.ql-in:focus-within>svg{stroke:var(--gold-d)}
+.mdl-card .ql-ff input{padding:13px 14px 13px 44px;border:1px solid #ddd6c8;border-radius:10px;background:#fff;font-size:.98rem;transition:border-color .2s,box-shadow .2s}
+.mdl-card .ql-ff input::placeholder{color:#b8b0a3}
+.mdl-card .ql-ff input:hover{border-color:#cfc6b3}
+.mdl-card .ql-ff input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(179,155,110,.2)}
+.mdl-card .ql-pw input{padding-right:46px}
+.mdl-card .ql-eye{right:8px;padding:8px;border-radius:8px}
+.mdl-card .ql-eye:hover{background:var(--sand)}
+.ql-caps{margin-top:6px;font-size:.76rem;color:#9a6b1f}
+.ql-caps::before{content:"⇪ "}
+.mdl-card .ql-btn{margin-top:6px;padding:15px 28px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--navy),#3d556b);color:#fff;font-size:.74rem;font-weight:600;letter-spacing:.26em;box-shadow:0 8px 20px rgba(44,62,80,.22);transition:transform .15s,box-shadow .2s,filter .2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.mdl-card .ql-btn:hover{background:linear-gradient(135deg,var(--navy),#3d556b);color:#fff;filter:brightness(1.12);box-shadow:0 12px 26px rgba(44,62,80,.28);transform:translateY(-1px)}
+.mdl-card .ql-btn:active{transform:translateY(0)}
+.mdl-card .ql-btn:focus-visible{outline:3px solid rgba(179,155,110,.5);outline-offset:3px}
+.mdl-card .ql-btn:disabled{opacity:.85;cursor:wait;transform:none}
+.mdl-card .ql-btn:disabled:hover{background:linear-gradient(135deg,var(--navy),#3d556b);color:#fff;filter:none;transform:none}
+.mdl-card .ql-btn:disabled::after{content:"";width:14px;height:14px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:mdlSpin .7s linear infinite}
+@keyframes mdlSpin{to{transform:rotate(360deg)}}
+.mdl-card .ql-msg{margin-top:16px;padding:0;border-radius:10px;font-size:.84rem}
+.mdl-card .ql-msg.err,.mdl-card .ql-msg.ok{padding:12px 14px}
+.mdl-card .ql-msg.err{background:#fbeeee;border:1px solid #efc9c9;border-left:4px solid #b4524f;color:#8c3532}
+.mdl-card .ql-msg.ok{background:#eef6f0;border:1px solid #cfe3d4;border-left:4px solid #4a7c59;color:#356145}
+.ql-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:24px 0 0}
+.ql-chips span{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-d);background:rgba(179,155,110,.12);border-radius:999px;padding:5px 12px}
+.ql-secure{display:flex;align-items:center;justify-content:center;gap:8px;margin:18px 0 0;font-size:.76rem;color:var(--taupe);line-height:1.4;text-align:left}
+.ql-secure svg{flex:0 0 17px;width:17px;height:17px;stroke:#4a7c59;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.mdl-card .ql-alt{margin-top:22px;padding-top:20px;border-top:1px solid var(--hair)}
+.mdl-card.shake{animation:mdlShake .45s}
+@keyframes mdlShake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@media(prefers-reduced-motion:reduce){.mdl-card.shake,.mdl-card .ql-btn:disabled::after{animation:none}}
+@media(max-width:600px){.mdl-card{padding:42px 24px 26px;border-radius:12px}.mdl-card .ql-title{font-size:2.3rem}}
+body.dys .mdl-card{background:#fdfaf0}
+body.dys .mdl-card .ql-ff input{background:#fffdf6}
 @media(max-width:600px){
   .ql-greet{font-size:2.1rem}
   .ql-head{align-items:flex-start;flex-direction:column;gap:6px}
@@ -841,7 +992,10 @@ body.dys .uev-item,body.dys .week-uev,body.dys .month-cell .mc-uev{background:#f
 /* ===== PÁGINA DE CURSO (estilo Moodle) ===== */
 .mc-page{max-width:1000px;margin:0 auto;padding-bottom:80px;font-family:'Inter','Segoe UI',Arial,sans-serif}
 .mc-head{padding:6px 2px 28px;border-bottom:1px solid var(--hair);margin-bottom:26px}
-.mc-head .ql-link{margin-bottom:22px}
+.mc-head .ql-link{margin-bottom:0}
+.mc-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.mc-nav .ql-link{margin:0;text-decoration:none}
+.mc-find{margin:0 0 22px}
 .mc-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:2.55rem;line-height:1.1;color:var(--navy);margin:8px 0 0;letter-spacing:.01em;word-break:break-word}
 .mc-title::after{content:"";display:block;width:44px;height:1px;background:var(--gold);margin-top:20px}
 .mc-tabs{display:flex;gap:8px;margin:0 0 28px;flex-wrap:wrap}
@@ -864,7 +1018,7 @@ body.dys .uev-item,body.dys .week-uev,body.dys .month-cell .mc-uev{background:#f
 @keyframes mcFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .mc-sec.collapsed .mc-sb{display:none}
 .mc-sum{padding:0 4px 16px;font-size:.92rem;color:#4a5560;white-space:pre-line;line-height:1.7}
-.mc-row{display:flex;gap:20px;align-items:flex-start;padding:22px 4px 22px 8px;border-top:1px solid var(--hair)}
+.mc-row{display:flex;gap:18px;align-items:flex-start;padding:16px 4px 16px 8px;border-top:1px solid var(--hair)}
 .mc-ico{flex-shrink:0;display:inline-flex;margin-top:-1px}
 .mc-body{flex:1;min-width:0}
 .mc-name{font-size:1rem;color:var(--ink);text-decoration:none;word-break:break-word;line-height:1.5}
@@ -2705,31 +2859,41 @@ let moodleSiteInfo = null;
 
 function renderMoodleView(container){
   if(moodleToken){ renderMoodleData(container); return; }
+  const ic = d=>`<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
   container.innerHTML = `
-    <div class="ql-login">
-      <div class="ql-card">
+    <div class="ql-login mdl-login">
+      <div class="ql-card mdl-card">
         <div class="ql-crest" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.5"/><path d="M22 9v6"/></svg></div>
         <div class="ql-eyebrow">La Salle Gràcia</div>
         <h2 class="ql-title">Moodle</h2>
-        <p class="ql-sub">Accede para traer aquí tus cursos y entregas.</p>
+        <p class="ql-sub">Conecta tu cuenta para ver aquí tus cursos, entregas y documentos.</p>
         <form id="moodleLoginForm" onsubmit="attemptMoodleLogin(event)">
           <div class="ql-ff">
             <label for="moodleUser">Usuario</label>
-            <input id="moodleUser" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+            <div class="ql-in">
+              ${ic('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>')}
+              <input id="moodleUser" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Tu usuario de Moodle" required>
+            </div>
           </div>
           <div class="ql-ff">
             <label for="moodlePass">Contraseña</label>
-            <div class="ql-pw">
-              <input id="moodlePass" type="password" autocomplete="current-password" required>
+            <div class="ql-in ql-pw">
+              ${ic('<rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>')}
+              <input id="moodlePass" type="password" autocomplete="current-password" placeholder="Tu contraseña" required
+                onkeyup="const c=document.getElementById('mdlCaps');if(c)c.hidden=!(event.getModifierState&&event.getModifierState('CapsLock'))"
+                onblur="const c=document.getElementById('mdlCaps');if(c)c.hidden=true">
               <button type="button" class="ql-eye" aria-label="Mostrar contraseña" aria-pressed="false"
                 onclick="const i=document.getElementById('moodlePass');const on=i.type==='password';i.type=on?'text':'password';this.setAttribute('aria-pressed',on);this.setAttribute('aria-label',on?'Ocultar contraseña':'Mostrar contraseña');">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </div>
+            <div class="ql-caps" id="mdlCaps" hidden>Las mayúsculas están activadas</div>
           </div>
           <button type="submit" id="moodleLoginBtn" class="ql-btn ql-btn-block">Conectar</button>
         </form>
-        <div id="moodleLoginMsg" class="ql-msg"></div>
+        <div id="moodleLoginMsg" class="ql-msg" role="alert" aria-live="assertive"></div>
+        <div class="ql-chips" aria-hidden="true"><span>Cursos</span><span>Entregas</span><span>Buscar documentos</span></div>
+        <div class="ql-secure">${ic('<path d="M12 3l8 3v6c0 4.6-3.2 8.2-8 9-4.8-.8-8-4.4-8-9V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/>')}<span>Tu contraseña no se guarda: solo se usa para conectar.</span></div>
         <div class="ql-alt"><a href="${MOODLE_URL}" target="_blank" rel="noopener">Abrir Moodle en una pestaña nueva</a></div>
         <p class="ql-note">Tu instituto puede bloquear esta conexión. Si falla, te lo indicaremos.</p>
       </div>
@@ -2740,8 +2904,9 @@ function renderMoodleView(container){
 function setMoodleMsg(html, isError){
   const box = document.getElementById('moodleLoginMsg');
   if(!box) return;
-  box.style.color = isError ? '#a94442' : '#4a7c59';
+  box.className = 'ql-msg' + (html ? (isError ? ' err' : ' ok') : '');
   box.innerHTML = html;
+  if(html && isError){ const c = box.closest('.mdl-card'); if(c){ c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); } }
 }
 
 async function attemptMoodleLogin(event){
@@ -2807,9 +2972,336 @@ async function moodleCall(wsfunction, extraParams){
 
 function moodleLogout(){
   moodleToken = null; moodleSiteInfo = null;
-  moodleOpenId = null; mdlCourse = {}; mdlCollapsed = {};
+  moodleOpenId = null; mdlCourse = {}; mdlCollapsed = {}; mdlDocQuery = ''; mdlDocRunId++; mdlMsgReset();
   renderCurrentView();
 }
+
+/* ===== MENSAJES DE MOODLE (sincronizados con la mensajería de Moodle) ===== */
+let mdlMsg = { view:'list', convs:null, err:'', loading:false, open:null, thread:null, draft:'', sending:false, newQ:'', newRes:null, newBusy:false, synced:0, marked:0 };
+let mdlMsgTimer = null, mdlMsgSearchTimer = null;
+function mdlMsgReset(){ clearInterval(mdlMsgTimer); mdlMsgTimer = null; mdlMsg = { view:'list', convs:null, err:'', loading:false, open:null, thread:null, draft:'', sending:false, newQ:'', newRes:null, newBusy:false, synced:0, marked:0 }; }
+async function mdlPost(wsfunction, params){
+  const body = new URLSearchParams({ wstoken: moodleToken, wsfunction, moodlewsrestformat: 'json', ...params });
+  const resp = await fetch(`${MOODLE_API}/webservice/rest/server.php`, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: body.toString() });
+  return resp.json();
+}
+function mdlMe(){ return Number(moodleSiteInfo && moodleSiteInfo.userid) || 0; }
+function mdlErr(r){ return (r && r.exception) ? (r.message || r.errorcode || 'error desconocido') : ''; }
+function mdlInit2(name){ const w = String(name||'').split(/[\s,]+/).filter(Boolean); return ((w[0]||'').charAt(0) + (w[1]||'').charAt(0)).toUpperCase() || '?'; }
+function mdlAvHTML(name, url){
+  let src = '';
+  if(url && String(url).indexOf('theme/image.php') < 0) src = moodleFileHref(url) || '';
+  return `<span class="ql-av"><span class="ql-av-i">${escapeHtml(mdlInit2(name))}</span>${src ? `<img src="${escapeAttr(src)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</span>`;
+}
+function mdlLinkify(esc){ return esc.replace(/(https?:\/\/[^\s<]+?)([.,;:!?)]*)(?=\s|$|<)/g, (m,u,t)=>`<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>${t}`); }
+function mdlMsgWhen(ts, full){
+  if(!ts) return '';
+  const d = new Date(ts*1000), n = new Date(), p = x=>String(x).padStart(2,'0');
+  const same = d.toDateString() === n.toDateString();
+  if(same) return p(d.getHours())+':'+p(d.getMinutes());
+  const y = new Date(n.getFullYear(), n.getMonth(), n.getDate()-1);
+  if(d.toDateString() === y.toDateString()) return full ? 'Ayer' : 'Ayer';
+  const mo = d.toLocaleDateString('es-ES',{month:'short'}).replace('.','');
+  return d.getDate()+' '+mo+(d.getFullYear() !== n.getFullYear() ? ' '+d.getFullYear() : '');
+}
+function mdlConvName(c){
+  const me = mdlMe();
+  return String(c.name || (c.members||[]).filter(m=>Number(m.id)!==me).map(m=>m.fullname).join(', ') || 'Conversación');
+}
+const MDL_MSG_HIDE_KEY = 'daw_moodle_msgs_ocultos';
+function mdlMsgHidden(){ return lsGet(MDL_MSG_HIDE_KEY, false) === true; }
+function mdlMsgPanelHTML(){
+  const hid = mdlMsgHidden();
+  return `<section class="ql-msgs${hid?' is-hidden':''}" id="mdlMsgSection" aria-label="Mensajes de Moodle">
+    <h3 class="ql-h">Mensajes<span class="ql-badge" id="mdlMsgBadge" hidden></span><button type="button" class="ql-link ql-msgs-toggle" id="mdlMsgToggle" aria-expanded="${hid?'false':'true'}" aria-controls="mdlMsgWrap" onclick="mdlMsgToggle()">${hid?'Mostrar':'Ocultar'}</button></h3>
+    <p class="ql-msgs-hint" id="mdlMsgHint"${hid?'':' hidden'}>Mensajes ocultos. Pulsa «Mostrar» para verlos de nuevo.</p>
+    <div id="mdlMsgWrap"${hid?' hidden':''}>
+      <div class="ql-msgs-bar">
+        <button type="button" class="ql-link" onclick="mdlMsgNew()">+ Mensaje nuevo</button>
+        <button type="button" class="ql-link" onclick="mdlMsgRefresh()">Actualizar</button>
+        <a class="ql-link" href="${escapeAttr(MOODLE_BASE+'/message/index.php')}" target="_blank" rel="noopener noreferrer">Abrir en Moodle ↗</a>
+        <span class="ql-msgs-sync" id="mdlMsgSync"></span>
+      </div>
+      <div class="ql-msgs-body" id="mdlMsgBody"></div>
+    </div>
+  </section>`;
+}
+function mdlMsgToggle(){
+  const hid = !mdlMsgHidden();
+  lsSet(MDL_MSG_HIDE_KEY, hid);
+  const sec = document.getElementById('mdlMsgSection'), wrap = document.getElementById('mdlMsgWrap'),
+        btn = document.getElementById('mdlMsgToggle'), hint = document.getElementById('mdlMsgHint');
+  if(sec) sec.classList.toggle('is-hidden', hid);
+  if(wrap) wrap.hidden = hid;
+  if(hint) hint.hidden = !hid;
+  if(btn){ btn.textContent = hid ? 'Mostrar' : 'Ocultar'; btn.setAttribute('aria-expanded', hid ? 'false' : 'true'); }
+  if(!hid){ mdlMsgRender(); mdlMsgLoad(true); }
+}
+function mdlMsgBadge(){
+  const b = document.getElementById('mdlMsgBadge'); if(!b) return;
+  const n = (mdlMsg.convs || []).reduce((a,c)=>a + (Number(c.unreadcount)||0), 0);
+  b.hidden = !n; b.textContent = n > 99 ? '99+' : String(n);
+  b.setAttribute('aria-label', n + (n===1 ? ' mensaje sin leer' : ' mensajes sin leer'));
+  const sy = document.getElementById('mdlMsgSync');
+  if(sy) sy.textContent = mdlMsg.synced ? 'Sincronizado ' + mdlMsgWhen(mdlMsg.synced/1000) : '';
+}
+function mdlMsgInit(){
+  mdlMsgRender();
+  mdlMsgLoad(!!mdlMsg.convs);
+  clearInterval(mdlMsgTimer); mdlMsgTimer = setInterval(mdlMsgTick, 45000);
+}
+function mdlMsgTick(){
+  if(!moodleToken || currentView !== 'moodle'){ clearInterval(mdlMsgTimer); mdlMsgTimer = null; return; }
+  if(document.hidden || !document.getElementById('mdlMsgBody')) return;
+  mdlMsgLoad(true);
+  if(mdlMsg.view === 'thread' && mdlMsg.thread && mdlMsg.thread.id) mdlMsgThreadLoad(true);
+}
+function mdlMsgRefresh(){
+  mdlMsgLoad(false);
+  if(mdlMsg.view === 'thread' && mdlMsg.thread && mdlMsg.thread.id) mdlMsgThreadLoad(false);
+}
+async function mdlMsgLoad(silent){
+  if(mdlMsg.loading || !moodleToken) return;
+  mdlMsg.loading = true;
+  if(!silent && mdlMsg.view === 'list') mdlMsgRender();
+  try{
+    const r = await moodleCall('core_message_get_conversations', { userid: mdlMe(), limitfrom: 0, limitnum: 30 });
+    const e = mdlErr(r); if(e) throw new Error(e);
+    mdlMsg.convs = (r && r.conversations) || []; mdlMsg.err = ''; mdlMsg.synced = Date.now();
+  }catch(e){ mdlMsg.err = e.message || 'error desconocido'; }
+  finally{ mdlMsg.loading = false; }
+  if(mdlMsg.view === 'list') mdlMsgRender();
+  mdlMsgBadge();
+}
+function mdlMsgRender(){
+  const box = document.getElementById('mdlMsgBody'); if(!box) return;
+  mdlMsgBadge();
+  if(mdlMsg.view === 'thread'){ box.innerHTML = mdlMsgThreadHTML(); mdlMsgThreadPaint(false); return; }
+  if(mdlMsg.view === 'new'){ box.innerHTML = mdlMsgNewHTML(); return; }
+  if(!mdlMsg.convs){
+    box.innerHTML = mdlMsg.err
+      ? `<div class="mc-note" role="alert">No se han podido cargar los mensajes (${escapeHtml(mdlMsg.err)}). Puede que tu centro no permita la mensajería desde aquí. <a href="${escapeAttr(MOODLE_BASE+'/message/index.php')}" target="_blank" rel="noopener noreferrer">Ábrelos en Moodle</a>.</div>`
+      : `<div class="ql-skel" role="status" aria-label="Cargando mensajes">${'<div class="sk sk-card" style="height:64px;margin-bottom:8px"></div>'.repeat(3)}</div>`;
+    return;
+  }
+  const me = mdlMe();
+  const rows = mdlMsg.convs.map(c=>{
+    const name = mdlConvName(c), last = (c.messages || [])[0];
+    const txt = last ? mdlText(last.text).replace(/\s+/g,' ') : '';
+    const pre = last && Number(last.useridfrom) === me ? 'Tú: ' : '';
+    const un = Number(c.unreadcount) || 0;
+    return `<button type="button" class="ql-conv${un?' unread':''}" onclick="mdlMsgOpen(${Number(c.id)})">
+      ${mdlAvHTML(name, c.imageurl)}
+      <span class="ql-conv-t"><span class="ql-conv-n">${escapeHtml(name)}</span><span class="ql-conv-p">${escapeHtml(pre + (txt.length > 110 ? txt.slice(0,110)+'…' : txt) || 'Sin mensajes')}</span></span>
+      <span class="ql-conv-m">${last ? escapeHtml(mdlMsgWhen(last.timecreated)) : ''}${un ? `<span class="ql-badge sm" aria-label="${un} sin leer">${un}</span>` : ''}</span></button>`;
+  }).join('');
+  box.innerHTML = (mdlMsg.err ? `<div class="mc-note" role="alert" style="margin-bottom:10px">No se ha podido actualizar (${escapeHtml(mdlMsg.err)}). Se muestra lo último que se cargó.</div>` : '')
+    + (rows ? `<div class="ql-convs">${rows}</div>` : '<div class="ql-empty">No tienes conversaciones.</div>');
+}
+/* --- conversación --- */
+function mdlMsgThreadHTML(){
+  const t = mdlMsg.thread || {};
+  return `<div class="ql-thread-wrap">
+    <div class="ql-thread-head"><button type="button" class="ql-link" onclick="mdlMsgBack()">← Mensajes</button><b>${escapeHtml(t.name || '')}</b></div>
+    <div class="ql-thread" id="mdlThreadMsgs" role="log" aria-live="polite"></div>
+    <div class="ql-compose">
+      <textarea id="mdlMsgText" rows="2" maxlength="4000" placeholder="Escribe un mensaje… (Ctrl+Intro para enviar)" aria-label="Mensaje" oninput="mdlMsg.draft=this.value" onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='Enter'){event.preventDefault();mdlMsgSend()}">${escapeHtml(mdlMsg.draft || '')}</textarea>
+      <button type="button" class="ql-send" id="mdlMsgSendBtn" onclick="mdlMsgSend()"${mdlMsg.sending?' disabled':''}>Enviar</button>
+    </div>
+    <div class="ql-msg-err" id="mdlMsgErr" role="alert"></div>
+  </div>`;
+}
+function mdlMsgThreadPaint(silent){
+  const el = document.getElementById('mdlThreadMsgs'), t = mdlMsg.thread; if(!el || !t) return;
+  const near = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+  if(t.err && !t.msgs){ el.innerHTML = `<div class="mc-note">No se ha podido cargar la conversación (${escapeHtml(t.err)}).</div>`; return; }
+  if(!t.msgs){ el.innerHTML = '<div class="ql-empty">Cargando conversación…</div>'; return; }
+  if(!t.msgs.length){ el.innerHTML = '<div class="ql-empty">Aún no hay mensajes. Escribe el primero.</div>'; return; }
+  const me = mdlMe(), names = {};
+  (t.members || []).forEach(m=>{ names[Number(m.id)] = m.fullname; });
+  let html = '', day = '';
+  t.msgs.forEach(m=>{
+    const d = new Date((m.timecreated||0)*1000), key = d.toDateString();
+    if(key !== day){ day = key; html += `<div class="ql-dsep"><span>${escapeHtml(mdlDayLabel(d))}</span></div>`; }
+    const mine = Number(m.useridfrom) === me;
+    const body = mdlLinkify(escapeHtml(mdlText(m.text)));
+    const who = (!mine && (t.members||[]).length > 2 && names[Number(m.useridfrom)]) ? `<span class="ql-bub-w">${escapeHtml(names[Number(m.useridfrom)])}</span>` : '';
+    html += `<div class="ql-bub ${mine?'me':'them'}">${who}<span class="ql-bub-t">${body}</span><span class="ql-bub-h">${escapeHtml(mdlMsgWhen(m.timecreated))}</span></div>`;
+  });
+  el.innerHTML = html;
+  if(!silent || near) el.scrollTop = el.scrollHeight;
+}
+function mdlDayLabel(d){
+  const n = new Date(), y = new Date(n.getFullYear(), n.getMonth(), n.getDate()-1);
+  if(d.toDateString() === n.toDateString()) return 'Hoy';
+  if(d.toDateString() === y.toDateString()) return 'Ayer';
+  return d.toLocaleDateString('es-ES',{day:'numeric',month:'long',year: d.getFullYear()!==n.getFullYear() ? 'numeric' : undefined});
+}
+async function mdlMsgOpen(id){
+  id = Number(id);
+  const c = (mdlMsg.convs || []).find(x=>Number(x.id) === id);
+  mdlMsg.view = 'thread'; mdlMsg.open = id; mdlMsg.draft = '';
+  mdlMsg.thread = { id: id, name: c ? mdlConvName(c) : 'Conversación', members: [], msgs: null, err: '' };
+  mdlMsgRender();
+  await mdlMsgThreadLoad(false);
+}
+async function mdlMsgThreadLoad(silent){
+  const t = mdlMsg.thread; if(!t || !t.id || !moodleToken) return;
+  const id = t.id;
+  try{
+    const r = await moodleCall('core_message_get_conversation_messages', { currentuserid: mdlMe(), convid: id, limitfrom: 0, limitnum: 60, newest: 1 });
+    const e = mdlErr(r); if(e) throw new Error(e);
+    if(mdlMsg.open !== id) return;
+    t.members = (r && r.members) || [];
+    t.msgs = ((r && r.messages) || []).slice().sort((a,b)=>((a.timecreated||0)-(b.timecreated||0)) || ((a.id||0)-(b.id||0)));
+    t.err = '';
+  }catch(e){ t.err = e.message || 'error desconocido'; }
+  if(mdlMsg.open !== id) return;
+  mdlMsgThreadPaint(silent);
+  // marcar como leído en Moodle (se sincroniza con la campana de mensajes de Moodle)
+  const me = mdlMe(), lastIn = (t.msgs || []).filter(m=>Number(m.useridfrom) !== me).reduce((a,m)=>Math.max(a, m.id||0), 0);
+  const conv = (mdlMsg.convs || []).find(x=>Number(x.id) === id);
+  if(lastIn && (lastIn > mdlMsg.marked || (conv && Number(conv.unreadcount) > 0))){
+    mdlMsg.marked = Math.max(mdlMsg.marked, lastIn);
+    if(conv) conv.unreadcount = 0;
+    mdlMsgBadge();
+    try{ await moodleCall('core_message_mark_all_conversation_messages_as_read', { userid: me, conversationid: id }); }catch(e){}
+  }
+}
+function mdlMsgBack(){
+  mdlMsg.view = 'list'; mdlMsg.open = null; mdlMsg.thread = null; mdlMsg.draft = '';
+  mdlMsgRender(); mdlMsgLoad(true);
+}
+async function mdlMsgSend(){
+  if(typeof can === 'function' && !can('editar')){ if(typeof deny === 'function') deny(); return; }
+  const ta = document.getElementById('mdlMsgText'), t = mdlMsg.thread;
+  const txt = ta ? ta.value.trim() : ''; if(!txt || !t || mdlMsg.sending) return;
+  const btn = document.getElementById('mdlMsgSendBtn'), err = document.getElementById('mdlMsgErr');
+  mdlMsg.sending = true; if(btn){ btn.disabled = true; btn.textContent = 'Enviando…'; } if(err) err.textContent = '';
+  try{
+    let r;
+    if(t.id) r = await mdlPost('core_message_send_messages_to_conversation', { conversationid: t.id, 'messages[0][text]': txt, 'messages[0][textformat]': '2' });
+    else r = await mdlPost('core_message_send_instant_messages', { 'messages[0][touserid]': t.userid, 'messages[0][text]': txt, 'messages[0][textformat]': '2' });
+    const e = mdlErr(r); if(e) throw new Error(e);
+    if(!t.id){
+      const m = Array.isArray(r) ? r[0] : null;
+      if(m && m.errormessage) throw new Error(m.errormessage);
+      let cid = m && Number(m.conversationid);
+      if(!cid){
+        const cv = await moodleCall('core_message_get_conversation_between_users', { userid: mdlMe(), otheruserid: t.userid });
+        cid = cv && !mdlErr(cv) ? Number(cv.id) : 0;
+      }
+      if(cid){ t.id = cid; mdlMsg.open = cid; t.msgs = []; }
+    }
+    if(ta) ta.value = ''; mdlMsg.draft = '';
+    if(t.id){ await mdlMsgThreadLoad(true); const el = document.getElementById('mdlThreadMsgs'); if(el) el.scrollTop = el.scrollHeight; }
+    mdlMsgLoad(true);
+  }catch(e){
+    const er = document.getElementById('mdlMsgErr');
+    if(er) er.textContent = 'No se ha podido enviar: ' + (e.message || 'error desconocido');
+  }finally{
+    mdlMsg.sending = false;
+    const b2 = document.getElementById('mdlMsgSendBtn'); if(b2){ b2.disabled = false; b2.textContent = 'Enviar'; }
+  }
+}
+/* --- mensaje nuevo --- */
+function mdlMsgNew(){ mdlMsg.view = 'new'; mdlMsg.newQ = ''; mdlMsg.newRes = null; mdlMsgRender(); const i = document.getElementById('mdlNewQ'); if(i) i.focus(); }
+function mdlMsgNewHTML(){
+  return `<div class="ql-thread-wrap">
+    <div class="ql-thread-head"><button type="button" class="ql-link" onclick="mdlMsgBack()">← Mensajes</button><b>Mensaje nuevo</b></div>
+    <div class="ql-searchbar" style="margin-top:12px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+      <input id="mdlNewQ" type="search" autocomplete="off" aria-label="Buscar persona" placeholder="Busca a una persona por nombre…" value="${escapeAttr(mdlMsg.newQ)}" oninput="mdlMsgNewInput(this.value)"></div>
+    <div id="mdlNewRes" class="ql-convs" style="margin-top:10px"></div></div>`;
+}
+function mdlMsgNewInput(v){
+  mdlMsg.newQ = v; clearTimeout(mdlMsgSearchTimer);
+  mdlMsgSearchTimer = setTimeout(mdlMsgNewSearch, 400);
+}
+async function mdlMsgNewSearch(){
+  const q = mdlMsg.newQ.trim(); let box = document.getElementById('mdlNewRes'); if(!box) return;
+  if(q.length < 2){ box.innerHTML = ''; return; }
+  box.innerHTML = '<div class="ql-empty">Buscando…</div>';
+  let people = [];
+  try{
+    const r = await moodleCall('core_message_message_search_users', { userid: mdlMe(), search: q, limitfrom: 0, limitnum: 15 });
+    const e = mdlErr(r); if(e) throw new Error(e);
+    people = ((r && r.contacts) || []).concat((r && r.noncontacts) || []);
+  }catch(e){ if(document.getElementById('mdlNewRes')) document.getElementById('mdlNewRes').innerHTML = `<div class="mc-note">No se ha podido buscar (${escapeHtml(e.message || 'error desconocido')}).</div>`; return; }
+  if(mdlMsg.newQ.trim() !== q) return;
+  mdlMsg.newRes = people;
+  box = document.getElementById('mdlNewRes'); if(!box) return;
+  box.innerHTML = people.length ? people.map((u,i)=>`<button type="button" class="ql-conv" onclick="mdlMsgStartWith(${i})">${mdlAvHTML(u.fullname, u.profileimageurlsmall || u.profileimageurl)}<span class="ql-conv-t"><span class="ql-conv-n">${escapeHtml(u.fullname || '')}</span></span></button>`).join('') : '<div class="ql-empty">No se ha encontrado a nadie con ese nombre.</div>';
+}
+async function mdlMsgStartWith(i){
+  const u = (mdlMsg.newRes || [])[i]; if(!u) return;
+  let cid = 0;
+  try{
+    const cv = await moodleCall('core_message_get_conversation_between_users', { userid: mdlMe(), otheruserid: Number(u.id) });
+    if(cv && !mdlErr(cv) && cv.id) cid = Number(cv.id);
+  }catch(e){}
+  if(cid){ mdlMsgOpen(cid); return; }
+  mdlMsg.view = 'thread'; mdlMsg.open = null; mdlMsg.draft = '';
+  mdlMsg.thread = { id: 0, userid: Number(u.id), name: u.fullname || 'Mensaje nuevo', members: [], msgs: [], err: '' };
+  mdlMsgRender();
+  const ta = document.getElementById('mdlMsgText'); if(ta) ta.focus();
+}
+
+/* ===== FOTO DE PERFIL Y CURSOS FAVORITOS (preferencias de esta web, no de Moodle) ===== */
+const MDL_PHOTO_KEY = 'daw_moodle_foto', MDL_FAV_KEY = 'daw_moodle_fav';
+let mdlFavOnly = false;
+function mdlPhoto(){ try{ const v = localStorage.getItem(MDL_PHOTO_KEY) || ''; return /^data:image\//.test(v) ? v : ''; }catch(e){ return ''; } }
+function mdlInitials(){
+  const n = String((moodleSiteInfo && (moodleSiteInfo.fullname || moodleSiteInfo.firstname)) || '').trim();
+  const w = n.split(/\s+/).filter(Boolean);
+  return ((w[0]||'').charAt(0) + (w.length > 1 ? w[w.length-1].charAt(0) : '')).toUpperCase() || '?';
+}
+function mdlAvatarInner(){
+  let src = mdlPhoto();
+  if(!src && moodleSiteInfo && moodleSiteInfo.userpictureurl && String(moodleSiteInfo.userpictureurl).indexOf('theme/image.php') < 0) src = moodleFileHref(moodleSiteInfo.userpictureurl) || '';
+  return `<span class="ql-initials">${escapeHtml(mdlInitials())}</span>` + (src ? `<img src="${escapeAttr(src)}" alt="" onerror="this.remove()">` : '');
+}
+function mdlRefreshAvatar(){
+  const a = document.getElementById('mdlAvatar'); if(a) a.innerHTML = mdlAvatarInner();
+  const d = document.getElementById('mdlPhotoDel'); if(d) d.hidden = !mdlPhoto();
+}
+function mdlPhotoPick(input){
+  const f = input.files && input.files[0]; input.value = '';
+  if(!f) return;
+  if(!/^image\//.test(f.type)){ toast('Elige una imagen (JPG, PNG…)'); return; }
+  if(f.size > 15*1024*1024){ toast('La imagen es demasiado grande (máximo 15 MB)'); return; }
+  const rd = new FileReader();
+  rd.onerror = ()=>toast('No se ha podido leer la imagen');
+  rd.onload = ()=>{
+    const img = new Image();
+    img.onerror = ()=>toast('No se ha podido abrir esa imagen. Prueba con un JPG o PNG.');
+    img.onload = ()=>{
+      const S = 256, c = document.createElement('canvas'); c.width = c.height = S;
+      const x = c.getContext('2d'), m = Math.min(img.width, img.height);
+      x.fillStyle = '#fff'; x.fillRect(0, 0, S, S);
+      x.drawImage(img, (img.width-m)/2, (img.height-m)/2, m, m, 0, 0, S, S);
+      try{ localStorage.setItem(MDL_PHOTO_KEY, c.toDataURL('image/jpeg', 0.85)); }
+      catch(e){ toast('No se ha podido guardar la foto: el navegador bloquea el almacenamiento'); return; }
+      mdlRefreshAvatar(); toast('Foto de perfil actualizada');
+    };
+    img.src = rd.result;
+  };
+  rd.readAsDataURL(f);
+}
+function mdlPhotoClear(){
+  try{ localStorage.removeItem(MDL_PHOTO_KEY); }catch(e){}
+  mdlRefreshAvatar(); toast('Foto quitada');
+}
+function mdlFavs(){
+  try{ const a = JSON.parse(localStorage.getItem(MDL_FAV_KEY) || '[]'); return Array.isArray(a) ? a.map(Number) : []; }catch(e){ return []; }
+}
+function mdlToggleFav(id){
+  const a = mdlFavs(), i = a.indexOf(Number(id));
+  if(i >= 0) a.splice(i, 1); else a.push(Number(id));
+  try{ localStorage.setItem(MDL_FAV_KEY, JSON.stringify(a)); }
+  catch(e){ toast('No se ha podido guardar el favorito'); return; }
+  mdlApplyCourses();
+}
+function mdlSetFavOnly(v){ mdlFavOnly = !!v; mdlApplyCourses(); }
 
 let mdlQuery = '', mdlSort = 'access';
 function mdlNiceName(t){ return String(t||'').toLowerCase().replace(/(^|[\s'-])(\S)/g,(m,a,b)=>a+b.toUpperCase()); }
@@ -2819,13 +3311,18 @@ async function renderMoodleData(container){
   container.innerHTML = `
     <div class="ql-scope">
       <header class="ql-head">
-        <div>
-          <div class="ql-eyebrow">Moodle · Sesión iniciada</div>
-          <h2 class="ql-greet">Hola${first?', '+escapeHtml(first):''}</h2>
+        <div class="ql-who">
+          <button type="button" class="ql-avatar" id="mdlAvatar" onclick="document.getElementById('mdlPhotoInput').click()" aria-label="Cambiar foto de perfil" title="Cambiar foto de perfil">${mdlAvatarInner()}</button>
+          <input type="file" id="mdlPhotoInput" accept="image/*" hidden onchange="mdlPhotoPick(this)">
+          <div>
+            <div class="ql-eyebrow">Moodle · Sesión iniciada</div>
+            <h2 class="ql-greet">Hola${first?', '+escapeHtml(first):''}</h2>
+            <div class="ql-photo-acts"><button type="button" class="ql-link" onclick="document.getElementById('mdlPhotoInput').click()">Cambiar foto</button><button type="button" class="ql-link" id="mdlPhotoDel" onclick="mdlPhotoClear()"${mdlPhoto()?'':' hidden'}>Quitar foto</button></div>
+          </div>
         </div>
         <button type="button" class="ql-link" onclick="moodleLogout()">Desconectar</button>
       </header>
-      <div id="moodleDataBody"><div class="ql-empty">Cargando cursos y tareas…</div></div>
+      <div id="moodleDataBody"><div class="ql-skel" role="status" aria-label="Cargando cursos y tareas"><div class="sk sk-bar"></div><div class="ql-grid">${'<div class="sk sk-card"></div>'.repeat(6)}</div></div></div>
     </div>
   `;
   const body = document.getElementById('moodleDataBody');
@@ -2851,15 +3348,26 @@ async function renderMoodleData(container){
           ${(e.course&&e.course.fullname)?`<div class="ql-ev-course">${escapeHtml(e.course.fullname)}</div>`:''}</div>
         <div class="ql-ev-when">${when}</div></div>`;
     }).join('');
+    const wk = events.filter(e=>e.timesort && (e.timesort*1000 - Date.now()) <= 7*86400000).length;
+    const nx = events.find(e=>e.timesort), nxd = nx ? new Date(nx.timesort*1000) : null;
+    const stats = `<div class="ql-stats">
+      <div class="ql-stat"><b>${courses.length}</b><span>${courses.length===1?'Curso':'Cursos'}</span></div>
+      <div class="ql-stat"><b>${wk}</b><span>Entregas esta semana</span></div>
+      <div class="ql-stat"><b>${nxd ? nxd.getDate()+' '+escapeHtml(nxd.toLocaleDateString('es-ES',{month:'short'}).replace('.','')) : '–'}</b><span>Próxima entrega</span></div></div>`;
     body.innerHTML = `
+      ${stats}
+      ${mdlMsgPanelHTML()}
       ${moodleCoursesPanel()}
       <h3 class="ql-h">Próximas entregas</h3>
       ${events.length ? `<div class="ql-ev">${rows}</div>` : '<div class="ql-empty">No hay eventos próximos.</div>'}
       ${moodleSyncPanel()}
     `;
     mdlApplyCourses();
+    mdlMsgInit();
+    if(mdlDocQuery.trim().length >= 2) mdlDocRun();
   }catch(err){
-    body.innerHTML = `<div class="ql-empty" style="color:var(--rose)">No se han podido cargar los datos de Moodle (${escapeHtml(err.message||'error desconocido')}).</div>`;
+    body.innerHTML = `<div class="mc-note" role="alert" style="margin-top:26px">No se han podido cargar los datos de Moodle (${escapeHtml(err.message||'error desconocido')}). Puede que la sesión haya caducado o que Moodle no responda.
+      <div style="margin-top:14px;display:flex;gap:22px;flex-wrap:wrap"><button type="button" class="ql-link" onclick="renderCurrentView()">Reintentar</button><button type="button" class="ql-link" onclick="moodleLogout()">Volver a conectar</button></div></div>`;
   }
 }
 
@@ -3164,40 +3672,142 @@ function moodleCoursesPanel(){
     return `<div class="ql-cw" id="mcw${k}" data-name="${escapeAttr(full.toLowerCase())}">
       <button type="button" class="ql-course" id="mcbtn${k}" title="${escapeAttr(full)}" onclick="mdlOpenCourse(${k})">
         <span class="ql-ico">${cap}</span>
-        <span class="ql-ctext">${eye?`<span class="ql-ceye">${escapeHtml(eye)}</span>`:''}<span class="ql-ctitle">${escapeHtml(title)}</span><span class="ql-cstate" id="mcst${k}">Ver contenidos</span></span>
+        <span class="ql-ctext">${eye?`<span class="ql-ceye">${escapeHtml(eye)}</span>`:''}<span class="ql-ctitle">${escapeHtml(title)}</span><span class="ql-cstate" id="mcst${k}">Ver contenidos${typeof mc.progress==='number'?' · '+Math.round(mc.progress)+'%':''}</span>${typeof mc.progress==='number'?`<span class="ql-prog" role="img" aria-label="Progreso ${Math.round(mc.progress)}%"><i style="width:${Math.max(0,Math.min(100,Math.round(mc.progress)))}%"></i></span>`:''}</span>
       </button>
+      <button type="button" class="ql-fav" id="mcfav${k}" aria-pressed="false" aria-label="Marcar como favorito: ${escapeAttr(title)}" title="Favorito" onclick="mdlToggleFav(${Number(mc.id)})"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.8l6-.8z"/></svg></button>
       </div>`;
   }).join('');
   return `
-    <div class="ql-tools">
-      <div class="ql-tf"><label for="mdlSearch">Buscar curso</label>
+    <div class="ql-searchbar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+      <input id="mdlDocSearch" type="search" autocomplete="off" aria-label="Buscar documento en todos los cursos" placeholder="Buscar un documento en todos tus cursos…" value="${escapeAttr(mdlDocQuery)}" oninput="mdlDocInput(this.value)" onkeydown="if(event.key==='Enter'){clearTimeout(mdlDocTimer);mdlDocRun()}">
+      <button type="button" onclick="clearTimeout(mdlDocTimer);mdlDocRun()">Buscar</button>
+    </div>
+    <div id="mdlDocResults" class="ds-box" aria-live="polite"></div>
+    <h3 class="ql-h">Mis cursos</h3>
+    <div class="ql-tools" style="padding-top:14px">
+      <div class="ql-tf"><label for="mdlSearch">Filtrar cursos</label>
         <input id="mdlSearch" type="text" autocomplete="off" placeholder="Nombre del curso" value="${escapeAttr(mdlQuery)}" oninput="mdlQuery=this.value;mdlApplyCourses()"></div>
       <div class="ql-tf"><label for="mdlSortSel">Ordenar por</label>
         <select id="mdlSortSel" onchange="mdlSort=this.value;mdlApplyCourses()">${so('access','Último acceso')}${so('name','Nombre A–Z')}</select></div>
+      <button type="button" class="ql-favtoggle" id="mdlFavBtn" aria-pressed="false" onclick="mdlSetFavOnly(!mdlFavOnly)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.8l6-.8z"/></svg>Solo favoritos</button>
       <div class="ql-count" id="mdlCount" aria-live="polite"></div>
     </div>
-    <h3 class="ql-h">Mis cursos</h3>
     <div class="ql-grid">${cards}</div>
     <div class="ql-empty" id="mdlNoCourses" hidden>Ningún curso coincide con la búsqueda.</div>`;
 }
 function mdlApplyCourses(){
-  const list = moodleCache.courses, q = mdlQuery.trim().toLowerCase();
+  const list = moodleCache.courses, q = mdlQuery.trim().toLowerCase(), fav = mdlFavs();
+  const isFav = k=>fav.indexOf(Number(list[k].id)) >= 0;
   const idx = list.map((c,k)=>k);
-  idx.sort((a,b)=> mdlSort==='name'
-    ? String(list[a].fullname||'').localeCompare(String(list[b].fullname||''),'es')
-    : (list[b].lastaccess||0)-(list[a].lastaccess||0));
+  idx.sort((a,b)=>{
+    const fa = isFav(a) ? 0 : 1, fb = isFav(b) ? 0 : 1; if(fa !== fb) return fa - fb;
+    return mdlSort==='name'
+      ? String(list[a].fullname||'').localeCompare(String(list[b].fullname||''),'es')
+      : (list[b].lastaccess||0)-(list[a].lastaccess||0);
+  });
   let shown = 0;
   idx.forEach((k,pos)=>{
     const w = document.getElementById('mcw'+k); if(!w) return;
     w.style.order = pos;
-    const hit = !q || w.dataset.name.indexOf(q)>=0;
+    const hit = (!q || w.dataset.name.indexOf(q)>=0) && (!mdlFavOnly || isFav(k));
     w.hidden = !hit; if(hit) shown++;
+    w.classList.toggle('is-fav', isFav(k));
+    const st = document.getElementById('mcfav'+k);
+    if(st){ st.setAttribute('aria-pressed', String(isFav(k))); st.classList.toggle('on', isFav(k)); }
   });
+  const fb = document.getElementById('mdlFavBtn');
+  if(fb){ fb.setAttribute('aria-pressed', String(mdlFavOnly)); fb.classList.toggle('on', mdlFavOnly); }
   const cnt = document.getElementById('mdlCount'); if(cnt) cnt.textContent = shown+(shown===1?' curso':' cursos');
-  const em = document.getElementById('mdlNoCourses'); if(em) em.hidden = shown>0;
+  const em = document.getElementById('mdlNoCourses');
+  if(em){
+    em.hidden = shown>0;
+    em.textContent = (mdlFavOnly && !fav.length) ? 'Aún no tienes favoritos: pulsa la estrella de un curso para añadirlo.' : 'Ningún curso coincide con la búsqueda.';
+  }
 }
+/* ===== BUSCAR DOCUMENTOS EN TODOS LOS CURSOS DE MOODLE ===== */
+let mdlDocQuery = '', mdlDocTimer = null, mdlDocRunId = 0;
+function mdlNorm(t){ return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+function mdlCdOf(id){ return mdlCourse[id] || (mdlCourse[id] = { secs:null, err:'', loading:false, comps:null, compsErr:'', compsLoading:false }); }
+async function mdlLoadAll(progress){
+  const todo = moodleCache.courses.filter(mc=>{ const cd = mdlCdOf(mc.id); return !cd.secs && !cd.loading; });
+  let done = 0, i = 0;
+  const worker = async ()=>{
+    while(i < todo.length){
+      const mc = todo[i++], cd = mdlCdOf(mc.id); cd.loading = true; cd.err = '';
+      try{
+        const secs = await moodleCall('core_course_get_contents', { courseid: mc.id });
+        if(secs && secs.exception) throw new Error(secs.message || 'error desconocido');
+        cd.secs = Array.isArray(secs) ? secs : [];
+      }catch(e){ cd.err = e.message || 'error desconocido'; }
+      finally{ cd.loading = false; }
+      done++; progress(done, todo.length);
+    }
+  };
+  await Promise.all([worker(), worker(), worker()]);
+  // si otro curso se está cargando por otra vía, esperamos un momento a que termine
+  for(let n = 0; n < 100 && moodleCache.courses.some(mc=>mdlCdOf(mc.id).loading); n++) await new Promise(r=>setTimeout(r, 150));
+}
+function mdlDocFind(q){
+  const terms = mdlNorm(q).split(/\s+/).filter(Boolean), out = [];
+  moodleCache.courses.forEach((mc,k)=>{
+    const cd = mdlCourse[mc.id]; if(!cd || !cd.secs) return;
+    cd.secs.forEach(sec=>{
+      if(sec.uservisible === false) return;
+      (sec.modules || []).forEach(m=>{
+        if(m.uservisible === false || m.modname === 'label') return;
+        const files = (m.contents || []).filter(c=>c.type === 'file');
+        const hay = mdlNorm([m.name, sec.name, files.map(f=>f.filename).join(' ')].join(' '));
+        if(terms.every(t=>hay.indexOf(t) >= 0)) out.push({k:k, mc:mc, sec:sec, m:m, files:files});
+      });
+    });
+  });
+  return out;
+}
+function mdlDocRowHTML(r){
+  const m = r.m, cont = m.contents || [];
+  let href = null;
+  if(m.modname === 'url') href = cont[0] && safeHref(cont[0].fileurl);
+  else if(m.modname === 'resource' && r.files.length) href = moodleFileHref(r.files[0].fileurl);
+  if(!href) href = safeHref(m.url);
+  const name = escapeHtml(m.name || '');
+  const link = href ? `<a class="mc-name" href="${escapeAttr(href)}" target="_blank" rel="noopener noreferrer">${name}</a>` : `<span class="mc-name">${name}</span>`;
+  let extra = '';
+  if(r.files.length && (m.modname === 'folder' || r.files.length > 1)){
+    const list = r.files.map(c=>{
+      const h = moodleFileHref(c.fileurl); if(!h) return '';
+      return `<div><a class="mc-file" href="${escapeAttr(h)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.filename || 'Archivo')}</a> <small>${escapeHtml(fmtSize(c.filesize))}</small></div>`;
+    }).filter(Boolean).join('');
+    if(list) extra = `<div class="mc-files">${list}</div>`;
+  }
+  const full = String(r.mc.fullname || r.mc.shortname || 'Curso'), parts = full.split(/\s*\|\s*/), cname = parts.length > 1 ? parts.slice(1).join(' · ') : full;
+  return `<div class="ds-row">${mdlIcon(m)}<div class="ds-body">${link}${extra}<div class="ds-meta">${escapeHtml(cname)} · ${escapeHtml(r.sec.name || 'Sección')}</div></div>
+    <button type="button" class="ql-link" onclick="mdlOpenCourse(${r.k})">Abrir curso</button></div>`;
+}
+function mdlDocInput(v){
+  mdlDocQuery = v; clearTimeout(mdlDocTimer);
+  mdlDocTimer = setTimeout(mdlDocRun, 450);
+}
+async function mdlDocRun(){
+  const q = mdlDocQuery.trim(), id = ++mdlDocRunId;
+  let box = document.getElementById('mdlDocResults'); if(!box) return;
+  if(q.length < 2){ box.innerHTML = q.length ? '<div class="ql-empty">Escribe al menos 2 letras.</div>' : ''; return; }
+  const pending = moodleCache.courses.filter(mc=>{ const cd = mdlCourse[mc.id]; return !(cd && cd.secs); }).length;
+  if(pending) box.innerHTML = '<div class="ql-empty">Leyendo los contenidos de los cursos…</div>';
+  await mdlLoadAll((d,t)=>{ if(id !== mdlDocRunId) return; const b = document.getElementById('mdlDocResults'); if(b) b.innerHTML = `<div class="ql-empty">Leyendo los contenidos de los cursos… ${d}/${t}</div>`; });
+  if(id !== mdlDocRunId) return;
+  box = document.getElementById('mdlDocResults'); if(!box) return;
+  const res = mdlDocFind(q), failed = moodleCache.courses.filter(mc=>mdlCdOf(mc.id).err && !mdlCdOf(mc.id).secs).length;
+  const MAX = 150, shown = res.slice(0, MAX);
+  let h = `<div class="ds-count">${res.length} ${res.length === 1 ? 'resultado' : 'resultados'} para «${escapeHtml(q)}»${res.length > MAX ? ' (se muestran los primeros '+MAX+')' : ''}</div>`;
+  if(!res.length) h += '<div class="ql-empty">No he encontrado ningún documento con ese nombre en tus cursos. Prueba con otra palabra o menos palabras.</div>';
+  else h += shown.map(mdlDocRowHTML).join('');
+  if(failed) h += `<div class="ds-meta" style="margin-top:8px">No se han podido leer ${failed} ${failed === 1 ? 'curso' : 'cursos'}; los resultados pueden estar incompletos.</div>`;
+  box.innerHTML = h;
+}
+
 /* ===== PÁGINA DE CURSO (estilo Moodle) ===== */
-let moodleOpenId = null, mdlTab = 'curso', mdlCourse = {}, mdlCollapsed = {};
+let moodleOpenId = null, mdlTab = 'curso', mdlCourse = {}, mdlCollapsed = {}, mdlCourseQ = '', mdlListScroll = 0;
 const MDL_COL = { com:'#7b6a8d', eval:'#a0625a', cont:'#4f7a78', other:'#6b7688' }; // tonos apagados: ciruela, rosa empolvado, verde petróleo, pizarra
 const MDL_KIND = { forum:'com', chat:'com', assign:'eval', quiz:'eval', workshop:'eval', lesson:'eval', resource:'cont', page:'cont', url:'cont', folder:'cont', book:'cont', imscp:'cont' };
 const MDL_DOC = '<path d="M8 3h11l6 6v18a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M19 3v6h6"/>';
@@ -3269,17 +3879,25 @@ function mdlActivity(m){
   return `<div class="mc-row">${mdlIcon(m)}<div class="mc-body">${nameHtml}${extra}${desc}</div></div>`;
 }
 
+function mdlModMatch(m, terms){
+  const files = (m.contents || []).filter(c=>c.type === 'file');
+  const hay = mdlNorm([m.name, files.map(f=>f.filename).join(' ')].join(' '));
+  return terms.every(t=>hay.indexOf(t) >= 0);
+}
 function mdlSectionsHTML(mc, secs){
   const col = mdlCollapsed[mc.id] || {};
+  const terms = mdlNorm(mdlCourseQ).split(/\s+/).filter(Boolean), filtering = terms.length > 0;
   let first = true, out = '';
   secs.forEach(s=>{
     if(s.uservisible === false) return;
     const id = Number(s.id) || 0;
-    const rows = (s.modules || []).filter(m=>m.uservisible !== false).map(mdlActivity).join('');
-    const sum = mdlText(s.summary);
+    let mods = (s.modules || []).filter(m=>m.uservisible !== false);
+    if(filtering) mods = mods.filter(m=>m.modname !== 'label' && mdlModMatch(m, terms));
+    const rows = mods.map(mdlActivity).join('');
+    const sum = filtering ? '' : mdlText(s.summary);
     if(!rows && !sum) return;
-    const collapsed = !!col[id];
-    const nAct = (s.modules || []).filter(m=>m.uservisible !== false && m.modname !== 'label').length;
+    const collapsed = filtering ? false : !!col[id];
+    const nAct = mods.filter(m=>m.modname !== 'label').length;
     const cnt = nAct ? `<div class="mc-cnt">${nAct === 1 ? '1 elemento' : nAct + ' elementos'}</div>` : '';
     const allBtn = first ? `<button type="button" class="mc-all" id="mcAll" onclick="mdlToggleAll()"></button>` : '';
     first = false;
@@ -3290,7 +3908,20 @@ function mdlSectionsHTML(mc, secs){
       </div>
       <div class="mc-sb" id="mcb-${id}">${sum ? `<div class="mc-sum">${escapeHtml(sum)}</div>` : ''}${rows}</div></section>`;
   });
-  return out || '<div class="ql-empty">Este curso no tiene contenidos visibles.</div>';
+  return out || (filtering ? '<div class="ql-empty">Ningún elemento de este curso coincide con la búsqueda.</div>' : '<div class="ql-empty">Este curso no tiene contenidos visibles.</div>');
+}
+function mdlPaneHTML(mc, cd){
+  if(mdlTab === 'comp') return mdlCompsHTML(mc, cd);
+  if(cd.err) return `<div class="mc-note">No se han podido cargar los contenidos (${escapeHtml(cd.err)}). <button type="button" class="ql-link" onclick="mdlRetry()">Reintentar</button></div>`;
+  if(!cd.secs) return '<div class="ql-empty">Cargando contenidos…</div>';
+  return mdlSectionsHTML(mc, cd.secs);
+}
+function mdlCourseFilter(v){
+  mdlCourseQ = v;
+  const mc = moodleCache.courses.find(c=>c.id === moodleOpenId), pane = document.getElementById('mcPane');
+  if(!mc || !pane) return;
+  pane.innerHTML = mdlPaneHTML(mc, mdlCourse[mc.id] || {});
+  mdlSyncAllLabel();
 }
 
 function mdlCompsHTML(mc, cd){
@@ -3312,22 +3943,21 @@ function renderMoodleCourse(container){
   const cd = mdlCourse[mc.id] || (mdlCourse[mc.id] = { secs:null, err:'', loading:false, comps:null, compsErr:'', compsLoading:false });
   if(!cd.secs && !cd.loading && !cd.err) mdlLoadContents(mc);
   const full = String(mc.fullname || mc.shortname || 'Curso');
-  let pane;
-  if(mdlTab === 'comp') pane = mdlCompsHTML(mc, cd);
-  else if(cd.err) pane = `<div class="mc-note">No se han podido cargar los contenidos (${escapeHtml(cd.err)}). <button type="button" class="ql-link" onclick="mdlRetry()">Reintentar</button></div>`;
-  else if(!cd.secs) pane = '<div class="ql-empty">Cargando contenidos…</div>';
-  else pane = mdlSectionsHTML(mc, cd.secs);
+  const pane = mdlPaneHTML(mc, cd);
+  const webHref = `${MOODLE_BASE}/course/view.php?id=${encodeURIComponent(mc.id)}`;
+  const find = mdlTab === 'curso' ? `<div class="ql-searchbar mc-find"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input type="search" autocomplete="off" aria-label="Buscar en este curso" placeholder="Buscar en este curso…" value="${escapeAttr(mdlCourseQ)}" oninput="mdlCourseFilter(this.value)"></div>` : '';
   const tab = (id, label)=>`<button type="button" role="tab" class="mc-tab${mdlTab === id ? ' on' : ''}" aria-selected="${mdlTab === id}" onclick="mdlSetTab('${id}')">${label}</button>`;
   const parts = full.split(/\s*\|\s*/), eye = parts.length > 1 ? parts[0] : 'La Salle Gràcia', ttl = parts.length > 1 ? parts.slice(1).join(' · ') : full;
   container.innerHTML = `
     <div class="ql-scope mc-page">
       <header class="mc-head">
-        <button type="button" class="ql-link" onclick="mdlCloseCourse()">← Mis cursos</button>
+        <div class="mc-nav"><button type="button" class="ql-link" onclick="mdlCloseCourse()">← Mis cursos</button><a class="ql-link" href="${escapeAttr(webHref)}" target="_blank" rel="noopener noreferrer">Abrir en Moodle ↗</a></div>
         <div class="ql-eyebrow">${escapeHtml(eye)}</div>
         <h2 class="mc-title">${escapeHtml(ttl)}</h2>
       </header>
       <div class="mc-tabs" role="tablist">${tab('curso', 'Curso')}${tab('comp', 'Competencias')}</div>
-      <div class="mc-pane">${pane}</div>
+      ${find}
+      <div class="mc-pane" id="mcPane">${pane}</div>
       <button type="button" class="mc-top" id="mcTop" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
     </div>`;
   mdlSyncAllLabel(); mdlTopSync();
@@ -3356,12 +3986,13 @@ async function mdlLoadComps(id){
 }
 function mdlOpenCourse(k){
   const mc = moodleCache.courses[k]; if(!mc) return;
+  mdlListScroll = window.scrollY; mdlCourseQ = '';
   moodleOpenId = mc.id; mdlTab = 'curso';
   renderCurrentView();
   window.scrollTo({ top:0 });
 }
 function toggleMoodleContents(k){ mdlOpenCourse(k); }
-function mdlCloseCourse(){ moodleOpenId = null; renderCurrentView(); }
+function mdlCloseCourse(){ moodleOpenId = null; mdlCourseQ = ''; renderCurrentView(); const y = mdlListScroll; setTimeout(()=>window.scrollTo({ top:y }), 60); }
 function mdlRetry(){ const cd = mdlCourse[moodleOpenId]; if(cd) cd.err = ''; renderCurrentView(); }
 function mdlSetTab(t){
   mdlTab = t;
@@ -4875,7 +5506,7 @@ document.addEventListener('keydown',function(e){
 (function(){
   const EDITAR=['openEventForm','saveEventForm','deleteEvent','openDiary','onDiaryInput','flushDiary','deleteDiary','restoreDiary',
     'addTask','toggleTask','deleteTask','addExam','deleteExam','addLink','deleteLink','saveCourseNotes',
-    'handleMoodleFile','importMoodle','runMoodleSync','mdlApplyCourses',
+    'handleMoodleFile','importMoodle','runMoodleSync',
     'attMark','attAll','attSaveRoster','attToggleEdit','ntEdit','ntSave','ntDelete','fullRestore'];
   const ADMIN=['renderAdminView','admGrokTest','admGrokForget','admWorkerCopy','admWorkerDownload','admUsersCsv','admUTable','admSort','admAdd','admRole','admToggle','admReset','admDel','admMine','admDias','admClear','admClearLog'];
   function wrap(list,perm,msg){list.forEach(function(n){
