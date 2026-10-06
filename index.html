@@ -5791,32 +5791,6 @@ async function nubeRender(){
    (rows.map(x=>{ const act=x.activa!==false, onl=x.ultimo&&now-new Date(x.ultimo).getTime()<3e5;
      return '<tr><td><b>'+escapeHtml(x.usuario)+'</b></td><td>'+(ROLES[x.rol]||escapeHtml(x.rol))+'</td><td><span class="adx-pill'+(act?'':' off')+'">'+(act?'Activa':'Desactivada')+'</span></td><td>'+(onl?'<span class="adx-pill" style="background:#e4f1e8;color:#24493b">En línea</span>':'<span class="mut">Desconectada</span>')+'</td><td>'+fmtDT(new Date(x.creada).getTime())+'</td><td>'+fmtDT(x.ultimo?new Date(x.ultimo).getTime():0)+'</td><td><button class="adx-btn g" onclick="nubeToggle(decodeURIComponent(\''+encodeURIComponent(x.usuario)+'\'),'+(!act)+')">'+(act?'Desactivar':'Activar')+'</button></td></tr>'; }).join('')||'<tr><td colspan="7" class="adx-empty">Todavía no hay cuentas en el registro.</td></tr>')+'</tbody></table></div>';
 }
-function admWorkerCode(){var e=document.getElementById('grokWorkerSrc');return e?e.textContent.replace(/^\n/,''):''}
-async function admWorkerCopy(){var t=admWorkerCode();try{await navigator.clipboard.writeText(t);admSay('Código del Worker copiado. Pégalo en Cloudflare.')}catch(e){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');admSay('Código del Worker copiado. Pégalo en Cloudflare.')}catch(_){admSay('No se pudo copiar. Usa el botón Descargar.')}a.remove()}}
-function admWorkerDownload(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([admWorkerCode()],{type:'text/javascript'}));a.download='grok-proxy-worker.js';a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},2000)}
-function admGrokForget(){try{localStorage.removeItem('daw_grok_url')}catch(e){}admSay('URL olvidada en este navegador.')}
-async function admGrokTest(){
-  const out=document.getElementById('admGT'),url=(document.getElementById('admGU').value||'').trim(),rows=[];
-  const draw=()=>{out.innerHTML=rows.map(r=>`<div class="adx-logrow"><span class="adx-dot" style="background:${{ok:'#2f5d4b',ko:'#a4443f',warn:'#b7862b'}[r[0]]}"></span><span><b>${escapeHtml(r[1])}</b>${r[2]?'<br><span class="mut">'+escapeHtml(r[2])+'</span>':''}</span><span></span></div>`).join('')};
-  if(!/^https:\/\/\S+$/.test(url)){rows.push(['ko','La URL debe empezar por https://','Cópiala entera desde Cloudflare (Workers › tu Worker).']);return draw()}
-  rows.push(['ok','La URL tiene buen formato']);out.innerHTML='<p class="mut">Probando…</p>';
-  try{
-    const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);
-    const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ping:true}),signal:ctl.signal});clearTimeout(to);
-    let j={};try{j=await r.json()}catch(e){}
-    if(r.status===403){rows.push(['ko','Cloudflare rechaza esta dirección web','ALLOWED_ORIGIN debe ser exactamente '+location.origin+' (sin barra final).'])}
-    else{
-      rows.push(['ok','El servidor responde y acepta tu dirección web']);
-      if(j.ok){
-        rows.push(['ok','La clave de xAI es válida']);
-        rows.push([j.model?'ok':'ko',j.model?'Modelo disponible: '+j.model:'No hay ningún modelo compatible',j.model?'':'Añade la variable GROK_MODEL con un nombre de la lista de console.x.ai › Models.']);
-        rows.push([j.rate?'ok':'warn','Límite diario por persona '+(j.rate?'activo':'sin activar'),j.rate?'':'Recomendado: enlaza un KV Namespace con el nombre RATE.']);
-        if(j.model){try{localStorage.setItem('daw_grok_url',url)}catch(e){}rows.push(['ok','Todo listo: Grok ya funciona en este navegador','Para que funcione para todos los alumnos, pega esta URL en GROK_PROXY_URL dentro del archivo de la página.'])}
-      }else rows.push(['ko',j.error||'El Worker no ha podido comprobar la clave','Revisa la variable XAI_API_KEY y pulsa Deploy.']);
-    }
-  }catch(e){rows.push(['ko','No se puede conectar con esa URL','Comprueba que el Worker está desplegado y que la URL está bien copiada. Si abres la página desde un archivo de tu ordenador, súbela antes a tu web.'])}
-  draw();
-}
 function admSort(k){admUS.d=admUS.k===k?-admUS.d:1;admUS.k=k;admUTable()}
 function admUsersCsv(){const csv='Usuario;Correo;Rol;Estado;Acceso;Registro;Ultimo acceso\n'+admUR.map(r=>[r.u,r.email,ROLES[r.role]||r.role,r.act?'Activa':'Desactivada',r.sso?'Microsoft/Google':'Contraseña',fmtDT(r.created),fmtDT(r.last)].map(x=>String(x).replace(/;/g,',')).join(';')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='usuarios-registrados.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 async function renderAdminView(c){
@@ -5851,7 +5825,7 @@ async function renderAdminView(c){
   c.innerHTML=`<div class="adm adx">
   <header class="adx-hero"><div><h2>Panel de administración</h2><p>Sesión de <b>${escapeHtml(me)}</b> · ${ROLES[currentRole()]} · activa hasta el ${exp?fmtDT(exp):'-'}</p></div><span class="adx-live"><i></i>Sincronización ${syncOn?'activa':'sin activar'}</span></header>
   ${admMsg?`<div class="adx-toast" role="status">${escapeHtml(admMsg)}</div>`:''}
-  <nav class="adx-tabs" role="tablist">${[['resumen','Resumen'],['perfiles','Perfiles'],['usuarios','Usuarios registrados'],['asistente','Asistente IA'],['seguridad','Seguridad'],['datos','Datos'],['registro','Registro']].map(t=>`<button class="adx-tab" role="tab" data-t="${t[0]}" aria-selected="${t[0]===admTab}" onclick="admGo('${t[0]}')">${t[1]}</button>`).join('')}</nav>
+  <nav class="adx-tabs" role="tablist">${[['resumen','Resumen'],['perfiles','Perfiles'],['usuarios','Usuarios registrados'],['seguridad','Seguridad'],['datos','Datos'],['registro','Registro']].map(t=>`<button class="adx-tab" role="tab" data-t="${t[0]}" aria-selected="${t[0]===admTab}" onclick="admGo('${t[0]}')">${t[1]}</button>`).join('')}</nav>
 
   <section class="adx-panel" data-t="resumen"${admTab==='resumen'?'':' hidden'}>
     <div class="adx-grid">
@@ -5892,15 +5866,6 @@ async function renderAdminView(c){
     <div class="adx-tools"><input type="search" id="admUQ" placeholder="Buscar usuario o correo…" oninput="admUTable()" aria-label="Buscar usuarios registrados"><button class="adx-btn g" onclick="admUsersCsv()">Exportar CSV</button></div>
     <p class="mut" id="admUCount" role="status"></p>
     <div class="adx-tw"><table><thead><tr id="admUHead"><th>Nº</th><th data-k="u" aria-sort="none"><button class="adx-th" onclick="admSort('u')">Usuario</button></th><th data-k="email" aria-sort="none"><button class="adx-th" onclick="admSort('email')">Correo</button></th><th data-k="role" aria-sort="none"><button class="adx-th" onclick="admSort('role')">Rol</button></th><th data-k="act" aria-sort="none"><button class="adx-th" onclick="admSort('act')">Estado</button></th><th data-k="sso" aria-sort="none"><button class="adx-th" onclick="admSort('sso')">Acceso</button></th><th data-k="created" aria-sort="none"><button class="adx-th" onclick="admSort('created')">Registro</button></th><th data-k="last" aria-sort="none"><button class="adx-th" onclick="admSort('last')">Último acceso</button></th></tr></thead><tbody id="admUBody"></tbody></table></div>
-  </section>
-
-  <section class="adx-panel" data-t="asistente"${admTab==='asistente'?'':' hidden'}>
-    <div class="adx-card" style="margin-top:14px"><h3>Paso 1: el código del Worker</h3><p class="mut">Este código ya viene dentro de la página. Es el puente seguro entre la página y Grok: la clave de xAI se queda en Cloudflare y nunca llega al navegador. Pulsa Copiar, abre Cloudflare, crea un Worker nuevo, pega el código y pulsa Deploy.</p><div class="adx-quick" style="margin-top:12px"><button class="adx-btn p" onclick="admWorkerCopy()">Copiar código del Worker</button><button class="adx-btn g" onclick="admWorkerDownload()">Descargar grok-proxy-worker.js</button></div><p class="mut" style="margin:12px 0 0">Después, en la configuración del Worker, guarda tu clave de console.x.ai como Secret con el nombre <b>XAI_API_KEY</b> y crea la variable <b>ALLOWED_ORIGIN</b> con el valor <b>${escapeHtml(location.origin)}</b>. Pulsa Deploy otra vez, copia la URL del Worker y pégala en el paso 2.</p></div>
-    <div class="adx-card"><h3>Paso 2: conexión con Grok</h3><p class="mut">Pega la URL de tu Worker de Cloudflare y pulsa «Probar conexión». La prueba revisa la dirección, la clave de xAI y el modelo sin gastar mensajes.</p>
-      <div class="adx-form" style="grid-template-columns:1fr"><label>URL del Worker<input id="admGU" type="url" placeholder="https://claude-daw.tu-cuenta.workers.dev" value="${escapeHtml(typeof clUrl==='function'?clUrl():'')}"></label></div>
-      <div class="adx-quick" style="margin-top:12px"><button class="adx-btn p" onclick="admGrokTest()">Probar conexión</button><button class="adx-btn g" onclick="admGrokForget()">Olvidar URL de este navegador</button></div>
-      <div id="admGT" role="status" style="margin-top:14px"></div></div>
-    <div class="adx-card" style="margin-top:14px"><h3>Si algo falla</h3><p class="mut" style="margin:0">Si sale «Cloudflare rechaza esta dirección», la variable <b>ALLOWED_ORIGIN</b> debe ser exactamente <b>${escapeHtml(location.origin)}</b>, sin barra final. Si sale «clave no válida», vuelve a crear la clave en console.x.ai y guárdala como Secret llamado <b>XAI_API_KEY</b>. No olvides pulsar Deploy después de cambiar variables o código.</p></div>
   </section>
 
   <section class="adx-panel" data-t="seguridad"${admTab==='seguridad'?'':' hidden'}>
@@ -5981,7 +5946,7 @@ document.addEventListener('keydown',function(e){
     'addTask','toggleTask','deleteTask','addExam','deleteExam','addLink','deleteLink','saveCourseNotes',
     'handleMoodleFile','importMoodle','runMoodleSync',
     'attMark','attAll','attSaveRoster','attToggleEdit','ntEdit','ntSave','ntDelete','fullRestore'];
-  const ADMIN=['renderAdminView','admGrokTest','admGrokForget','admWorkerCopy','admWorkerDownload','admUsersCsv','admUTable','admSort','admAdd','admRole','admToggle','admReset','admDel','admMine','admDias','admClear','admClearLog'];
+  const ADMIN=['renderAdminView','admUsersCsv','admUTable','admSort','admAdd','admRole','admToggle','admReset','admDel','admMine','admDias','admClear','admClearLog'];
   function wrap(list,perm,msg){list.forEach(function(n){
     const f=window[n]; if(typeof f!=='function')return;
     window[n]=function(){ if(!can(perm)){deny(msg);return} return f.apply(this,arguments) };
@@ -6164,328 +6129,6 @@ addEventListener('keydown',function(e){
 })();
 </script>
 
-<script type="text/plain" id="grokWorkerSrc">
-/**
- * grok-proxy-worker.js
- * Proxy de Grok (xAI) para la agenda DAW. Se despliega como Cloudflare Worker.
- *
- * Qué hace:
- *  1. Guarda la clave de xAI en el servidor (la página nunca la ve).
- *  2. Solo acepta peticiones que vengan de tu web (ALLOWED_ORIGIN).
- *  3. Elige solo el modelo correcto: usa GROK_MODEL si existe en tu cuenta;
- *     si no, prueba grok-4.7 y después grok-4.3, o el Grok más reciente de tu lista.
- *  4. Aplica un límite diario de mensajes por persona (si enlazas un KV llamado RATE).
- *  5. Devuelve la respuesta en streaming con el formato que ya lee la página.
- *
- * Variables (Workers › tu Worker › Settings › Variables and Secrets):
- *  - XAI_API_KEY    (Secret, obligatoria)  Clave creada en console.x.ai
- *  - ALLOWED_ORIGIN (Variable, obligatoria) Tu web, sin barra final. Ejemplo: https://tuweb.com
- *                   Puedes poner varias separadas por comas.
- *  - GROK_MODEL     (Variable, opcional)   Fuerza un modelo concreto.
- *  - DAILY_LIMIT    (Variable, opcional)   Mensajes por persona y día. Por defecto 40.
- *  - RATE           (KV Namespace, opcional) Activa el límite diario.
- */
-
-const XAI = 'https://api.x.ai/v1';
-const PREFERRED = ['grok-4.7', 'grok-4.3'];
-const FALLBACK_MODEL = 'grok-4.7';
-const DEFAULT_LIMIT = 40;
-const MAX_BODY = 200000;
-const MAX_MSGS = 20;
-const MAX_CHARS = 6000;
-const CACHE_MS = 10 * 60 * 1000;
-
-let modelCache = { name: '', at: 0 };
-
-const BASE = [
-  'Eres Grok, el asistente de estudio de una agenda personal de un alumno de 2º de Desarrollo de Aplicaciones Web (DAW), en formato online, en La Salle Gràcia.',
-  'Responde en el idioma en que te escriba el alumno: castellano por defecto y catalán si lo usa.',
-  'Escribe pensando en lectura fácil, apta para personas con dislexia: frases cortas, párrafos breves separados por una línea en blanco, una idea por párrafo, y sin listas largas ni tablas.',
-  'Define cada término técnico la primera vez que aparezca y da ejemplos concretos.',
-  'Explica con el rigor de un buen profesor universitario, pero sin jerga innecesaria.',
-  'Solo puedes usar **negrita**, `código en línea` y bloques de código con tres comillas invertidas. No uses títulos con # ni tablas.',
-  'Si no estás seguro de algo, dilo en lugar de inventarlo. No pidas ni repitas contraseñas, claves ni datos personales.',
-  'Salvo que te pidan más, responde en unas 250 palabras como máximo.'
-].join(' ');
-
-const MODES = {
-  estudio: 'Modo Estudiar. Cuando te pregunten un concepto, explícalo así, en párrafos: qué es, para qué sirve, un ejemplo pequeño y un error frecuente. Termina con una pregunta corta para comprobar que se ha entendido.',
-  codigo: 'Modo Código. Analiza el código del alumno: explica primero qué falla y por qué, después muestra el código corregido en un bloque, y por último explica cada cambio en un párrafo. Si falta contexto, pídelo con una sola pregunta.',
-  examen: 'Modo Examen. Haz preguntas de práctica de nivel DAW, UNA cada vez, y espera la respuesta. Corrige explicando el porqué de cada fallo, di una nota sobre 10 y sube o baja la dificultad según los aciertos. No des la respuesta antes de que el alumno lo intente.',
-  ayuda: 'Modo Ayuda de la página. Explica cómo usar la agenda del alumno: eventos, cursos, diario de clase, asistencia, apuntes y copias de seguridad. Si te preguntan algo concreto de la página que no conoces, dilo con honestidad y sugiere revisar la sección correspondiente.'
-};
-
-export default {
-  async fetch(request, env) {
-    const origin = (request.headers.get('Origin') || '').replace(/\/+$/, '');
-    const allowed = String(env.ALLOWED_ORIGIN || '').split(',').map(s => s.trim().replace(/\/+$/, '')).filter(Boolean);
-    const cors = {
-      'Access-Control-Allow-Origin': origin,
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Max-Age': '86400',
-      'Vary': 'Origin'
-    };
-
-    if (!allowed.length || !allowed.includes(origin)) {
-      return json({ error: 'Origen no permitido. ALLOWED_ORIGIN debe ser exactamente ' + (origin || 'la dirección de tu web') + ' (sin barra final).' }, 403, cors);
-    }
-    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
-    if (request.method !== 'POST') return json({ error: 'Método no permitido.' }, 405, cors);
-    if (!env.XAI_API_KEY) return json({ ok: false, error: 'Falta la variable XAI_API_KEY en el Worker. Créala como Secret y pulsa Deploy.' }, 200, cors);
-
-    let raw = '';
-    try { raw = await request.text(); } catch (e) { return json({ error: 'No se pudo leer la petición.' }, 400, cors); }
-    if (raw.length > MAX_BODY) return json({ error: 'El mensaje es demasiado largo. Acórtalo e inténtalo de nuevo.' }, 413, cors);
-    let body = {};
-    try { body = JSON.parse(raw || '{}'); } catch (e) { return json({ error: 'Petición no válida.' }, 400, cors); }
-
-    if (body.ping) return ping(env, cors);
-    return chat(request, env, body, cors);
-  }
-};
-
-/* ---------- Prueba de conexión (no gasta mensajes) ---------- */
-async function ping(env, cors) {
-  const r = await pickModel(env, true);
-  if (r.error === 'key') return json({ ok: false, error: 'La clave de xAI no es válida o ha caducado. Vuelve a crearla en console.x.ai y guárdala como Secret XAI_API_KEY.' }, 200, cors);
-  if (r.error) return json({ ok: false, error: 'xAI no responde ahora mismo (' + r.error + '). Inténtalo en unos minutos.' }, 200, cors);
-  return json({ ok: true, model: r.model || '', rate: !!env.RATE }, 200, cors);
-}
-
-/* ---------- Chat en streaming ---------- */
-async function chat(request, env, body, cors) {
-  const msgs = cleanMessages(body.messages);
-  if (!msgs.length) return json({ error: 'Escribe un mensaje para Grok.' }, 400, cors);
-
-  const limited = await rateLimit(request, env);
-  if (limited) return json({ error: 'Has llegado al límite de mensajes de hoy (' + limited + '). Mañana podrás seguir preguntando.' }, 429, cors);
-
-  const picked = await pickModel(env, false);
-  if (picked.error === 'key') return json({ error: 'Grok no está bien configurado: la clave de xAI no es válida. Avisa al administrador.' }, 502, cors);
-  const model = picked.model || FALLBACK_MODEL;
-
-  const view = String((body.context && body.context.view) || '').replace(/[^\w\- ]/g, '').slice(0, 40);
-  const mode = MODES[body.mode] ? body.mode : 'estudio';
-  const system = BASE + '\n\n' + MODES[mode] + (view ? '\n\nEl alumno está ahora en la sección «' + view + '» de la agenda.' : '');
-
-  let up;
-  try {
-    up = await fetch(XAI + '/chat/completions', {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + env.XAI_API_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, stream: true, messages: [{ role: 'system', content: system }].concat(msgs) })
-    });
-  } catch (e) {
-    return json({ error: 'No he podido conectar con xAI. Inténtalo de nuevo en unos minutos.' }, 502, cors);
-  }
-
-  if (!up.ok) {
-    if (up.status === 404 || up.status === 400) modelCache = { name: '', at: 0 };
-    return json({ error: upstreamMessage(up.status) }, up.status === 429 ? 429 : 502, cors);
-  }
-
-  return new Response(up.body, {
-    status: 200,
-    headers: Object.assign({ 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no' }, cors)
-  });
-}
-
-function upstreamMessage(status) {
-  if (status === 401) return 'Grok no está bien configurado: la clave de xAI no es válida. Avisa al administrador.';
-  if (status === 402 || status === 403) return 'La cuenta de xAI no tiene crédito o permiso ahora mismo. Avisa al administrador.';
-  if (status === 429) return 'Grok está muy saturado en este momento. Espera un minuto e inténtalo de nuevo.';
-  if (status === 404 || status === 400) return 'Grok ha cambiado de modelo y estoy reajustando la conexión. Inténtalo de nuevo.';
-  return 'No he podido responder ahora mismo. Inténtalo de nuevo en unos minutos.';
-}
-
-/* ---------- Mensajes ---------- */
-function cleanMessages(list) {
-  if (!Array.isArray(list)) return [];
-  let out = list.slice(-MAX_MSGS)
-    .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
-    .map(m => ({ role: m.role, content: m.content.slice(0, MAX_CHARS) }));
-  while (out.length && out[0].role !== 'user') out.shift();
-  if (!out.length || out[out.length - 1].role !== 'user') return [];
-  return out;
-}
-
-/* ---------- Elección automática del modelo ---------- */
-async function pickModel(env, force) {
-  const wanted = String(env.GROK_MODEL || '').trim();
-  if (!force && modelCache.name && Date.now() - modelCache.at < CACHE_MS) return { model: modelCache.name };
-
-  let r;
-  try {
-    r = await fetch(XAI + '/models', { headers: { 'Authorization': 'Bearer ' + env.XAI_API_KEY } });
-  } catch (e) {
-    return force ? { error: 'sin conexión' } : { model: wanted || FALLBACK_MODEL };
-  }
-  if (r.status === 401) return { error: 'key' };
-  if (!r.ok) return force ? { error: 'HTTP ' + r.status } : { model: wanted || FALLBACK_MODEL };
-
-  let ids = [];
-  try { const j = await r.json(); ids = (j.data || []).map(x => x && x.id).filter(Boolean); } catch (e) {}
-
-  let model = '';
-  if (wanted && ids.includes(wanted)) model = wanted;
-  if (!model) model = PREFERRED.find(p => ids.includes(p)) || '';
-  if (!model) {
-    model = ids.filter(id => /^grok-\d/.test(id) && !/imagine|image|video|vision|embed|build|code/i.test(id)).sort().reverse()[0] || '';
-  }
-  if (model) modelCache = { name: model, at: Date.now() };
-  return { model };
-}
-
-/* ---------- Límite diario por persona (opcional) ---------- */
-async function rateLimit(request, env) {
-  if (!env.RATE) return 0;
-  const limit = Math.max(1, parseInt(env.DAILY_LIMIT, 10) || DEFAULT_LIMIT);
-  const ip = request.headers.get('CF-Connecting-IP') || 'anon';
-  const key = 'rl:' + ip + ':' + new Date().toISOString().slice(0, 10);
-  try {
-    const n = parseInt(await env.RATE.get(key), 10) || 0;
-    if (n >= limit) return limit;
-    await env.RATE.put(key, String(n + 1), { expirationTtl: 172800 });
-  } catch (e) { /* si el KV falla, no bloqueamos al alumno */ }
-  return 0;
-}
-
-function json(obj, status, cors) {
-  return new Response(JSON.stringify(obj), { status, headers: Object.assign({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }, cors) });
-}
-
-</script>
-<!-- ===== ASISTENTE GROK ===== -->
-<style>
-#clBtn{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:0;background:linear-gradient(135deg,#1f3d33,#3e7a63);color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 10px 26px rgba(31,61,51,.4);z-index:9000;display:none;transition:transform .2s}
-#clBtn:hover{transform:scale(1.08)}#clBtn.on{display:grid;place-items:center}
-@media(max-width:600px){#clBtn{bottom:calc(100px + env(safe-area-inset-bottom,0px))}}
-#clPanel{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom,0px));width:min(430px,calc(100vw - 24px));height:min(620px,calc(100dvh - 120px));background:#fff;color:#1f2933;border:1px solid #e7e1d5;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.28);display:none;flex-direction:column;overflow:hidden;z-index:9001;line-height:1.7;font-size:1rem}
-#clPanel.open{display:flex;animation:clUp .25s ease}
-@keyframes clUp{from{opacity:0;transform:translateY(14px)}}
-.cl-head{display:flex;align-items:center;gap:10px;padding:14px 16px;background:linear-gradient(135deg,#1f3d33,#2f5d4b);color:#fff}
-.cl-head b{flex:1;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.25rem}.cl-head small{display:block;font:400 .72rem/1.2 system-ui,sans-serif;opacity:.8}
-.cl-head button{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font:inherit;font-size:.82rem}
-.cl-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#faf8f3;scroll-behavior:smooth}
-.cl-m{max-width:92%;padding:10px 14px;border-radius:14px;text-align:left;word-wrap:break-word;overflow-wrap:anywhere}
-.cl-m p{margin:0 0 9px}.cl-m p:last-child{margin:0}.cl-m code{background:rgba(47,93,75,.1);padding:1px 6px;border-radius:5px;font-size:.9em}
-.cl-u{align-self:flex-end;background:#2f5d4b;color:#fff;border-bottom-right-radius:4px}
-.cl-a{align-self:flex-start;background:#fff;border:1px solid #e7e1d5;border-bottom-left-radius:4px}
-.cl-e{align-self:flex-start;background:#fbf3df;border:1px solid #e3cf98;color:#1f2933}
-.cl-code{position:relative;margin:8px 0}.cl-code pre{margin:0;background:#16212a;color:#e6edf3;padding:12px 14px;border-radius:10px;overflow-x:auto;font-size:.85rem;line-height:1.55}.cl-code pre code{background:none;padding:0;color:inherit}
-.cl-code button{position:absolute;top:6px;right:6px;border:0;border-radius:6px;background:rgba(255,255,255,.16);color:#fff;font:inherit;font-size:.72rem;padding:3px 9px;cursor:pointer}
-.cl-chips{display:flex;flex-wrap:wrap;gap:8px}.cl-chips button{border:1px solid #96c8a2;background:#eef6f0;color:#2f5d4b;border-radius:99px;padding:7px 13px;cursor:pointer;font:inherit;font-size:.86rem}
-.cl-dots i{display:inline-block;width:8px;height:8px;margin-right:4px;border-radius:50%;background:#7aa04f;animation:clD 1s infinite}.cl-dots i:nth-child(2){animation-delay:.15s}.cl-dots i:nth-child(3){animation-delay:.3s}
-@keyframes clD{50%{transform:translateY(-5px);opacity:.4}}
-.cl-in{display:flex;gap:8px;padding:12px 12px 6px;border-top:1px solid #e7e1d5;background:#fff}
-.cl-in textarea{flex:1;resize:none;font:inherit;padding:10px 12px;border:1px solid #d9d2bf;border-radius:12px;max-height:120px;background:#fbf9f5;color:#1f2933}
-.cl-in button{border:0;border-radius:12px;background:#2f5d4b;color:#fff;padding:0 16px;cursor:pointer;font:inherit;font-weight:600}.cl-in button.stop{background:#a4443f}
-.cl-foot{padding:0 14px 10px;font-size:.72rem;color:#7b7568;background:#fff;text-align:center}
-@media(prefers-color-scheme:dark){#clPanel{background:#1d2528;color:#e8ece9;border-color:#33403f}.cl-msgs{background:#161d1f}.cl-a,.cl-in,.cl-foot{background:#1d2528;border-color:#33403f}.cl-in textarea{background:#161d1f;color:#e8ece9;border-color:#33403f}}
-.cl-modes{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;background:#f3efe6;border-bottom:1px solid #e7e1d5}
-.cl-modes button{flex:none;border:1px solid #d9d2bf;background:#fff;color:#1f2933;border-radius:99px;padding:6px 13px;font:inherit;font-size:.84rem;cursor:pointer;transition:.15s}
-.cl-modes button.on{background:#2f5d4b;border-color:#2f5d4b;color:#fff}
-.cl-cp{display:block;margin-top:8px;border:0;background:none;color:#7b7568;font:inherit;font-size:.78rem;cursor:pointer;padding:0}.cl-cp:hover{color:#2f5d4b}
-#clPanel.big{width:min(940px,calc(100vw - 24px));height:min(88dvh,calc(100dvh - 120px))}
-@media(prefers-color-scheme:dark){.cl-modes{background:#161d1f;border-color:#33403f}.cl-modes button{background:#1d2528;color:#e8ece9;border-color:#33403f}}
-@media(prefers-reduced-motion:reduce){.cl-dots i,#clPanel.open{animation:none}}
-</style>
-<button type="button" id="clBtn" aria-label="Abrir el asistente Grok" onclick="clToggle()">✦</button>
-<section id="clPanel" role="dialog" aria-label="Asistente Grok">
-  <div class="cl-head"><b>Grok<small>Asistente de estudio DAW</small></b><button type="button" onclick="clExpand()" aria-label="Ampliar el chat" title="Ampliar">⤢</button><button type="button" onclick="clExport()" aria-label="Descargar la conversación" title="Descargar conversación">⬇</button><button type="button" onclick="clReset()">Nueva</button><button type="button" onclick="clToggle()" aria-label="Cerrar">✕</button></div>
-  <div class="cl-modes" id="clModes" role="tablist" aria-label="Tipo de ayuda"></div>
-  <div class="cl-msgs" id="clMsgs" aria-live="polite"></div>
-  <form class="cl-in" onsubmit="clSend(event)"><textarea id="clInput" rows="1" maxlength="4000" placeholder="Escribe tu pregunta…" aria-label="Tu pregunta" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea><button type="submit" id="clSendBtn">Enviar</button></form>
-  <div class="cl-foot">Grok puede equivocarse: contrasta lo importante con tus apuntes.</div>
-</section>
-<script>
-/* URL de tu proxy de Grok (ver grok-proxy-worker.js). NUNCA pongas tu clave de API en este archivo. */
-const GROK_PROXY_URL = '';
-function clUrl(){ let v = ''; try{ v = localStorage.getItem('daw_grok_url') || ''; }catch(e){} return (GROK_PROXY_URL || v).trim(); }
-const CL_KEY = 'daw_grok_hist';
-const CL_MODES = {
-  estudio:{n:'Estudiar',ph:'Pregunta cualquier concepto de DAW…',hi:'Puedo explicarte cualquier concepto de desarrollo web con ejemplos claros. ¿Qué quieres aprender hoy?',chips:['Explícame qué es una API REST','¿Qué diferencia hay entre var, let y const?','Explícame el modelo de cajas de CSS']},
-  codigo:{n:'Código',ph:'Pega tu código y cuéntame qué falla…',hi:'Pega tu código y te ayudo a entenderlo, corregirlo o mejorarlo, explicando cada cambio.',chips:['Revisa este código: ','Escribe una función que valide un formulario','¿Por qué me da este error? ']},
-  examen:{n:'Examen',ph:'Dime el tema del que quieres practicar…',hi:'Te hago preguntas de práctica, una a una, y corrijo tus respuestas explicándote los fallos. ¿De qué tema quieres examinarte?',chips:['Examen de HTML y CSS','Examen de JavaScript','Examen de bases de datos y SQL']},
-  ayuda:{n:'Ayuda de la página',ph:'Pregunta cómo se usa esta agenda…',hi:'Te explico cómo usar esta agenda: eventos, cursos, diario, asistencia, apuntes y copias de seguridad.',chips:['¿Cómo añado un evento?','¿Cómo hago una copia de seguridad?','¿Qué atajos de teclado hay?']}
-};
-let clMode = 'estudio'; try{ const m = sessionStorage.getItem('daw_grok_mode'); if(CL_MODES[m]) clMode = m; }catch(e){}
-function clModesBar(){ const b = document.getElementById('clModes'); b.innerHTML = ''; Object.keys(CL_MODES).forEach(k=>{ const x = document.createElement('button'); x.type = 'button'; x.textContent = CL_MODES[k].n; x.className = k === clMode ? 'on' : ''; x.setAttribute('role','tab'); x.setAttribute('aria-selected', k === clMode); x.onclick = ()=>clSetMode(k); b.appendChild(x); }); document.getElementById('clInput').placeholder = CL_MODES[clMode].ph; }
-function clSetMode(k){ clMode = k; try{ sessionStorage.setItem('daw_grok_mode', k); }catch(e){} clModesBar(); if(!clHist.length) clRender(); }
-function clExpand(){ document.getElementById('clPanel').classList.toggle('big'); }
-function clExport(){ if(!clHist.length) return; const t = clHist.map(m=>(m.role === 'user' ? 'TÚ' : 'GROK') + ':\n' + m.content).join('\n\n----------\n\n'); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + t], {type:'text/plain'})); a.download = 'conversacion-grok.txt'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000); }
-function clDecorate(w, text){ const b = document.createElement('button'); b.type = 'button'; b.className = 'cl-cp'; b.textContent = 'Copiar respuesta'; b.onclick = ()=>{ try{ navigator.clipboard.writeText(text); b.textContent = 'Copiado ✓'; setTimeout(()=>b.textContent = 'Copiar respuesta', 1600); }catch(e){} }; w.appendChild(b); }
-let clHist = [], clBusy = false, clCtl = null, clOwner = null;
-const clName = () => 'Grok';
-const clErr = m => { const e = new Error(m); e.cl = 1; return e; };
-function clUser(){ try{ return currentUser() || ''; }catch(e){ return ''; } }
-function clIsAdmin(){ try{ return currentRole() === 'admin'; }catch(e){ return false; } }
-function clSave(){ try{ sessionStorage.setItem(CL_KEY + ':' + clUser(), JSON.stringify(clHist.slice(-20))); }catch(e){} }
-function clLoad(){ try{ clHist = JSON.parse(sessionStorage.getItem(CL_KEY + ':' + clUser()) || '[]'); }catch(e){ clHist = []; } }
-function clMd(t){ /* markdown ligero: primero se escapa todo el texto, después se marca */
-  return String(t).split('```').map((seg,i)=>{
-    if(i%2) return '<div class="cl-code"><button type="button" onclick="clCopy(this)">Copiar</button><pre><code>' + escapeHtml(seg.replace(/^[a-zA-Z0-9+#-]*\n/,'').replace(/\n$/,'')) + '</code></pre></div>';
-    return seg.split(/\n{2,}/).filter(x=>x.trim()).map(x=>'<p>' + escapeHtml(x).replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\*\*([^*\n]+)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>') + '</p>').join('');
-  }).join('');
-}
-function clCopy(b){ try{ navigator.clipboard.writeText(b.nextElementSibling.innerText); b.textContent = 'Copiado ✓'; setTimeout(()=>b.textContent = 'Copiar', 1600); }catch(e){} }
-function clAdd(cls, html){ const b = document.getElementById('clMsgs'), d = document.createElement('div'); d.className = 'cl-m ' + cls; d.innerHTML = html; b.appendChild(d); b.scrollTop = b.scrollHeight; return d; }
-function clRender(){
-  const b = document.getElementById('clMsgs'); b.innerHTML = ''; clOwner = clUser(); clModesBar();
-  if(!clUrl()){ clAdd('cl-a','<p>Grok todavía no está conectado. El administrador debe configurarlo en Panel de administración › Asistente IA.</p>'); return; }
-  if(!clHist.length){
-    clAdd('cl-a','<p>Hola, soy Grok. ' + CL_MODES[clMode].hi + '</p>');
-    const c = document.createElement('div'); c.className = 'cl-chips';
-    CL_MODES[clMode].chips.forEach(t=>{ const x = document.createElement('button'); x.type = 'button'; x.textContent = t; x.onclick = ()=>{ const i = document.getElementById('clInput'); i.value = t; i.focus(); }; c.appendChild(x); }); b.appendChild(c);
-  } else clHist.forEach(m=>{ const d = clAdd(m.role === 'user' ? 'cl-u' : 'cl-a', clMd(m.content)); if(m.role !== 'user') clDecorate(d, m.content); });
-}
-function clReset(){ if(clCtl) clCtl.abort(); clHist = []; clSave(); clRender(); }
-function clToggle(){
-  const p = document.getElementById('clPanel'); p.classList.toggle('open');
-  if(p.classList.contains('open')){ if(clOwner !== clUser()){ clLoad(); clRender(); } document.getElementById('clInput').focus(); }
-}
-async function clSend(e){
-  if(e && e.preventDefault) e.preventDefault();
-  const btn = document.getElementById('clSendBtn');
-  if(clBusy){ if(clCtl) clCtl.abort(); return; }
-  if(!clUrl()) return;
-  const i = document.getElementById('clInput'), t = i.value.trim(); if(!t) return;
-  i.value = ''; i.style.height = 'auto';
-  const ch = document.querySelector('#clMsgs .cl-chips'); if(ch) ch.remove();
-  clAdd('cl-u', clMd(t)); clHist.push({role:'user', content:t});
-  clBusy = true; btn.textContent = 'Detener'; btn.className = 'stop';
-  const w = clAdd('cl-a', '<span class="cl-dots"><i></i><i></i><i></i></span>'), box = document.getElementById('clMsgs');
-  let acc = ''; clCtl = new AbortController();
-  try{
-    const r = await fetch(clUrl(), {method:'POST', headers:{'Content-Type':'application/json'}, signal:clCtl.signal,
-      body:JSON.stringify({mode:clMode, messages:clHist.slice(-20), context:{view: (typeof currentView !== 'undefined' ? currentView : '')}})});
-    if(!r.ok){ let m = 'No he podido responder ahora mismo. Inténtalo de nuevo en unos minutos.'; try{ const j = await r.json(); if(j.error) m = j.error; }catch(_){} throw clErr(m); }
-    const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '';
-    for(;;){
-      const {done, value} = await rd.read(); if(done) break;
-      buf += dec.decode(value, {stream:true}); const lines = buf.split('\n'); buf = lines.pop();
-      for(const ln of lines){
-        if(!ln.startsWith('data:')) continue;
-        let ev; try{ ev = JSON.parse(ln.slice(5)); }catch(_){ continue; }
-        if(ev.choices && ev.choices[0] && ev.choices[0].delta && ev.choices[0].delta.content){ acc += ev.choices[0].delta.content; w.innerHTML = clMd(acc); box.scrollTop = box.scrollHeight; }
-        else if(ev.type === 'error') throw clErr('La respuesta se ha interrumpido. Inténtalo de nuevo.');
-      }
-    }
-    if(!acc) throw clErr('No he recibido respuesta. Inténtalo de nuevo.');
-    clHist.push({role:'assistant', content:acc}); clDecorate(w, acc);
-  }catch(err){
-    if(acc){ clHist.push({role:'assistant', content:acc}); }
-    else { clHist.pop(); if(err.name === 'AbortError') w.remove(); else { w.className = 'cl-m cl-e'; w.innerHTML = '<p>' + escapeHtml(err.cl ? err.message : 'Sin conexión con Grok. Revisa tu conexión e inténtalo de nuevo.' + (clIsAdmin() ? ' (Administrador: prueba la conexión en Panel de administración › Asistente IA.)' : '')) + '</p>'; } }
-  }
-  clSave(); clBusy = false; clCtl = null; btn.textContent = 'Enviar'; btn.className = ''; i.focus();
-}
-document.getElementById('clInput').addEventListener('keydown', function(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); clSend(e); } if(e.key === 'Escape') clToggle(); });
-/* El botón solo aparece con una sesión iniciada; al cerrar sesión se cierra el chat */
-(function(){ const app = document.getElementById('appContent'), b = document.getElementById('clBtn');
-  function sync(){ const on = app && app.style.display !== 'none'; b.classList.toggle('on', !!on); if(!on){ document.getElementById('clPanel').classList.remove('open'); clOwner = null; } }
-  if(app) new MutationObserver(sync).observe(app, {attributes:true, attributeFilter:['style']}); sync(); })();
-</script>
 <style id="wellness-club">
 .wc{--wc-bg:#fff;--wc-ink:#1f2933;--wc-line:#e7e1d5;--wc-mut:#6f6a5e;max-width:760px;margin:0 auto;color:var(--wc-ink)}
 @media(prefers-color-scheme:dark){.wc{--wc-bg:#1d2528;--wc-ink:#e8ece9;--wc-line:#33403f;--wc-mut:#a3aeaa}}
@@ -6626,5 +6269,40 @@ w.renderWellnessView=function(c){if(W.cur.date!==T()){W.cur={date:T(),s:{}};save
  c.innerHTML=h+'</div>'};
 })();
 </script>
+<style id="iphone-fix">
+/* ===== AJUSTES PARA iPHONE (Safari iOS) ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{overflow-x:hidden;min-height:100vh;min-height:100dvh}
+img,svg,video,canvas{max-width:100%}
+.modal,.modal-overlay{overscroll-behavior:contain}
+/* Login: iOS ignora background-attachment:fixed y 100vh; se corrige y se permite scroll con el teclado abierto */
+.login-screen{background-attachment:scroll;background-size:min(85vw,85dvh);height:100vh;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;flex-direction:column;align-items:center;justify-content:flex-start;padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.login-main{margin:0;flex:1 0 auto;padding:12px 0}
+.lg-copy-fixed{position:static;flex:0 0 auto;padding:8px 0 4px;pointer-events:auto;width:100%}
+@media(max-width:600px){
+  /* Tarjetas de clase: alineadas a la izquierda y a ancho completo */
+  .event-item{align-items:stretch}
+  .event-time{text-align:left;font-size:.95rem}
+  .event-details{width:100%;text-align:left}
+  .event-title{overflow-wrap:anywhere}
+  .event-actions{width:100%;justify-content:flex-end}
+  .btn-details{min-height:44px}
+  /* Barra inferior: se anula el estilo de escritorio del enlace activo (barra lateral y margen negativo) */
+  .sidebar-nav>a.active{background:linear-gradient(180deg,rgba(139,184,201,.2),transparent);box-shadow:none;margin-left:0;padding:6px 2px;border-radius:0;border-top-color:#8bb8c9}
+  .sidebar-nav>a{min-width:0;overflow:hidden;font-size:.72rem;-webkit-tap-highlight-color:transparent}
+  .sidebar-nav>a>span,.sidebar-nav .nav-more-btn{max-width:100%}
+  .sidebar-nav>a#navMoreBtn{margin:0;width:auto;justify-content:center;border:0;border-top:2px solid transparent;border-top-color:transparent;min-height:56px;padding:6px 2px}
+  .sidebar-nav .nav-caret{display:none}
+  .modal{max-height:calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+}
+@supports(height:1dvh){
+  .modal-box,#modalBox{max-height:90dvh}
+  .sy-card{max-height:92dvh}
+}
+@media(max-height:500px) and (orientation:landscape){
+  .login-screen{padding-top:8px}
+  .login-main{margin:0}
+}
+</style>
 </body>
 </html>
