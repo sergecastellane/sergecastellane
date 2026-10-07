@@ -1035,6 +1035,12 @@ body.dys .uev-item,body.dys .week-uev,body.dys .month-cell .mc-uev{background:#f
 .mc-cnt{margin-top:5px;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--taupe)}
 .mc-all{background:none;border:none;border-bottom:1px solid transparent;font:inherit;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);cursor:pointer;padding:6px 0;white-space:nowrap;transition:color .2s,border-color .2s}
 .mc-all:hover{color:var(--navy);border-color:var(--gold)}
+.mc-dlg{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
+.mc-dl{background:none;border:none;border-bottom:1px solid transparent;font:inherit;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);cursor:pointer;padding:6px 0;white-space:nowrap;transition:color .2s,border-color .2s}
+.mc-dl:hover{color:var(--navy);border-color:var(--gold)}
+.mc-dl[disabled]{opacity:.6;cursor:progress}
+body.dys .mc-dl{text-transform:none;letter-spacing:.02em;font-size:.9rem}
+
 .mc-sb{margin-top:18px;animation:mcFade .35s ease}
 @keyframes mcFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .mc-sec.collapsed .mc-sb{display:none}
@@ -1854,8 +1860,13 @@ body.dys .att .nt-text,body.dys .att .nt-text *,body.dys .att .nt-form textarea{
     <h2 class="tvqr-t">Entra con tu móvil</h2>
     <p class="tvqr-s">Abre la cámara del móvil, escanea el código y pulsa «Permitir».</p>
     <div id="tvqrQr" class="tvqr-qr"></div>
+    <p class="tvqr-s tvqr-or">¿Sin cámara? Abre <b id="tvqrUrl"></b> en el móvil y escribe este código:</p>
+    <p id="tvqrCode" class="tvqr-code" aria-label="Código para escribir en el móvil"></p>
     <p id="tvqrMsg" class="tvqr-msg" role="status" aria-live="polite"></p>
-    <button type="button" id="tvqrNew" class="tvqr-btn ghost">Nuevo código</button>
+    <div class="tvqr-row">
+      <button type="button" id="tvqrNew" class="tvqr-btn ghost">Nuevo código</button>
+      <button type="button" id="tvqrPw" class="tvqr-btn ghost">Usar usuario y contraseña</button>
+    </div>
   </aside>
   <form class="login-box" id="loginForm" onsubmit="handleLogin(event)" novalidate aria-label="Iniciar sesión">
     <div class="lx-openwrap"><div class="lx-collapse-in">
@@ -2032,7 +2043,7 @@ body.dys .att .nt-text,body.dys .att .nt-text *,body.dys .att .nt-form textarea{
 <h2>Condiciones de uso</h2>
 <p>El acceso está pensado para uso personal y para las personas a quienes se hayan facilitado las credenciales. Quien lo utilice se compromete a hacerlo conforme a la ley y la buena fe, sin intentar vulnerar su seguridad ni dañar su funcionamiento.</p>
 <h2>Propiedad intelectual</h2>
-<p>© 2026 Sergi Cruceta Arboles. Todos los derechos reservados. El diseño, el código y los textos originales de esta aplicación pertenecen al titular. Los nombres y materiales de La Salle Gràcia, Moodle, Microsoft (Outlook), Google Fonts y demás terceros pertenecen a sus propietarios y se mencionan solo con fines educativos e informativos. Si eres titular de algún derecho y crees que se ha vulnerado, escríbeme y lo revisaré con prontitud.</p>
+<p>© 2026 Sergi Cruceta Arboles. Todos los derechos reservados. El diseño, el código y los textos originales de esta aplicación pertenecen al titular. Los nombres y materiales de La Salle Gràcia, Moodle, Microsoft (Outlook), Apple (Salud), Google Fonts y demás terceros pertenecen a sus propietarios y se mencionan solo con fines educativos e informativos. Si eres titular de algún derecho y crees que se ha vulnerado, escríbeme y lo revisaré con prontitud.</p>
 <h2>Exclusión de responsabilidad</h2>
 <p>La aplicación es fruto de un proceso de aprendizaje y puede contener errores. Los horarios y fechas tienen valor orientativo, y la información oficial es siempre la que publica el centro. El titular no garantiza su disponibilidad continua ni responde del contenido de servicios de terceros enlazados.</p>
 <h2>Legislación aplicable</h2>
@@ -2048,7 +2059,7 @@ body.dys .att .nt-text,body.dys .att .nt-text *,body.dys .att .nt-form textarea{
 <h2>Registro de cuentas</h2>
 <p>Si la sincronización está configurada, al crear una cuenta o iniciar sesión se guarda en Supabase tu nombre de usuario, tu perfil, si la cuenta está activa y las fechas de creación y último acceso, para que el administrador pueda gestionarla. Nunca se envían contraseñas.</p>
 <h2>Servicios de terceros</h2>
-<p>Si conectas tu cuenta de Outlook, el inicio de sesión y la lectura de tu correo o calendario los gestiona Microsoft (Microsoft Entra y Microsoft Graph) bajo su propia política de privacidad. Si utilizas la integración con Moodle, la consulta pasa por un servicio intermedio [indica tu proveedor, por ejemplo Cloudflare Workers, o elimina esta frase si no lo usas]. La aplicación carga además una librería desde jsDelivr y las tipografías desde Google Fonts, por lo que estos proveedores pueden recibir tu dirección IP al servir esos recursos. Si activas la sincronización, los datos se alojan en Supabase [indica la región de tu proyecto, por ejemplo la UE], bajo su propia política de privacidad.</p>
+<p>Si conectas tu cuenta de Outlook, el inicio de sesión y la lectura de tu correo o calendario los gestiona Microsoft (Microsoft Entra y Microsoft Graph) bajo su propia política de privacidad. Si utilizas la integración con Moodle, la consulta pasa por un servicio intermedio [indica tu proveedor, por ejemplo Cloudflare Workers, o elimina esta frase si no lo usas]. Si importas datos de Apple Salud (pestaña Salud de The Wellness Club), el archivo se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen diario (pasos, energía activa, minutos de ejercicio, sueño, frecuencia cardíaca en reposo, peso y entrenamientos recientes) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Si además activas la actualización diaria, un Atajo de tu iPhone envía ese mismo resumen diario a tu cuenta de Supabase (en tu proyecto de sincronización), donde solo tú puedes leerlo, y se borra al desactivar la función. Son datos de salud, de categoría especial, y solo se tratan con tu consentimiento al importarlos. La aplicación carga además una librería desde jsDelivr y las tipografías desde Google Fonts, por lo que estos proveedores pueden recibir tu dirección IP al servir esos recursos. Si activas la sincronización, los datos se alojan en Supabase [indica la región de tu proyecto, por ejemplo la UE], bajo su propia política de privacidad.</p>
 <h2>Finalidad y base jurídica</h2>
 <p>Los datos se usan solo para que la aplicación funcione y te sea útil. La base jurídica es tu consentimiento y el uso voluntario de las funciones. No se elaboran perfiles, no se envía publicidad y no se toman decisiones automatizadas.</p>
 <h2>Conservación y cesiones</h2>
@@ -4242,7 +4253,7 @@ function mdlSectionsHTML(mc, secs){
     out += `<section class="mc-sec${collapsed ? ' collapsed' : ''}" id="mcs-${id}" data-id="${id}">
       <div class="mc-sh">
         <button type="button" class="mc-chev" aria-expanded="${!collapsed}" aria-controls="mcb-${id}" aria-label="Mostrar u ocultar la sección ${escapeAttr(s.name || '')}" onclick="mdlToggleSec(${id})"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-        <div class="mc-stw"><h3 class="mc-st">${escapeHtml(s.name || 'Sección')}</h3>${cnt}</div>${allBtn}
+        <div class="mc-stw"><h3 class="mc-st">${escapeHtml(s.name || 'Sección')}</h3>${cnt}</div>${(!filtering && mdlSecFiles(s, mc, 'all').length) ? `<div class="mc-dlg" role="group" aria-label="Descargar ${escapeAttr(s.name || 'bloque')}">${[['all','Todo'],['teoria','Teoría'],['ejercicios','Ejercicios']].map(k=>mdlSecFiles(s, mc, k[0]).length ? `<button type="button" class="mc-dl" data-lbl="${k[1]}" id="mcdl-${id}-${k[0]}" onclick="mdlDownloadSec(${id},'${k[0]}')" aria-label="Descargar ${k[1].toLowerCase()} de ${escapeAttr(s.name || 'la sección')} en una carpeta ZIP">↓ ${k[1]}</button>` : '').join('')}</div>` : ''}${allBtn}
       </div>
       <div class="mc-sb" id="mcb-${id}">${sum ? `<div class="mc-sum">${escapeHtml(sum)}</div>` : ''}${rows}</div></section>`;
   });
@@ -4329,6 +4340,114 @@ function mdlIsNew(m){
   const p = mdlPrevVisit[moodleOpenId] || 0; if(!p) return false;
   let t = 0; (m.contents||[]).forEach(c=>{ t = Math.max(t, Number(c.timemodified)||0, Number(c.timecreated)||0); });
   return t > p;
+}
+
+/* ===== DESCARGAR UN BLOQUE ENTERO (sección del curso) COMO CARPETA .ZIP ===== */
+// Escritor ZIP mínimo (sin compresión, sin librerías externas): una carpeta con todos los archivos del bloque.
+const MDL_CRC = (function(){ const t = new Uint32Array(256); for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c = c&1 ? 0xEDB88320^(c>>>1) : c>>>1; t[n]=c>>>0; } return t; })();
+function mdlCrc32(u8){ let c = 0xFFFFFFFF; for(let i=0;i<u8.length;i++) c = MDL_CRC[(c^u8[i])&255]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
+function mdlZip(entries){ // entries: [{name, data:Uint8Array}]
+  const enc = new TextEncoder(), parts = [], central = []; let offset = 0;
+  const d = new Date(), time = (d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1), date = ((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+  entries.forEach(e=>{
+    const name = enc.encode(e.name), crc = mdlCrc32(e.data), size = e.data.length;
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true); lh.setUint16(4,20,true); lh.setUint16(6,0x0800,true); lh.setUint16(8,0,true);
+    lh.setUint16(10,time,true); lh.setUint16(12,date,true); lh.setUint32(14,crc,true); lh.setUint32(18,size,true); lh.setUint32(22,size,true);
+    lh.setUint16(26,name.length,true); lh.setUint16(28,0,true);
+    parts.push(lh.buffer, name, e.data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true); ch.setUint16(4,20,true); ch.setUint16(6,20,true); ch.setUint16(8,0x0800,true); ch.setUint16(10,0,true);
+    ch.setUint16(12,time,true); ch.setUint16(14,date,true); ch.setUint32(16,crc,true); ch.setUint32(20,size,true); ch.setUint32(24,size,true);
+    ch.setUint16(28,name.length,true); ch.setUint32(42,offset,true);
+    central.push(ch.buffer, name);
+    offset += 30 + name.length + size;
+  });
+  let cdSize = 0; central.forEach(c=>{ cdSize += c.byteLength !== undefined ? c.byteLength : c.length; });
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0,0x06054b50,true); end.setUint16(8,entries.length,true); end.setUint16(10,entries.length,true);
+  end.setUint32(12,cdSize,true); end.setUint32(16,offset,true);
+  return new Blob([...parts, ...central, end.buffer], { type:'application/zip' });
+}
+function mdlSafeName(t, fb){ const n = String(t||'').replace(/[\\\/:*?"<>|\u0000-\u001f]/g,'-').replace(/\s+/g,' ').replace(/^[.\s]+|[.\s]+$/g,'').slice(0,90); return n || fb; }
+// Lista de archivos de un bloque: [{path:'Carpeta/archivo.pdf', url, size}]
+function mdlSecFiles(s, mc, kind){
+  const out = []; kind = kind || 'all';
+  (s.modules || []).forEach(m=>{
+    if(m.uservisible === false || m.modname === 'label') return;
+    const k = MDL_KIND[m.modname] || 'other';
+    if(kind === 'teoria' && k !== 'cont') return;
+    if(kind === 'ejercicios' && k !== 'eval') return;
+    const files = (m.contents || []).filter(c=>c.type === 'file' && c.fileurl);
+    if(!files.length) return;
+    const multi = m.modname === 'folder' || files.length > 1;
+    files.forEach(c=>{
+      const sub = (c.filepath && c.filepath !== '/') ? c.filepath.replace(/^\/|\/$/g,'').split('/').map(x=>mdlSafeName(x,'carpeta')).join('/') + '/' : '';
+      const top = kind === 'all' ? (k === 'cont' ? 'Teoría/' : k === 'eval' ? 'Ejercicios/' : 'Otros/') : '';
+      const base = top + (multi ? mdlSafeName(m.name,'Carpeta') + '/' + sub : '');
+      out.push({ path: base + mdlSafeName(c.filename,'archivo'), url:c.fileurl, size:c.filesize||0 });
+    });
+  });
+  return out;
+}
+function mdlSecLinks(s, kind){
+  if(kind === 'ejercicios') return [];
+  const out = [];
+  (s.modules || []).forEach(m=>{
+    if(m.uservisible === false || m.modname !== 'url') return;
+    const u = (m.contents||[])[0] && safeHref(m.contents[0].fileurl);
+    if(u) out.push((m.name || 'Enlace') + '\r\n' + u + '\r\n');
+  });
+  return out;
+}
+let mdlDlBusy = false;
+async function mdlDownloadSec(id, kind){
+  kind = kind || 'all';
+  if(mdlDlBusy) return;
+  const mc = moodleCache && moodleCache.courses && moodleCache.courses.find(c=>c.id === moodleOpenId);
+  const cd = mc && mdlCourse[mc.id], s = cd && cd.secs && cd.secs.find(x=>Number(x.id) === Number(id));
+  const btn = document.getElementById('mcdl-' + id + '-' + kind);
+  if(!s || !btn) return;
+  const files = mdlSecFiles(s, mc, kind), original = btn.textContent, label = {all:'',teoria:' - Teoría',ejercicios:' - Ejercicios'}[kind];
+  if(!files.length){ btn.textContent = 'Sin archivos'; setTimeout(()=>{ btn.textContent = original; }, 2500); return; }
+  const total = files.reduce((a,f)=>a+f.size,0);
+  if(total > 400*1048576 && !confirm('Este bloque pesa unos ' + fmtSize(total) + '. ¿Quieres descargarlo igualmente?')) return;
+  mdlDlBusy = true; btn.disabled = true;
+  const folder = mdlSafeName(s.name, 'Bloque'), course = mdlSafeName((mc.fullname || mc.shortname), 'Curso');
+  const entries = [], used = {}, failed = [];
+  try{
+    for(let i=0;i<files.length;i++){
+      btn.textContent = 'Descargando ' + (i+1) + ' de ' + files.length + '…';
+      let href = moodleFileHref(files[i].url);
+      if(href && MOODLE_PROXY) href = href.replace(MOODLE_BASE, MOODLE_API);
+      try{
+        if(!href) throw new Error('sin acceso');
+        const r = await fetch(href);
+        if(!r.ok) throw new Error('HTTP ' + r.status);
+        const ct = r.headers.get('content-type') || '';
+        const buf = new Uint8Array(await r.arrayBuffer());
+        if(/json/i.test(ct) && buf.length < 2000 && /"exception"|"error"/.test(new TextDecoder().decode(buf))) throw new Error('Moodle rechazó el archivo');
+        let path = files[i].path; const key = path.toLowerCase();
+        if(used[key]){ used[key]++; path = path.replace(/(\.[^./]*)?$/, ' (' + used[key] + ')$1'); } else used[key] = 1;
+        entries.push({ name: folder + '/' + path, data: buf });
+      }catch(e){ failed.push(files[i].path); }
+    }
+    const links = mdlSecLinks(s, kind);
+    if(links.length) entries.push({ name: folder + '/Enlaces.txt', data: new TextEncoder().encode(links.join('\r\n')) });
+    if(failed.length) entries.push({ name: folder + '/NO_DESCARGADOS.txt', data: new TextEncoder().encode('Estos archivos no se pudieron descargar:\r\n' + failed.join('\r\n')) });
+    if(!entries.length || entries.every(e=>/\.txt$/.test(e.name) && failed.length === files.length)){
+      btn.textContent = 'No se pudo descargar';
+      alert('No se han podido descargar los archivos desde la página. Suele deberse a que Moodle no permite la descarga directa desde otra web (CORS). Solución: configura tu proxy (MOODLE_PROXY) para que también deje pasar las rutas /pluginfile.php y /webservice/pluginfile.php.');
+      setTimeout(()=>{ btn.textContent = original; }, 3500);
+      return;
+    }
+    const blob = mdlZip(entries), a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = course.slice(0,50) + ' - ' + folder + label + '.zip';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 30000);
+    btn.textContent = failed.length ? 'Descargado (' + failed.length + ' con error)' : 'Descargado ✓';
+    setTimeout(()=>{ btn.textContent = original; }, 3500);
+  }finally{ mdlDlBusy = false; btn.disabled = false; }
 }
 function mdlGoSec(id){
   const sec = document.getElementById('mcs-' + id); if(!sec) return;
@@ -5164,7 +5283,7 @@ async function completeLogin(acc,users,rem){
     setLoginError('');
     setFailCount(0);
     acc.last=Date.now(); lsSet(USERS_KEY,users); logAccess(true,acc.u);
-    const expiry = Date.now() + sessionMs();
+    const expiry = Date.now() + (/\.tv$/i.test(acc.u) ? 90*24*60*60*1000 : sessionMs());
     try{
       localStorage.setItem(AUTH_STORAGE_KEY, String(expiry));
       localStorage.setItem(ROLE_KEY, acc.u);
@@ -5713,7 +5832,8 @@ function ntExportDoc(kind){
 const TV_KEY='daw_modo_tv', BK_SKIP=/^daw_(horario_|modo_tv)/;
 (function(){
   let on=null; try{ on=localStorage.getItem(TV_KEY); }catch(e){}
-  if(on===null) on=/SMART-TV|SmartTV|Tizen|Web0S|WebOS|HbbTV|NetCast|BRAVIA|VIDAA|AppleTV|GoogleTV|Android.*TV|CrKey/i.test(navigator.userAgent)?'1':'0';
+  if(on===null) on=/SMART-TV|SmartTV|Tizen|Web0S|WebOS|HbbTV|NetCast|BRAVIA|VIDAA|AppleTV|GoogleTV|Android.*TV|CrKey|AFT[A-Z]|Roku|NETTV|SonyDTV|Viera|Hisense|Large Screen/i.test(navigator.userAgent)?'1':'0';
+  try{ const q=/[?&]tv=([01])(&|$)/.exec(location.search); if(q) on=q[1]; }catch(e){}
   document.documentElement.classList.toggle('tv',on==='1');
   document.querySelectorAll('.sidebar-nav a:not([tabindex])').forEach(a=>{
     a.tabIndex=0; a.setAttribute('role','button');
@@ -5780,7 +5900,7 @@ function admUTable(){
 }
 
 /* ===== REGISTRO DE CUENTAS EN LA NUBE (solo administrador) ===== */
-const NUBE_SQL="create table if not exists public.admins (email text primary key);\ncreate table if not exists public.cuentas (\n  usuario text primary key check (usuario ~ '^[A-Za-z0-9._@-]{3,80}$'),\n  rol text not null default 'alumno',\n  activa boolean not null default true,\n  creada timestamptz not null default now(),\n  ultimo timestamptz);\nalter table public.admins enable row level security;\nalter table public.cuentas enable row level security;\ncreate or replace function public.es_admin() returns boolean language sql stable security definer set search_path=public as $$ select exists(select 1 from public.admins where lower(email)=lower(coalesce(auth.jwt()->>'email',''))) $$;\ncreate or replace function public.registrar_cuenta(p_usuario text, p_rol text default 'alumno') returns void language sql security definer set search_path=public as $$ insert into public.cuentas(usuario,rol,ultimo) values (lower(p_usuario), case when p_rol in ('admin','alumno','lectura') then p_rol else 'alumno' end, now()) on conflict (usuario) do update set ultimo=now() $$;\ncreate or replace function public.estado_cuenta(p_usuario text) returns boolean language sql stable security definer set search_path=public as $$ select coalesce((select activa from public.cuentas where usuario=lower(p_usuario)),true) $$;\ncreate or replace function public.listar_cuentas() returns setof public.cuentas language sql stable security definer set search_path=public as $$ select * from public.cuentas where public.es_admin() order by creada desc $$;\ncreate or replace function public.cambiar_estado_cuenta(p_usuario text, p_activa boolean) returns void language sql security definer set search_path=public as $$ update public.cuentas set activa=p_activa where usuario=lower(p_usuario) and public.es_admin() $$;\nrevoke all on function public.listar_cuentas(), public.cambiar_estado_cuenta(text,boolean) from public, anon;\ngrant execute on function public.registrar_cuenta(text,text), public.estado_cuenta(text) to anon, authenticated;\ngrant execute on function public.listar_cuentas(), public.cambiar_estado_cuenta(text,boolean) to authenticated;\n-- Cambia el correo por el tuyo (el de tu cuenta de Sincronización):\ninsert into public.admins(email) values ('TU-CORREO@EJEMPLO.COM') on conflict do nothing;";
+const NUBE_SQL="create table if not exists public.admins (email text primary key);\ncreate table if not exists public.cuentas (\n  usuario text primary key check (usuario ~ '^[A-Za-z0-9._@-]{3,80}$'),\n  rol text not null default 'alumno',\n  activa boolean not null default true,\n  creada timestamptz not null default now(),\n  ultimo timestamptz);\nalter table public.admins enable row level security;\nalter table public.cuentas enable row level security;\ncreate or replace function public.es_admin() returns boolean language sql stable security definer set search_path=public as $$ select exists(select 1 from public.admins where lower(email)=lower(coalesce(auth.jwt()->>'email',''))) $$;\ncreate or replace function public.registrar_cuenta(p_usuario text, p_rol text default 'alumno') returns void language sql security definer set search_path=public as $$ insert into public.cuentas(usuario,rol,ultimo) values (lower(p_usuario), case when p_rol in ('admin','alumno','lectura') then p_rol else 'alumno' end, now()) on conflict (usuario) do update set ultimo=now() $$;\ncreate or replace function public.estado_cuenta(p_usuario text) returns boolean language sql stable security definer set search_path=public as $$ select coalesce((select activa from public.cuentas where usuario=lower(p_usuario)),true) $$;\ncreate or replace function public.listar_cuentas() returns setof public.cuentas language sql stable security definer set search_path=public as $$ select * from public.cuentas where public.es_admin() order by creada desc $$;\ncreate or replace function public.cambiar_estado_cuenta(p_usuario text, p_activa boolean) returns void language sql security definer set search_path=public as $$ update public.cuentas set activa=p_activa where usuario=lower(p_usuario) and public.es_admin() $$;\nrevoke all on function public.listar_cuentas(), public.cambiar_estado_cuenta(text,boolean) from public, anon;\ngrant execute on function public.registrar_cuenta(text,text), public.estado_cuenta(text) to anon, authenticated;\ngrant execute on function public.listar_cuentas(), public.cambiar_estado_cuenta(text,boolean) to authenticated;\n-- Cambia el correo por el tuyo (el de tu cuenta de Sincronización):\ninsert into public.admins(email) values ('TU-CORREO@EJEMPLO.COM') on conflict do nothing;\ncreate table if not exists public.tv_sesiones (\n  code text primary key check (code ~ '^[a-z0-9]{10}$'),\n  payload text,\n  creada timestamptz not null default now());\nalter table public.tv_sesiones enable row level security;\ncreate or replace function public.tv_crear(p_code text) returns boolean language plpgsql security definer set search_path=public as $$\ndeclare n int;\nbegin\n  if p_code is null or p_code !~ '^[a-z0-9]{10}$' then return false; end if;\n  delete from public.tv_sesiones where creada < now() - interval '10 minutes';\n  if (select count(*) from public.tv_sesiones) > 500 then return false; end if;\n  insert into public.tv_sesiones(code) values (p_code) on conflict (code) do nothing returning 1 into n;\n  return n is not null;\nend $$;\ncreate or replace function public.tv_aprobar(p_code text, p_payload text) returns boolean language plpgsql security definer set search_path=public as $$\ndeclare n int;\nbegin\n  if p_code is null or p_code !~ '^[a-z0-9]{10}$' or p_payload is null or length(p_payload) > 20000 then return false; end if;\n  update public.tv_sesiones set payload = p_payload where code = p_code and payload is null and creada > now() - interval '5 minutes' returning 1 into n;\n  return n is not null;\nend $$;\ncreate or replace function public.tv_leer(p_code text) returns text language plpgsql security definer set search_path=public as $$\ndeclare v text;\nbegin\n  if p_code is null or p_code !~ '^[a-z0-9]{10}$' then return null; end if;\n  select payload into v from public.tv_sesiones where code = p_code and creada > now() - interval '5 minutes';\n  if v is not null then delete from public.tv_sesiones where code = p_code; end if;\n  return v;\nend $$;\ngrant execute on function public.tv_crear(text), public.tv_aprobar(text,text), public.tv_leer(text) to anon, authenticated;\n";
 function nubeCfg(){ const C=window.syncCloud&&window.syncCloud(); return C&&C.ok?C:null; }
 async function nubeRpc(fn,args,ms){
   const C=nubeCfg(); if(!C) return null;
@@ -6162,6 +6282,7 @@ addEventListener('keydown',function(e){
 .wc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));border:1px solid var(--wc-line);background:var(--wc-bg);margin:22px 0 0}
 .wc-stat{padding:12px 8px;text-align:center;border-right:1px solid var(--wc-line)}.wc-stat:last-child{border:0}
 .wc-stat b{display:block;font:600 1.8rem 'Cormorant Garamond',Georgia,serif;color:var(--etonD)}
+.wc-stat small{display:block;font-size:.7rem;color:var(--wc-mut)}
 .wc-stat span{font-size:.8rem;color:var(--wc-mut)}
 .wc-bar{height:6px;background:var(--wc-line);margin:0 0 22px}.wc-bar i{display:block;height:100%;background:var(--etonD);transition:width .4s}
 .wc-top{display:flex;align-items:stretch;gap:10px;margin-bottom:28px}
@@ -6200,6 +6321,56 @@ addEventListener('keydown',function(e){
 .wc-cal i.hd{border:0;color:var(--wc-mut)}.wc-cal i.on{background:var(--etonD);border-color:var(--etonD);color:#fff}.wc-cal i.td{outline:2px solid var(--eton)}
 .wc-chart{width:100%;max-width:520px;color:var(--wc-ink);display:block}
 .wc button[disabled]{opacity:.4;cursor:default}
+.wc .wc-lk{border:0;background:none;padding:6px 2px;min-height:44px;text-decoration:underline;color:var(--wc-mut);font-size:.85rem}.wc .wc-lk:hover{background:none;color:var(--wc-ink)}
+.wc-sql{white-space:pre-wrap;word-break:break-word;font:.78rem/1.4 ui-monospace,Menlo,monospace;background:var(--wc-bg);border:1px solid var(--wc-line);padding:10px;max-height:260px;overflow:auto}
+.wc-legal{text-align:center;margin:28px 0 4px}
+.wc-note{font-size:.85rem;color:var(--wc-mut);margin:10px 0}
+.wc-hb{display:flex;align-items:flex-end;gap:4px;height:110px;border-bottom:1px solid var(--wc-line);margin-bottom:14px}.wc-hb i{flex:1;background:var(--etonD);min-height:2px}
+.wc-how{border:1px solid var(--wc-line);background:var(--wc-bg);padding:12px 16px;margin-top:14px}.wc-how summary{cursor:pointer;font-weight:600}.wc-how li{margin:6px 0}
+/* ===== The Wellness Club · estética Alo Yoga: bone, arena, salvia y negro suave ===== */
+.wc{--wc-page:#f6f3ee;--wc-bg:#fcfbf8;--wc-tint:#ece8e0;--wc-ink:#1b1a18;--wc-line:#ddd7cb;--wc-mut:#85807a;--eton:#a7b19f;--etonD:#6a7864;
+ font-family:'Helvetica Neue',Helvetica,Arial,system-ui,sans-serif;line-height:1.65;letter-spacing:.01em;background:var(--wc-page);border-radius:28px;padding:30px 22px 34px;max-width:720px}
+@media(prefers-color-scheme:dark){.wc{--wc-page:#161615;--wc-bg:#1e1d1b;--wc-tint:#272522;--wc-ink:#efebe4;--wc-line:#34312d;--wc-mut:#a39d94;--eton:#8d9a86;--etonD:#a7b79f}}
+.wc button{border-radius:999px;border:1px solid var(--wc-ink);padding:10px 22px;font-size:.88rem;font-weight:500;letter-spacing:.04em;transition:background .25s,color .25s,border-color .25s}
+.wc button.p{background:var(--wc-ink);color:var(--wc-page);border-color:var(--wc-ink)}
+.wc button.p:hover{background:var(--etonD);border-color:var(--etonD);color:#fff}
+.wc button:focus-visible{outline:2px solid var(--etonD);outline-offset:3px}
+.wc-tabs{background:var(--wc-tint);border-radius:999px;padding:5px;gap:4px;margin-top:20px}
+.wc-tabs button{border:0;color:var(--wc-mut);padding:10px 8px}
+.wc-tabs button:hover{background:transparent;color:var(--wc-ink)}
+.wc-tabs button.p,.wc-tabs button.p:hover{background:var(--wc-ink);color:var(--wc-page)}
+.wc-blk{border-bottom:1px solid var(--wc-line);padding-bottom:10px;margin:40px 0 16px}
+.wc-blk h3{font:500 1.05rem 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.06em}
+.wc-blk small{font-size:.8rem;letter-spacing:.04em}
+.wc-stats{border:0;background:transparent;gap:10px;margin-top:20px}
+.wc-stat{background:var(--wc-bg);border:0;border-radius:20px;padding:20px 8px}
+.wc-stat b{font:300 2.1rem/1.1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--wc-ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.wc-stat span{display:block;margin-top:6px;font-size:.78rem;letter-spacing:.05em}
+.wc-bar{height:4px;border-radius:99px;background:var(--wc-tint);overflow:hidden}.wc-bar i{border-radius:99px;background:var(--etonD)}
+.wc-top{margin-bottom:22px}
+.wc-time{border:0;background:var(--wc-bg);border-radius:999px;padding:6px 8px 6px 22px}
+.wc-time output{font:300 1.9rem 'Helvetica Neue',Helvetica,Arial,sans-serif;font-variant-numeric:tabular-nums}
+.wc-panel{border:0;border-radius:20px;overflow:hidden;box-shadow:0 18px 50px rgba(27,26,24,.14);background:var(--wc-bg)}
+.wc-panel button{border-radius:0;border-bottom:1px solid var(--wc-line);padding:14px 20px}.wc-panel button:hover{background:var(--wc-tint);color:var(--wc-ink)}
+.wc-ex{border:0;border-radius:22px;background:var(--wc-bg);padding:18px 22px;margin-bottom:12px;box-shadow:inset 0 0 0 1px transparent;transition:box-shadow .25s,opacity .25s}
+.wc-ex.cur{box-shadow:inset 0 0 0 1.5px var(--etonD)}.wc-ex.ok{opacity:.55}
+.wc-nm{font:500 1.05rem 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.02em}.wc-rx{font-size:.82rem;letter-spacing:.03em}
+.wc .wc-dot{border-color:var(--wc-line);background:var(--wc-bg)}.wc .wc-dot.on{background:var(--wc-ink);border-color:var(--wc-ink);color:var(--wc-page)}
+.wc input,.wc select{border-radius:14px;border:1px solid var(--wc-line);background:var(--wc-bg);padding:8px 14px}
+.wc-er{border:0;border-radius:20px;background:var(--wc-bg);padding:14px}
+.wc-rest{border:0;border-radius:20px;background:var(--wc-tint);padding:12px 20px}.wc-rest b{font:300 1.6rem 'Helvetica Neue',Helvetica,Arial,sans-serif}
+.wc-fin{border:0;border-radius:24px;background:var(--wc-tint);padding:30px 20px;font:300 1.35rem/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;font-style:normal;letter-spacing:.02em}
+.wc-cal{gap:6px}.wc-cal i{border:0;border-radius:12px;background:var(--wc-bg)}.wc-cal i.hd{background:transparent}.wc-cal i.on{background:var(--wc-ink);color:var(--wc-page)}.wc-cal i.td{outline:1.5px solid var(--etonD);outline-offset:1px}
+.wc-hb{border-bottom:0;gap:6px;height:120px}.wc-hb i{background:var(--eton);border-radius:8px 8px 3px 3px;transition:background .2s}.wc-hb i:hover{background:var(--etonD)}
+.wc-how{border:0;border-radius:20px;background:var(--wc-bg);padding:16px 22px}
+.wc-sql{border:0;border-radius:14px;background:var(--wc-tint)}
+.wc-note{line-height:1.7}
+.wc-focus{background:#1b1a18;color:#f1ede6}.wc-focus h3{font-weight:300;letter-spacing:-.01em}
+.wc-focus button{color:#f1ede6;border-color:#f1ede6}.wc-focus button:hover{background:#f1ede6;color:#1b1a18}
+.wc-focus .wc-dot{background:transparent;border-color:rgba(241,237,230,.4)}.wc-focus .wc-dot.on{background:#f1ede6;color:#1b1a18;border-color:#f1ede6}
+.wc-toast{border-radius:999px;background:#1b1a18;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+@media(max-width:520px){.wc{border-radius:22px;padding:22px 14px 28px}.wc-stat b{font-size:1.7rem}.wc button{padding:10px 14px}}
+@media(prefers-reduced-motion:reduce){.wc *{transition:none!important}}
 </style>
 <script id="wellness-club-js">
 (function(){
@@ -6282,10 +6453,177 @@ function editView(){var r=R(),h='<div class="wc-edit"><div class="wc-row"><selec
  h+='</select><button type="button" onclick="wcNewRt()">Nueva rutina</button><button type="button" onclick="wcDelRt()"'+(W.rt.length<2?' disabled':'')+'>Eliminar rutina</button></div><div class="wc-row"><input type="text" aria-label="Nombre de la rutina" value="'+esc(r.n)+'" onchange="wcRtName(this.value)"></div>';
  r.ex.forEach(function(x,i){h+='<div class="wc-er"><input type="text" aria-label="Ejercicio" value="'+esc(x.n)+'" onchange="wcEx('+i+',\'n\',this.value)"><label>series<input type="number" min="1" max="10" value="'+x.s+'" onchange="wcEx('+i+',\'s\',this.value)"></label><label>reps<input type="number" min="1" value="'+x.r+'" onchange="wcEx('+i+',\'r\',this.value)"></label><select aria-label="Unidad" onchange="wcEx('+i+',\'u\',this.value)"><option value="reps"'+(x.u!=='seg'?' selected':'')+'>repeticiones</option><option value="seg"'+(x.u==='seg'?' selected':'')+'>segundos</option></select><span><button type="button" aria-label="Subir" onclick="wcMv('+i+',-1)">↑</button><button type="button" aria-label="Bajar" onclick="wcMv('+i+',1)">↓</button><button type="button" aria-label="Quitar" onclick="wcDel('+i+')">✕</button></span></div>'});
  return h+'<button type="button" class="p" onclick="wcAdd()">Añadir ejercicio</button></div>'}
+/*HEALTH-START*/
+var HK='wc_health_local',H={days:{},wk:[],at:0,busy:'',msg:'',prof:{},last:{}};
+try{var ho=JSON.parse(localStorage.getItem(HK));if(ho&&ho.days){H.days=ho.days;H.wk=ho.wk||[];H.at=ho.at||0;H.prof=ho.prof||{};H.last=ho.last||{}}}catch(e){}
+function hsave(){try{localStorage.setItem(HK,JSON.stringify({days:H.days,wk:H.wk,at:H.at,prof:H.prof,last:H.last}))}catch(e){}}
+var HM={HKQuantityTypeIdentifierStepCount:'steps',HKQuantityTypeIdentifierActiveEnergyBurned:'kcal',HKQuantityTypeIdentifierAppleExerciseTime:'exMin',HKQuantityTypeIdentifierDistanceWalkingRunning:'dist',HKQuantityTypeIdentifierRestingHeartRate:'rhr',HKQuantityTypeIdentifierBodyMass:'weight',HKCategoryTypeIdentifierSleepAnalysis:'sleep',HKQuantityTypeIdentifierHeight:'height'};
+var HLOW={sleep:1,weight:1,rhr:1,height:1};
+var HW={TraditionalStrengthTraining:'Fuerza',FunctionalStrengthTraining:'Fuerza funcional',Running:'Carrera',Walking:'Caminata',Cycling:'Ciclismo',Swimming:'Natación',HighIntensityIntervalTraining:'HIIT',Yoga:'Yoga',Pilates:'Pilates',Elliptical:'Elíptica',Rowing:'Remo',Hiking:'Senderismo',CoreTraining:'Core',Dance:'Baile',Tennis:'Tenis',Other:'Otro',Soccer:'Fútbol',Basketball:'Baloncesto',Boxing:'Boxeo',Stairs:'Escaleras',StairClimbing:'Escaleras',MixedCardio:'Cardio',Kickboxing:'Kickboxing',Climbing:'Escalada',Golf:'Golf',Skating:'Patinaje'};
+function hAttrs(tag){var o={},re=/ (\w+)="([^"]*)"/g,m;while((m=re.exec(tag)))o[m[1]]=m[2];return o}
+function hTs(s){return new Date(String(s).replace(/^(\S+) (\S+) ([+-]\d\d)(\d\d)$/,'$1T$2$3:$4')).getTime()}
+function hNew(){return{sum:{},rhr:{},wt:{},ht:{},wk:[],seen:{},me:null}}
+function hAdd(acc,m,day,src,v){var a=acc.sum[m]||(acc.sum[m]={}),d=a[day]||(a[day]={});d[src]=(d[src]||0)+v}
+function hTag(acc,tag,kind,cut){
+ if(kind==='Me'){var a0=hAttrs(tag);acc.me={sex:a0.HKCharacteristicTypeIdentifierBiologicalSex,dob:a0.HKCharacteristicTypeIdentifierDateOfBirth};return}
+ if(kind==='Record'){var t=/ type="([^"]+)"/.exec(tag);if(!t)return;var m=HM[t[1]];if(!m)return;
+  var ed=/ endDate="(\d{4}-\d\d-\d\d)/.exec(tag);if(!ed||(ed[1]<cut&&!HLOW[m]))return;var a=hAttrs(tag),day=ed[1],src=a.sourceName||'?',v;
+  if(m==='sleep'){var asl=/Asleep/.test(a.value||''),inb=/InBed/.test(a.value||'');if(!asl&&!inb)return;v=(hTs(a.endDate)-hTs(a.startDate))/36e5;if(!(v>0&&v<24))return;hAdd(acc,asl?'sleep':'sleepIn',day,src,v);return}
+  v=parseFloat(a.value);if(isNaN(v))return;
+  if(m==='kcal'&&a.unit==='kJ')v/=4.184;
+  if(m==='dist'&&a.unit==='mi')v*=1.609344;
+  if(m==='weight'&&a.unit==='lb')v*=0.45359237;
+  if(m==='height'){if(a.unit==='m')v*=100;else if(a.unit==='in')v*=2.54;acc.ht[day]=v;return}
+  if(m==='rhr'){var r=acc.rhr[day]||(acc.rhr[day]=[0,0]);r[0]+=v;r[1]++;return}
+  if(m==='weight'){acc.wt[day]=v;return}
+  hAdd(acc,m,day,src,v)}
+ else{var sd=/ startDate="(\d{4}-\d\d-\d\d)/.exec(tag);if(!sd||sd[1]<cut)return;var w=hAttrs(tag),mins=parseFloat(w.duration)||0,u=w.durationUnit||'min';
+  if(u==='sec'||u==='s')mins/=60;else if(u==='hr'||u==='h')mins*=60;
+  var key=w.startDate+'|'+w.workoutActivityType;if(acc.seen[key])return;acc.seen[key]=1;
+  var ty=String(w.workoutActivityType||'').replace('HKWorkoutActivityType','');
+  acc.wk.push({d:sd[1],s:w.startDate,t:HW[ty]||ty||'Entrenamiento',m:Math.round(mins),k:Math.round(parseFloat(w.totalEnergyBurned)||0)})}}
+function hCounted(stream,cb){var n=0;return stream.pipeThrough(new TransformStream({transform:function(c,ctl){n+=c.byteLength;cb(n);ctl.enqueue(c)}}))}
+async function hParseXml(stream,acc,cut,onChars){
+ var rd=stream.pipeThrough(new TextDecoderStream()).getReader(),buf='';
+ for(;;){var r=await rd.read();if(r.done)break;buf+=r.value;
+  var re=/<(Record|Workout|Me) [^>]*>/g,m,last=0;
+  while((m=re.exec(buf))){hTag(acc,m[0],m[1],cut);last=re.lastIndex}
+  buf=buf.slice(last);var lt=buf.lastIndexOf('<');buf=lt>0?buf.slice(lt):(lt<0?'':buf)}}
+async function hZipEntry(file){
+ var tail=new DataView(await file.slice(Math.max(0,file.size-65557),file.size).arrayBuffer()),i,ok=0;
+ for(i=tail.byteLength-22;i>=0;i--)if(tail.getUint32(i,true)===0x06054b50){ok=1;break}
+ if(!ok)throw new Error('El archivo ZIP no es válido.');
+ var n=tail.getUint16(i+10,true),cs=tail.getUint32(i+12,true),co=tail.getUint32(i+16,true);
+ if(co===0xFFFFFFFF)throw new Error('ZIP demasiado grande. En Archivos, pulsa sobre el ZIP para descomprimirlo y elige export.xml.');
+ var cd=new DataView(await file.slice(co,co+cs).arrayBuffer()),p=0,td=new TextDecoder(),f=null;
+ for(var k=0;k<n;k++){if(cd.getUint32(p,true)!==0x02014b50)break;
+  var meth=cd.getUint16(p+10,true),csz=cd.getUint32(p+20,true),usz=cd.getUint32(p+24,true),nl=cd.getUint16(p+28,true),el=cd.getUint16(p+30,true),cl=cd.getUint16(p+32,true),lo=cd.getUint32(p+42,true),name=td.decode(new Uint8Array(cd.buffer,p+46,nl));
+  if(/\.xml$/i.test(name)&&!/_cda\.xml$/i.test(name)&&!/\/\./.test(name)&&(!f||usz>f.usz))f={meth:meth,csz:csz,lo:lo,usz:usz};
+  p+=46+nl+el+cl}
+ if(!f)throw new Error('No encuentro el archivo XML de Salud dentro del ZIP.');
+ var lh=new DataView(await file.slice(f.lo,f.lo+30).arrayBuffer());
+ f.start=f.lo+30+lh.getUint16(26,true)+lh.getUint16(28,true);return f}
+function hFinish(acc,cut){
+ var days=H.days,n=0,put=function(day,k,v){(days[day]||(days[day]={}))[k]=v};
+ Object.keys(acc.sum).forEach(function(m){if(m==='sleepIn')return;var a=acc.sum[m];Object.keys(a).forEach(function(day){var best=0;for(var s in a[day])if(a[day][s]>best)best=a[day][s];
+  put(day,m,m==='sleep'||m==='dist'?Math.round(best*10)/10:Math.round(best))})});
+ Object.keys(acc.rhr).forEach(function(day){put(day,'rhr',Math.round(acc.rhr[day][0]/acc.rhr[day][1]))});
+ Object.keys(acc.wt).forEach(function(day){put(day,'weight',Math.round(acc.wt[day]*10)/10)});
+ Object.keys(acc.sum.sleepIn||{}).forEach(function(day){if(!(acc.sum.sleep&&acc.sum.sleep[day])){var a=acc.sum.sleepIn[day],b=0;for(var s in a)if(a[s]>b)b=a[s];put(day,'sleep',Math.round(b*10)/10)}});
+ Object.keys(acc.ht).forEach(function(day){put(day,'height',Math.round(acc.ht[day]))});
+ if(acc.me){H.prof=H.prof||{};if(acc.me.sex)H.prof.sex=acc.me.sex;if(acc.me.dob)H.prof.dob=acc.me.dob}
+ H.last=H.last||{};['sleep','weight','rhr','height'].forEach(function(k){var best=null;Object.keys(days).forEach(function(d){if(days[d][k]!=null&&(!best||d>best))best=d});if(best)H.last[k]={v:days[best][k],day:best}});
+ var old=H.wk.filter(function(x){return !acc.wk.some(function(y){return y.s===x.s&&y.t===x.t})});
+ H.wk=acc.wk.concat(old).sort(function(a,b){return a.s<b.s?1:-1}).slice(0,40);
+ var lim=T(new Date(Date.now()-400*864e5));Object.keys(days).forEach(function(d){if(d<lim)delete days[d]});
+ n=Object.keys(acc.sum).concat(Object.keys(acc.rhr)).length;H.at=Date.now();hsave()}
+function hJson(txt,acc){
+ var j=JSON.parse(txt),map={step_count:'steps',active_energy:'kcal',apple_exercise_time:'exMin',walking_running_distance:'dist',resting_heart_rate:'rhr',weight_body_mass:'weight',sleep_analysis:'sleep'},c=0;
+ if(j&&j.data&&j.data.metrics){j.data.metrics.forEach(function(m){var k=map[m.name];if(!k)return;(m.data||[]).forEach(function(d){
+  var day=String(d.date).slice(0,10),v=k==='sleep'?(d.totalSleep!=null?d.totalSleep:d.asleep!=null?d.asleep:d.qty):d.qty;v=parseFloat(v);if(isNaN(v))return;
+  if(k==='kcal'&&/kj/i.test(m.units||''))v/=4.184;if(k==='dist'&&/mi/i.test(m.units||''))v*=1.609344;if(k==='weight'&&/lb/i.test(m.units||''))v*=0.45359237;
+  if(k==='rhr'){var r=acc.rhr[day]||(acc.rhr[day]=[0,0]);r[0]+=v;r[1]++}else if(k==='weight')acc.wt[day]=v;else hAdd(acc,k,day,'json',v);c++})});return c}
+ var arr=Array.isArray(j)?j:(j&&j.days)||[];arr.forEach(function(o){if(!o||!o.date)return;var day=String(o.date).slice(0,10);
+  ['steps','kcal','exMin','dist','sleep'].forEach(function(k){if(o[k]!=null&&!isNaN(+o[k])){hAdd(acc,k,day,'json',+o[k]);c++}});
+  if(o.rhr!=null){acc.rhr[day]=[+o.rhr,1];c++}if(o.weight!=null){acc.wt[day]=+o.weight;c++}});return c}
+async function hImport(file){
+ if(H.busy)return;H.msg='';H.busy='Preparando…';refresh();
+ var prog=function(n,tot){var e=document.getElementById('wcHp');if(e)e.textContent='Leyendo '+Math.min(99,Math.round(n/tot*100))+' %'};
+ try{var acc=hNew(),cut=T(new Date(Date.now()-120*864e5)),nm=file.name.toLowerCase();
+  if(/\.json$/.test(nm)){var c=hJson(await file.text(),acc);if(!c)throw new Error('No he encontrado datos de salud en ese JSON.')}
+  else{var st,tot;
+   if(/\.zip$/.test(nm)){var f=await hZipEntry(file);tot=f.csz||1;
+    st=hCounted(file.slice(f.start,f.start+f.csz).stream(),function(n){prog(n,tot)});
+    if(f.meth===8){if(typeof DecompressionStream==='undefined')throw new Error('Este navegador no descomprime ZIP. En Archivos, descomprime el ZIP y elige export.xml.');st=st.pipeThrough(new DecompressionStream('deflate-raw'))}
+    else if(f.meth!==0)throw new Error('Formato de compresión no soportado.')}
+   else{tot=file.size||1;st=hCounted(file.stream(),function(n){prog(n,tot)})}
+   await hParseXml(st,acc,cut)}
+  hFinish(acc,cut);H.msg='Datos de Salud actualizados.'}
+ catch(e){H.msg='No se ha podido importar: '+(e&&e.message?e.message:e)}
+ H.busy='';refresh()}
+function hAvg(ks,k){var v=ks.map(function(d){return H.days[d][k]}).filter(function(x){return x!=null});return v.length?v.reduce(function(a,b){return a+b},0)/v.length:null}
+function hFmt(v,k){if(v==null)return '–';return k==='sleep'||k==='dist'||k==='weight'?(Math.round(v*10)/10).toString().replace('.',','):Math.round(v).toLocaleString('es-ES')}
+function hLatest(ks,k){for(var i=ks.length-1;i>=0;i--){var v=H.days[ks[i]][k];if(v!=null)return{v:v,day:ks[i]}}return(H.last&&H.last[k])||null}
+function hProfile(ks){var p=H.prof||{},hh=hLatest(ks,'height'),ww=hLatest(ks,'weight');if(!p.sex&&!p.dob&&!hh&&!ww)return'';
+ var sx={HKBiologicalSexMale:'Hombre',HKBiologicalSexFemale:'Mujer',HKBiologicalSexOther:'Otro'}[p.sex]||'–',age=p.dob?Math.floor((Date.now()-new Date(p.dob).getTime())/315576e5):null,
+  t=function(v,l,d){return'<div class="wc-stat"><b>'+v+'</b><span>'+l+'</span>'+(d?'<small>'+d.split('-').reverse().join('/')+'</small>':'')+'</div>'};
+ return'<div class="wc-blk"><h3>Perfil</h3><small>de tu app Salud</small></div><div class="wc-stats">'+t(sx,'sexo')+t(age!=null&&age>0?age:'–','años')+t(hh?hh.v:'–','estatura cm',hh&&hh.day)+t(ww?String(ww.v).replace('.',','):'–','peso kg',ww&&ww.day)+'</div>'}
+function hLegal(){return '<p class="wc-legal"><button type="button" class="wc-lk" onclick="openLegal(\'aviso\')">Aviso legal</button><span aria-hidden="true"> · </span><button type="button" class="wc-lk" onclick="openLegal(\'priv\')">Política de privacidad</button></p><p class="wc-note">Datos de salud: son datos personales especialmente sensibles. Aquí se leen y guardan en este dispositivo, con tu consentimiento al importarlos, y puedes borrarlos cuando quieras; si activas la actualización diaria, también se guarda un resumen diario en tu cuenta de sincronización, que puedes borrar al desactivarla. Esta página no es un producto sanitario ni ofrece consejo médico. Apple y Salud son marcas de Apple Inc.</p>'}
+function healthView(){
+ hPull(false);var ks=Object.keys(H.days).sort(),last=ks[ks.length-1],d=last?H.days[last]:{},h='';
+ h+='<div class="wc-blk"><h3>Apple Salud</h3><small>'+(H.at?'Última importación: '+new Date(H.at).toLocaleDateString('es-ES',{day:'numeric',month:'long'}):'Sin datos todavía')+'</small></div>';
+ h+='<p class="wc-note">En Safari la app Salud no se puede leer directamente: Apple solo permite el acceso a apps instaladas. La sincronización se hace importando la exportación oficial. Por defecto todo se procesa en este dispositivo y nada se envía a ningún servidor; solo si activas la actualización diaria se guarda un resumen diario en tu propia cuenta de sincronización.</p>';
+ h+='<input type="file" id="wcHf" accept=".zip,.xml,.json,application/zip,text/xml,application/json" multiple hidden onchange="wcHealthPick(this)">';
+ h+='<div class="wc-row"><button type="button" class="p" onclick="document.getElementById(\'wcHf\').click()"'+(H.busy?' disabled':'')+'>Sincronizar con Salud (importar)</button>'+(ks.length?'<button type="button" onclick="wcHealthClear()">Borrar datos de Salud</button>':'')+'</div>';
+ h+='<p class="wc-note" id="wcHp" role="status" aria-live="polite">'+esc(H.busy||H.msg)+'</p>'+hAuto();
+ if(!ks.length){h+='<details class="wc-how" open><summary>Cómo exportar desde el iPhone</summary><ol><li>Abre la app Salud y toca tu foto de perfil (arriba a la derecha).</li><li>Pulsa «Exportar todos los datos de salud» y espera a que termine.</li><li>Elige «Guardar en Archivos».</li><li>Vuelve aquí y pulsa «Sincronizar con Salud». En el selector de archivos elige «iCloud Drive» y escoge ese archivo export.zip.</li></ol><p>Para no repetirlo a mano, la app Health Auto Export puede guardar cada día un JSON en iCloud Drive. Aquí puedes seleccionar varios archivos de golpe.</p></details>';return h+hLegal()}
+ h+=hProfile(ks);
+ h+='<div class="wc-blk"><h3>Actividad y sueño</h3><small>último dato disponible</small></div><div class="wc-stats">';
+ [['steps','pasos'],['dist','km'],['kcal','kcal activas'],['exMin','min ejercicio'],['sleep','h sueño'],['rhr','FC reposo']].forEach(function(k){var L=hLatest(ks,k[0]);h+='<div class="wc-stat"><b>'+hFmt(L&&L.v,k[0])+'</b><span>'+k[1]+'</span>'+(L&&L.day!==last?'<small>'+L.day.split('-').reverse().join('/')+'</small>':'')+'</div>'});
+ h+='</div><p class="wc-note">Último día con datos: '+last.split('-').reverse().join('/')+'</p>';
+ var w7=ks.slice(-7);h+='<div class="wc-blk"><h3>Últimos 7 días</h3><small>media</small></div><div class="wc-stats">';
+ [['steps','pasos'],['kcal','kcal'],['exMin','min'],['sleep','h sueño']].forEach(function(k){h+='<div class="wc-stat"><b>'+hFmt(hAvg(w7,k[0]),k[0])+'</b><span>'+k[1]+'</span></div>'});
+ h+='</div>';
+ var s14=ks.slice(-14),mx=Math.max.apply(null,s14.map(function(x){return H.days[x].steps||0}).concat([1]));
+ h+='<div class="wc-blk"><h3>Pasos</h3><small>últimos 14 días</small></div><div class="wc-hb" role="img" aria-label="Gráfico de pasos de los últimos 14 días">';
+ s14.forEach(function(x){var v=H.days[x].steps||0;h+='<i style="height:'+Math.max(2,Math.round(v/mx*100))+'%" title="'+x.split('-').reverse().join('/')+': '+v.toLocaleString('es-ES')+' pasos"></i>'});
+ h+='</div>';
+ var wt=ks.filter(function(x){return H.days[x].weight!=null});if(wt.length)h+='<p class="wc-note">Último peso registrado: <b>'+hFmt(H.days[wt[wt.length-1]].weight,'weight').replace('.',',')+' kg</b> ('+wt[wt.length-1].split('-').reverse().join('/')+')</p>';
+ if(H.wk.length){h+='<div class="wc-blk"><h3>Entrenamientos</h3><small>recientes</small></div>';
+  H.wk.slice(0,8).forEach(function(x){h+='<div class="wc-ex"><span class="wc-nm">'+esc(x.t)+'</span> <span class="wc-rx">'+x.d.split('-').reverse().join('/')+' · '+x.m+' min'+(x.k?' · '+x.k+' kcal':'')+'</span></div>'})}
+ return h+hLegal()}
+/*HAUTO-START*/
+var HCK='wc_health_cfg',HC={on:false,token:'',last:0,pulled:0};
+try{var hc0=JSON.parse(localStorage.getItem(HCK));if(hc0&&hc0.token){HC.on=!!hc0.on;HC.token=hc0.token;HC.pulled=hc0.pulled||0}}catch(e){}
+function hcsave(){try{localStorage.setItem(HCK,JSON.stringify({on:HC.on,token:HC.token,pulled:HC.pulled}))}catch(e){}}
+var HSQL="create table if not exists public.daw_health_tokens(\n  user_id uuid primary key references auth.users on delete cascade,\n  token_hash text not null);\ncreate table if not exists public.daw_health(\n  user_id uuid references auth.users on delete cascade,\n  day date,\n  steps numeric, kcal numeric, ex_min numeric, dist numeric,\n  sleep numeric, rhr numeric, weight numeric,\n  updated_at timestamptz default now(),\n  primary key(user_id, day));\nalter table public.daw_health_tokens enable row level security;\nalter table public.daw_health enable row level security;\ncreate policy \"own token\" on public.daw_health_tokens for all using (auth.uid()=user_id) with check (auth.uid()=user_id);\ncreate policy \"own read\" on public.daw_health for select using (auth.uid()=user_id);\ncreate policy \"own delete\" on public.daw_health for delete using (auth.uid()=user_id);\ncreate or replace function public.health_push(\n  p_token text, p_day date,\n  p_steps numeric default null, p_kcal numeric default null, p_ex_min numeric default null,\n  p_dist numeric default null, p_sleep numeric default null, p_rhr numeric default null, p_weight numeric default null)\nreturns void language plpgsql security definer set search_path = public as $$\ndeclare uid uuid;\nbegin\n  select user_id into uid from public.daw_health_tokens\n   where token_hash = encode(sha256(convert_to(p_token,'utf8')),'hex');\n  if uid is null then raise exception 'token no valido'; end if;\n  insert into public.daw_health(user_id,day,steps,kcal,ex_min,dist,sleep,rhr,weight)\n  values(uid,p_day,nullif(p_steps,0),nullif(p_kcal,0),nullif(p_ex_min,0),nullif(p_dist,0),nullif(p_sleep,0),nullif(p_rhr,0),nullif(p_weight,0))\n  on conflict(user_id,day) do update set\n    steps=coalesce(excluded.steps,daw_health.steps), kcal=coalesce(excluded.kcal,daw_health.kcal),\n    ex_min=coalesce(excluded.ex_min,daw_health.ex_min), dist=coalesce(excluded.dist,daw_health.dist),\n    sleep=coalesce(excluded.sleep,daw_health.sleep), rhr=coalesce(excluded.rhr,daw_health.rhr),\n    weight=coalesce(excluded.weight,daw_health.weight), updated_at=now();\nend $$;\nrevoke all on function public.health_push from public;\ngrant execute on function public.health_push to anon, authenticated;";
+function hCloud(){try{return window.syncCloud?window.syncCloud():null}catch(e){return null}}
+function hRand(){var a=new Uint8Array(24);crypto.getRandomValues(a);return Array.prototype.map.call(a,function(x){return('0'+x.toString(16)).slice(-2)}).join('')}
+async function hSha(t){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return Array.prototype.map.call(new Uint8Array(b),function(x){return('0'+x.toString(16)).slice(-2)}).join('')}
+w.wcHEnable=async function(){var c=hCloud();
+ if(!c||!c.ok||!c.sb||!c.user){H.msg='Para la actualización diaria primero inicia sesión en la sincronización entre dispositivos (menú Sincronizar). Es la cuenta donde se guardará tu resumen diario.';refresh();return}
+ H.msg='Activando…';refresh();
+ try{var tok=HC.token||hRand(),r=await c.sb.from('daw_health_tokens').upsert({user_id:c.user.id,token_hash:await hSha(tok)},{onConflict:'user_id'});
+  if(r.error){H.msg='Falta preparar la base de datos (paso 1 de abajo). Detalle: '+r.error.message;H.sql=true;refresh();return}
+  HC.token=tok;HC.on=true;HC.last=0;hcsave();H.msg='Actualización diaria activada. Completa los pasos de abajo en el iPhone.';refresh();hPull(true)}
+ catch(e){H.msg='No se pudo activar: '+(e&&e.message||e);refresh()}};
+w.wcHDisable=async function(){if(!confirm('¿Desactivar la actualización diaria? Se borra la clave y los datos de Salud guardados en tu cuenta de sincronización.'))return;
+ var c=hCloud();try{if(c&&c.sb&&c.user){await c.sb.from('daw_health').delete().eq('user_id',c.user.id);await c.sb.from('daw_health_tokens').delete().eq('user_id',c.user.id)}}catch(e){}
+ HC.on=false;HC.token='';hcsave();H.msg='Actualización diaria desactivada y datos de la nube borrados.';refresh()};
+w.wcHCopy=function(what){var t=what==='sql'?HSQL:what==='token'?HC.token:what==='url'?(hCloud()||{}).url+'/rest/v1/rpc/health_push':(hCloud()||{}).key;
+ try{navigator.clipboard.writeText(t||'').then(function(){H.msg='Copiado.';refresh()})}catch(e){H.msg='No se pudo copiar; selecciona el texto manualmente.';refresh()}};
+async function hPull(force){if(!HC.on)return;var c=hCloud();if(!c||!c.sb||!c.user)return;if(!force&&Date.now()-HC.last<6e5)return;HC.last=Date.now();
+ try{var lim=T(new Date(Date.now()-120*864e5)),r=await c.sb.from('daw_health').select('day,steps,kcal,ex_min,dist,sleep,rhr,weight').gte('day',lim);
+  if(r.error){H.msg='No se pudo leer la nube: '+r.error.message;if(mode==='s')refresh();return}
+  var fm=[['steps','steps'],['kcal','kcal'],['exMin','ex_min'],['dist','dist'],['sleep','sleep'],['rhr','rhr'],['weight','weight']],ch=0;
+  (r.data||[]).forEach(function(row){var d=H.days[row.day]||(H.days[row.day]={});fm.forEach(function(p){var v=row[p[1]];if(v!=null){v=+v;var nv=(p[0]==='dist'||p[0]==='sleep'||p[0]==='weight')?Math.round(v*10)/10:Math.round(v);if(d[p[0]]!==nv){d[p[0]]=nv;ch=1}}})});
+  HC.pulled=Date.now();hcsave();if(ch){H.at=Date.now();hsave()}if(mode==='s'&&(ch||force))refresh()}catch(e){}}
+setInterval(function(){if(!document.hidden)hPull(false)},9e5);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)hPull(false)});
+setTimeout(function(){hPull(false)},4000);
+function hAuto(){var c=hCloud(),h='<div class="wc-blk"><h3>Actualización diaria</h3><small>'+(HC.on?'Activada':'Desactivada')+'</small></div>';
+ h+='<p class="wc-note">Un Atajo de tu iPhone envía cada noche un resumen del día (pasos, distancia, energía activa, minutos de ejercicio, frecuencia cardíaca en reposo y peso) a tu propia cuenta de sincronización, y esta página lo lee sola. Es opcional: si no lo activas, nada sale de tu dispositivo.</p>';
+ if(!HC.on){h+='<div class="wc-row"><button type="button" class="p" onclick="wcHEnable()">Activar actualización diaria</button></div>'+(H.sql?hSql():'');return h}
+ var url=c&&c.url?c.url+'/rest/v1/rpc/health_push':'';
+ h+='<p class="wc-note">'+(HC.pulled?'Última lectura de la nube: '+new Date(HC.pulled).toLocaleString('es-ES',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'Aún no se ha leído nada de la nube')+'. Se actualiza sola al abrir la página y cada 15 minutos.</p>';
+ h+='<details class="wc-how"><summary>1. Preparar la base de datos (una sola vez)</summary><p>Abre tu proyecto de Supabase, entra en SQL Editor, pega este código y pulsa Run.</p>'+hSql(1)+'</details>';
+ h+='<details class="wc-how" open><summary>2. Crear la automatización en el iPhone</summary><ol><li>Abre Atajos, pestaña Automatización, «+» y elige «Hora del día». Pon por ejemplo las 22:30, «Diariamente», y «Ejecutar inmediatamente».</li><li>Añade «Buscar muestras de Salud», tipo Pasos, inicio «es hoy», agrupar «Día». Después «Calcular estadísticas» (Suma) y guárdalo en una variable.</li><li>Repite lo mismo con Distancia caminando y corriendo (km), Energía activa y Tiempo de ejercicio. Para Frecuencia cardíaca en reposo y Peso usa el último valor.</li><li>Añade «Fecha actual», con formato personalizado <b>yyyy-MM-dd</b>.</li><li>Añade «Obtener contenido de URL». Método POST. Cabeceras: <b>apikey</b>, <b>Authorization</b> (con la palabra Bearer, un espacio y la clave) y <b>Content-Type</b> = application/json. Cuerpo JSON con los campos de abajo.</li></ol>'
+ +'<p class="wc-note">URL: <code>'+esc(url)+'</code></p><div class="wc-row"><button type="button" onclick="wcHCopy(\'url\')">Copiar URL</button><button type="button" onclick="wcHCopy(\'key\')">Copiar clave pública (apikey)</button><button type="button" onclick="wcHCopy(\'token\')">Copiar tu clave personal</button></div>'
+ +'<pre class="wc-sql">{\n "p_token": "TU CLAVE PERSONAL",\n "p_day": fecha (texto yyyy-MM-dd),\n "p_steps": pasos,\n "p_dist": distancia en km,\n "p_kcal": energía activa,\n "p_ex_min": minutos de ejercicio,\n "p_rhr": frecuencia en reposo,\n "p_weight": peso en kg\n}</pre>'
+ +'<p class="wc-note">Los campos que no envíes se ignoran. Un valor 0 no sobrescribe un dato ya guardado. Si el iPhone está bloqueado, Salud puede no entregar datos al Atajo; si ves días vacíos, cambia la hora a un momento en que sueles tener el móvil desbloqueado.</p></details>';
+ h+='<div class="wc-row"><button type="button" onclick="hPull(true)">Leer ahora de la nube</button><button type="button" onclick="wcHDisable()">Desactivar y borrar de la nube</button></div>';return h}
+w.hPull=hPull;
+function hSql(){return'<div class="wc-row"><button type="button" onclick="wcHCopy(\'sql\')">Copiar el código SQL</button></div><pre class="wc-sql">'+esc(HSQL)+'</pre>'}
+/*HAUTO-END*/
+
+w.wcHealthPick=async function(inp){var fs=Array.prototype.slice.call(inp.files||[]).sort(function(a,b){return a.name<b.name?-1:1});inp.value='';for(var i=0;i<fs.length;i++)await hImport(fs[i]);if(fs.length>1){H.msg='Importados '+fs.length+' archivos.';refresh()}};
+w.wcHealthClear=function(){if(!confirm('¿Borrar todos los datos de Salud guardados en este dispositivo?'))return;H.days={};H.wk=[];H.at=0;H.prof={};H.last={};H.msg='Datos de Salud borrados.';try{localStorage.removeItem(HK)}catch(e){}refresh()};
+/*HEALTH-END*/
+
 w.renderWellnessView=function(c){if(W.cur.date!==T()){W.cur={date:T(),s:{}};save()}
  var h='<div class="wc"><header class="ql-head"><div><div class="ql-eyebrow">Bienestar</div><h2 class="ql-greet">The Wellness Club</h2></div></header><div class="wc-tabs" role="tablist">';
- [['t','Sesión'],['h','Progreso'],['e','Rutina']].forEach(function(t){h+='<button type="button" role="tab" aria-selected="'+(mode===t[0])+'" class="'+(mode===t[0]?'p':'')+'" onclick="wcMode(\''+t[0]+'\')">'+t[1]+'</button>'});
- h+='</div>'+(mode==='t'?trainView():mode==='h'?histView():editView());
+ [['t','Sesión'],['h','Progreso'],['s','Salud'],['e','Rutina']].forEach(function(t){h+='<button type="button" role="tab" aria-selected="'+(mode===t[0])+'" class="'+(mode===t[0]?'p':'')+'" onclick="wcMode(\''+t[0]+'\')">'+t[1]+'</button>'});
+ h+='</div>'+(mode==='t'?trainView():mode==='h'?histView():mode==='s'?healthView():editView());
  if(snap)h+='<div class="wc-toast">Cambio aplicado <button type="button" onclick="wcUndo()">Deshacer</button></div>';
  if(foc){var a=R().ex,x=a[cur]||a[0],nx=a[cur+1],s=x?S(x):[],h2='';if(x)for(var k=0;k<x.s;k++)h2+=dot(x,k,s[k]);
   h+='<div class="wc-focus" role="dialog" aria-label="Modo enfoque"><div class="ql-eyebrow" style="color:#96c8a2">Sesión en curso</div><h3>'+(x?esc(x.n):'')+'</h3><p>'+(x?D(x)+' de '+x.s+' series':'')+'</p><div class="wc-dots">'+h2+'</div>'+(rl>0?'<p>Descanso <b class="wcRT">'+mm(rl)+'</b></p>':'')+'<p style="color:#a4b3cc">'+(nx?'Siguiente ejercicio: '+esc(nx.n):'Último ejercicio')+'</p><button type="button" onclick="wcFocus(false)">Salir del modo enfoque</button></div>'}
@@ -6878,6 +7216,7 @@ img,svg,video,canvas{max-width:100%}
 .tvqr-s{font-size:.82rem;color:#4a5a66;line-height:1.55}
 .tvqr-qr{width:230px;height:230px;background:#fff;border:1px solid #e7e1d5;padding:6px;border-radius:4px}
 .tvqr-qr svg{display:block;width:100%;height:100%}
+html.tv .tvqr-qr{width:260px;height:260px}
 .tvqr-msg{min-height:1.3em;font-size:.78rem;color:#4a5a66;line-height:1.4}
 .tvqr-msg.err{color:#9a5f52}
 .tvqr-btn{font:inherit;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:11px 20px;min-height:44px;border-radius:3px;cursor:pointer;background:#2c3e50;color:#fff;border:1px solid #2c3e50}
@@ -6890,6 +7229,17 @@ img,svg,video,canvas{max-width:100%}
 .tvqr-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 html.tv .login-main{flex-wrap:wrap;gap:20px}
 @media(max-width:760px){.tvqr{margin-right:0}}
+.tvqr-code{margin:0;font:600 1.7rem/1.1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.18em;color:#1f3d33}
+.tvqr-or{margin:2px 0 0}
+.tvqr-in{width:100%;box-sizing:border-box;padding:12px;font:600 16px/1.2 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;text-align:center;text-transform:uppercase;color:#1f2933;background:#fff;border:1px solid #c9b896;border-radius:3px}
+html.tv .tvqr{max-width:480px}
+html.tv .tvqr-t{font-size:2.4rem}
+html.tv .tvqr-s{font-size:1.1rem}
+html.tv .tvqr-msg{font-size:1.05rem;min-height:1.6em}
+html.tv .tvqr-code{font-size:2.3rem}
+html.tv .tvqr-btn{font-size:1rem;min-height:56px;padding:14px 26px}
+#loginScreen.tvq-on:not(.tvq-pw) #loginForm{display:none}
+#loginScreen.tvq-pw #tvqrPw{display:none}
 </style>
 <script>/* qrcode-generator © Kazuhiko Arase · MIT */
 var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});
@@ -6897,7 +7247,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 <script>
 (function(){
 'use strict';
-var PEND='daw_tvqr_pend',TTL=300,tvT=null,tvP=0,busy=0;
+var PEND='daw_tvqr_pend',TTL=300,tvT=null,tvP=0,busy=0,fails=0;
 function $(i){return document.getElementById(i)}
 function b64u(buf){var s='',b=new Uint8Array(buf);for(var i=0;i<b.length;i++)s+=String.fromCharCode(b[i]);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function unb64u(t){t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';var s=atob(t),b=new Uint8Array(s.length);for(var i=0;i<s.length;i++)b[i]=s.charCodeAt(i);return b}
@@ -6908,42 +7258,94 @@ async function unseal(k,t){var b=unb64u(t),pt=await crypto.subtle.decrypt({name:
 function isTV(){return document.documentElement.classList.contains('tv')}
 function loginVisible(){var l=$('loginScreen');return !!l&&l.style.display!=='none'}
 function msg(t,err){var m=$('tvqrMsg');if(m){m.textContent=t;m.className='tvqr-msg'+(err?' err':'')}}
-function stop(){if(tvT){clearInterval(tvT);tvT=null}}
+async function derive(code){var h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('daw-tv-code:'+code));return b64u(h)}
+/* Muestra el formulario de usuario y contraseña en la TV (a mano o como plan B automático) */
+function showPw(auto){
+  var ls=$('loginScreen');if(!ls||ls.classList.contains('tvq-pw'))return;
+  ls.classList.add('tvq-pw');
+  var o=$('lxOpen');try{if(o&&o.getAttribute('aria-expanded')!=='true')o.click()}catch(e){}
+  var r=$('loginRemember');if(r)r.checked=true;
+  setTimeout(function(){var u=$('loginUser'),p=$('loginPass'),t=(u&&u.value&&p)?p:u;if(t)t.focus()},650);
+}
+function fatal(t){msg(t,1);showPw(1)}
+var rt=null,lastSt=0;
+function stop(){if(tvT){clearInterval(tvT);tvT=null}if(rt){clearTimeout(rt);rt=null}}
+/* La TV solo necesita URL y clave: no depende de que supabase-js haya cargado (en TV antiguas suele fallar) */
+function cfg(){
+  var C=window.syncCloud&&window.syncCloud();
+  return C&&C.url&&C.key&&String(C.url).indexOf('TU-PROYECTO')<0&&String(C.key).indexOf('TU-CLAVE')<0?C:null;
+}
+/* RPC con compatibilidad para navegadores de TV (sin AbortController, etc.) y código de estado para diagnosticar */
+function rpc(fn,args,ms){
+  var C=cfg();lastSt=0;
+  if(!C)return Promise.resolve(null);
+  return new Promise(function(res){
+    var done=false,ctl=null,to=null;
+    function end(v){if(done)return;done=true;if(to)clearTimeout(to);res(v)}
+    try{ctl=window.AbortController?new AbortController():null}catch(e){ctl=null}
+    to=setTimeout(function(){lastSt=-1;try{if(ctl)ctl.abort()}catch(e){}end(null)},ms||5000);
+    try{
+      var o={method:'POST',headers:{apikey:C.key,Authorization:'Bearer '+C.key,'Content-Type':'application/json'},body:JSON.stringify(args)};
+      if(ctl)o.signal=ctl.signal;
+      fetch(C.url+'/rest/v1/rpc/'+fn,o).then(function(r){
+        lastSt=r.status;
+        if(!r.ok){end(null);return}
+        return r.text().then(function(t){var v=true;if(t){try{v=JSON.parse(t)}catch(e){v=null}}end(v)});
+      }).catch(function(){if(!lastSt)lastSt=-1;end(null)});
+    }catch(e){lastSt=-1;end(null)}
+  });
+}
 
 /* ---------- TV: genera y muestra el QR ---------- */
 function draw(url){
   var q=qrcode(0,'M');q.addData(url);q.make();
-  var n=q.getModuleCount(),m=2,s=n+m*2,d='';
+  var n=q.getModuleCount(),m=4,s=n+m*2,d='';
   for(var r=0;r<n;r++)for(var c=0;c<n;c++)if(q.isDark(r,c))d+='M'+(c+m)+' '+(r+m)+'h1v1h-1z';
   $('tvqrQr').innerHTML='<svg viewBox="0 0 '+s+' '+s+'" shape-rendering="crispEdges" role="img" aria-label="Código QR para entrar desde el móvil"><rect width="'+s+'" height="'+s+'" fill="#fff"/><path d="'+d+'" fill="#1f2933"/></svg>';
 }
 async function start(){
   if(busy)return;busy=1;stop();
   try{
-    if(!/^https?:$/.test(location.protocol)){msg('Abre esta página desde una dirección web para usar el QR.',1);return}
-    if(!(window.crypto&&crypto.subtle&&window.qrcode)){msg('Este televisor no permite el acceso por QR. Usa usuario y contraseña.',1);return}
+    if(!/^https?:$/.test(location.protocol)){fatal('Abre esta página desde una dirección web (https) para usar el QR.',1);return}
+    if(!window.qrcode){fatal('Este televisor no ha podido cargar el generador de QR. Usa usuario y contraseña.',1);return}
+    if(!(window.crypto&&crypto.subtle&&crypto.getRandomValues)){fatal('Este televisor no permite el cifrado necesario para el QR. Usa usuario y contraseña.',1);return}
+    if(!cfg()){fatal('La nube no está configurada en esta página. Usa usuario y contraseña.',1);return}
     var A='abcdefghjkmnpqrstuvwxyz23456789',r=rnd(10),code='';
     for(var i=0;i<10;i++)code+=A[r[i]%A.length];
     var key=b64u(rnd(32));
     msg('Preparando el código…');
-    var ok=await nubeRpc('tv_crear',{p_code:code},5000);
-    if(!ok){$('tvqrQr').innerHTML='';msg('El acceso por QR aún no está activado. Entra con usuario y contraseña.',1);return}
-    draw(location.origin+location.pathname+location.search+'#tv='+code+'.'+key);
+    var ok=await rpc('tv_crear',{p_code:code},8000);if(ok)fails=0;
+    if(!ok){
+      $('tvqrQr').innerHTML='';$('tvqrCode').textContent='';
+      if(lastSt>=400&&lastSt<500){fatal('El acceso por QR no está activado en Supabase (faltan las funciones tv_* o sus permisos). Usa usuario y contraseña.',1)}
+      else{
+        msg('La TV no consigue conectar con la nube. Reintentando…',1);if(++fails>=2)showPw(1);
+        rt=setTimeout(function(){rt=null;if(isTV()&&loginVisible())start()},15000);
+      }
+      return;
+    }
+    /* La URL del QR no debe arrastrar el ?tv=1 de la TV: el móvil no debe abrirse en modo TV */
+    var se=location.search.replace(/([?&])tv=[01]&?/,'$1').replace(/[?&]$/,'');
+    draw(location.origin+location.pathname+se+'#tv='+code+'.'+key);
+    $('tvqrCode').textContent=code.slice(0,5).toUpperCase()+' '+code.slice(5).toUpperCase();
+    $('tvqrUrl').textContent=location.host+location.pathname.replace(/index\.html$/,'')+'#tv';
+    var mkey=await derive(code);
     var t0=Date.now();
     tvT=setInterval(async function(){
       if(!isTV()||!loginVisible()){stop();return}
       var left=TTL-Math.floor((Date.now()-t0)/1000);
       if(left<=0){start();return}
-      msg('Escanea con la cámara del móvil · caduca en '+Math.floor(left/60)+':'+String(left%60).padStart(2,'0'));
+      var sec=left%60;
+      msg('Escanea con la cámara del móvil · caduca en '+Math.floor(left/60)+':'+(sec<10?'0':'')+sec);
       if(document.hidden||tvP)return;
       tvP=1;
-      try{var p=await nubeRpc('tv_leer',{p_code:code},4000);if(typeof p==='string'&&p){stop();await finish(key,p)}}
+      try{var p=await rpc('tv_leer',{p_code:code},5000);if(typeof p==='string'&&p){stop();await finish(key,p,mkey)}}
       finally{tvP=0}
     },2000);
   }finally{busy=0}
 }
 async function loadData(tok){
-  var C=nubeCfg();if(!C)return;
+  var C=cfg();if(!C)return;
   var S=window.__dawSync;if(S)S.pause();
   try{
     var r=await fetch(C.url+'/rest/v1/daw_sync?select=k,v',{headers:{apikey:C.key,Authorization:'Bearer '+tok}});
@@ -6954,8 +7356,8 @@ async function loadData(tok){
   }catch(e){}finally{if(S)S.resume()}
 }
 function retry(t,err){msg(t,err);setTimeout(start,2800)}
-async function finish(key,blob){
-  var d;try{d=await unseal(key,blob)}catch(e){retry('No se ha podido leer la respuesta del móvil. Probamos con otro código.',1);return}
+async function finish(key,blob,mkey){
+  var d;try{d=await unseal(key,blob)}catch(e){try{d=await unseal(mkey,blob)}catch(e2){retry('No se ha podido leer la respuesta del móvil. Probamos con otro código.',1);return}}
   var u=String(d&&d.u||'');
   if(!/^[A-Za-z0-9._@-]{3,70}$/.test(u)){retry('La cuenta recibida no es válida.',1);return}
   msg('Entrando…');
@@ -6974,37 +7376,45 @@ async function finish(key,blob){
 function take(){
   var m=/[#&]tv=([a-z0-9]{10}\.[A-Za-z0-9_-]{43})/.exec(location.hash||'');
   if(m){try{sessionStorage.setItem(PEND,m[1]);history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
+  else if(/^#tv$/.test(location.hash||'')){try{sessionStorage.setItem(PEND,'ask');history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
   try{return sessionStorage.getItem(PEND)||''}catch(e){return ''}
 }
 window.tvqrApprove=function(){
   var p=take();if(!p||$('tvqrAsk')||!isSessionValid())return;
+  var manual=(p==='ask');
   var u=currentUser(),o=document.createElement('div');
   o.id='tvqrAsk';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-labelledby','tvqrT');
   o.innerHTML='<div class="tvqr-card"><h2 id="tvqrT">Entrar en la TV</h2><p>Una pantalla pide entrar con tu cuenta <b>'+escapeHtml(u)+'</b>. Se abrirá en <b>modo lectura</b>. Permítelo solo si la estás viendo ahora mismo.</p><p class="tvqr-msg" id="tvqrAskMsg" role="status"></p><div class="tvqr-row"><button type="button" class="tvqr-btn" id="tvqrYes">Permitir</button><button type="button" class="tvqr-btn ghost" id="tvqrNo">Cancelar</button></div></div>';
   document.body.appendChild(o);
+  if(manual){var ip=document.createElement('input'),m0=$('tvqrAskMsg');ip.id='tvqrIn';ip.className='tvqr-in';ip.type='text';ip.maxLength=12;ip.autocomplete='off';ip.autocapitalize='characters';ip.spellcheck=false;ip.placeholder='CÓDIGO DE LA TV';ip.setAttribute('aria-label','Código que muestra la TV');m0.parentNode.insertBefore(ip,m0)}
   function say(t,err){var m=$('tvqrAskMsg');m.textContent=t;m.className='tvqr-msg'+(err?' err':'')}
   function close(){try{sessionStorage.removeItem(PEND)}catch(e){}o.remove()}
   $('tvqrNo').onclick=close;
   $('tvqrYes').onclick=async function(){
     var b=this;b.disabled=true;say('Un momento…');
+    var mc='';if(manual){mc=($('tvqrIn').value||'').toLowerCase().replace(/[^a-z0-9]/g,'');if(mc.length!==10){say('El código tiene 10 letras y números.',1);b.disabled=false;return}}
     var tok=null;try{var S=window.__dawSync,s=S&&await S.session();tok=s&&s.a||null}catch(e){}
     try{
-      var pr=p.split('.'),ok=await nubeRpc('tv_aprobar',{p_code:pr[0],p_payload:await seal(pr[1],{u:u,a:tok})},6000);
+      var pr=manual?[mc,await derive(mc)]:p.split('.'),ok=await rpc('tv_aprobar',{p_code:pr[0],p_payload:await seal(pr[1],{u:u,a:tok})},6000);
       if(ok===true){say(tok?'Listo. La TV está entrando.':'Listo. La TV entra sin tus datos: activa la sincronización en este móvil.');b.hidden=true;setTimeout(close,2600)}
       else{say('El código ha caducado o la nube no está lista. Pide otro QR en la TV.',1);b.disabled=false}
     }catch(e){say('No se ha podido enviar. Inténtalo de nuevo.',1);b.disabled=false}
   };
-  $('tvqrYes').focus();
+  (manual?$('tvqrIn'):$('tvqrYes')).focus();
 };
 
 function sync(){
   var box=$('tvqrBox');if(!box)return;
-  var on=isTV()&&loginVisible();
+  var on=isTV()&&loginVisible(),ls=$('loginScreen');
   box.hidden=!on;
+  if(ls){ls.classList.toggle('tvq-on',on);if(!on)ls.classList.remove('tvq-pw')}
+  if(on&&!sync.f){sync.f=1;setTimeout(function(){var b=$('tvqrPw');if(b&&b.offsetParent)b.focus()},300)}
+  if(!on)sync.f=0;
   if(on&&!tvT&&!busy)start();else if(!on)stop();
 }
 take();
 var nw=$('tvqrNew');if(nw)nw.onclick=function(){start()};
+var pwb=$('tvqrPw');if(pwb)pwb.onclick=function(){showPw()};
 var mo=new MutationObserver(sync);mo.observe(document.documentElement,{attributes:true,attributeFilter:['class']});
 var ls=$('loginScreen');if(ls)mo.observe(ls,{attributes:true,attributeFilter:['style']});
 sync();
