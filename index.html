@@ -1358,6 +1358,114 @@ body[data-rol="lectura"] .nav-more a[onclick*="fullFile"],body[data-rol="lectura
 #rolToast.on{opacity:1;transform:translateX(-50%)}
 @media(max-width:480px){.role-badge{font-size:.62rem;padding:2px 7px}}
 
+/* ===== Dispositivos conectados (panel admin) ===== */
+.adx-dv{display:grid;grid-template-columns:auto 1fr auto;gap:12px 16px;align-items:start;padding:16px 18px;margin:10px 0;background:var(--c-bg);border:1px solid var(--c-line);border-left:5px solid var(--c-line);border-radius:14px}
+.adx-dv.use{border-left-color:#2f5d4b}.adx-dv.bg{border-left-color:#b7862b}.adx-dv.off{opacity:.9}
+.adx-dv-ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--c-soft);color:var(--c-acc)}
+.adx-dv-ic svg{width:26px;height:26px}
+.adx-dv h4{margin:0 0 4px;font-size:1.08rem;line-height:1.4}.adx-dv h4 small{font-weight:600;color:var(--c-acc);font-size:.92rem}
+.adx-dv p{margin:3px 0;font-size:.97rem;line-height:1.65}.adx-dv p.mut{font-size:.92rem}
+.adx-dv-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.adx-dv-st{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem;padding:5px 13px;border-radius:999px;background:var(--c-soft);color:var(--c-acc);white-space:nowrap}
+.adx-dv-st i{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none}
+.adx-dv-st.use i{animation:adxPulse 2s infinite}
+.adx-dv-st.bg{background:#fbf3df;color:#7a5a14}.adx-dv-st.bg i{border-radius:2px}
+.adx-dv-st.off{background:#efece4;color:#5f5a4f}.adx-dv-st.off i{background:transparent;border:2px solid currentColor}
+.adx-dv-sum{font-size:1.02rem;margin:4px 0 10px}
+@media(max-width:640px){.adx-dv{grid-template-columns:auto 1fr}.adx-dv-side{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){.adx-dv-st.use i{animation:none}}
+/* ===== Panel admin · acabado profesional ===== */
+.adm.adx{--c-acc2:#3e7a63;font-family:'Lexend','Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-weight:400;line-height:1.65}
+.adx-hero{position:relative;overflow:hidden;padding:26px 30px;border-radius:20px;gap:20px;background:radial-gradient(120% 140% at 100% 0%,rgba(255,255,255,.16),transparent 55%),linear-gradient(135deg,#17352b,#2f5d4b 60%,#3e7a63)}
+.adx-hero::after{content:"";position:absolute;right:-60px;bottom:-90px;width:250px;height:250px;border-radius:50%;border:40px solid rgba(255,255,255,.06);pointer-events:none}
+.adx-who{display:flex;align-items:center;gap:18px;position:relative;z-index:1}
+.adx-who-av{width:60px;height:60px;border-radius:18px;display:grid;place-items:center;font:700 1.7rem 'Cormorant Garamond',Georgia,serif;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);flex:none}
+.adx-hero h2{font-size:1.8rem;line-height:1.2}.adx-hero .adx-greet{margin:0 0 2px;font-size:.95rem}
+.adx-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.adx-meta span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);padding:4px 13px;border-radius:999px;font-size:.88rem}
+.adx-hero .adx-live{position:relative;z-index:1;font-size:.93rem}
+.adx-tabs{gap:4px;padding:6px;border:1px solid var(--c-line);background:var(--c-bg);border-radius:16px;box-shadow:0 8px 24px rgba(44,62,80,.07)}
+.adm .adx-tab{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.95rem;padding:10px 16px;border-radius:12px;font-family:inherit}
+.adm .adx-tab svg{flex:none}.adm .adx-tab[aria-selected=true]{background:linear-gradient(135deg,var(--c-acc),var(--c-acc2))}
+.adm .adx-tab:focus-visible,.adm .adx-btn:focus-visible,.adm .adx-chip:focus-visible{outline:3px solid #8fc5ad;outline-offset:2px}
+.adm input:focus,.adm select:focus{outline:3px solid #cfe6da;border-color:var(--c-acc)}
+.adx-grid{gap:16px}
+.adx-card{border-radius:16px;box-shadow:0 1px 2px rgba(44,62,80,.05),0 10px 28px rgba(44,62,80,.06)}
+.adx-card h3{display:flex;align-items:center;gap:10px;font-size:1.3rem}
+.adx-card h3::before{content:"";width:4px;height:1.05em;border-radius:3px;background:linear-gradient(var(--c-acc2),var(--c-acc));flex:none}
+.adx-kpi{position:relative;overflow:hidden;padding:22px 20px 18px}
+.adx-kpi::after{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--kc,var(--c-acc))}
+.adx-ki{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:10px;color:var(--kc,var(--c-acc));background:color-mix(in srgb,var(--kc,var(--c-acc)) 14%,transparent)}
+.adx-kpi small{text-transform:none;letter-spacing:0;font-size:.93rem;font-weight:500}
+.adx-kpi strong{font-size:2.5rem}
+.adx-kpi:nth-child(2){--kc:#7aa04f}.adx-kpi:nth-child(3){--kc:#3b7ea1}.adx-kpi:nth-child(4){--kc:#b7862b}.adx-kpi:nth-child(5){--kc:#7a5aa6}
+.adx-bars{background:repeating-linear-gradient(to top,transparent 0,transparent 37px,var(--c-line) 37px,var(--c-line) 38px);border-radius:8px;padding:8px 6px 0}
+.adx-col span{background-image:linear-gradient(180deg,rgba(255,255,255,.25),transparent)}
+.adx-donutw{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:12px 0 4px}
+.adx-donut{width:132px;height:132px;border-radius:50%;display:grid;place-content:center;text-align:center;position:relative;flex:none}
+.adx-donut::before{content:"";position:absolute;inset:19px;border-radius:50%;background:var(--c-bg)}
+.adx-donut b,.adx-donut small{position:relative}.adx-donut b{font:700 1.9rem/1 'Cormorant Garamond',Georgia,serif}.adx-donut small{font-size:.82rem;color:var(--c-mut)}
+.adx-legend.col{flex-direction:column;gap:8px;font-size:.95rem;margin:0}
+.adx-rec{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--c-line);font-size:.95rem}
+.adx-rec:first-of-type{border:0}
+.adx-av2{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;flex:none}
+.adx-rec b{display:block;line-height:1.3}.adx-rec small{color:var(--c-mut);font-size:.85rem}
+.adx-rec em{margin-left:auto;font-style:normal;font-size:.85rem;font-weight:600;padding:3px 11px;border-radius:99px;white-space:nowrap}
+.adx-rec em.ok{background:var(--c-soft);color:var(--c-acc)}.adx-rec em.ko{background:#f3dcdc;color:var(--c-ko)}
+.adx-tw{border:1px solid var(--c-line);border-radius:16px;overflow:auto;background:var(--c-bg);box-shadow:0 10px 28px rgba(44,62,80,.06)}
+.adx-tw table,.adx-card .att-table{border-collapse:separate;border-spacing:0;width:100%;font-size:.95rem}
+.adx-tw th,.adx-card .att-table th{position:sticky;top:0;background:var(--c-soft);text-align:left;padding:12px 14px;font-weight:600;white-space:nowrap}
+.adx-tw td,.adx-card .att-table td{padding:12px 14px;border-top:1px solid var(--c-line)}
+.adx-tw tbody tr:nth-child(even){background:rgba(47,93,75,.035)}.adx-tw tbody tr:hover{background:rgba(47,93,75,.08)}
+.adx-user{border-radius:16px;transition:transform .2s,box-shadow .2s,border-color .2s}
+.adx-user:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(44,62,80,.1);border-color:#b8d3c4}
+.adx-av{box-shadow:0 4px 10px rgba(0,0,0,.18)}.adx-pill{font-size:.85rem;padding:3px 12px}
+.adm .adx-btn{border-radius:12px;padding:10px 18px;font-size:.95rem;font-family:inherit}
+.adm .adx-btn.p{background:linear-gradient(135deg,var(--c-acc),var(--c-acc2));border-color:transparent}
+.adx-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:60;max-width:min(92vw,520px);padding:13px 20px;border-radius:14px;background:#17352b;color:#fff;font-size:.97rem;box-shadow:0 14px 34px rgba(0,0,0,.28);animation:adxToast 4.6s ease both}
+@keyframes adxToast{0%{opacity:0;transform:translate(-50%,14px)}8%,88%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,10px);visibility:hidden}}
+@media(max-width:640px){.adx-hero{padding:20px}.adx-who{flex-wrap:wrap}.adx-kpi strong{font-size:2.1rem}}
+html[data-theme="dark"] .adm.adx{--c-bg:#1c2527;--c-line:#33403f;--c-ink:#e8ece9;--c-mut:#a9b4b0;--c-soft:#24332d;--c-acc:#6fbf9d;--c-acc2:#4f9a7c;--c-ko:#e07a74}
+html[data-theme="dark"] .adm input,html[data-theme="dark"] .adm select{background:#151c1e;color:var(--c-ink);border-color:var(--c-line)}
+html[data-theme="dark"] .adm .adx-btn.p,html[data-theme="dark"] .adm .adx-tab[aria-selected=true]{background:#2f6a53;color:#fff}
+html[data-theme="dark"] .adx-dv-st.bg{background:#3a3220;color:#e8c878}html[data-theme="dark"] .adx-dv-st.off{background:#2a3133;color:#b7c0bc}
+html[data-theme="dark"] .adx-rec em.ko{background:#40292a;color:#f0a5a0}html[data-theme="dark"] .adx-toast{background:#2f6a53}
+/* ===== Adaptación a todos los dispositivos ===== */
+.adm.adx{width:100%;min-width:0;overflow-wrap:break-word}
+.adx-two{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.adx-form{grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.adx-tools input[type=search]{min-width:min(100%,220px)}
+.adx-tabs{scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none}.adx-tabs::-webkit-scrollbar{display:none}
+.adm .adx-tab{scroll-snap-align:start}
+.adm button,.adm select,.adm input{min-height:44px}
+.adx-ctrl select{max-width:100%}.adx-tw{max-width:100%}.adx-donutw{justify-content:center}
+@media(min-width:1400px){.adm.adx{max-width:1180px}}
+@media(max-width:640px){
+ .adx-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .adx-kpi{padding:16px 14px}.adx-kpi strong{font-size:1.9rem}.adx-card{padding:16px}
+ .adx-ctrl{display:grid;grid-template-columns:1fr 1fr}.adx-ctrl .adx-sp{display:none}.adx-ctrl select,.adx-ctrl .adx-sw{grid-column:1/-1}
+ .adx-logrow{grid-template-columns:auto 1fr}.adx-logrow .mut{grid-column:2}
+ .adx-hero .adx-live{align-self:flex-start}.adm .adx-tab{padding:10px 12px;font-size:.9rem}
+ .adx-dlg{padding:18px}
+}
+@media(max-width:380px){.adx-grid{grid-template-columns:1fr}}
+@media(hover:none){.adx-user:hover,.adx-card:hover{transform:none}}
+@media(orientation:landscape) and (max-height:480px){.adx-tabs{position:static}}
+html.tv .adm.adx{font-size:1.15rem;max-width:1400px}html.tv .adm .adx-btn,html.tv .adm .adx-tab{font-size:1.05rem}
+html.tv .adm :focus-visible{outline:4px solid #f2c94c;outline-offset:3px}
+/* ===== Ver contraseña y ventana de nueva contraseña ===== */
+.adx-pw{position:relative;display:block}.adx-pw input{width:100%;padding-right:52px}
+.adm .adx-eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:42px;height:42px;min-height:0;padding:0;border:0;background:transparent;color:var(--c-mut);border-radius:10px;display:grid;place-items:center}
+.adm .adx-eye:hover{color:var(--c-acc);background:var(--c-soft)}
+.adx-dlg-bg{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:rgba(15,25,21,.55);backdrop-filter:blur(3px)}
+.adx-dlg{width:min(100%,440px);max-height:92vh;overflow:auto;background:var(--c-bg);color:var(--c-ink);border-radius:18px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.adx-dlg h3{margin:0 0 6px}.adx-dlg label{display:flex;flex-direction:column;gap:6px;font-size:.95rem;margin-top:12px}
+.adx-dlg .adx-quick{flex-wrap:wrap}
+/* ===== Entrar con Face ID / Touch ID ===== */
+.pk-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:0 0 14px;padding:13px 16px;min-height:48px;border-radius:12px;border:1px solid #2f5d4b;background:#2f5d4b;color:#fff;font-family:inherit;font-weight:600;font-size:1rem;line-height:1.2;cursor:pointer}
+.pk-btn:hover{background:#24493b}.pk-btn:focus-visible{outline:3px solid #8fc5ad;outline-offset:2px}
+.adx-audrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 4px;border-top:1px solid var(--c-line);font-size:.95rem}.adx-audrow:first-of-type{border:0}
+@media(max-width:640px){.adx-audrow{grid-template-columns:auto 1fr}.adx-audrow .mut{grid-column:2}}
 /* Botón administrador */
 #navAdmin{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:7px 14px 7px 11px;border-radius:999px;background:linear-gradient(135deg,#eef6f0,#e2efe6);border:1px solid #96c8a2;color:#2f5d4b;font-weight:600;font-size:.88rem;letter-spacing:.01em;box-shadow:0 1px 2px rgba(47,93,75,.12);transition:transform .15s,box-shadow .15s,background .15s;cursor:pointer}
 #navAdmin[style*="none"]{display:none!important}
@@ -2721,7 +2829,7 @@ body:has(#content .calendar-inline-header) #pageTitle{display:none!important}
 <h2>Qué datos se tratan y dónde se guardan</h2>
 <p>Los eventos propios, el diario de clase, los datos de cursos, los apuntes, la asistencia y tus preferencias de lectura se guardan en el almacenamiento local de tu propio navegador. Si activas la sincronización opcional entre dispositivos, iniciando sesión con tu correo electrónico, una copia de esos datos y tu correo se almacenan en Supabase para que puedas consultarlos desde tu móvil, iPad u ordenador. Cada cuenta solo puede acceder a sus propios datos. Sin sincronización, los datos permanecen únicamente en tu dispositivo hasta que los borres o limpies los datos del navegador. También se guarda en local un indicador de sesión iniciada y, si marcas la casilla correspondiente, tu nombre de usuario.</p>
 <h2>Registro de cuentas</h2>
-<p>Si la sincronización está configurada, al crear una cuenta o iniciar sesión se guarda en Supabase tu nombre de usuario, tu perfil, si la cuenta está activa y las fechas de creación y último acceso, para que el administrador pueda gestionarla. Nunca se envían contraseñas.</p>
+<p>Si la sincronización está configurada, al crear una cuenta o iniciar sesión se guarda en Supabase tu nombre de usuario, tu perfil, si la cuenta está activa y las fechas de creación y último acceso, para que el administrador pueda gestionarla. Nunca se envían contraseñas. Además, mientras la página está abierta con tu sesión iniciada, se guarda un identificador aleatorio del dispositivo, su tipo, navegador y sistema, el tamaño de pantalla, la sección que estás viendo y la hora de la última señal, para que el administrador pueda ver qué dispositivos están conectados y cerrar sesiones que no reconozca.</p>
 <h2>Servicios de terceros</h2>
 <p>Si conectas tu cuenta de Outlook, el inicio de sesión y la lectura de tu correo o calendario los gestiona Microsoft (Microsoft Entra y Microsoft Graph) bajo su propia política de privacidad. Si utilizas la integración con Moodle, la consulta pasa por un servicio intermedio [indica tu proveedor, por ejemplo Cloudflare Workers, o elimina esta frase si no lo usas]. Si importas datos de Apple Salud (pestaña Salud de The Wellness Club), el archivo se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen diario (pasos, energía activa, minutos de ejercicio, sueño, frecuencia cardíaca en reposo, peso y entrenamientos recientes) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Si además activas la actualización diaria, un Atajo de tu iPhone envía ese mismo resumen diario a tu cuenta de Supabase (en tu proyecto de sincronización), donde solo tú puedes leerlo, y se borra al desactivar la función. Si importas tu archivo de Strava (pestaña Salud), se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen de tus actividades recientes (fecha, tipo, duración, distancia, desnivel y frecuencia cardíaca media) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Son datos de salud, de categoría especial, y solo se tratan con tu consentimiento al importarlos. La aplicación carga además una librería desde jsDelivr y las tipografías desde Google Fonts, por lo que estos proveedores pueden recibir tu dirección IP al servir esos recursos. Si activas la sincronización, los datos se alojan en Supabase [indica la región de tu proyecto, por ejemplo la UE], bajo su propia política de privacidad.</p>
 <h2>Finalidad y base jurídica</h2>
@@ -3200,7 +3308,7 @@ function renderDayView(container){
         <div class="event-item">
           <div class="event-time">${e.start} – ${e.end}</div>
           <div class="event-details">
-            <div class="event-title" style="font-style:italic;color:#7f8c8d;">${e.subject}</div>
+            <div class="event-title" style="font-style:italic;color:#7f8c8d;">${e.subject} ${pausaChip(pausaKey(currentDate,e.start))}</div>
           </div>
         </div>`;
     } else if(e.empty){
@@ -3627,10 +3735,17 @@ function addFreeNote(ds){
 /* ===== PAUSA SOCIAL («piti pausa»): menú para anotar con quién y cuánto dura ===== */
 const PAUSA_KEY = 'daw_pausas';
 const PAUSA_TYPES = [
-  {id:'comp',   emoji:'👥', name:'Entre compañeros',                         min:10, max:15},
-  {id:'cafe',   emoji:'☕', name:'Con café de por medio',                    min:15, max:20},
-  {id:'chisme', emoji:'🎉', name:'Alguien interesante o cotilleo del bueno', min:20, max:30}
+  {id:'rapida',      emoji:'⚡', name:'Rápida',           tag:'Un respiro y ya está',        min:4,  max:5,  step:1},
+  {id:'movil',       emoji:'📱', name:'Mirando el móvil', tag:'Un scroll y algún clip',       min:5,  max:7,  step:1},
+  {id:'cafe_charla', emoji:'☕', name:'Con café o charla', tag:'Con calma, sin mirar el reloj', min:10, max:15, step:1}
 ];
+/* Tipos del menú anterior: se conservan para que las pausas ya guardadas
+   sigan siendo editables sin cambiar su duración ni su historial */
+const PAUSA_LEGACY = {
+  comp:   {id:'comp',   emoji:'👥', name:'Entre compañeros',        min:10, max:15, step:5, legacy:true},
+  cafe:   {id:'cafe',   emoji:'☕', name:'Con café de por medio',     min:15, max:20, step:5, legacy:true},
+  chisme: {id:'chisme', emoji:'🎉', name:'Cotilleo del bueno',        min:20, max:30, step:5, legacy:true}
+};
 let pausaData = null;
 function loadPausas(){
   if(pausaData) return pausaData;
@@ -3640,23 +3755,33 @@ function loadPausas(){
 function savePausas(){ try{ localStorage.setItem(PAUSA_KEY, JSON.stringify(pausaData)); return true; }catch(e){ return false; } }
 function pausaKey(date, start){ return ymd(date)+'|'+start; }
 function pausaGet(key){ const p = loadPausas()[key]; return (p && p.t) ? p : null; }
-function pausaType(id){ return PAUSA_TYPES.find(t=>t.id===id); }
-function pausaSteps(t){ const a = []; for(let m=t.min; m<=t.max; m+=5) a.push(m); return a; }
+function pausaType(id){ return PAUSA_TYPES.find(t=>t.id===id) || PAUSA_LEGACY[id]; }
+function pausaSteps(t){ const a = []; for(let m=t.min; m<=t.max; m+=(t.step||1)) a.push(m); return a; }
+function pzStartOf(key){ return String(key).split('|')[1]||''; }
+function pzChipsHTML(t, sel){ return pausaSteps(t).map(m=>`<button type="button" class="pz-chip-btn${m===sel?' on':''}" data-m="${m}" aria-pressed="${m===sel}" onclick="pzMin(${m})">${m} min</button>`).join(''); }
 function pausaChip(key){
   const p = pausaGet(key), t = p && pausaType(p.t);
   return t ? `<span class="pz-chip" title="${escapeAttr(t.name)}">${t.emoji} ${p.m} min</span>` : '';
 }
 function pausaMenuHTML(key){
-  const p = pausaGet(key), k = escapeAttr(key), id = did(key);
-  let h = `<div class="pz-box" role="group" aria-label="Anotar la pausa"><div class="pz-title">¿Cómo ha sido la pausa?</div><div class="pz-opts">`;
+  const p = pausaGet(key), k = escapeAttr(key), id = did(key), start = pzStartOf(key);
+  let h = `<div class="pz-box" role="group" aria-label="Anotar la pausa">
+    <div class="pz-hd"><span class="pz-hd-deco" aria-hidden="true">✦</span><span class="pz-title">¿Cómo ha sido la pausa?</span><span class="pz-hd-deco" aria-hidden="true">✦</span></div>
+    <div class="pz-opts">`;
   PAUSA_TYPES.forEach(t=>{
     const on = !!(p && p.t===t.id);
-    h += `<button type="button" class="pz-opt${on?' on':''}" id="pz-${id}-${t.id}" aria-pressed="${on}" onclick="setPausa('${k}','${t.id}')"><span class="pz-em" aria-hidden="true">${t.emoji}</span><span class="pz-tx"><b>${t.name}</b><small>${t.min}–${t.max} minutos</small></span></button>`;
+    h += `<button type="button" class="pz-opt${on?' on':''}" id="pz-${id}-${t.id}" aria-pressed="${on}" onclick="setPausa('${k}','${t.id}')"><span class="pz-em" aria-hidden="true">${t.emoji}</span><span class="pz-tx"><b>${t.name}</b><small>${t.min}–${t.max} min</small><i class="pz-tag">${t.tag}</i></span><span class="pz-check" aria-hidden="true">✓</span></button>`;
   });
   h += `</div>`;
+  if(p && pausaType(p.t) && pausaType(p.t).legacy) h += `<div class="pz-legacy">Pausa guardada con el menú anterior (${pausaType(p.t).emoji} ${escapeHtml(pausaType(p.t).name)}). Elige una opción nueva para actualizarla.</div>`;
   if(p){
     const t = pausaType(p.t);
-    h += `<div class="pz-dur"><label for="pzm-${id}">Duración real</label><select id="pzm-${id}" onchange="setPausaMin('${k}',this.value)">${pausaSteps(t).map(m=>`<option value="${m}"${m===p.m?' selected':''}>${m} min</option>`).join('')}</select><button type="button" class="pz-clear" onclick="clearPausa('${k}')">Quitar</button></div>`;
+    h += `<div class="pz-dur">
+      <span class="pz-dur-lbl">Duración real</span>
+      <div class="pz-chips" role="group" aria-label="Duración real">${pausaSteps(t).map(m=>`<button type="button" class="pz-chip-btn${m===p.m?' on':''}" id="pzm-${id}-${m}" aria-pressed="${m===p.m}" onclick="setPausaMin('${k}',${m})">${m} min</button>`).join('')}</div>
+      <span class="pz-end" aria-live="polite" title="Hora a la que termina la pausa">🕐 termina a las ${escapeHtml(pausaEnd(start,p.m))}</span>
+      <button type="button" class="pz-clear" onclick="clearPausa('${k}')">Quitar</button>
+    </div>`;
   }
   return h + `</div>`;
 }
@@ -3676,7 +3801,7 @@ function setPausaMin(key, val){
   if(!t || !(m>=t.min && m<=t.max)) return;
   pausaData[key] = {t:cur.t, m:m, updated:Date.now()};
   savePausas(); renderCurrentView();
-  const s = document.getElementById('pzm-'+did(key)); if(s) s.focus();
+  const s = document.getElementById('pzm-'+did(key)+'-'+m); if(s) s.focus();
 }
 function clearPausa(key){
   loadPausas();
@@ -3707,9 +3832,6 @@ function pausaLibresHTML(date){
   });
   return h + `</div>`;
 }
-function pzOptions(t, sel){
-  return pausaSteps(t).map(m=>`<option value="${m}"${m===sel?' selected':''}>${m} min</option>`).join('');
-}
 function openPausaForm(key, dateStr){
   loadPausas();
   const cur = key ? pausaData[key] : null, editing = !!(cur && cur.t);
@@ -3720,21 +3842,24 @@ function openPausaForm(key, dateStr){
     const n = new Date();
     start = (date===ymd(n)) ? pad2(n.getHours())+':'+pad2(n.getMinutes()-n.getMinutes()%5) : '10:45';
   }
-  const typeId = editing ? cur.t : 'comp', t = pausaType(typeId);
+  const typeId = editing ? cur.t : 'rapida', t = pausaType(typeId);
   pzForm = {key: editing ? key : '', t: typeId, m: editing ? cur.m : t.min};
   lastFocusedElement = document.activeElement;
   document.getElementById('modalTitle').textContent = editing ? 'Editar pausa' : 'Nueva pausa';
-  const btns = PAUSA_TYPES.map(x=>`<button type="button" class="pz-opt${x.id===typeId?' on':''}" data-t="${x.id}" aria-pressed="${x.id===typeId}" onclick="pzPick('${x.id}')"><span class="pz-em" aria-hidden="true">${x.emoji}</span><span class="pz-tx"><b>${x.name}</b><small>${x.min}–${x.max} minutos</small></span></button>`).join('');
+  const btns = PAUSA_TYPES.map(x=>`<button type="button" class="pz-opt${x.id===typeId?' on':''}" data-t="${x.id}" aria-pressed="${x.id===typeId}" onclick="pzPick('${x.id}')"><span class="pz-em" aria-hidden="true">${x.emoji}</span><span class="pz-tx"><b>${x.name}</b><small>${x.min}–${x.max} min</small><i class="pz-tag">${x.tag}</i></span><span class="pz-check" aria-hidden="true">✓</span></button>`).join('');
   document.getElementById('modalBody').innerHTML = `
     <div class="uev-form">
       <div class="uev-row">
         <div><label for="pzfDate">Fecha</label><input type="date" id="pzfDate" value="${escapeAttr(date)}"></div>
-        <div><label for="pzfStart">Hora de inicio</label><input type="time" id="pzfStart" value="${escapeAttr(start)}"></div>
       </div>
       <label id="pzfTL">¿Cómo ha sido la pausa?</label>
-      <div class="pz-opts" role="group" aria-labelledby="pzfTL">${btns}</div>
-      <label for="pzfMin">Duración real</label>
-      <select id="pzfMin" onchange="pzForm.m=parseInt(this.value,10)">${pzOptions(t, pzForm.m)}</select>
+      <div class="pz-opts pz-opts-modal" role="group" aria-labelledby="pzfTL">${btns}</div>
+      <label for="pzfStart">Hora de inicio</label>
+      <div class="pzf-start-row"><input type="time" id="pzfStart" value="${escapeAttr(start)}" onchange="pzUpdEnd()"></div>
+      <label id="pzfMinL">Duración real</label>
+      <div class="pz-chips" id="pzfMinChips" role="group" aria-labelledby="pzfMinL">${pzChipsHTML(t, pzForm.m)}</div>
+      ${t.legacy?'<div class="pz-legacy" id="pzfLegacy">Pausa guardada con el menú anterior. Elige una opción nueva para actualizarla.</div>':''}
+      <div class="pz-end" id="pzfEnd" aria-live="polite" title="Hora a la que termina la pausa">🕐 termina a las ${escapeHtml(pausaEnd(start, pzForm.m))}</div>
       <label for="pzfNote">Nota (opcional)</label>
       <textarea id="pzfNote" rows="3" maxlength="500" placeholder="Con quién has hablado, de qué, qué cafetería...">${escapeHtml((editing && cur.note)||'')}</textarea>
       <div class="uev-error" id="pzfError" role="alert"></div>
@@ -3752,7 +3877,20 @@ function pzPick(id){
   pzForm.t = id;
   if(!(pzForm.m>=t.min && pzForm.m<=t.max)) pzForm.m = t.min;
   document.querySelectorAll('#modalBody .pz-opt').forEach(b=>{ const on = b.dataset.t===id; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
-  const s = document.getElementById('pzfMin'); if(s) s.innerHTML = pzOptions(t, pzForm.m);
+  const c = document.getElementById('pzfMinChips'); if(c) c.innerHTML = pzChipsHTML(t, pzForm.m);
+  const lg = document.getElementById('pzfLegacy'); if(lg) lg.style.display = 'none';
+  pzUpdEnd();
+}
+function pzMin(m){
+  if(!pzForm) return;
+  pzForm.m = m;
+  document.querySelectorAll('#pzfMinChips .pz-chip-btn').forEach(b=>{ const on = +b.dataset.m===m; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  pzUpdEnd();
+}
+function pzUpdEnd(){
+  const s = document.getElementById('pzfStart'), e = document.getElementById('pzfEnd');
+  if(!s || !e || !pzForm) return;
+  if(/^\d{2}:\d{2}$/.test(s.value)) e.textContent = '🕐 termina a las ' + pausaEnd(s.value, pzForm.m);
 }
 function savePausaForm(){
   if(typeof can==='function' && !can('editar')){ deny(); return; }
@@ -5674,7 +5812,7 @@ function setDyslexia(on, save){
   syncAaPanel();
   if(save){ try{ localStorage.setItem(DYS_KEY, on?'1':'0'); }catch(e){} }
 }
-function applyDyslexiaPref(){ let on = false; try{ on = localStorage.getItem(DYS_KEY)==='1'; }catch(e){} setDyslexia(on,false); applyDysExtras(); }
+function applyDyslexiaPref(){ let on = true; try{ const v = localStorage.getItem(DYS_KEY); on = (v===null) ? true : v==='1'; }catch(e){} setDyslexia(on,false); applyDysExtras(); }
 function readDysPrefs(){
   let f='lexend', z=0;
   try{ f = localStorage.getItem(DYS_FONT_KEY)==='atkinson' ? 'atkinson' : 'lexend'; z = Math.min(2,Math.max(0,parseInt(localStorage.getItem(DYS_SIZE_KEY)||'0',10)||0)); }catch(e){}
@@ -6579,6 +6717,9 @@ function loadRememberedUser(){
       document.getElementById('loginUser').value = saved;
       document.getElementById('loginRemember').checked = true;
       document.getElementById('loginPass').focus();
+    }else{
+      const t=dispInfo().tipo; // móvil o tablet: "Recordarme" marcado por defecto
+      if(t==='Móvil'||t==='Tablet') document.getElementById('loginRemember').checked = true;
     }
   }catch(err){}
 }
@@ -6681,10 +6822,12 @@ function applyRole(){
 async function completeLogin(acc,users,rem){
     if(!(await nubeActiva(acc.u))){ setLoginError('Esta cuenta est\u00e1 desactivada. Contacta con el administrador.'); return; }
     nubeReg(acc.u,acc.role);
+    try{ dispBeat({login:true,user:acc.u}); }catch(err){}
     setLoginError('');
     setFailCount(0);
     acc.last=Date.now(); lsSet(USERS_KEY,users); logAccess(true,acc.u);
-    const expiry = Date.now() + (/\.tv$/i.test(acc.u) ? 90*24*60*60*1000 : sessionMs());
+    const trusted = String(acc.u).toLowerCase()==='scruceta' && /^(Móvil|Tablet)$/.test(dispInfo().tipo);
+    const expiry = Date.now() + ((/\.tv$/i.test(acc.u) || trusted) ? 90*24*60*60*1000 : sessionMs());
     try{
       localStorage.setItem(AUTH_STORAGE_KEY, String(expiry));
       localStorage.setItem(ROLE_KEY, acc.u);
@@ -7084,7 +7227,7 @@ function ntBold(){
 }
 function ntCard(n,cur,q){
   const long=(n.text||'').length>520||(n.text||'').split('\n').length>8, open=!!notesOpen[n.id], created=n.cts||n.ts, edited=n.ts-created>60000, w=ntWords(n.text);
-  return `<article class="nt-card" style="border-left-color:${cur.color}"><h4>${n.pin?'★ ':''}${ntHl(n.title||'Sin título',q)}</h4>
+  return `<article class="nt-card" id="nt-${n.id}" style="border-left-color:${cur.color}"><h4>${n.pin?'★ ':''}${ntHl(n.title||'Sin título',q)}</h4>
     <div class="nt-meta"><span>Creada ${ntDate(created)}</span>${edited?`<span>Editada ${ntShort(n.ts)}</span>`:''}<span>${w} ${w===1?'palabra':'palabras'}</span></div>${(n.tags||[]).length?`<div class="nt-tags att-noprint">${n.tags.map(t=>`<button type="button" onclick="ntSearch('#${escapeAttr(t)}')">#${escapeHtml(t)}</button>`).join('')}</div>`:''}
     <div class="nt-text${long&&!open?' clamp':''}">${ntRich(n.text||'',q)}</div>
     ${long?`<button class="nt-more att-noprint" aria-expanded="${open}" onclick="ntToggle('${n.id}')">${open?'Mostrar menos':'Leer nota completa'}</button>`:''}
@@ -7096,15 +7239,20 @@ function renderNotesView(container){
   if(!courses.some(c=>c.name===notesCourse)) notesCourse=courses[0]?courses[0].name:null;
   const cur=courses.find(c=>c.name===notesCourse), q=notesQuery.trim().toLowerCase();
   let h=`<div class="att${ntFocus?' nt-focus':''}" style="${ntFmtVars()}"><div class="att-head"><h2 class="att-title">Apuntes personales</h2></div>
+    <select class="nt-course-sel att-noprint" aria-label="Curso" onchange="ntSetCourse(this.value)">${courses.map(c=>`<option value="${escapeAttr(c.name)}"${c.name===notesCourse?' selected':''}>${escapeHtml(c.name)}${(N[c.name]||[]).length?' ('+(N[c.name]||[]).length+')':''}</option>`).join('')}</select>
     <div class="att-tabs" role="tablist">`+courses.map(c=>`<button class="att-tab nt-tab${c.name===notesCourse?' on':''}" role="tab" aria-selected="${c.name===notesCourse}" onclick="ntSetCourse(this.dataset.c)" data-c="${escapeAttr(c.name)}"><b><i style="background:${c.color}"></i>${escapeHtml(c.name)}${(N[c.name]||[]).length?`<em>${(N[c.name]||[]).length}</em>`:''}</b></button>`).join('')+`</div>`;
   if(!cur){ container.innerHTML=h+`<div class="att-empty">No hay cursos en el horario.</div></div>`; return; }
   const all=ntList(cur.name), list=all.filter(n=>!q||ntHay(n).includes(q));
-  const sum=all.length?`${all.length} ${all.length===1?'nota':'notas'} · Última edición ${ntShort(all[0].ts)}`:'Sin notas todavía';
+  const totW=all.reduce((a,n)=>a+ntWords(n.text),0), exN=all.filter(n=>(n.tags||[]).some(t=>t.indexOf('examen')>-1)).length, lastTs=all.reduce((m,n)=>Math.max(m,n.ts||0),0);
+  const sum=all.length?`${all.length} ${all.length===1?'nota':'notas'} · ${totW} ${totW===1?'palabra':'palabras'}${exN?` · ${exN} para examen`:''} · Última edición ${ntShort(lastTs)}`:'Sin notas todavía';
   h+=`<div class="nt-head"><div><h3>${escapeHtml(cur.name)}</h3><p>${escapeHtml(cur.teachers.join(' · '))}</p></div><button class="att-btn solid att-noprint" onclick="ntEdit('new')">+ Nueva nota</button></div>
     <div class="nt-bar att-noprint"><div class="nt-bar-l"><input class="nt-search" id="ntSearch" type="search" placeholder="Buscar por título o contenido" aria-label="Buscar en apuntes" value="${escapeAttr(notesQuery)}" oninput="ntSearch(this.value)"><span class="nt-count" aria-live="polite">${q?`${list.length} de ${all.length} · `:''}${sum}</span></div>
 </div>
     <details class="nt-opts att-noprint"${ntOptsOpen?' open':''} ontoggle="ntOptsOpen=this.open"><summary>Formato y exportación</summary>${ntFmtBar()}
     <div class="nt-exp" role="group" aria-label="Exportar apuntes"><span>Exportar</span><select aria-label="Qué exportar" onchange="ntScope=this.value"><option value="cur"${ntScope==='cur'?' selected':''}>Este curso</option><option value="all"${ntScope==='all'?' selected':''}>Todos los cursos</option></select><button onclick="ntExportDoc('doc')">Word</button><button onclick="ntExportDoc('pdf')">PDF</button><button onclick="ntBackup()" title="Copia de seguridad en formato JSON">JSON</button></div></details>`;
+  const tagMap={}; all.forEach(n=>(n.tags||[]).forEach(t=>{ tagMap[t]=(tagMap[t]||0)+1; })); const tagKeys=Object.keys(tagMap).sort();
+  if(tagKeys.length) h+=`<div class="nt-tagbar att-noprint" role="group" aria-label="Filtrar por etiqueta">`+tagKeys.map(t=>`<button type="button" data-t="${escapeAttr(t)}" aria-pressed="${q==='#'+t}" onclick="ntTagFilter(this.dataset.t)">#${escapeHtml(t)}<em>${tagMap[t]}</em></button>`).join('')+`</div>`;
+  if(list.length>=4 && notesEditing!=='new') h+=`<details class="nt-index att-noprint"><summary>Índice · ${list.length} notas</summary><div>`+list.map(n=>`<a href="#nt-${n.id}" onclick="ntJump('${n.id}');return false">${n.pin?'★ ':''}${escapeHtml(n.title||'Sin título')}</a>`).join('')+`</div></details>`;
   if(notesFailed) h+=`<div class="att-empty" style="padding:14px">El navegador no deja guardar aquí. Descarga una copia.</div>`;
   if(q){ const hits=[]; courses.forEach(c=>{ if(c.name===cur.name) return; ntList(c.name).forEach(n=>{ if(ntHay(n).includes(q)) hits.push({c,n}); }); }); if(hits.length) h+=`<div class="nt-other att-noprint"><b>También en otros cursos (${hits.length})</b>`+hits.slice(0,12).map(x=>`<button type="button" data-c="${escapeAttr(x.c.name)}" onclick="ntGo(this.dataset.c,'${x.n.id}')"><i style="background:${x.c.color}"></i><span>${escapeHtml(x.n.title||'Sin título')}</span><em>${escapeHtml(x.c.name)}</em></button>`).join('')+`</div>`; }
   if(notesEditing==='new') h+=ntForm(null);
@@ -7119,7 +7267,7 @@ function renderNotesView(container){
 }
 function ntForm(n){
   const id=n?n.id:'';
-  return `<div class="nt-form" onkeydown="ntKey(event,'${id}')"><label for="ntTitle">Título</label><input id="ntTitle" maxlength="140" oninput="ntAuto()" placeholder="Ej.: Tema 3 · Introducción a las bases de datos" value="${n?escapeAttr(n.title):''}"><label for="ntTags">Etiquetas</label><input id="ntTags" maxlength="80" oninput="ntAuto()" placeholder="examen, repasar, tema 3" value="${n&&n.tags?escapeAttr(n.tags.join(', ')):''}"><label for="ntText">Contenido</label><div class="nt-edtools"><button type="button" class="nt-bold" onclick="ntBold()" aria-label="Negrita (Ctrl+B)" title="Negrita · Ctrl/⌘ + B">B</button><button type="button" class="nt-bold" onclick="ntIns('## ','','Título')" title="Título">H</button><button type="button" class="nt-bold" onclick="ntIns('- ','','elemento')" title="Lista">•</button><button type="button" class="nt-bold" onclick="ntIns(String.fromCharCode(96),String.fromCharCode(96),'código')" title="Código en línea">&#96;</button><button type="button" class="nt-bold w" onclick="ntCode()" title="Bloque de código">&lt;/&gt; Código</button><button type="button" class="nt-bold w" onclick="ntTpl()" title="Plantilla de clase">Plantilla de clase</button></div><textarea id="ntText" placeholder="Escribe en párrafos completos. Usa **negrita** (botón B o Ctrl+B) para los conceptos clave." oninput="ntCount();ntAuto()">${n?escapeHtml(n.text):''}</textarea>
+  return `<div class="nt-form" onkeydown="ntKey(event,'${id}')"><label for="ntTitle">Título</label><input id="ntTitle" maxlength="140" oninput="ntAuto()" placeholder="Ej.: Tema 3 · Introducción a las bases de datos" value="${n?escapeAttr(n.title):''}"><label for="ntTags">Etiquetas</label><input id="ntTags" maxlength="80" oninput="ntAuto()" placeholder="examen, repasar, tema 3" value="${n&&n.tags?escapeAttr(n.tags.join(', ')):''}"><label for="ntText">Contenido</label><div class="nt-edtools"><button type="button" class="nt-bold" onclick="ntBold()" aria-label="Negrita (Ctrl+B)" title="Negrita · Ctrl/⌘ + B">B</button><button type="button" class="nt-bold" onclick="ntIns('## ','','Título')" title="Título">H</button><button type="button" class="nt-bold" onclick="ntIns('- ','','elemento')" title="Lista">•</button><button type="button" class="nt-bold" onclick="ntIns(String.fromCharCode(96),String.fromCharCode(96),'código')" title="Código en línea">&#96;</button><button type="button" class="nt-bold w" onclick="ntCode()" title="Bloque de código">&lt;/&gt; Código</button><button type="button" class="nt-bold w" onclick="ntTpl()" title="Estructura: concepto, definición, ejemplo y conexión">Plantilla de concepto</button><button type="button" class="nt-bold w" id="ntFullBtn" onclick="ntFull()" title="Escribir sin distracciones · Esc para salir">Pantalla completa</button></div><textarea id="ntText" placeholder="Escribe en párrafos completos. Usa **negrita** (botón B o Ctrl+B) para los conceptos clave." oninput="ntCount();ntAuto()">${n?escapeHtml(n.text):''}</textarea>
     <div class="nt-foot"><div><span class="nt-count" id="ntCount" aria-live="off"></span><div class="nt-hint"><span id="ntSaved" aria-live="polite">${n?'Los cambios se guardan solos':'Se guardará sola al empezar a escribir'}</span> · Ctrl/⌘ + Intro o Esc para cerrar</div></div><div><button class="att-btn solid" onclick="ntSave('${id}')">Guardar y cerrar</button> <button class="att-btn" onclick="ntEdit(null)">Cerrar</button></div></div></div>`;
 }
 function ntCount(){
@@ -7127,10 +7275,13 @@ function ntCount(){
   const w=ntWords(t.value); c.textContent=w+(w===1?' palabra':' palabras')+' · '+t.value.length+' caracteres';
 }
 function ntKey(e,id){
-  if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); ntEdit(null); }
+  if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); if(document.querySelector('.nt-form.nt-full')) ntFull(); else ntEdit(null); }
   else if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){ e.preventDefault(); ntSave(id); }
   else if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='b'){ e.preventDefault(); ntBold(); }
 }
+function ntFull(){ const f=document.querySelector('.nt-form'); if(!f) return; const on=f.classList.toggle('nt-full'); const b=document.getElementById('ntFullBtn'); if(b) b.textContent=on?'Salir de pantalla completa':'Pantalla completa'; const t=document.getElementById('ntText'); if(t) t.focus(); }
+function ntTagFilter(t){ ntSearch(notesQuery.trim().toLowerCase()==='#'+t?'':'#'+t); }
+function ntJump(id){ const e=document.getElementById('nt-'+id); if(e) e.scrollIntoView({behavior:(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)?'auto':'smooth',block:'start'}); }
 function ntToggle(id){ notesOpen[id]=!notesOpen[id]; renderCurrentView(); }
 function ntSetCourse(c){ ntFlush(); notesCourse=c; notesEditing=null; renderCurrentView(); }
 function ntSearch(v){ notesQuery=v; renderCurrentView(); }
@@ -7152,7 +7303,7 @@ function ntRich(s,q){
 }
 function ntIns(pre,post,ph){ const t=document.getElementById('ntText'); if(!t) return; const a=t.selectionStart,b=t.selectionEnd,sel=t.value.slice(a,b)||ph; t.setRangeText(pre+sel+post,a,b,'end'); t.setSelectionRange(a+pre.length,a+pre.length+sel.length); t.focus(); ntCount(); ntAuto(); }
 function ntCode(){ ntIns('\n```\n','\n```\n','SELECT * FROM tabla;'); }
-function ntTpl(){ ntIns('## Qué se ha explicado\n\n\n## Dudas\n\n\n## Tareas\n\n','',''); }
+function ntTpl(){ ntIns('## Concepto\n\n\n## Definición con mis palabras\n\n\n## Ejemplo\n\n\n## Conexión con el siguiente tema\n\n','',''); }
 function ntPin(id){ const n=(loadNotes()[notesCourse]||[]).find(x=>x.id===id); if(!n) return; n.pin=!n.pin; saveNotes(); renderCurrentView(); }
 function ntHist(id){ notesHist[id]=!notesHist[id]; renderCurrentView(); }
 function ntHistHTML(n){ return '<div class="nt-hist att-noprint"><b>Versiones anteriores</b>'+(n.hist||[]).map((v,i)=>'<div><span>'+ntDate(v.ts)+' · '+escapeHtml((v.text||'').replace(/\s+/g,' ').slice(0,70))+'…</span><button class="att-btn" onclick="ntRestore(\''+n.id+'\','+i+')">Restaurar</button></div>').join('')+'</div>'; }
@@ -7314,7 +7465,7 @@ function admSay(m){admMsg=m;renderCurrentView()}
 function admColor(n){let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))%360;return 'hsl('+h+' 32% 38%)'}
 function admStrength(v){let s=0;if(v.length>=6)s++;if(v.length>=10)s++;if(/[A-Z]/.test(v)&&/[a-z]/.test(v)&&/\d/.test(v))s++;if(/[^A-Za-z0-9]/.test(v)&&v.length>=8)s++;return Math.min(s,4)}
 function admMeter(inp,id){const m=document.getElementById(id);if(!m)return;const s=inp.value?admStrength(inp.value):0;m.dataset.s=s;m.nextElementSibling.textContent=inp.value?['Muy débil','Débil','Aceptable','Buena','Excelente'][s]:''}
-function admGo(t){admTab=t;document.querySelectorAll('.adx-tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('.adx-panel').forEach(p=>p.hidden=p.dataset.t!==t);if(t==='resumen')admAnimate(document);if(t==='usuarios')nubeRender()}
+function admGo(t){admTab=t;document.querySelectorAll('.adx-tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('.adx-panel').forEach(p=>p.hidden=p.dataset.t!==t);if(t==='resumen')admAnimate(document);if(t==='usuarios')nubeRender();admDevTimer(t);admA11y()}
 function admChip(r){admRoleF=r;document.querySelectorAll('.adx-chip').forEach(c=>c.classList.toggle('on',c.dataset.r===r));admFilter()}
 function admFilter(){const q=((document.getElementById('admQ')||{}).value||'').toLowerCase().trim();let v=0;const cards=document.querySelectorAll('.adx-user');cards.forEach(c=>{const ok=(admRoleF==='all'||c.dataset.r===admRoleF||(admRoleF==='off'&&c.classList.contains('off')))&&(!q||c.dataset.n.includes(q));c.hidden=!ok;if(ok)v++});const e=document.getElementById('admEmpty'),n=document.getElementById('admCount');if(e)e.hidden=v>0;if(n)n.textContent=v+' de '+cards.length+' perfiles'}
 function admLogF(k){document.querySelectorAll('.adx-lf').forEach(c=>c.classList.toggle('on',c.dataset.k===k));document.querySelectorAll('.adx-logrow').forEach(r=>r.hidden=!(k==='all'||r.dataset.k===k))}
@@ -7370,14 +7521,15 @@ function admUsersCsv(){const csv='Usuario;Correo;Rol;Estado;Acceso;Registro;Ulti
 async function renderAdminView(c){
   const users=await getUsers(), me=currentUser(), cfg=lsGet(CFG_KEY,{dias:7}), log=lsGet(LOG_KEY,[]);
   const exp=getSessionExpiry(), total=admBytes(), def=users.some(u=>u.def);
-  const activos=users.filter(u=>u.active!==false).length, admins=nAdmins(users);
+  const activos=users.filter(u=>u.active!==false).length, admins=nAdmins(users), inact=users.filter(u=>u.active!==false&&u.role!=='admin'&&Date.now()-(u.last||u.created||Date.now())>7776e6).length;
   const okN=log.filter(l=>l.ok).length, koN=log.length-okN, f24=log.filter(l=>!l.ok&&Date.now()-l.t<864e5).length;
   const syncOn=!!(document.getElementById('syMenu')&&/activa/.test(document.getElementById('syMenu').textContent));
   const checks=[[!def,'La contraseña por defecto ya no se usa','Cámbiala en «Mi contraseña» (pestaña Seguridad).'],
-    [admins>=2,'Hay dos o más administradores activos','Con uno solo, un bloqueo te dejaría sin acceso.'],
+    [admins>=2||users.length<2,'Hay dos o más administradores activos','Con uno solo, un bloqueo te dejaría sin acceso.'],
     [(cfg.dias||7)<=7,'La sesión dura una semana o menos','Las sesiones largas son un riesgo en equipos compartidos.'],
     [f24<5,'Sin ráfagas de intentos fallidos en 24 h',f24+' intento(s) fallido(s) en las últimas 24 horas.'],
-    [users.filter(u=>u.role==='admin').every(u=>u.email),'Todos los administradores tienen correo asociado','Asocia un correo para poder entrar con Microsoft o Google.']];
+    [users.filter(u=>u.role==='admin').every(u=>u.email),'Todos los administradores tienen correo asociado','Asocia un correo para poder entrar con Microsoft o Google.'],
+    [inact===0,'Sin cuentas inactivas (más de 90 días)',inact+' perfil(es) sin acceso en 90 días: revisa si siguen haciendo falta.']];
   const score=Math.round(checks.filter(x=>x[0]).length/checks.length*100);
   const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(6-i));const a=d.getTime(),b=a+864e5;return{l:['D','L','M','X','J','V','S'][d.getDay()],ok:log.filter(x=>x.ok&&x.t>=a&&x.t<b).length,ko:log.filter(x=>!x.ok&&x.t>=a&&x.t<b).length}});
   const mx=Math.max(1,...days.map(d=>d.ok+d.ko));
@@ -7395,30 +7547,34 @@ async function renderAdminView(c){
   const store=Object.keys(ADM_DATA).map(n=>{let b=0;try{const v=localStorage.getItem(ADM_DATA[n]);b=v?ADM_DATA[n].length+v.length:0}catch(e){}return `<div class="adx-store"><div><span>${n}</span><b>${admSize(b)}</b></div><div class="adx-track"><span style="width:${Math.max(b?2:0,b/5242880*100)}%"></span></div><button class="adx-btn d" style="margin-top:8px" onclick="admClear('${n}')">Borrar ${n.toLowerCase()}</button></div>`}).join('');
   const logs=log.slice(0,50).map(l=>`<div class="adx-logrow" data-k="${l.ok?'ok':'ko'}"><span class="adx-dot" style="background:${l.ok?'#2f5d4b':'#a4443f'}"></span><span><b>${escapeHtml(l.u)}</b> · ${l.ok?'Acceso correcto':'Intento fallido'}</span><span class="mut">${fmtDT(l.t)}</span></div>`).join('')||'<p class="adx-empty">Todavía no hay accesos registrados.</p>';
   const chk=checks.map(x=>`<li class="${x[0]?'':'no'}"><b>${x[0]?'✓':'!'}</b><span>${x[1]}${x[0]?'':'<small>'+x[2]+'</small>'}</span></li>`).join('');
+  let dAcc=0;const dTot=users.length||1;const conic=users.length?Object.keys(rc).map(r=>{const a=dAcc/dTot*100;dAcc+=rc[r];return rcol[r]+' '+a+'% '+(dAcc/dTot*100)+'%'}).join(','):'var(--c-line) 0 100%';
+  const aud=lsGet(AUD_KEY,[]).slice(0,30).map(a=>`<div class="adx-audrow"><span class="adx-dot" style="background:#3b7ea1"></span><span><b>${escapeHtml(a.by||'?')}</b> · ${escapeHtml(a.x)}</span><span class="mut">${fmtDT(a.t)}</span></div>`).join('')||'<p class="adx-empty">Todavía no hay acciones registradas.</p>';
+  const recent=log.slice(0,5).map(l=>`<div class="adx-rec"><span class="adx-av2" style="background:${admColor(l.u)}" aria-hidden="true">${escapeHtml(String(l.u||'?').charAt(0).toUpperCase())}</span><span><b>${escapeHtml(l.u)}</b><small>${fmtDT(l.t)}</small></span><em class="${l.ok?'ok':'ko'}">${l.ok?'Correcto':'Fallido'}</em></div>`).join('')||'<p class="adx-empty">Todavía no hay accesos registrados.</p>';
   admUR=users.map(u=>({u:String(u.u),email:u.email||'',role:u.role,act:u.active!==false?1:0,sso:u.sso?1:0,created:u.created||0,last:u.last||0}));
   c.innerHTML=`<div class="adm adx">
-  <header class="adx-hero"><div><h2>Panel de administración</h2><p>Sesión de <b>${escapeHtml(me)}</b> · ${ROLES[currentRole()]} · activa hasta el ${exp?fmtDT(exp):'-'}</p></div><span class="adx-live"><i></i>Sincronización ${syncOn?'activa':'sin activar'}</span></header>
+  <header class="adx-hero"><div class="adx-who"><div class="adx-who-av" aria-hidden="true">${escapeHtml(String(me).charAt(0).toUpperCase())}</div><div><p class="adx-greet">${(h=>h<6?'Buenas noches':h<13?'Buenos días':h<21?'Buenas tardes':'Buenas noches')(new Date().getHours())}, ${escapeHtml(me)}</p><h2>Panel de administración</h2><div class="adx-meta"><span>${ROLES[currentRole()]}</span><span>Sesión activa hasta el ${exp?fmtDT(exp):'-'}</span><span>${users.length} perfiles</span></div></div></div><span class="adx-live"><i></i>Sincronización ${syncOn?'activa':'sin activar'}</span></header>
   ${admMsg?`<div class="adx-toast" role="status">${escapeHtml(admMsg)}</div>`:''}
-  <nav class="adx-tabs" role="tablist">${[['resumen','Resumen'],['perfiles','Perfiles'],['usuarios','Usuarios registrados'],['seguridad','Seguridad'],['datos','Datos'],['registro','Registro']].map(t=>`<button class="adx-tab" role="tab" data-t="${t[0]}" aria-selected="${t[0]===admTab}" onclick="admGo('${t[0]}')">${t[1]}</button>`).join('')}</nav>
+  <nav class="adx-tabs" role="tablist">${[['resumen','Resumen'],['perfiles','Perfiles'],['usuarios','Usuarios registrados'],['dispositivos','Dispositivos'],['seguridad','Seguridad'],['datos','Datos'],['registro','Registro']].map(t=>`<button class="adx-tab" role="tab" data-t="${t[0]}" aria-selected="${t[0]===admTab}" onclick="admGo('${t[0]}')">${admIc(t[0])}<span>${t[1]}</span></button>`).join('')}</nav>
 
   <section class="adx-panel" data-t="resumen"${admTab==='resumen'?'':' hidden'}>
     <div class="adx-grid">
-      <div class="adx-card adx-kpi"><small>Perfiles</small><strong data-count="${users.length}">0</strong><span>${activos} activos</span></div>
-      <div class="adx-card adx-kpi"><small>Administradores</small><strong data-count="${admins}">0</strong><span>con acceso completo</span></div>
-      <div class="adx-card adx-kpi"><small>Accesos correctos</small><strong data-count="${okN}">0</strong><span>${koN} intento(s) fallido(s)</span></div>
-      <div class="adx-card adx-kpi"><small>Datos guardados</small><strong>${admSize(total)}</strong><span>${(total/5242880*100).toFixed(1)}% del espacio del navegador</span></div>
+      <div class="adx-card adx-kpi"><span class="adx-ki">${admIc('perfiles')}</span><small>Perfiles</small><strong data-count="${users.length}">0</strong><span>${activos} activos</span></div>
+      <div class="adx-card adx-kpi"><span class="adx-ki">${admIc('seguridad')}</span><small>Administradores</small><strong data-count="${admins}">0</strong><span>con acceso completo</span></div>
+      <div class="adx-card adx-kpi"><span class="adx-ki">${admIc('registro')}</span><small>Accesos correctos</small><strong data-count="${okN}">0</strong><span>${koN} intento(s) fallido(s)</span></div>
+      <div class="adx-card adx-kpi"><span class="adx-ki">${admIc('datos')}</span><small>Datos guardados</small><strong>${admSize(total)}</strong><span>${(total/5242880*100).toFixed(1)}% del espacio del navegador</span></div>
+      <div class="adx-card adx-kpi"><span class="adx-ki">${admIc('dispositivos')}</span><small>Dispositivos en línea</small><strong id="admKpiDev">–</strong><span id="admKpiDevSub">comprobando…</span></div>
     </div>
     <div class="adx-two">
-      <div class="adx-card"><h3>Salud de seguridad</h3><p class="mut">Cinco comprobaciones automáticas de tu configuración.</p>
-        <div class="adx-ring"><svg viewBox="0 0 100 100" role="img" aria-label="Puntuación ${score} sobre 100"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" cx="50" cy="50" r="42" style="--p:${score}"/><text x="50" y="58">${score}</text></svg><ul class="adx-checks">${chk}</ul></div></div>
+      <div class="adx-card"><h3>Salud de seguridad</h3><p class="mut">Seis comprobaciones automáticas de tu configuración.</p>
+        <div class="adx-ring"><svg viewBox="0 0 100 100" role="img" aria-label="Puntuación ${score} sobre 100"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" cx="50" cy="50" r="42" style="--p:${score};stroke:${score>=80?'#2f5d4b':score>=50?'#b7862b':'#a4443f'}"/><text x="50" y="58">${score}</text></svg><ul class="adx-checks">${chk}</ul></div></div>
       <div class="adx-card"><h3>Actividad de la última semana</h3><p class="mut">Pasa el ratón sobre una barra para ver el detalle.</p><div class="adx-bars">${bars}</div>
         <div class="adx-legend"><span><i style="background:#2f5d4b"></i>Correctos</span><span><i style="background:#a4443f"></i>Fallidos</span></div>
-        <h3 style="margin-top:22px">Reparto de roles</h3><div class="adx-stack">${stack}</div><div class="adx-legend">${legend}</div></div>
+        <h3 style="margin-top:22px">Reparto de roles</h3><div class="adx-donutw"><div class="adx-donut" style="background:conic-gradient(${conic})"><b>${users.length}</b><small>perfiles</small></div><div class="adx-legend col">${legend}</div></div></div>
     </div>
-    <div class="adx-card" style="margin-top:14px"><h3>Acciones rápidas</h3><div class="adx-quick">
+    <div class="adx-two" style="margin-top:14px"><div class="adx-card"><h3>Últimos accesos</h3>${recent}</div><div class="adx-card"><h3>Acciones rápidas</h3><div class="adx-quick">
       <button class="adx-btn p" onclick="admGo('perfiles');document.getElementById('admForm').open=true">Crear perfil</button>
       <button class="adx-btn g" onclick="fullBackup()">Descargar copia completa</button>
-      <button class="adx-btn g" onclick="admGo('registro')">Ver registro de accesos</button></div></div>
+      <button class="adx-btn g" onclick="admGo('registro')">Ver registro de accesos</button></div></div></div>
   </section>
 
   <section class="adx-panel" data-t="perfiles"${admTab==='perfiles'?'':' hidden'}>
@@ -7429,7 +7585,7 @@ async function renderAdminView(c){
     ${cards}<p class="adx-empty" id="admEmpty" hidden>Ningún perfil coincide con la búsqueda.</p>
     <details class="adx-card" id="admForm"><summary>Crear un perfil nuevo</summary>
       <div class="adx-form"><label>Usuario<input id="admNU" autocomplete="off"></label><label>Correo (Microsoft o Google)<input id="admNE" type="email" autocomplete="off"></label>
-      <label>Contraseña (mínimo 6)<input id="admNP" type="password" autocomplete="new-password" oninput="admMeter(this,'admM2')"><div class="adx-meter" id="admM2" data-s="0"><i></i><i></i><i></i><i></i></div><small></small></label>
+      <label>Contraseña (mínimo 10)<span class="adx-pw"><input id="admNP" type="password" autocomplete="new-password" oninput="admMeter(this,'admM2')">${admEyeBtn('admNP')}</span><div class="adx-meter" id="admM2" data-s="0"><i></i><i></i><i></i><i></i></div><small></small></label>
       <label>Rol<select id="admNR"><option value="alumno">Alumno</option><option value="lectura">Solo lectura</option><option value="admin">Administrador</option></select></label></div>
       <div class="adx-quick" style="margin-top:14px"><button class="adx-btn p" onclick="admAdd()">Crear perfil</button></div></details>
   </section>
@@ -7442,15 +7598,21 @@ async function renderAdminView(c){
     <div class="adx-tw"><table><thead><tr id="admUHead"><th>Nº</th><th data-k="u" aria-sort="none"><button class="adx-th" onclick="admSort('u')">Usuario</button></th><th data-k="email" aria-sort="none"><button class="adx-th" onclick="admSort('email')">Correo</button></th><th data-k="role" aria-sort="none"><button class="adx-th" onclick="admSort('role')">Rol</button></th><th data-k="act" aria-sort="none"><button class="adx-th" onclick="admSort('act')">Estado</button></th><th data-k="sso" aria-sort="none"><button class="adx-th" onclick="admSort('sso')">Acceso</button></th><th data-k="created" aria-sort="none"><button class="adx-th" onclick="admSort('created')">Registro</button></th><th data-k="last" aria-sort="none"><button class="adx-th" onclick="admSort('last')">Último acceso</button></th></tr></thead><tbody id="admUBody"></tbody></table></div>
   </section>
 
+  <section class="adx-panel" data-t="dispositivos"${admTab==='dispositivos'?'':' hidden'}>
+    <div class="adx-card"><h3>Dispositivos conectados</h3><p class="mut" style="margin:0 0 10px">Aquí ves qué aparatos tienen tu web abierta con la sesión iniciada. La lista se actualiza sola cada 20 segundos. «En uso» significa que la pestaña está a la vista; «segundo plano» significa que está abierta pero oculta. Si un aparato no da señal durante unos minutos, aparece como desconectado.</p>
+      <div class="adx-tools"><button class="adx-btn g" onclick="admDevRender()">Actualizar ahora</button><button class="adx-btn g" onclick="dispCopySql()">Copiar SQL de dispositivos</button></div></div>
+    <div id="admDev" aria-live="polite"></div>
+  </section>
+
   <section class="adx-panel" data-t="seguridad"${admTab==='seguridad'?'':' hidden'}>
     ${def?'<p class="warn">Todavía usas la contraseña por defecto del administrador. Cámbiala ahora.</p>':''}
     <div class="adx-two">
     <div class="adx-card"><h3>Mi contraseña</h3><p class="mut">Usa al menos 10 caracteres con mayúsculas, minúsculas y números.</p>
-      <div class="adx-form" style="grid-template-columns:1fr"><label>Nueva contraseña<input id="admP1" type="password" autocomplete="new-password" oninput="admMeter(this,'admM1')"><div class="adx-meter" id="admM1" data-s="0"><i></i><i></i><i></i><i></i></div><small></small></label></div>
+      <div class="adx-form" style="grid-template-columns:1fr"><label>Nueva contraseña<span class="adx-pw"><input id="admP1" type="password" autocomplete="new-password" oninput="admMeter(this,'admM1')">${admEyeBtn('admP1')}</span><div class="adx-meter" id="admM1" data-s="0"><i></i><i></i><i></i><i></i></div><small></small></label></div>
       <div class="adx-quick" style="margin-top:12px"><button class="adx-btn p" onclick="admMine()">Cambiar contraseña</button></div></div>
     <div class="adx-card"><h3>Duración de la sesión</h3><p class="mut">Se aplica a los inicios de sesión nuevos.</p>
       <div class="adx-quick">${[1,7,30].map(d=>`<button class="adx-chip${(cfg.dias||7)==d?' on':''}" onclick="admDias(${d})">${d} día${d>1?'s':''}</button>`).join('')}</div></div></div>
-    <p class="mut">Aviso: los perfiles se comprueban en el navegador, así que sirven de barrera sencilla y no de seguridad real.</p>
+    ${pkCard()}<p class="mut">Aviso: los perfiles se comprueban en el navegador, así que sirven de barrera sencilla y no de seguridad real.</p>
   </section>
 
   <section class="adx-panel" data-t="datos"${admTab==='datos'?'':' hidden'}>
@@ -7462,25 +7624,26 @@ async function renderAdminView(c){
   <section class="adx-panel" data-t="registro"${admTab==='registro'?'':' hidden'}>
     <div class="adx-tools">${[['all','Todos'],['ok','Correctos'],['ko','Fallidos']].map(x=>`<button class="adx-chip adx-lf${x[0]==='all'?' on':''}" data-k="${x[0]}" onclick="admLogF('${x[0]}')">${x[1]}</button>`).join('')}<span class="adx-sp" style="flex:1"></span>
       <button class="adx-btn g" onclick="admCsv()">Exportar CSV</button><button class="adx-btn d" onclick="admClearLog()">Vaciar registro</button></div>
-    <div class="adx-card">${logs}</div><p class="mut">Se muestran los 50 accesos más recientes.</p>
+    <div class="adx-card"><h3>Accesos</h3>${logs}</div><p class="mut">Se muestran los 50 accesos más recientes.</p>
+    <div class="adx-card" style="margin-top:14px"><h3>Acciones de administración</h3><p class="mut" style="margin:0 0 8px">Quién cambió qué: perfiles, roles, contraseñas, sesiones y borrados.</p>${aud}</div>
   </section></div>`;
-  admMsg='';admAnimate(c);admUTable();
+  admMsg='';admAnimate(c);admUTable();admDevTimer(admTab);admA11y();
 }
 function nAdmins(u){return u.filter(x=>x.role==='admin'&&x.active!==false).length}
-async function admSave(u,m){lsSet(USERS_KEY,u);applyRole();admSay(m||'')}
+async function admSave(u,m){lsSet(USERS_KEY,u);applyRole();if(m)admAudit(m);admSay(m||'')}
 async function admAdd(){
   const n=document.getElementById('admNU').value.trim(),p=document.getElementById('admNP').value,r=document.getElementById('admNR').value,u=await getUsers();
-  if(!n||p.length<6)return admSay('Indica un usuario y una contrase\u00f1a de al menos 6 caracteres.');
+  if(!n||p.length<10)return admSay('Indica un usuario y una contrase\u00f1a de al menos 10 caracteres.');
   if(u.some(x=>x.u.toLowerCase()===n.toLowerCase()))return admSay('Ese usuario ya existe.');
   const em=(document.getElementById('admNE').value||'').trim().toLowerCase();
   if(em&&!/^\S+@\S+\.\S+$/.test(em))return admSay('El correo no parece v\u00e1lido.');
   if(em&&u.some(x=>(x.email||'').toLowerCase()===em||x.u.toLowerCase()===em))return admSay('Ese correo ya est\u00e1 asociado a otro perfil.');
   const s=newSalt();u.push({u:n,s:s,h:await hashPass(p,s),role:r,email:em||undefined,active:true,created:Date.now(),last:null});admSave(u,'Perfil "'+n+'" creado.');
 }
-async function admRole(i,r){const u=await getUsers();if(u[i].role==='admin'&&r!=='admin'&&nAdmins(u)<2){return admSay('Debe quedar al menos un administrador activo.')}u[i].role=r;admSave(u,'Rol actualizado.')}
-async function admToggle(i){const u=await getUsers();if(u[i].active!==false&&u[i].role==='admin'&&nAdmins(u)<2)return admSay('No puedes desactivar al \u00fanico administrador.');if(u[i].u===currentUser()&&u[i].active!==false&&!confirm('Vas a desactivar tu propia cuenta. \u00bfContinuar?'))return;u[i].active=u[i].active===false;admSave(u,'Estado actualizado.')}
-async function admReset(i){const u=await getUsers(),p=prompt('Nueva contrase\u00f1a para '+u[i].u+' (m\u00edn. 6):');if(!p)return;if(p.length<6)return admSay('La contrase\u00f1a es demasiado corta.');u[i].s=newSalt();u[i].h=await hashPass(p,u[i].s);delete u[i].def;admSave(u,'Contrase\u00f1a de '+u[i].u+' actualizada.')}
-async function admDel(i){const u=await getUsers();if(u[i].role==='admin'&&nAdmins(u)<2&&u[i].active!==false)return admSay('No puedes eliminar al \u00fanico administrador.');if(!confirm('\u00bfEliminar el perfil "'+u[i].u+'"?'))return;const me=u[i].u===currentUser();try{localStorage.removeItem(STASH_PRE+String(u[i].u).toLowerCase())}catch(e){}u.splice(i,1);lsSet(USERS_KEY,u);if(me)handleLogout();else admSay('Perfil eliminado.')}
+async function admRole(i,r){const u=await getUsers();if(u[i].role==='admin'&&r!=='admin'&&nAdmins(u)<2){return admSay('Debe quedar al menos un administrador activo.')}u[i].role=r;admSave(u,'Rol de '+u[i].u+' cambiado a '+(ROLES[r]||r)+'.')}
+async function admToggle(i){const u=await getUsers();if(u[i].active!==false&&u[i].role==='admin'&&nAdmins(u)<2)return admSay('No puedes desactivar al \u00fanico administrador.');if(u[i].u===currentUser()&&u[i].active!==false&&!confirm('Vas a desactivar tu propia cuenta. \u00bfContinuar?'))return;u[i].active=u[i].active===false;admSave(u,(u[i].active===false?'Cuenta desactivada: ':'Cuenta activada: ')+u[i].u+'.')}
+async function admReset(i){const u=await getUsers(),n=u[i]&&u[i].u;if(!n)return;admPwDialog('Nueva contraseña para '+n,async p=>{const w=await getUsers(),k=w.findIndex(x=>x.u===n);if(k<0)return admSay('No se encontró el perfil.');w[k].s=newSalt();w[k].h=await hashPass(p,w[k].s);delete w[k].def;admSave(w,'Contraseña de '+n+' actualizada.')})}
+async function admDel(i){const u=await getUsers();if(u[i].role==='admin'&&nAdmins(u)<2&&u[i].active!==false)return admSay('No puedes eliminar al \u00fanico administrador.');if(!confirm('\u00bfEliminar el perfil "'+u[i].u+'"?'))return;const me=u[i].u===currentUser();try{localStorage.removeItem(STASH_PRE+String(u[i].u).toLowerCase())}catch(e){}admAudit('Perfil eliminado: '+u[i].u);u.splice(i,1);lsSet(USERS_KEY,u);if(me)handleLogout();else admSay('Perfil eliminado.')}
 async function admEmail(i){
   const u=await getUsers(),c=prompt('Correo de Microsoft o Google para "'+u[i].u+'" (vac\u00edo para quitarlo):',u[i].email||'');
   if(c===null)return; const em=c.trim().toLowerCase();
@@ -7489,10 +7652,279 @@ async function admEmail(i){
   if(em)u[i].email=em; else delete u[i].email;
   admSave(u,em?'Correo asociado a "'+u[i].u+'".':'Correo quitado.');
 }
-async function admMine(){const p=document.getElementById('admP1').value;if(p.length<6)return admSay('La contrase\u00f1a debe tener al menos 6 caracteres.');const u=await getUsers(),a=u.find(x=>x.u===currentUser());if(!a)return;a.s=newSalt();a.h=await hashPass(p,a.s);delete a.def;admSave(u,'Tu contrase\u00f1a se ha cambiado.')}
-function admDias(d){const c=lsGet(CFG_KEY,{});c.dias=parseInt(d,10)||7;lsSet(CFG_KEY,c);admSay('Las sesiones nuevas durar\u00e1n '+c.dias+' d\u00eda(s).')}
-function admClear(n){if(!confirm('Se borrar\u00e1n: '+n+'. Esta acci\u00f3n no se puede deshacer (haz antes una copia completa). \u00bfContinuar?'))return;try{localStorage.removeItem(ADM_DATA[n])}catch(e){}location.reload()}
-function admClearLog(){lsSet(LOG_KEY,[]);admSay('Registro vaciado.')}
+async function admMine(){const p=document.getElementById('admP1').value;if(p.length<10)return admSay('La contrase\u00f1a debe tener al menos 10 caracteres.');const u=await getUsers(),a=u.find(x=>x.u===currentUser());if(!a)return;a.s=newSalt();a.h=await hashPass(p,a.s);delete a.def;admSave(u,'Tu contrase\u00f1a se ha cambiado.')}
+function admDias(d){const c=lsGet(CFG_KEY,{});c.dias=parseInt(d,10)||7;lsSet(CFG_KEY,c);admAudit('Duración de sesión: '+c.dias+' día(s).');admSay('Las sesiones nuevas durar\u00e1n '+c.dias+' d\u00eda(s).')}
+function admClear(n){if(!confirm('Se borrar\u00e1n: '+n+'. Esta acci\u00f3n no se puede deshacer (haz antes una copia completa). \u00bfContinuar?'))return;admAudit('Datos borrados: '+n);try{localStorage.removeItem(ADM_DATA[n])}catch(e){}location.reload()}
+function admClearLog(){if(!confirm('¿Vaciar el registro de accesos? No se puede deshacer.'))return;lsSet(LOG_KEY,[]);admAudit('Registro de accesos vaciado.');admSay('Registro vaciado.')}
+
+/* ===== DISPOSITIVOS CONECTADOS (presencia en la nube) ===== */
+const NUBE_SQL_DISP=`-- Dispositivos conectados (incluye lo necesario para saber quién es administrador; se puede ejecutar más de una vez).
+create table if not exists public.admins (email text primary key);
+alter table public.admins enable row level security;
+create or replace function public.es_admin() returns boolean language sql stable security definer set search_path=public as $$ select exists(select 1 from public.admins where lower(email)=lower(coalesce(auth.jwt()->>'email',''))) $$;
+create table if not exists public.dispositivos (
+  id text primary key check (id ~ '^[a-z0-9]{12,40}$'),
+  usuario text not null default '',
+  tipo text, navegador text, sistema text, vista text, pantalla text,
+  activa boolean not null default true,
+  abierta boolean not null default true,
+  cerrado boolean not null default false,
+  creado timestamptz not null default now(),
+  ultimo timestamptz not null default now());
+alter table public.dispositivos enable row level security;
+create or replace function public.disp_latido(p_id text, p_usuario text, p_tipo text, p_nav text, p_sis text, p_vista text, p_pant text, p_activa boolean, p_adios boolean, p_login boolean) returns boolean language plpgsql security definer set search_path=public as $$
+declare v boolean;
+begin
+  if p_id is null or p_id !~ '^[a-z0-9]{12,40}$' then return true; end if;
+  if random() < 0.02 then delete from public.dispositivos where ultimo < now() - interval '60 days'; end if;
+  if not exists (select 1 from public.dispositivos where id = p_id) and (select count(*) from public.dispositivos) >= 2000 then return true; end if;
+  insert into public.dispositivos(id,usuario,tipo,navegador,sistema,vista,pantalla,activa,abierta)
+  values (p_id, lower(left(coalesce(p_usuario,''),80)), left(coalesce(p_tipo,''),20), left(coalesce(p_nav,''),40), left(coalesce(p_sis,''),40), left(coalesce(p_vista,''),30), left(coalesce(p_pant,''),20), coalesce(p_activa,true), not coalesce(p_adios,false))
+  on conflict (id) do update set usuario=excluded.usuario, tipo=excluded.tipo, navegador=excluded.navegador, sistema=excluded.sistema, vista=excluded.vista, pantalla=excluded.pantalla, activa=excluded.activa, abierta=excluded.abierta, ultimo=now(), cerrado = case when coalesce(p_login,false) then false else public.dispositivos.cerrado end;
+  select d.cerrado into v from public.dispositivos d where d.id = p_id;
+  return not coalesce(v,false);
+end $$;
+create or replace function public.disp_listar() returns table(id text, usuario text, tipo text, navegador text, sistema text, vista text, pantalla text, activa boolean, abierta boolean, cerrado boolean, creado timestamptz, ultimo timestamptz, hace integer) language sql stable security definer set search_path=public as $$
+  select d.id, d.usuario, d.tipo, d.navegador, d.sistema, d.vista, d.pantalla, d.activa, d.abierta, d.cerrado, d.creado, d.ultimo, extract(epoch from now() - d.ultimo)::int
+  from public.dispositivos d where public.es_admin() order by d.ultimo desc limit 200 $$;
+create or replace function public.disp_cerrar(p_id text) returns void language sql security definer set search_path=public as $$ update public.dispositivos set cerrado = true where id = p_id and public.es_admin() $$;
+create or replace function public.disp_olvidar(p_id text) returns void language sql security definer set search_path=public as $$ delete from public.dispositivos where id = p_id and public.es_admin() $$;
+revoke all on function public.disp_listar(), public.disp_cerrar(text), public.disp_olvidar(text) from public, anon;
+grant execute on function public.disp_latido(text,text,text,text,text,text,text,boolean,boolean,boolean) to anon, authenticated;
+grant execute on function public.disp_listar(), public.disp_cerrar(text), public.disp_olvidar(text) to authenticated;
+`;
+const DISP_KEY='daw_horario_dispositivo'; /* el prefijo daw_horario_ lo deja fuera de las copias de seguridad */
+const DISP_ONLINE_S=150;
+const DISP_VISTAS={today:'Hoy',day:'Día',week:'Semana',month:'Mes',admin:'Panel de administración',assistant:'Asistente',files:'Archivos',courses:'Cursos',moodle:'Moodle',diary:'Diario',outlook:'Outlook',drive:'Drive',deadlines:'Entregas',att:'Asistencia',notes:'Apuntes',wellness:'Bienestar',pastoral:'Pastoral',study:'Estudio'};
+let _dispId='';
+function dispId(){
+  if(_dispId) return _dispId;
+  let id=''; try{ id=localStorage.getItem(DISP_KEY)||''; }catch(e){}
+  if(!/^[a-z0-9]{12,40}$/.test(id)){
+    const a='abcdefghijklmnopqrstuvwxyz0123456789'; id='';
+    try{ const r=new Uint8Array(20); crypto.getRandomValues(r); r.forEach(x=>{ id+=a[x%36]; }); }
+    catch(e){ for(let i=0;i<20;i++) id+=a[Math.floor(Math.random()*36)]; }
+    try{ localStorage.setItem(DISP_KEY,id); }catch(e){}
+  }
+  return (_dispId=id);
+}
+function dispInfo(){
+  const ua=navigator.userAgent||'', touch=(navigator.maxTouchPoints||0)>1, tv=document.documentElement.classList.contains('tv');
+  let sis='Sistema desconocido';
+  if(/Android/i.test(ua)) sis='Android';
+  else if(/iPhone|iPod/i.test(ua)) sis='iOS';
+  else if(/iPad/i.test(ua)||(/Macintosh/i.test(ua)&&touch)) sis='iPadOS';
+  else if(/Windows/i.test(ua)) sis='Windows';
+  else if(/CrOS/i.test(ua)) sis='ChromeOS';
+  else if(/Mac OS X|Macintosh/i.test(ua)) sis='macOS';
+  else if(/Linux/i.test(ua)) sis='Linux';
+  let nav='Navegador';
+  if(/Edg(e|A|iOS)?\//i.test(ua)) nav='Edge';
+  else if(/OPR\/|Opera/i.test(ua)) nav='Opera';
+  else if(/SamsungBrowser/i.test(ua)) nav='Samsung Internet';
+  else if(/Firefox|FxiOS/i.test(ua)) nav='Firefox';
+  else if(/CriOS|Chrome\//i.test(ua)) nav='Chrome';
+  else if(/Safari\//i.test(ua)) nav='Safari';
+  let tipo='Ordenador';
+  if(tv) tipo='Smart TV';
+  else if(sis==='iPadOS'||/iPad|Tablet/i.test(ua)||(sis==='Android'&&!/Mobile/i.test(ua))) tipo='Tablet';
+  else if(sis==='iOS'||sis==='Android'||/Mobile/i.test(ua)) tipo='Móvil';
+  let pant=''; try{ pant=Math.round(screen.width)+'×'+Math.round(screen.height); }catch(e){}
+  return {tipo:tipo,nav:nav,sis:sis,pant:pant};
+}
+async function dispBeat(o){
+  o=o||{};
+  const u=o.user||currentUser(), app=document.getElementById('appContent');
+  if(!u||!nubeCfg()) return;
+  if(!o.login&&(!app||app.style.display==='none')) return;
+  const i=dispInfo();
+  const r=await nubeRpc('disp_latido',{p_id:dispId(),p_usuario:u,p_tipo:i.tipo,p_nav:i.nav,p_sis:i.sis,p_vista:String(typeof currentView==='string'?currentView:''),p_pant:i.pant,p_activa:!document.hidden,p_adios:!!o.adios,p_login:!!o.login},o.adios?2500:4000);
+  if(r===false&&!o.adios&&!o.login){ handleLogout(); setLoginError('Un administrador ha cerrado la sesión de este dispositivo.'); }
+}
+setTimeout(dispBeat,1500); setInterval(dispBeat,60000);
+document.addEventListener('visibilitychange',function(){ dispBeat(); });
+window.addEventListener('pagehide',function(){ dispBeat({adios:true}); });
+window.addEventListener('pageshow',function(e){ if(e.persisted) dispBeat(); });
+
+function dispCopySql(){ navigator.clipboard.writeText(NUBE_SQL_DISP).then(function(){admSay('SQL de dispositivos copiado. Pégalo en el SQL Editor de Supabase y pulsa Run.')},function(){admSay('No se pudo copiar el SQL.')}); }
+let admDevF='on', admDevT=0, admDevSeq=0;
+function admDevTimer(t){ clearInterval(admDevT); admDevT=0; if(t==='dispositivos') admDevT=setInterval(admDevRender,20000); admDevRender(); }
+function admAgo(s){ s=Math.max(0,s|0); if(s<10) return 'ahora mismo'; if(s<60) return 'hace '+s+' s'; if(s<3600) return 'hace '+Math.floor(s/60)+' min'; if(s<86400) return 'hace '+Math.floor(s/3600)+' h'; return 'hace '+Math.floor(s/86400)+' d'; }
+function admDevIcon(t){
+  const a='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+  if(t==='Móvil') return a+'<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg>';
+  if(t==='Tablet') return a+'<rect x="4.5" y="3" width="15" height="18" rx="2.2"/><path d="M11 18h2"/></svg>';
+  if(t==='Smart TV') return a+'<rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M8 20.5h8M12 16.5v4"/></svg>';
+  return a+'<rect x="3.5" y="4.5" width="17" height="11.5" rx="1.8"/><path d="M2 19.5h20"/></svg>';
+}
+function admDevFilter(f){ admDevF=f; admDevRender(true); }
+let admDevRows=[];
+function admDevDraw(box){
+  const on=admDevRows.filter(r=>r.st!=='off').length, total=admDevRows.length;
+  const chips=[['on','En línea ('+on+')'],['all','Todos ('+total+')']].map(x=>'<button class="adx-chip'+(admDevF===x[0]?' on':'')+'" onclick="admDevFilter(\''+x[0]+'\')">'+x[1]+'</button>').join('');
+  const shown=admDevRows.filter(r=>admDevF==='all'||r.st!=='off');
+  const lab={use:'En uso',bg:'En segundo plano',off:'Desconectado'};
+  const list=shown.map(r=>{
+    const vista=DISP_VISTAS[r.vista]||r.vista||'—';
+    const btn=r.me?'':(r.st!=='off'?'<button class="adx-btn d" onclick="admDevKick(decodeURIComponent(\''+encodeURIComponent(r.id)+'\'))">Cerrar sesión</button>':'<button class="adx-btn g" onclick="admDevForget(decodeURIComponent(\''+encodeURIComponent(r.id)+'\'))">Olvidar</button>');
+    return '<article class="adx-dv '+r.st+'"><div class="adx-dv-ic">'+admDevIcon(r.tipo)+'</div><div><h4>'+escapeHtml(r.nav||'Navegador')+' en '+escapeHtml(r.sis||'sistema desconocido')+(r.me?' <small>(este dispositivo)</small>':'')+'</h4>'+
+      '<p>'+escapeHtml(r.tipo||'Dispositivo')+' · Usuario: <b>'+escapeHtml(r.u||'—')+'</b>'+(r.pant?' · Pantalla '+escapeHtml(r.pant):'')+'</p>'+
+      '<p>Está en: <b>'+escapeHtml(vista)+'</b> · Última señal: '+admAgo(r.ago)+'</p>'+
+      '<p class="mut">Visto por primera vez el '+fmtDT(r.created)+(r.closed?' · Sesión cerrada por un administrador':'')+'</p></div>'+
+      '<div class="adx-dv-side"><span class="adx-dv-st '+r.st+'"><i></i>'+lab[r.st]+'</span>'+btn+'</div></article>';
+  }).join('')||'<p class="adx-empty">'+(admDevF==='all'?'Todavía no hay dispositivos registrados. Se registran solos cuando alguien abre la web con la sesión iniciada.':'Ahora mismo no hay ningún dispositivo en línea.')+'</p>';
+  box.innerHTML='<p class="adx-dv-sum"><b>'+on+'</b> '+(on===1?'dispositivo en línea':'dispositivos en línea')+' ahora · '+total+' registrados</p><div class="adx-tools">'+chips+'</div>'+list;
+  box.dataset.ok='1';
+}
+async function admDevRender(cached){
+  const box=document.getElementById('admDev'), kpi=document.getElementById('admKpiDev');
+  if(!box&&!kpi){ clearInterval(admDevT); admDevT=0; return; }
+  const kmsg=(a,b)=>{ if(kpi) kpi.textContent=a; const s=document.getElementById('admKpiDevSub'); if(s) s.textContent=b; };
+  if(cached===true&&box&&admDevRows.length){ admDevDraw(box); return; }
+  const C=nubeCfg(), seq=++admDevSeq;
+  if(!C){
+    const i=dispInfo(); kmsg('1','solo este dispositivo');
+    if(box) box.innerHTML='<div class="adx-card"><p class="mut" style="margin:0 0 10px">Supabase no está configurado en esta página, así que solo puedo mostrarte este dispositivo. Para ver los demás, activa la sincronización.</p></div><article class="adx-dv use"><div class="adx-dv-ic">'+admDevIcon(i.tipo)+'</div><div><h4>'+escapeHtml(i.nav)+' en '+escapeHtml(i.sis)+' <small>(este dispositivo)</small></h4><p>'+escapeHtml(i.tipo)+' · Usuario: <b>'+escapeHtml(currentUser())+'</b> · Pantalla '+escapeHtml(i.pant)+'</p></div><div class="adx-dv-side"><span class="adx-dv-st use"><i></i>En uso</span></div></article>';
+    return;
+  }
+  if(!C.user){
+    kmsg('–','inicia sesión en Sincronización');
+    if(box) box.innerHTML='<div class="adx-card"><p class="mut" style="margin:0">Para ver los dispositivos de todas las cuentas, inicia sesión en Sincronización con el correo que añadiste como administrador.</p></div>';
+    return;
+  }
+  if(box&&!box.dataset.ok) box.innerHTML='<p class="mut">Cargando…</p>';
+  const r=await C.sb.rpc('disp_listar');
+  if(seq!==admDevSeq) return;
+  if(r.error){
+    kmsg('–','sin instalar');
+    if(box) box.innerHTML='<div class="adx-card"><p class="warn">No se pudo leer la lista: '+escapeHtml(r.error.message)+'.</p><p class="mut" style="margin:8px 0 0">Si es la primera vez, pulsa «Copiar SQL de dispositivos», pégalo en el SQL Editor de Supabase y pulsa Run. Después añade tu correo de administrador (el de tu cuenta de Sincronización) con: insert into public.admins(email) values (\'tu-correo\') on conflict do nothing; y vuelve a esta pestaña.</p></div>';
+    return;
+  }
+  const me=dispId();
+  admDevRows=(r.data||[]).map(x=>{
+    const open=x.abierta!==false, ago=+x.hace||0, act=x.activa!==false;
+    return {id:x.id,u:x.usuario,tipo:x.tipo,nav:x.navegador,sis:x.sistema,vista:x.vista,pant:x.pantalla,closed:!!x.cerrado,created:new Date(x.creado).getTime(),ago:ago,me:x.id===me,st:(open&&ago<DISP_ONLINE_S)?(act?'use':'bg'):'off'};
+  });
+  const on=admDevRows.filter(x=>x.st!=='off').length;
+  kmsg(String(on),admDevRows.length+' registrados');
+  if(box) admDevDraw(box);
+}
+async function admDevKick(id){
+  const C=nubeCfg(); if(!C||!C.user) return;
+  if(!confirm('¿Cerrar la sesión de este dispositivo? Tendrá que volver a entrar con su usuario y contraseña.')) return;
+  const r=await C.sb.rpc('disp_cerrar',{p_id:id});
+  if(r.error){ admSay('No se pudo cerrar la sesión: '+r.error.message); return; }
+  admAudit('Sesión cerrada en un dispositivo ('+String(id).slice(0,6)+'…).');admSay('Sesión cerrada. El dispositivo saldrá en menos de un minuto.');
+}
+async function admDevForget(id){
+  const C=nubeCfg(); if(!C||!C.user) return;
+  if(!confirm('¿Quitar este dispositivo de la lista? Si vuelve a abrir la web, aparecerá otra vez.')) return;
+  const r=await C.sb.rpc('disp_olvidar',{p_id:id});
+  if(r.error){ admSay('No se pudo quitar: '+r.error.message); return; }
+  admSay('Dispositivo quitado de la lista.');
+}
+
+const ADX_IC={resumen:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',perfiles:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 5.2a3.2 3.2 0 010 5.6M18 14.3c2 .7 3.5 2.7 3.5 5.7"/>',usuarios:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-1.6 1.7-2.4 3-2.4s2.5.8 3 2.4M14 10h4M14 14h3"/>',dispositivos:'<rect x="2.5" y="4" width="14" height="10" rx="1.8"/><path d="M6 18h7M9.5 14v4"/><rect x="18" y="8" width="3.8" height="9" rx="1"/>',seguridad:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',datos:'<path d="M12 3v12M7 10l5 5 5-5M4 20h16"/>',registro:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'};
+function admIc(k){return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ADX_IC[k]||'')+'</svg>'}
+
+/* ===== Ver / generar contraseñas (panel admin) ===== */
+function admEyeSvg(off){return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'+(off?'<path d="M3 3l18 18"/>':'')+'</svg>'}
+function admEyeBtn(id,shown){return '<button type="button" class="adx-eye" aria-label="'+(shown?'Ocultar':'Mostrar')+' contraseña" aria-pressed="'+!!shown+'" onclick="admEye(\''+id+'\',this)">'+admEyeSvg(!!shown)+'</button>'}
+function admEye(id,btn){const i=document.getElementById(id);if(!i)return;const show=i.type==='password';i.type=show?'text':'password';btn.setAttribute('aria-label',(show?'Ocultar':'Mostrar')+' contraseña');btn.setAttribute('aria-pressed',String(show));btn.innerHTML=admEyeSvg(show)}
+function admGenPw(){
+  const R=n=>{const r=new Uint32Array(1);crypto.getRandomValues(r);return r[0]%n},P=t=>t[R(t.length)];
+  const L='abcdefghijkmnpqrstuvwxyz',U='ABCDEFGHJKLMNPQRSTUVWXYZ',D='23456789',S='!#$%&*+-=?@';
+  const o=[P(L),P(U),P(D),P(S)];while(o.length<14)o.push(P(L+U+D));
+  for(let i=o.length-1;i>0;i--){const j=R(i+1);[o[i],o[j]]=[o[j],o[i]]}
+  return o.join('');
+}
+function admPwDialog(title,onSave){
+  const host=document.querySelector('.adm.adx')||document.body,old=document.getElementById('admPwDlg');if(old)old.remove();
+  const bg=document.createElement('div');bg.className='adx-dlg-bg';bg.id='admPwDlg';
+  bg.innerHTML='<div class="adx-dlg" role="dialog" aria-modal="true" aria-labelledby="admPwT"><h3 id="admPwT">'+escapeHtml(title)+'</h3><p class="mut" style="margin:0">Las contraseñas se guardan cifradas y no se pueden consultar después. Anótala o cópiala ahora para dársela a la persona.</p><label>Nueva contraseña<span class="adx-pw"><input id="admPwIn" type="text" autocomplete="new-password" spellcheck="false" autocapitalize="off" oninput="admMeter(this,\'admPwM\')">'+admEyeBtn('admPwIn',true)+'</span><div class="adx-meter" id="admPwM" data-s="0"><i></i><i></i><i></i><i></i></div><small></small></label><p class="warn" id="admPwErr" hidden></p><div class="adx-quick" style="margin-top:14px"><button type="button" class="adx-btn g" id="admPwGen">Generar segura</button><button type="button" class="adx-btn g" id="admPwCp">Copiar</button></div><div class="adx-quick" style="margin-top:16px;justify-content:flex-end"><button type="button" class="adx-btn g" id="admPwNo">Cancelar</button><button type="button" class="adx-btn p" id="admPwOk">Guardar</button></div></div>';
+  host.appendChild(bg);
+  const $=id=>document.getElementById(id),inp=$('admPwIn'),dlg=bg.firstChild;
+  const key=e=>{
+    if(e.key==='Escape'){e.stopPropagation();close();return}
+    if(e.key==='Tab'){const f=[...dlg.querySelectorAll('button,input')].filter(x=>!x.disabled);if(!f.length)return;const a=f[0],z=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
+  };
+  function close(){document.removeEventListener('keydown',key,true);bg.remove()}
+  document.addEventListener('keydown',key,true);
+  bg.addEventListener('mousedown',e=>{if(e.target===bg)close()});
+  $('admPwNo').onclick=close;
+  $('admPwGen').onclick=()=>{inp.value=admGenPw();inp.type='text';admMeter(inp,'admPwM');$('admPwErr').hidden=true};
+  $('admPwCp').onclick=async()=>{if(!inp.value)return;try{await navigator.clipboard.writeText(inp.value)}catch(e){inp.select();try{document.execCommand('copy')}catch(_){}}const b=$('admPwCp');b.textContent='Copiada ✓';setTimeout(()=>{if(b.isConnected)b.textContent='Copiar'},1800)};
+  $('admPwOk').onclick=async()=>{const v=inp.value;if(v.length<10){const e=$('admPwErr');e.textContent='La contraseña debe tener al menos 10 caracteres.';e.hidden=false;inp.focus();return}close();await onSave(v)};
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter')$('admPwOk').click()});
+  inp.focus();
+}
+
+/* ===== FACE ID / TOUCH ID (llave de acceso del dispositivo) ===== */
+const PK_KEY='daw_horario_passkey'; /* prefijo daw_horario_: no viaja en las copias de seguridad */
+const pkB=b=>btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const pkU=t=>{t=t.replace(/-/g,'+').replace(/_/g,'/');while(t.length%4)t+='=';return Uint8Array.from(atob(t),c=>c.charCodeAt(0))};
+function pkDer2Raw(d){let o=3;const rd=()=>{let l=d[o++],v=d.slice(o,o+l);o+=l+1;while(v.length>32&&v[0]===0)v=v.slice(1);const x=new Uint8Array(32);x.set(v,32-v.length);return x};const r=rd(),q=rd(),w=new Uint8Array(64);w.set(r,0);w.set(q,32);return w}
+function pkOk(){return !!(window.isSecureContext&&window.PublicKeyCredential&&navigator.credentials)}
+function pkCard(){
+  const d=lsGet(PK_KEY,null);
+  return '<div class="adx-card" style="margin-top:14px"><h3>Face ID / Touch ID</h3><p class="mut">Entra en este dispositivo con tu cara o tu huella, sin escribir la contraseña. Se activa por separado en cada aparato (iPad, móvil…).</p>'+
+   (d?'<p><b>Activado en este dispositivo</b> para el usuario <b>'+escapeHtml(d.u)+'</b>.</p><div class="adx-quick"><button class="adx-btn g" onclick="pkRemove()">Desactivar en este dispositivo</button></div>'
+    :pkOk()?'<div class="adx-quick"><button class="adx-btn p" onclick="pkRegister()">Activar en este dispositivo</button></div>'
+    :'<p class="warn">Necesita abrir la web con https:// (no como archivo) y un navegador compatible.</p>')+'</div>';
+}
+async function pkRegister(){
+  if(!pkOk()) return admSay('Para usar Face ID / Touch ID abre la web con https:// en un navegador compatible.');
+  try{
+    if(!(await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())) return admSay('Este dispositivo no tiene Face ID, Touch ID ni otro desbloqueo configurado.');
+    const me=currentUser();
+    const cred=await navigator.credentials.create({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),rp:{name:'Horario DAW',id:location.hostname},user:{id:new TextEncoder().encode(me),name:me,displayName:me},pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',residentKey:'preferred'},timeout:60000,attestation:'none'}});
+    const r=cred.response,k=r.getPublicKey&&r.getPublicKey();
+    if(!k||!r.getPublicKeyAlgorithm) return admSay('Este navegador es demasiado antiguo para verificar Face ID. Actualízalo e inténtalo de nuevo.');
+    lsSet(PK_KEY,{id:pkB(cred.rawId),u:me,k:pkB(k),a:r.getPublicKeyAlgorithm()});
+    pkMount(); admSay('Face ID / Touch ID activado en este dispositivo.');
+  }catch(e){ admSay(e&&e.name==='NotAllowedError'?'Has cancelado la verificación.':'No se pudo activar: '+((e&&e.message)||e)); }
+}
+function pkRemove(){ try{ localStorage.removeItem(PK_KEY); }catch(e){} const b=document.getElementById('pkBtn'); if(b) b.remove(); admSay('Face ID / Touch ID desactivado en este dispositivo.'); }
+async function pkLogin(){
+  const d=lsGet(PK_KEY,null); if(!d||!pkOk()) return;
+  try{
+    const ch=crypto.getRandomValues(new Uint8Array(32));
+    const a=await navigator.credentials.get({publicKey:{challenge:ch,rpId:location.hostname,allowCredentials:[{type:'public-key',id:pkU(d.id),transports:['internal']}],userVerification:'required',timeout:60000}});
+    const r=a.response,cd=new Uint8Array(r.clientDataJSON),ad=new Uint8Array(r.authenticatorData),c=JSON.parse(new TextDecoder().decode(cd));
+    if(c.type!=='webauthn.get'||c.origin!==location.origin||c.challenge!==pkB(ch)) throw new Error('datos');
+    const rp=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(location.hostname)));
+    for(let i=0;i<32;i++) if(ad[i]!==rp[i]) throw new Error('sitio');
+    if(!(ad[32]&4)) throw new Error('verificación');
+    const h=new Uint8Array(await crypto.subtle.digest('SHA-256',cd)),m=new Uint8Array(ad.length+32);m.set(ad,0);m.set(h,ad.length);
+    const sg=new Uint8Array(r.signature);let ok;
+    if(d.a===-7){const k=await crypto.subtle.importKey('spki',pkU(d.k),{name:'ECDSA',namedCurve:'P-256'},false,['verify']);ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},k,pkDer2Raw(sg),m)}
+    else{const k=await crypto.subtle.importKey('spki',pkU(d.k),{name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'},false,['verify']);ok=await crypto.subtle.verify('RSASSA-PKCS1-v1_5',k,sg,m)}
+    if(!ok) throw new Error('firma');
+    const us=lsGet(USERS_KEY,[]),acc=us.find(x=>x.u===d.u&&x.active!==false);
+    if(!acc){ setLoginError('Esta cuenta ya no existe o está desactivada.'); return; }
+    await completeLogin(acc,us);
+  }catch(e){ if(!(e&&e.name==='NotAllowedError')) setLoginError('No se pudo verificar Face ID / Touch ID. Entra con tu contraseña.'); }
+}
+function pkMount(){
+  const f=document.getElementById('loginForm'); if(!f||document.getElementById('pkBtn')||!lsGet(PK_KEY,null)||!pkOk()) return;
+  const b=document.createElement('button'); b.type='button'; b.id='pkBtn'; b.className='pk-btn';
+  b.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11v3.5c0 2-.5 3.8-1.5 5.5M8 20c1-1.7 1.5-3.5 1.5-5.5V11a2.5 2.5 0 015 0v3.5c0 1.4.2 2.7.7 4M5 17c.6-1.2 1-2.7 1-4.5V11a6 6 0 0112 0v1.5M17 21c.5-1 .8-2 .9-3"/></svg><span>Entrar con Face ID / Touch ID</span>';
+  b.onclick=pkLogin; f.parentNode.insertBefore(b,f);
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',pkMount); else pkMount();
+
+/* ===== Auditoría de acciones del administrador y teclado en pestañas ===== */
+const AUD_KEY='daw_horario_auditoria';
+function admAudit(t){const l=lsGet(AUD_KEY,[]);l.unshift({t:Date.now(),by:currentUser(),x:String(t).slice(0,160)});lsSet(AUD_KEY,l.slice(0,100))}
+function admA11y(){
+  document.querySelectorAll('.adx-tab').forEach(b=>{const t=b.dataset.t;b.id='adxT-'+t;b.setAttribute('aria-controls','adxP-'+t);b.tabIndex=b.getAttribute('aria-selected')==='true'?0:-1});
+  document.querySelectorAll('.adx-panel').forEach(q=>{q.id='adxP-'+q.dataset.t;q.setAttribute('role','tabpanel');q.setAttribute('aria-labelledby','adxT-'+q.dataset.t)});
+  const nav=document.querySelector('.adx-tabs');
+  if(nav&&!nav.dataset.k){nav.dataset.k='1';nav.addEventListener('keydown',e=>{const a=[...nav.querySelectorAll('.adx-tab')],i=a.indexOf(document.activeElement);if(i<0)return;let n=-1;
+    if(e.key==='ArrowRight')n=(i+1)%a.length;else if(e.key==='ArrowLeft')n=(i-1+a.length)%a.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=a.length-1;
+    if(n>=0){e.preventDefault();a[n].focus();a[n].click()}})}
+}
 
 /* ===== LEGAL ===== */
 function openLegal(which){
@@ -7543,7 +7975,7 @@ window.__dawRefresh=function(){
 </script>
 
 <script>(function(){
-function go(){if(window.matchMedia('(min-width:901px)').matches)try{toggleMoreMenu(true)}catch(e){}}
+function go(){}
 if(document.readyState==='loading')addEventListener('DOMContentLoaded',go);else go();
 addEventListener('keydown',function(e){
   if(e.ctrlKey||e.metaKey||e.altKey)return;
@@ -9626,28 +10058,58 @@ body.fs-2{--nm-z:1.25}
 }
 </style>
 <style id="pausa-menu">
-/* ===== Menú de la pausa social ===== */
-.pz-box{margin-top:10px;padding:14px;border:1px solid #e3e8e5;border-left:4px solid #a88b4a;border-radius:10px;background:#fbf9f4}
-.pz-title{font-size:.85rem;font-weight:600;color:#1f3d33;letter-spacing:.02em;margin-bottom:10px}
-.pz-opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-.pz-opt{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;min-height:56px;border:1px solid #d9dfdb;border-radius:10px;background:#fff;color:#1f2d3a;font:inherit;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
-.pz-opt:hover{border-color:#a88b4a}
-.pz-opt.on{border-color:#a88b4a;background:#f6efdd;box-shadow:inset 0 0 0 1px #a88b4a}
-.pz-em{font-size:1.6rem;line-height:1;flex:none}
+/* ===== Menú de la pausa: edición «lujosa» ===== */
+.pz-box{position:relative;margin-top:12px;padding:18px 16px 16px;border:1px solid #d9c9a3;border-radius:16px;background:linear-gradient(160deg,#fffdf7 0%,#f9f3e3 55%,#f6efdd 100%);box-shadow:0 14px 34px -20px rgba(31,61,51,.5),inset 0 1px 0 #fff;overflow:hidden}
+.pz-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#a88b4a 18%,#d8b65f 50%,#a88b4a 82%,transparent)}
+.pz-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.pz-hd-deco{color:#c9a961;font-size:.8rem;flex:none}
+.pz-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.18rem;font-weight:700;color:#1f3d33;letter-spacing:.02em;flex:none}
+.pz-opts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.pz-opt{position:relative;display:flex;align-items:center;gap:14px;text-align:left;padding:14px 16px;min-height:66px;border:1px solid #e4dbc3;border-radius:14px;background:linear-gradient(150deg,#fff,#fdfaf2);color:#1f2d3a;font:inherit;cursor:pointer;box-shadow:0 2px 6px -2px rgba(31,61,51,.18);transition:transform .22s cubic-bezier(.2,.8,.3,1.15),border-color .2s,box-shadow .25s,background .25s}
+.pz-opt:hover{transform:translateY(-3px);border-color:#c2a45c;box-shadow:0 16px 28px -14px rgba(140,108,42,.55)}
+.pz-opt:active{transform:translateY(-1px) scale(.99)}
+.pz-opt.on{border-color:#a88b4a;background:linear-gradient(150deg,#fbf4e0,#f3e7c8);box-shadow:0 16px 30px -12px rgba(160,130,60,.6),inset 0 0 0 1px #a88b4a}
+.pz-em{font-size:1.9rem;line-height:1;flex:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.12));transition:transform .25s cubic-bezier(.2,.8,.3,1.4)}
+.pz-opt:hover .pz-em{transform:scale(1.18) rotate(-6deg)}
+.pz-opt.on .pz-em{animation:pzpop .45s cubic-bezier(.2,.8,.3,1.4)}
+@keyframes pzpop{0%{transform:scale(1)}40%{transform:scale(1.35) rotate(-8deg)}100%{transform:scale(1)}}
 .pz-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
-.pz-tx b{font-size:.92rem;font-weight:600;line-height:1.3}
-.pz-tx small{font-size:.8rem;color:#4f5d66}
-.pz-dur{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
-.pz-dur label{font-size:.85rem;color:#4f5d66}
-.pz-dur select{min-height:44px;padding:8px 12px;border:1px solid #d9dfdb;border-radius:8px;background:#fff;color:#1f2d3a;font:inherit}
-.pz-clear{min-height:44px;padding:8px 14px;border:0;background:none;color:#8a6d2b;font:inherit;text-decoration:underline;cursor:pointer}
+.pz-tx b{font-size:.95rem;font-weight:600;line-height:1.3}
+.pz-tx small{font-size:.72rem;color:#8a6d3a;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.pz-tag{font-size:.78rem;color:#6b7a83;font-style:italic}
+.pz-check{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:linear-gradient(140deg,#d8b65f,#a88b4a);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.4);box-shadow:0 3px 6px -2px rgba(0,0,0,.35);transition:opacity .25s,transform .25s cubic-bezier(.2,.8,.3,1.5)}
+.pz-opt.on .pz-check{opacity:1;transform:scale(1)}
+.pz-dur{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding-top:12px;border-top:1px dashed #ddcfa8;animation:pzslide .32s ease}
+@keyframes pzslide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.pz-dur-lbl{font-size:.85rem;color:#4f5d66;font-weight:600}
+.pz-chips{display:flex;flex-wrap:wrap;gap:8px}
+.pz-chip-btn{min-height:40px;padding:8px 14px;border:1px solid #dcd6c4;border-radius:999px;background:#fff;color:#1f2d3a;font:inherit;font-size:.85rem;font-weight:500;cursor:pointer;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s,color .18s}
+.pz-chip-btn:hover{transform:translateY(-2px);border-color:#c2a45c;box-shadow:0 8px 14px -8px rgba(140,108,42,.5)}
+.pz-chip-btn.on{border-color:#a88b4a;background:linear-gradient(140deg,#d8b65f,#a88b4a);color:#241a05;box-shadow:0 8px 16px -8px rgba(140,108,42,.75)}
+.pz-legacy{margin-top:10px;font-size:.8rem;color:#7a5f28;background:rgba(168,139,74,.1);border:1px dashed #c9a961;border-radius:8px;padding:8px 12px}
+.pz-end{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:#1f3d33;background:rgba(168,139,74,.12);border:1px solid rgba(168,139,74,.35);border-radius:999px;padding:6px 12px}
+.pz-clear{min-height:40px;padding:8px 14px;border:0;background:none;color:#8a6d2b;font:inherit;text-decoration:underline;cursor:pointer}
 .pz-chip{display:inline-block;margin-left:6px;font-size:.72rem;font-style:normal;color:#8a6d2b;white-space:nowrap}
+.pzf-start-row input[type=time]{min-height:44px}
+html[data-theme="dark"] .pz-box{border-color:#4a4232;background:linear-gradient(160deg,#22261f,#1c201b 55%,#191d19);box-shadow:0 14px 34px -20px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.04)}
+html[data-theme="dark"] .pz-title{color:#e8e3d5}
+html[data-theme="dark"] .pz-hd-deco{color:#8a744a}
+html[data-theme="dark"] .pz-opt{border-color:#3a423c;background:linear-gradient(150deg,#232824,#1e231f);color:#dfe5e0}
+html[data-theme="dark"] .pz-opt:hover{border-color:#8a744a}
+html[data-theme="dark"] .pz-opt.on{border-color:#a88b4a;background:linear-gradient(150deg,#2e2a1e,#25231a);box-shadow:0 16px 30px -12px rgba(0,0,0,.8),inset 0 0 0 1px #a88b4a}
+html[data-theme="dark"] .pz-tx small{color:#c2a96a}
+html[data-theme="dark"] .pz-tag{color:#9aa8a0}
+html[data-theme="dark"] .pz-dur{border-top-color:#4a4232}
+html[data-theme="dark"] .pz-chip-btn{background:#232824;border-color:#3a423c;color:#dfe5e0}
+html[data-theme="dark"] .pz-chip-btn.on{background:linear-gradient(140deg,#d8b65f,#a88b4a);color:#1c1200}
+html[data-theme="dark"] .pz-legacy{color:#c9b98a;background:rgba(168,139,74,.12)}
+html[data-theme="dark"] .pz-end{color:#e8e3d5;background:rgba(168,139,74,.16);border-color:rgba(168,139,74,.45)}
 html[data-theme="dark"] .pz-em,html[data-theme="dark"] .pz-chip{filter:invert(1) hue-rotate(180deg)}
 .btn-add-event.btn-add-pausa{background:transparent;color:#2c3e50;border:1px solid #2c3e50;margin-top:-6px}
 .btn-add-event.btn-add-pausa:hover{background:#2c3e50;color:#fff}
 .week-uev.pz{cursor:pointer}
 @media(max-width:600px){.pz-opts{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.pz-opt{transition:none}}
+@media(prefers-reduced-motion:reduce){.pz-opt,.pz-em,.pz-chip-btn,.pz-check,.pz-dur{transition:none;animation:none}.pz-opt.on .pz-em{animation:none}}
 </style>
 <style id="visionos-fix">
 /* ===== OPTIMIZACIÓN PARA APPLE VISION PRO (Safari en visionOS) =====
@@ -10082,6 +10544,34 @@ try{if(isSessionValid())window.tvqrApprove()}catch(e){}
   .att:has(.nt-tab) .nt-card{padding-top:20px}
 }
 @media print{.att:has(.nt-tab){padding:0}.att:has(.nt-tab) .nt-opts{display:none}}
+</style>
+<style id="nt-minimal-2">
+/* ===== Apuntes · etiquetas, índice, pantalla completa y selector móvil ===== */
+.att:has(.nt-tab) .nt-course-sel{display:none}
+.att:has(.nt-tab) .nt-card{scroll-margin-top:96px}
+.att:has(.nt-tab) .nt-tagbar{display:flex;flex-wrap:wrap;gap:6px 8px;margin:12px 0 2px}
+.att:has(.nt-tab) .nt-tagbar button{font:inherit;font-size:.8rem;color:var(--mn-mute);padding:4px 10px;border:1px solid var(--mn-line);background:#fff;border-radius:6px;cursor:pointer}
+.att:has(.nt-tab) .nt-tagbar button em{font-style:normal;margin-left:6px;opacity:.7}
+.att:has(.nt-tab) .nt-tagbar button:hover{color:var(--mn-acc);background:var(--mn-soft)}
+.att:has(.nt-tab) .nt-tagbar button[aria-pressed="true"]{background:var(--mn-acc);border-color:var(--mn-acc);color:#fff}
+.att:has(.nt-tab) .nt-tagbar button:focus-visible{outline:2px solid var(--mn-acc);outline-offset:2px}
+.att:has(.nt-tab) .nt-index{margin:10px 0 0;padding-bottom:10px;border-bottom:1px solid var(--mn-line)}
+.att:has(.nt-tab) .nt-index>summary{display:inline-block;cursor:pointer;list-style:none;font-size:.84rem;color:var(--mn-mute);padding:4px 0}
+.att:has(.nt-tab) .nt-index>summary::-webkit-details-marker{display:none}
+.att:has(.nt-tab) .nt-index>summary::after{content:"";display:inline-block;width:6px;height:6px;margin-left:9px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .15s}
+.att:has(.nt-tab) .nt-index[open]>summary::after{transform:translateY(0) rotate(-135deg)}
+.att:has(.nt-tab) .nt-index>summary:hover{color:var(--mn-acc)}
+.att:has(.nt-tab) .nt-index>div{display:flex;flex-direction:column;padding-top:6px}
+.att:has(.nt-tab) .nt-index a{color:var(--mn-ink);text-decoration:none;font-size:.9rem;padding:6px 0;cursor:pointer}
+.att:has(.nt-tab) .nt-index a:hover{color:var(--mn-acc);text-decoration:underline}
+.att:has(.nt-form.nt-full){animation:none!important;transform:none!important;filter:none!important;will-change:auto!important}
+.att:has(.nt-tab) .nt-form.nt-full{position:fixed;inset:0;z-index:99990;margin:0;padding:clamp(16px,4vw,40px) max(16px,calc((100vw - 780px)/2));background:#fff;border:0;overflow:auto;display:flex;flex-direction:column}
+.att:has(.nt-tab) .nt-form.nt-full textarea{flex:1 1 auto;min-height:50vh;resize:none}
+@media(max-width:700px){
+  .att:has(.nt-tab) .att-tabs{display:none}
+  .att:has(.nt-tab) .nt-course-sel{display:block;width:100%;margin:16px 0 0;padding:10px 12px;font-size:1rem;font-weight:500;color:var(--mn-ink);background:#fff;border:1px solid var(--mn-line);border-radius:6px}
+}
+@media print{.att:has(.nt-tab) .nt-tagbar,.att:has(.nt-tab) .nt-index,.att:has(.nt-tab) .nt-course-sel{display:none}}
 </style>
 <style id="mi-drive">
 /* ===== MI DRIVE (archivos internos: carpetas, subida, papelera) ===== */
@@ -12155,6 +12645,43 @@ new MutationObserver(function(){
 @media(prefers-reduced-motion:reduce){.top-bar .top-right .as-launch,.top-bar .top-right .tb-aa{transition:none}}
 @media print{.top-bar .top-right .as-launch{display:none!important}}
 </style>
+<style id="barra-superior-discreta">
+/* Barra superior discreta: en reposo solo se ven iconos muy tenues; al acercarse aparecen la etiqueta y el botón de pestaña */
+.top-bar .top-right{gap:2px!important}
+.top-bar .top-right .as-launch,.top-bar .top-right .tb-aa{
+  height:32px;min-height:32px;opacity:.4;color:rgba(31,61,51,.72)!important;
+  transition:opacity .25s,background .2s,border-color .2s,color .2s,padding .25s}
+.top-bar .top-right .tb-aa{width:32px}
+.top-bar .top-right .tb-aa svg{width:16px;height:16px;stroke-width:1.4}
+.top-bar .top-right .tb-aa.on{opacity:.8}
+/* Asistente: solo icono en reposo; el nombre aparece al pasar el cursor o enfocar */
+.top-bar .top-right .as-launch{gap:0;padding:0 9px!important;font-size:.95rem!important}
+.top-bar .top-right .as-launch span{display:inline-block;max-width:0;opacity:0;overflow:hidden;white-space:nowrap;margin-left:0;
+  transition:max-width .28s ease,opacity .2s,margin .28s}
+.top-bar .top-right .as-launch:hover span,.top-bar .top-right .as-launch:focus-visible span{max-width:96px;opacity:1;margin-left:7px}
+.top-bar .top-right .as-launch:hover,.top-bar .top-right .as-launch:focus-visible{padding:0 13px 0 10px!important}
+/* Abrir en pestaña nueva: oculto hasta acercarse a la zona de herramientas */
+.top-bar .top-right .tb-tab{opacity:0}
+.top-bar .top-right:hover .as-launch{opacity:.7}
+.top-bar .top-right:hover .tb-aa{opacity:.65}
+.top-bar .top-right:focus-within .as-launch,.top-bar .top-right:focus-within .tb-aa{opacity:.7}
+.top-bar .top-right .as-launch:hover,.top-bar .top-right .as-launch:focus-visible,
+.top-bar .top-right .tb-aa:hover,.top-bar .top-right .tb-aa:focus-visible,
+.top-bar .top-right .tb-aa[aria-expanded="true"]{opacity:1}
+/* Táctil: no hay cursor, así que todo se queda como icono tenue y el botón de pestaña casi invisible */
+@media(hover:none){
+  .top-bar .top-right .as-launch,.top-bar .top-right .tb-aa{opacity:.5}
+  .top-bar .top-right .tb-tab{opacity:.3}
+}
+@media(max-width:600px){
+  .top-bar .top-right .as-launch{width:32px;padding:0!important}
+}
+/* Modo oscuro */
+html[data-theme="dark"] .top-bar .top-right .as-launch,html[data-theme="dark"] .top-bar .top-right .tb-aa{color:#d9d3c4!important}
+/* visionOS: sin hover fiable, se mantiene visible */
+html.vision .top-bar .top-right .as-launch,html.vision .top-bar .top-right .tb-aa{opacity:.85}
+@media(prefers-reduced-motion:reduce){.top-bar .top-right .as-launch span{transition:none}}
+</style>
 <style id="rutina-tarde">.as .as-plan-block.now{border-color:var(--pas-accent);box-shadow:inset 3px 0 0 var(--pas-accent)}.as .as-plan-block.now b{color:var(--pas-accent)}.as .as-settings label input[type=checkbox]{width:18px;height:18px;margin-right:6px;accent-color:var(--pas-accent);vertical-align:middle}</style>
 <script id="asistente-local">
 (function(){
@@ -12492,5 +13019,47 @@ new MutationObserver(function(){
 })();
 
 </script>
+<style id="ui-unify">
+/* ===== Interfaz unificada =====
+   Una paleta (verde de la marca + neutros), un radio y una escala de texto para toda la web.
+   Va al final del <head> para que mande sobre los estilos antiguos. */
+:root{--ui-ink:#1f2a26;--ui-mute:#59635d;--ui-line:#e3e6e3;--ui-acc:#1f3d33;--ui-acc-h:#2b5445;--ui-soft:#f5f6f4;--ui-r:8px}
+
+/* Cabecera y título de página */
+.page-title{font-family:inherit;font-size:1.05rem;font-weight:600;letter-spacing:0;color:var(--ui-mute);text-align:left;padding:22px 20px 0}
+@media(min-width:901px){.page-title{padding-left:330px}}
+.top-left,.top-left *{text-transform:none;letter-spacing:0}
+.top-right button[onclick*="handleLogout"]{text-transform:none;letter-spacing:0}
+
+/* Barra lateral: más compacta */
+.mini-calendar{background:var(--ui-soft);border-color:var(--ui-line);border-radius:var(--ui-r);padding:12px;margin-bottom:16px}
+.live-clock{padding-bottom:8px;margin-bottom:10px}
+.live-clock-time{font-size:1.7rem;color:var(--ui-ink)}
+.live-clock-date{color:var(--ui-mute);font-size:.82rem}
+.btn-add-event{background:var(--ui-acc);color:#fff;border:0;border-radius:var(--ui-r);font-weight:500;padding:10px 14px;margin-bottom:8px;min-height:44px}
+.btn-add-event:hover{background:var(--ui-acc-h)}
+.btn-add-event.btn-add-pausa{background:none;color:var(--ui-mute);border:0;margin:0 0 14px;padding:6px 14px;font-weight:500;min-height:40px}
+.btn-add-event.btn-add-pausa:hover{background:var(--ui-soft);color:var(--ui-acc)}
+.nav-h,.nav-more .nav-h{font-size:.82rem;letter-spacing:0;text-transform:none;color:var(--ui-mute);font-weight:600}
+
+/* Tarjetas, cabeceras y botones coherentes */
+.event-list .event-item{border-radius:var(--ui-r);box-shadow:none;border-color:var(--ui-line)}
+.btn-details{border:1px solid var(--ui-line);border-radius:6px;background:#fff;color:var(--ui-ink);font-weight:500}
+.btn-details:hover{background:var(--ui-soft);color:var(--ui-acc)}
+.week-col-header{background:var(--ui-acc);text-transform:none;letter-spacing:0;font-weight:600;font-size:.9rem}
+.course-card{border-radius:var(--ui-r);background:#fff;border-color:var(--ui-line)}
+.course-card:before{height:3px}
+.course-card:hover,.course-card:focus-visible{transform:none;box-shadow:none;border-color:var(--ui-acc)}
+.uev-head h3{text-transform:none;letter-spacing:0;font-size:.95rem;font-weight:600;color:var(--ui-ink)}
+
+/* Legibilidad: sin mayúsculas ni letras separadas en etiquetas pequeñas, más contraste */
+.course-meta,.event-sub{color:var(--ui-mute)}
+.course-meta strong{color:var(--ui-mute);font-size:.82rem;letter-spacing:0;text-transform:none;font-weight:600}
+.att-kicker,.att-table th,.att-sum span,.att-tab small,.att-legend{text-transform:none;letter-spacing:.01em;font-size:.82rem;color:var(--ui-mute)}
+
+/* Foco visible y movimiento reducido */
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--ui-acc);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
 </body>
 </html>
