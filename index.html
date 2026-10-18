@@ -5,7 +5,7 @@
 <meta name="author" content="Sergi Cruceta Arboles">
 <meta name="copyright" content="© 2026 Sergi Cruceta Arboles. Todos los derechos reservados.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; manifest-src 'self' data:; object-src blob:; media-src 'self' blob:; base-uri 'self'; frame-src blob: https://login.microsoftonline.com https://accounts.google.com">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com https://appleid.cdn-apple.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; manifest-src 'self' data:; object-src blob:; media-src 'self' blob:; base-uri 'self'; frame-src blob: https://login.microsoftonline.com https://accounts.google.com https://appleid.apple.com">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="description" content="Horario DAW · La Salle Gràcia: horario, diario de clase, asistencia y apuntes del ciclo de Desarrollo de Aplicaciones Web.">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,6 +25,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600&family=Atkinson+Hyperlegible:wght@400;700&display=swap" media="print" onload="this.media='all';this.onload=null">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600&family=Atkinson+Hyperlegible:wght@400;700&display=swap"></noscript>
+<script>/* Acceso con Google: (1) guarda el ID de cliente si llega como #google=ID y (2) recoge la vuelta de Google ANTES de que Supabase lea el hash y borre la sesión de sincronización */
+(function(){try{
+var h=location.hash||'';
+var gm=/[#&]google=([0-9]+-[a-z0-9]+\.apps\.googleusercontent\.com)/i.exec(h);
+if(gm){localStorage.setItem('daw_gdrive_client_id',gm[1]);history.replaceState(null,'',location.pathname+location.search);return}
+if(h.indexOf('access_token=')<0&&h.indexOf('error=')<0)return;
+var p=new URLSearchParams(h.replace(/^#/,''));var st=p.get('state')||'';
+if(st.indexOf('ggl.')!==0)return;
+window.__ggBack={token:p.get('access_token')||'',state:st,error:p.get('error')||''};
+history.replaceState(null,'',location.pathname+location.search);
+}catch(e){}})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous" defer></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>/* Carga de MSAL (Microsoft) bajo demanda: solo si hay sesión/redirección de Microsoft o el usuario la pide */
@@ -1773,7 +1785,10 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 .sso-box{margin-top:10px}.sso-box[hidden]{display:none}
 .sso-or{display:flex;align-items:center;gap:10px;color:rgba(44,62,80,.55);font:italic 600 .9rem 'Cormorant Garamond',Georgia,serif;letter-spacing:.06em}
 .sso-or::before,.sso-or::after{content:"";flex:1;height:1px;background:rgba(201,184,150,.7)}
-.sso-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.sso-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:0}
+.sso-row .sso-btn{flex:1 1 130px;min-width:0}
+.sso-box .sso-or{margin-top:12px}
+.sso-box{margin-top:2px;margin-bottom:2px}
 .sso-btn{display:flex;align-items:center;justify-content:center;gap:9px;padding:10px;background:transparent;color:rgba(44,62,80,.8);border:1px solid rgba(201,184,150,.55);border-radius:2px;
   font:500 .75rem/1 inherit;font-family:inherit;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .25s,border-color .25s}
 .sso-btn svg{width:16px;height:16px;flex:none;opacity:.6;transition:opacity .25s}
@@ -1782,7 +1797,7 @@ body[data-rol="lectura"] #roleBadge{--rb-bg:#faf7f0;--rb-fg:#6e2f2f;--rb-line:#c
 .sso-btn:hover{background:rgba(201,184,150,.1);border-color:#c9b896}
 .sso-btn:focus-visible{outline:2px solid #c9b896;outline-offset:2px}
 .sso-btn:disabled{opacity:.5;cursor:wait}
-@media(max-width:380px){.sso-row{grid-template-columns:1fr}}
+
 
 /* ===== Gráfica de asistencia ===== */
 .att-chart{margin:8px 0 22px;padding:16px 18px;background:#fbf9f4;border:1px solid var(--rule);border-top:3px double #96c8a2}
@@ -2613,6 +2628,14 @@ body:has(#content .calendar-inline-header) #pageTitle{display:none!important}
     </div>
   </aside>
   <form class="login-box" id="loginForm" onsubmit="handleLogin(event)" novalidate aria-label="Iniciar sesión">
+    <div class="sso-box" id="ssoBox" hidden>
+      <div class="sso-row">
+        <button type="button" class="sso-btn" id="ssoGg" onclick="ssoGoogle()"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg><span>Google</span></button>
+        <button type="button" class="sso-btn" id="ssoAp" onclick="ssoApple()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span>Apple</span></button>
+        <button type="button" class="sso-btn" id="ssoMs" onclick="ssoMicrosoft()"><svg viewBox="0 0 21 21" aria-hidden="true"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect y="11" width="10" height="10" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg><span>Microsoft</span></button>
+      </div>
+      <div class="sso-or"><span>o con usuario y contraseña</span></div>
+    </div>
     <div class="lx-openwrap"><div class="lx-collapse-in">
       <button type="button" class="lx-trigger" id="lxOpen" aria-expanded="false" aria-controls="lxPanel"><span class="lx-trig-l" id="lxTrigL">Entrar con mi cuenta</span><svg class="lx-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
     </div></div>
@@ -2644,15 +2667,9 @@ body:has(#content .calendar-inline-header) #pageTitle{display:none!important}
     <button type="submit" class="login-btn" id="loginSubmitBtn">Iniciar sesión</button>
     <p class="login-session-note" id="loginSessionNote"></p>
     <button type="button" class="login-forgot" onclick="setLoginError('Pide a tu profesor o al centro que te recuerde tus credenciales.')">¿Has olvidado tu contraseña?</button>
-    <div class="sso-box" id="ssoBox" hidden>
-      <div class="sso-or"><span>o continúa con</span></div>
-      <div class="sso-row">
-        <button type="button" class="sso-btn" id="ssoMs" onclick="ssoMicrosoft()"><svg viewBox="0 0 21 21" aria-hidden="true"><rect width="10" height="10" fill="#f25022"/><rect x="11" width="10" height="10" fill="#7fba00"/><rect y="11" width="10" height="10" fill="#00a4ef"/><rect x="11" y="11" width="10" height="10" fill="#ffb900"/></svg><span>Microsoft</span></button>
-        <button type="button" class="sso-btn" id="ssoGg" onclick="ssoGoogle()"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg><span>Google</span></button>
-      </div>
-    </div>
     </div>    </div></div>
     <button type="button" class="login-forgot" id="loginModeBtn" onclick="loginSetMode()"></button>
+    <button type="button" class="login-forgot" id="redAskBtn" onclick="redAskOpen()">Pedir acceso al administrador (misma wifi)</button>
     <div class="lg-mini"><button type="button" class="lg-link" onclick="openLegal('priv')">Política de privacidad</button></div>
   </form>
   </div>
@@ -2831,6 +2848,7 @@ body:has(#content .calendar-inline-header) #pageTitle{display:none!important}
 <h2>Registro de cuentas</h2>
 <p>Si la sincronización está configurada, al crear una cuenta o iniciar sesión se guarda en Supabase tu nombre de usuario, tu perfil, si la cuenta está activa y las fechas de creación y último acceso, para que el administrador pueda gestionarla. Nunca se envían contraseñas. Además, mientras la página está abierta con tu sesión iniciada, se guarda un identificador aleatorio del dispositivo, su tipo, navegador y sistema, el tamaño de pantalla, la sección que estás viendo y la hora de la última señal, para que el administrador pueda ver qué dispositivos están conectados y cerrar sesiones que no reconozca.</p>
 <h2>Servicios de terceros</h2>
+<p>Si usas «Pedir acceso al administrador (misma wifi)», tu navegador consulta tu dirección IP pública al servicio api.ipify.org. Esa dirección no se guarda: solo se guarda en Supabase una huella irreversible (hash) para saber si dos dispositivos comparten la misma red, junto con el nombre que escribas y un identificador aleatorio del dispositivo.</p>
 <p>Si conectas tu cuenta de Outlook, el inicio de sesión y la lectura de tu correo o calendario los gestiona Microsoft (Microsoft Entra y Microsoft Graph) bajo su propia política de privacidad. Si utilizas la integración con Moodle, la consulta pasa por un servicio intermedio [indica tu proveedor, por ejemplo Cloudflare Workers, o elimina esta frase si no lo usas]. Si importas datos de Apple Salud (pestaña Salud de The Wellness Club), el archivo se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen diario (pasos, energía activa, minutos de ejercicio, sueño, frecuencia cardíaca en reposo, peso y entrenamientos recientes) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Si además activas la actualización diaria, un Atajo de tu iPhone envía ese mismo resumen diario a tu cuenta de Supabase (en tu proyecto de sincronización), donde solo tú puedes leerlo, y se borra al desactivar la función. Si importas tu archivo de Strava (pestaña Salud), se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen de tus actividades recientes (fecha, tipo, duración, distancia, desnivel y frecuencia cardíaca media) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Son datos de salud, de categoría especial, y solo se tratan con tu consentimiento al importarlos. La aplicación carga además una librería desde jsDelivr y las tipografías desde Google Fonts, por lo que estos proveedores pueden recibir tu dirección IP al servir esos recursos. Si activas la sincronización, los datos se alojan en Supabase [indica la región de tu proyecto, por ejemplo la UE], bajo su propia política de privacidad.</p>
 <h2>Finalidad y base jurídica</h2>
 <p>Los datos se usan solo para que la aplicación funcione y te sea útil. La base jurídica es tu consentimiento y el uso voluntario de las funciones. No se elaboran perfiles, no se envía publicidad y no se toman decisiones automatizadas.</p>
@@ -6251,6 +6269,10 @@ let gdFiles = [], gdNext = '', gdStack = [{id:'root', name:'Mi unidad'}], gdMode
 
 function gdClientId(){ let v=''; try{ v = localStorage.getItem(GD_ID_KEY) || ''; }catch(e){} return (GDRIVE_CLIENT_ID || v).trim(); }
 function gdValidId(id){ return /^[0-9]+-[a-z0-9]+\.apps\.googleusercontent\.com$/i.test(id); }
+const APPLE_SERVICE_ID = '';   // opcional: ID de servicio de Apple (Services ID), p. ej. es.tudominio.horario. Vacío = el botón de Apple no se muestra
+const APL_ID_KEY = 'daw_apple_service_id';
+function aplClientId(){ let v=''; try{ v = localStorage.getItem(APL_ID_KEY) || ''; }catch(e){} return (APPLE_SERVICE_ID || v).trim(); }
+function aplValidId(id){ return /^[A-Za-z0-9]+([.-][A-Za-z0-9]+)+$/.test(id); }
 function gdSupported(){ return location.protocol === 'http:' || location.protocol === 'https:'; }
 function gdRefresh(){ if(currentView === 'drive') renderCurrentView(); }
 function gdForget(){
@@ -6540,7 +6562,7 @@ function renderDriveView(container){
         <li>Entra en <a href="https://console.cloud.google.com/projectcreate" target="_blank" rel="noopener">console.cloud.google.com</a> con tu cuenta personal de Google y crea un proyecto nuevo, por ejemplo <b>Horario DAW</b>.</li>
         <li>Ve a <b>APIs y servicios → Biblioteca</b>, busca <b>Google Drive API</b> y pulsa <b>Habilitar</b>.</li>
         <li>Ve a <b>APIs y servicios → Pantalla de consentimiento de OAuth</b> y configúrala como tipo <b>Externo</b>. En <b>Usuarios de prueba</b> añade tu propio correo de Gmail.</li>
-        <li>Ve a <b>Credenciales → Crear credenciales → ID de cliente de OAuth</b> y elige <b>Aplicación web</b>. En <b>Orígenes autorizados de JavaScript</b> añade exactamente esta dirección, sin nada detrás:<code class="ox-uri">${escapeHtml(location.origin)}</code></li>
+        <li>Ve a <b>Credenciales → Crear credenciales → ID de cliente de OAuth</b> y elige <b>Aplicación web</b>. En <b>Orígenes autorizados de JavaScript</b> añade exactamente esta dirección, sin nada detrás:<code class="ox-uri">${escapeHtml(location.origin)}</code> Después, en <b>URIs de redirección autorizados</b>, añade esta otra (la usa el inicio de sesión desde el móvil):<code class="ox-uri">${escapeHtml(location.origin + location.pathname)}</code></li>
         <li>Copia el <b>ID de cliente</b> que te da Google y pégalo aquí abajo.</li>
       </ol>
       ${bad}
@@ -6703,10 +6725,12 @@ function loginFirstRun(){
   try{
     const gOk = !!(typeof gdClientId==='function' && gdValidId(gdClientId()));
     const mOk = !!(typeof oxClientId==='function' && oxValidId(oxClientId()));
-    const g = document.getElementById('ssoGg'), m = document.getElementById('ssoMs'), box = document.getElementById('ssoBox');
+    const aOk = !!(typeof aplClientId==='function' && aplValidId(aplClientId()));
+    const g = document.getElementById('ssoGg'), m = document.getElementById('ssoMs'), a = document.getElementById('ssoAp'), box = document.getElementById('ssoBox');
     if(g) g.style.display = gOk ? '' : 'none';
     if(m) m.style.display = mOk ? '' : 'none';
-    if(box) box.hidden = !(gOk || mOk);   // sin ning\u00fan ID configurado no se muestra el bloque
+    if(a) a.style.display = aOk ? '' : 'none';
+    if(box) box.hidden = !(gOk || mOk || aOk);   // sin ning\u00fan ID configurado no se muestra el bloque
   }catch(e){}
   loginSetMode(first);   // en un navegador sin cuentas se abre directamente "Crear mi cuenta"
 }
@@ -7600,7 +7624,8 @@ async function renderAdminView(c){
 
   <section class="adx-panel" data-t="dispositivos"${admTab==='dispositivos'?'':' hidden'}>
     <div class="adx-card"><h3>Dispositivos conectados</h3><p class="mut" style="margin:0 0 10px">Aquí ves qué aparatos tienen tu web abierta con la sesión iniciada. La lista se actualiza sola cada 20 segundos. «En uso» significa que la pestaña está a la vista; «segundo plano» significa que está abierta pero oculta. Si un aparato no da señal durante unos minutos, aparece como desconectado.</p>
-      <div class="adx-tools"><button class="adx-btn g" onclick="admDevRender()">Actualizar ahora</button><button class="adx-btn g" onclick="dispCopySql()">Copiar SQL de dispositivos</button></div></div>
+      <div class="adx-tools"><button class="adx-btn g" onclick="admDevRender()">Actualizar ahora</button><button class="adx-btn g" onclick="dispCopySql()">Copiar SQL de dispositivos</button><button class="adx-btn g" onclick="dispCopyRedSql()">Copiar SQL de acceso por wifi</button></div></div>
+    <div id="admRed" aria-live="polite"></div>
     <div id="admDev" aria-live="polite"></div>
   </section>
 
@@ -7672,6 +7697,7 @@ create table if not exists public.dispositivos (
   creado timestamptz not null default now(),
   ultimo timestamptz not null default now());
 alter table public.dispositivos enable row level security;
+alter table public.dispositivos add column if not exists rol text check (rol in ('admin','alumno','lectura'));
 create or replace function public.disp_latido(p_id text, p_usuario text, p_tipo text, p_nav text, p_sis text, p_vista text, p_pant text, p_activa boolean, p_adios boolean, p_login boolean) returns boolean language plpgsql security definer set search_path=public as $$
 declare v boolean;
 begin
@@ -7684,14 +7710,20 @@ begin
   select d.cerrado into v from public.dispositivos d where d.id = p_id;
   return not coalesce(v,false);
 end $$;
-create or replace function public.disp_listar() returns table(id text, usuario text, tipo text, navegador text, sistema text, vista text, pantalla text, activa boolean, abierta boolean, cerrado boolean, creado timestamptz, ultimo timestamptz, hace integer) language sql stable security definer set search_path=public as $$
-  select d.id, d.usuario, d.tipo, d.navegador, d.sistema, d.vista, d.pantalla, d.activa, d.abierta, d.cerrado, d.creado, d.ultimo, extract(epoch from now() - d.ultimo)::int
+drop function if exists public.disp_listar();
+create or replace function public.disp_listar() returns table(id text, usuario text, tipo text, navegador text, sistema text, vista text, pantalla text, activa boolean, abierta boolean, cerrado boolean, creado timestamptz, ultimo timestamptz, hace integer, rol text) language sql stable security definer set search_path=public as $$
+  select d.id, d.usuario, d.tipo, d.navegador, d.sistema, d.vista, d.pantalla, d.activa, d.abierta, d.cerrado, d.creado, d.ultimo, extract(epoch from now() - d.ultimo)::int, d.rol
   from public.dispositivos d where public.es_admin() order by d.ultimo desc limit 200 $$;
 create or replace function public.disp_cerrar(p_id text) returns void language sql security definer set search_path=public as $$ update public.dispositivos set cerrado = true where id = p_id and public.es_admin() $$;
 create or replace function public.disp_olvidar(p_id text) returns void language sql security definer set search_path=public as $$ delete from public.dispositivos where id = p_id and public.es_admin() $$;
 revoke all on function public.disp_listar(), public.disp_cerrar(text), public.disp_olvidar(text) from public, anon;
 grant execute on function public.disp_latido(text,text,text,text,text,text,text,boolean,boolean,boolean) to anon, authenticated;
 grant execute on function public.disp_listar(), public.disp_cerrar(text), public.disp_olvidar(text) to authenticated;
+create or replace function public.disp_rol(p_id text) returns text language sql stable security definer set search_path=public as $$ select rol from public.dispositivos where id = p_id $$;
+create or replace function public.disp_rol_fijar(p_id text, p_rol text) returns void language sql security definer set search_path=public as $$ update public.dispositivos set rol = p_rol where id = p_id and p_rol in ('admin','alumno','lectura') and public.es_admin() $$;
+revoke all on function public.disp_rol_fijar(text,text) from public, anon;
+grant execute on function public.disp_rol(text) to anon, authenticated;
+grant execute on function public.disp_rol_fijar(text,text) to authenticated;
 `;
 const DISP_KEY='daw_horario_dispositivo'; /* el prefijo daw_horario_ lo deja fuera de las copias de seguridad */
 const DISP_ONLINE_S=150;
@@ -7732,6 +7764,16 @@ function dispInfo(){
   let pant=''; try{ pant=Math.round(screen.width)+'×'+Math.round(screen.height); }catch(e){}
   return {tipo:tipo,nav:nav,sis:sis,pant:pant};
 }
+async function dispRolApply(){
+  const rol=await nubeRpc('disp_rol',{p_id:dispId()},3000);
+  if(typeof rol!=='string'||!ROLES[rol]) return;
+  const us=lsGet(USERS_KEY,[]), acc=us.find(x=>x.u===currentUser());
+  if(!acc||acc.role===rol) return;
+  acc.role=rol; lsSet(USERS_KEY,us);
+  if(applyRole()===false) return;
+  if(rol!=='admin'&&typeof currentView==='string'&&currentView==='admin'){ try{ setView('today'); }catch(e){} }
+  else { try{ renderCurrentView(); }catch(e){} }
+}
 async function dispBeat(o){
   o=o||{};
   const u=o.user||currentUser(), app=document.getElementById('appContent');
@@ -7740,6 +7782,7 @@ async function dispBeat(o){
   const i=dispInfo();
   const r=await nubeRpc('disp_latido',{p_id:dispId(),p_usuario:u,p_tipo:i.tipo,p_nav:i.nav,p_sis:i.sis,p_vista:String(typeof currentView==='string'?currentView:''),p_pant:i.pant,p_activa:!document.hidden,p_adios:!!o.adios,p_login:!!o.login},o.adios?2500:4000);
   if(r===false&&!o.adios&&!o.login){ handleLogout(); setLoginError('Un administrador ha cerrado la sesión de este dispositivo.'); }
+  else if(r!==null&&!o.adios&&!o.login){ dispRolApply(); }
 }
 setTimeout(dispBeat,1500); setInterval(dispBeat,60000);
 document.addEventListener('visibilitychange',function(){ dispBeat(); });
@@ -7766,17 +7809,19 @@ function admDevDraw(box){
   const lab={use:'En uso',bg:'En segundo plano',off:'Desconectado'};
   const list=shown.map(r=>{
     const vista=DISP_VISTAS[r.vista]||r.vista||'—';
+    const rolCtl=r.me?'':'<select class="adx-red-sel" aria-label="Cambiar el rol de este dispositivo" onchange="admDevRolAsk(decodeURIComponent(\''+encodeURIComponent(r.id)+'\'),this)"><option value="">Cambiar rol…</option>'+Object.keys(ROLES).map(k=>'<option value="'+k+'"'+(r.rol===k?' disabled':'')+'>'+ROLES[k]+(r.rol===k?' (actual)':'')+'</option>').join('')+'</select>';
     const btn=r.me?'':(r.st!=='off'?'<button class="adx-btn d" onclick="admDevKick(decodeURIComponent(\''+encodeURIComponent(r.id)+'\'))">Cerrar sesión</button>':'<button class="adx-btn g" onclick="admDevForget(decodeURIComponent(\''+encodeURIComponent(r.id)+'\'))">Olvidar</button>');
     return '<article class="adx-dv '+r.st+'"><div class="adx-dv-ic">'+admDevIcon(r.tipo)+'</div><div><h4>'+escapeHtml(r.nav||'Navegador')+' en '+escapeHtml(r.sis||'sistema desconocido')+(r.me?' <small>(este dispositivo)</small>':'')+'</h4>'+
       '<p>'+escapeHtml(r.tipo||'Dispositivo')+' · Usuario: <b>'+escapeHtml(r.u||'—')+'</b>'+(r.pant?' · Pantalla '+escapeHtml(r.pant):'')+'</p>'+
-      '<p>Está en: <b>'+escapeHtml(vista)+'</b> · Última señal: '+admAgo(r.ago)+'</p>'+
+      '<p>Está en: <b>'+escapeHtml(vista)+'</b> · Última señal: '+admAgo(r.ago)+(r.rol?' · Rol asignado: <b>'+escapeHtml(ROLES[r.rol]||r.rol)+'</b>':'')+'</p>'+
       '<p class="mut">Visto por primera vez el '+fmtDT(r.created)+(r.closed?' · Sesión cerrada por un administrador':'')+'</p></div>'+
-      '<div class="adx-dv-side"><span class="adx-dv-st '+r.st+'"><i></i>'+lab[r.st]+'</span>'+btn+'</div></article>';
+      '<div class="adx-dv-side"><span class="adx-dv-st '+r.st+'"><i></i>'+lab[r.st]+'</span>'+rolCtl+btn+'</div></article>';
   }).join('')||'<p class="adx-empty">'+(admDevF==='all'?'Todavía no hay dispositivos registrados. Se registran solos cuando alguien abre la web con la sesión iniciada.':'Ahora mismo no hay ningún dispositivo en línea.')+'</p>';
   box.innerHTML='<p class="adx-dv-sum"><b>'+on+'</b> '+(on===1?'dispositivo en línea':'dispositivos en línea')+' ahora · '+total+' registrados</p><div class="adx-tools">'+chips+'</div>'+list;
   box.dataset.ok='1';
 }
 async function admDevRender(cached){
+  if(cached!==true){ try{ admRedRender(); }catch(e){} }
   const box=document.getElementById('admDev'), kpi=document.getElementById('admKpiDev');
   if(!box&&!kpi){ clearInterval(admDevT); admDevT=0; return; }
   const kmsg=(a,b)=>{ if(kpi) kpi.textContent=a; const s=document.getElementById('admKpiDevSub'); if(s) s.textContent=b; };
@@ -7803,7 +7848,7 @@ async function admDevRender(cached){
   const me=dispId();
   admDevRows=(r.data||[]).map(x=>{
     const open=x.abierta!==false, ago=+x.hace||0, act=x.activa!==false;
-    return {id:x.id,u:x.usuario,tipo:x.tipo,nav:x.navegador,sis:x.sistema,vista:x.vista,pant:x.pantalla,closed:!!x.cerrado,created:new Date(x.creado).getTime(),ago:ago,me:x.id===me,st:(open&&ago<DISP_ONLINE_S)?(act?'use':'bg'):'off'};
+    return {id:x.id,u:x.usuario,tipo:x.tipo,nav:x.navegador,sis:x.sistema,vista:x.vista,pant:x.pantalla,closed:!!x.cerrado,rol:x.rol||'',created:new Date(x.creado).getTime(),ago:ago,me:x.id===me,st:(open&&ago<DISP_ONLINE_S)?(act?'use':'bg'):'off'};
   });
   const on=admDevRows.filter(x=>x.st!=='off').length;
   kmsg(String(on),admDevRows.length+' registrados');
@@ -8042,16 +8087,16 @@ addEventListener('keydown',function(e){
 <script>
 (function(){
   var SSO_FLAG='daw_sso_ms';
-  function busy(on){['ssoMs','ssoGg'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=on;});}
+  function busy(on){['ssoMs','ssoGg','ssoAp'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=on;});}
   var SSO_ADMIN='scruceta@fp.lasalle.es';   // \u00fanico correo que entra como administrador
   var SSO_ALLOWED=[];                        // dominios permitidos, p. ej. ['fp.lasalle.es'] (vac\u00edo = cualquiera)
-  async function ssoFinish(list){
+  async function ssoFinish(list,opt){
     var users=await getUsers();
     var ems=[];
     list.forEach(function(x){x=String(x||'').trim().toLowerCase();if(/^\S+@\S+\.\S+$/.test(x)&&ems.indexOf(x)<0)ems.push(x);});
     if(!ems.length){setLoginError('No se pudo obtener el correo de esa cuenta.');return;}
     function hit(x){return ems.some(function(e){return (x.email||'').toLowerCase()===e||x.u.toLowerCase()===e;});}
-    var isAdm=ems.indexOf(SSO_ADMIN)>=0;
+    var isAdm=!(opt&&opt.noAdmin)&&ems.indexOf(SSO_ADMIN)>=0;   // Apple nunca concede rol de administrador
     var acc=users.find(hit);
     if(acc&&acc.active===false){
       logAccess(false,ems[0]);
@@ -8098,26 +8143,106 @@ addEventListener('keydown',function(e){
     try{ sessionStorage.setItem(SSO_FLAG,'1'); await msApp(id).loginRedirect({scopes:['User.Read'],prompt:'select_account'}); }
     catch(e){ sessionStorage.removeItem(SSO_FLAG); busy(false); setLoginError('No se pudo iniciar con Microsoft. Int\u00e9ntalo de nuevo.'); }
   };
+/* ----- utilidades comunes ----- */
+  function rnd(){var a=new Uint8Array(16);try{crypto.getRandomValues(a)}catch(e){for(var i=0;i<16;i++)a[i]=Math.floor(Math.random()*256)}return Array.prototype.map.call(a,function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
+  function redirectUri(){return location.origin+location.pathname}
+  function inApp(){return /FBAN|FBAV|Instagram|Line\/|MicroMessenger|Snapchat|TikTok|musical_ly|; wv\)/i.test(navigator.userAgent||'')}
+  function standalone(){try{return window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)}catch(e){return false}}
+  function jwtPayload(t){try{var p=String(t).split('.')[1].replace(/-/g,'+').replace(/_/g,'/');p+='='.repeat((4-p.length%4)%4);return JSON.parse(decodeURIComponent(escape(atob(p))))}catch(e){return null}}
+
+  /* ----- Google ----- */
+  // Comprueba el token con Google (incluye que sea de ESTA aplicación) y devuelve el correo verificado
+  async function ggEmail(tok,id){
+    var j=null;
+    try{var r=await fetch('https://oauth2.googleapis.com/tokeninfo?access_token='+encodeURIComponent(tok));if(r.ok)j=await r.json();}catch(e){}
+    if(j){
+      if((j.aud||j.azp)!==id)throw new Error('token de otra aplicación');
+      if(!j.email||String(j.email_verified)==='false')throw new Error('correo no verificado');
+      return j.email;
+    }
+    var r2=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+tok}});   // respaldo si tokeninfo no responde
+    var u=await r2.json();
+    if(!u.email||u.email_verified===false)throw new Error('correo no verificado');
+    return u.email;
+  }
+  // Método por redirección: funciona en iPhone/iPad (también como app instalada), Android y ordenadores sin depender de ventanas emergentes
+  function ggRedirect(id){
+    var st='ggl.'+rnd();
+    try{sessionStorage.setItem('daw_gg_state',st);}catch(e){setLoginError('El navegador no deja guardar datos temporales (¿modo privado?). Desactívalo e inténtalo de nuevo.');return;}
+    busy(true);
+    var q=new URLSearchParams({client_id:id,redirect_uri:redirectUri(),response_type:'token',scope:'openid email profile',state:st,prompt:'select_account',include_granted_scopes:'true'});
+    location.assign('https://accounts.google.com/o/oauth2/v2/auth?'+q.toString());
+  }
   window.ssoGoogle=function(){
     setLoginError('');
     var id=gdClientId();
-    if(!id){setLoginError('El acceso con Google no est\u00e1 disponible. Usa \u00abCrear mi cuenta\u00bb o inicia sesi\u00f3n con tu usuario y contrase\u00f1a.');return;}
-    if(!(window.google&&google.accounts&&google.accounts.oauth2)){setLoginError('No se pudo cargar Google. Revisa tu conexi\u00f3n e int\u00e9ntalo de nuevo.');return;}
+    if(!gdSupported()){setLoginError('Google solo funciona si abres la app desde una dirección http(s), no como archivo suelto.');return;}
+    if(!gdValidId(id)){setLoginError('El acceso con Google todavía no está configurado en esta aplicación.');return;}
+    if(inApp()){setLoginError('Google no permite iniciar sesión dentro del navegador interno de otra app. Abre esta página en Safari o en Chrome.');return;}
+    if(standalone()||!(window.google&&google.accounts&&google.accounts.oauth2)){ggRedirect(id);return;}
     busy(true);
-    google.accounts.oauth2.initTokenClient({
-      client_id:id,scope:'openid email profile',
-      callback:async function(t){
-        try{
-          if(!t||!t.access_token)throw new Error('sin token');
-          var r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+t.access_token}});
-          var j=await r.json();
-          if(!j.email||j.email_verified===false)throw new Error('correo no verificado');
-          await ssoFinish([j.email]);
-        }catch(e){setLoginError('No se pudo comprobar tu cuenta de Google.');}
-        busy(false);
-      },
-      error_callback:function(e){busy(false);setLoginError(e&&e.type==='popup_failed_to_open'?'El navegador ha bloqueado la ventana de Google. Perm\u00edtela e int\u00e9ntalo de nuevo.':'La ventana de Google se cerr\u00f3 antes de terminar. Si no lleg\u00f3 a abrirse bien, revisa que esta direcci\u00f3n est\u00e9 autorizada en tu ID de cliente de Google.');}
-    }).requestAccessToken({prompt:'select_account'});
+    try{
+      google.accounts.oauth2.initTokenClient({
+        client_id:id,scope:'openid email profile',
+        callback:async function(t){
+          try{
+            if(!t||!t.access_token)throw new Error('sin token');
+            await ssoFinish([await ggEmail(t.access_token,id)]);
+          }catch(e){setLoginError('No se pudo comprobar tu cuenta de Google.');}
+          busy(false);
+        },
+        error_callback:function(e){
+          busy(false);
+          if(e&&e.type==='popup_failed_to_open'){ggRedirect(id);return;}   // ventana bloqueada: se usa la redirección
+          setLoginError('La ventana de Google se cerró antes de terminar.');
+        }
+      }).requestAccessToken({prompt:'select_account'});
+    }catch(e){busy(false);ggRedirect(id);}
+  };
+  // Vuelta de Google tras la redirección (el hash ya lo recogió el script de la cabecera)
+  (async function(){
+    var b=window.__ggBack;if(!b)return;window.__ggBack=null;
+    var st='';try{st=sessionStorage.getItem('daw_gg_state')||'';sessionStorage.removeItem('daw_gg_state');}catch(e){}
+    if(!st||b.state!==st){setLoginError('No se pudo comprobar la respuesta de Google. Inténtalo de nuevo.');return;}
+    if(b.error||!b.token){setLoginError(b.error==='access_denied'?'Has cancelado el acceso con Google.':'Google no ha completado el acceso. Inténtalo de nuevo.');return;}
+    busy(true);
+    try{await ssoFinish([await ggEmail(b.token,gdClientId())]);}
+    catch(e){setLoginError('No se pudo comprobar tu cuenta de Google.');}
+    busy(false);
+  })();
+
+  /* ----- Apple (iCloud) ----- */
+  // La biblioteca de Apple se carga al arrancar para que la ventana se abra al instante al pulsar (si no, Safari la bloquea)
+  (function(){
+    try{
+      var id=aplClientId();
+      if(!aplValidId(id)||!gdSupported()||window.AppleID)return;
+      var e=document.createElement('script');
+      e.src='https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js';
+      e.async=true;document.head.appendChild(e);
+    }catch(e){}
+  })();
+  window.ssoApple=function(){
+    setLoginError('');
+    var id=aplClientId();
+    if(!gdSupported()||location.protocol!=='https:'){setLoginError('Apple solo funciona si abres la app desde una dirección https (no como archivo suelto ni en http).');return;}
+    if(!aplValidId(id)){setLoginError('El acceso con Apple todavía no está configurado en esta aplicación.');return;}
+    if(!(window.AppleID&&AppleID.auth)){setLoginError('No se pudo cargar Apple. Revisa tu conexión (o un bloqueador de contenido) y recarga la página.');return;}
+    var nonce=rnd(),state=rnd();
+    busy(true);
+    try{AppleID.auth.init({clientId:id,scope:'name email',redirectURI:redirectUri(),state:state,nonce:nonce,usePopup:true});}
+    catch(e){busy(false);setLoginError('No se pudo iniciar Apple. Revisa el ID de servicio.');return;}
+    AppleID.auth.signIn().then(async function(r){
+      var a=r&&r.authorization||{},c=jwtPayload(a.id_token);
+      if(!c||c.iss!=='https://appleid.apple.com'||c.aud!==id||!(c.exp*1000>Date.now())||a.state!==state||(c.nonce&&c.nonce!==nonce))throw new Error('token no válido');
+      if(!c.email||!(c.email_verified===true||c.email_verified==='true'))throw new Error('sin correo verificado');
+      await ssoFinish([c.email],{noAdmin:true});
+    }).catch(function(e){
+      var er=e&&e.error;
+      setLoginError(er==='popup_closed_by_user'||er==='user_cancelled_authorize'?'Has cerrado la ventana de Apple antes de terminar.'
+        :er==='popup_blocked_by_browser'?'El navegador ha bloqueado la ventana de Apple. Permítela e inténtalo de nuevo.'
+        :'No se pudo iniciar sesión con Apple. Si te pide compartir el correo, elige «Compartir mi correo».');
+    }).then(function(){busy(false);});
   };
   // Vuelta de Microsoft tras la redirecci\u00f3n
   (async function(){
@@ -13061,5 +13186,249 @@ html.vision .top-bar .top-right .as-launch,html.vision .top-bar .top-right .tb-a
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--ui-acc);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
+
+<style>
+#redAsk{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(31,41,51,.55)}
+.red-in{width:100%;box-sizing:border-box;padding:12px;font-size:16px;line-height:1.3;font-family:inherit;text-align:center;color:#1f2933;background:#fff;border:1px solid #c9b896;border-radius:3px}
+.adx-red-sel{font:inherit;padding:7px 10px;border-radius:8px;border:1px solid var(--c-line,#d9d2bf);background:var(--c-bg,#fff);color:inherit}
+</style>
+<script>
+/* ===== ACCESO POR MISMA WIFI =====
+   Un navegador no puede ver qué dispositivos hay en tu wifi. Lo que sí puede saber es la IP pública con la que sale a Internet:
+   todos los aparatos de una misma wifi comparten esa IP. Guardamos solo una huella (hash) de ella y el administrador decide a mano. */
+(function(){
+'use strict';
+var RED_SQL=`-- Acceso por misma wifi (se puede ejecutar más de una vez).
+create table if not exists public.admins (email text primary key);
+alter table public.admins enable row level security;
+create or replace function public.es_admin() returns boolean language sql stable security definer set search_path=public as $$ select exists(select 1 from public.admins where lower(email)=lower(coalesce(auth.jwt()->>'email',''))) $$;
+create table if not exists public.accesos_red (
+  id text primary key check (id ~ '^[a-z0-9]{12,40}$'),
+  nombre text not null default '',
+  red text not null default '',
+  estado text not null default 'pendiente' check (estado in ('pendiente','aprobado','rechazado')),
+  rol text not null default 'lectura' check (rol in ('alumno','lectura')),
+  creado timestamptz not null default now(),
+  decidido timestamptz,
+  caduca timestamptz);
+alter table public.accesos_red enable row level security;
+create or replace function public.red_pedir(p_id text, p_nombre text, p_red text) returns boolean language plpgsql security definer set search_path=public as $$
+begin
+  if p_id is null or p_id !~ '^[a-z0-9]{12,40}$' then return false; end if;
+  delete from public.accesos_red where (estado <> 'aprobado' and creado < now() - interval '1 day') or (caduca is not null and caduca < now() - interval '60 days');
+  if not exists (select 1 from public.accesos_red where id = p_id) and (select count(*) from public.accesos_red) >= 500 then return false; end if;
+  insert into public.accesos_red(id,nombre,red) values (p_id, left(coalesce(p_nombre,''),30), left(coalesce(p_red,''),64))
+  on conflict (id) do update set nombre = excluded.nombre, red = excluded.red,
+    estado = case when public.accesos_red.estado = 'aprobado' and public.accesos_red.caduca > now() then 'aprobado' else 'pendiente' end,
+    creado = case when public.accesos_red.estado = 'aprobado' and public.accesos_red.caduca > now() then public.accesos_red.creado else now() end;
+  return true;
+end $$;
+create or replace function public.red_estado(p_id text) returns jsonb language sql stable security definer set search_path=public as $$
+  select coalesce((select jsonb_build_object('estado', case when estado = 'aprobado' and caduca <= now() then 'caducado' else estado end, 'rol', rol) from public.accesos_red where id = p_id), jsonb_build_object('estado','ninguno')) $$;
+create or replace function public.red_listar(p_red text) returns table(id text, nombre text, estado text, rol text, misma boolean, creado timestamptz, decidido timestamptz, caduca timestamptz, hace integer) language sql stable security definer set search_path=public as $$
+  select a.id, a.nombre, case when a.estado = 'aprobado' and a.caduca <= now() then 'caducado' else a.estado end, a.rol, (coalesce(p_red,'') <> '' and a.red = p_red), a.creado, a.decidido, a.caduca, extract(epoch from now() - a.creado)::int
+  from public.accesos_red a where public.es_admin() order by (a.estado = 'pendiente') desc, a.creado desc limit 100 $$;
+create or replace function public.red_decidir(p_id text, p_ok boolean, p_rol text default 'lectura') returns void language plpgsql security definer set search_path=public as $$
+begin
+  if not public.es_admin() then return; end if;
+  update public.accesos_red set estado = case when coalesce(p_ok,false) then 'aprobado' else 'rechazado' end, rol = case when p_rol = 'alumno' then 'alumno' else 'lectura' end, decidido = now(), caduca = case when coalesce(p_ok,false) then now() + interval '30 days' else null end where id = p_id;
+  if not coalesce(p_ok,false) then
+    begin update public.dispositivos set cerrado = true where id = p_id; exception when undefined_table then null; end;
+  end if;
+end $$;
+create or replace function public.red_olvidar(p_id text) returns void language sql security definer set search_path=public as $$ delete from public.accesos_red where id = p_id and public.es_admin() $$;
+revoke all on function public.red_listar(text), public.red_decidir(text,boolean,text), public.red_olvidar(text) from public, anon;
+grant execute on function public.red_pedir(text,text,text), public.red_estado(text) to anon, authenticated;
+grant execute on function public.red_listar(text), public.red_decidir(text,boolean,text), public.red_olvidar(text) to authenticated;
+`;
+function $(i){return document.getElementById(i)}
+async function sha(t){
+  var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));
+  return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');
+}
+function getTxt(url,ms){
+  return new Promise(function(res){
+    var done=false,ctl=null,to=null;
+    function end(v){if(done)return;done=true;if(to)clearTimeout(to);res(v)}
+    try{ctl=window.AbortController?new AbortController():null}catch(e){ctl=null}
+    to=setTimeout(function(){try{if(ctl)ctl.abort()}catch(e){}end('')},ms||4000);
+    try{
+      var o={cache:'no-store'};if(ctl)o.signal=ctl.signal;
+      fetch(url,o).then(function(r){return r.ok?r.text():''}).then(end).catch(function(){end('')});
+    }catch(e){end('')}
+  });
+}
+/* IPv6: cada aparato tiene una dirección distinta; lo común a toda la wifi es el prefijo (primeros 64 bits) */
+function v6prefix(a){
+  var h=a.split('::'),L=h[0]?h[0].split(':'):[],R=(h.length>1&&h[1])?h[1].split(':'):[],g;
+  if(h.length>1){g=L.slice();while(g.length+R.length<8)g.push('0');g=g.concat(R)}else g=L;
+  return g.slice(0,4).map(function(x){return (x||'0').toLowerCase().replace(/^0+(?=.)/,'')}).join(':');
+}
+async function pubIp(){
+  var t=(await getTxt('https://api.ipify.org?format=text')).trim();
+  if(/^\d{1,3}(\.\d{1,3}){3}$/.test(t))return t;
+  t=(await getTxt('https://api64.ipify.org?format=text')).trim();
+  if(/^[0-9a-f:]+$/i.test(t)&&t.indexOf(':')>=0)return 'v6:'+v6prefix(t);
+  return '';
+}
+var _rh='',_rt=0;
+async function redHash(){
+  if(_rh&&Date.now()-_rt<300000)return _rh;
+  try{
+    if(!(window.crypto&&crypto.subtle))return '';
+    var ip=await pubIp();if(!ip)return '';
+    _rh=(await sha('daw-red:'+ip)).slice(0,40);_rt=Date.now();return _rh;
+  }catch(e){return ''}
+}
+function validId(id){return /^[a-z0-9]{12,40}$/.test(String(id||''))}
+
+/* ---------- DISPOSITIVO NUEVO (pantalla de login) ---------- */
+window.redAskOpen=function(){
+  if($('redAsk'))return;
+  if(!nubeCfg()){setLoginError('La nube no está configurada en esta página, así que no se puede pedir acceso.');return}
+  var i=dispInfo(),o=document.createElement('div');
+  o.id='redAsk';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-labelledby','redAskT');
+  o.innerHTML='<div class="tvqr-card"><h2 id="redAskT">Pedir acceso</h2><p>El administrador verá tu solicitud en su panel y comprobará que estás en <b>su misma wifi</b>. Escribe un nombre para que te reconozca.</p><input id="redAskName" class="red-in" maxlength="30" autocomplete="off" aria-label="Nombre de este dispositivo"><p class="tvqr-msg" id="redAskMsg" role="status"></p><div class="tvqr-row"><button type="button" class="tvqr-btn" id="redAskGo">Enviar solicitud</button><button type="button" class="tvqr-btn ghost" id="redAskNo">Cancelar</button></div></div>';
+  document.body.appendChild(o);
+  var nm=$('redAskName'),go=$('redAskGo'),stopped=false,t0=0;
+  nm.value=(i.tipo+' · '+i.nav).slice(0,30);
+  function say(t,err){var m=$('redAskMsg');if(m){m.textContent=t;m.className='tvqr-msg'+(err?' err':'')}}
+  function close(){stopped=true;o.remove()}
+  $('redAskNo').onclick=close;
+  o.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+  async function enter(rol){
+    stopped=true;say('Entrando…');
+    rol=rol==='alumno'?'alumno':'lectura';
+    var name='invitado.'+dispId().slice(0,5),us=lsGet(USERS_KEY,[]),acc=us.find(function(x){return x.u===name});
+    if(!acc){acc={u:name,s:'',h:'',role:rol,active:true,created:Date.now(),last:null,red:(nm.value||'').slice(0,30)};us.push(acc)}
+    else{acc.role=rol;acc.active=true}
+    lsSet(USERS_KEY,us);
+    var sw='fail';try{sw=await profileSwitchIn(acc.u)}catch(e){}
+    if(sw==='fail'){say('No hay espacio en el navegador para crear este perfil.',1);go.disabled=false;return}
+    us=lsGet(USERS_KEY,[]);acc=us.find(function(x){return x.u===name});
+    o.remove();
+    await completeLogin(acc,us);
+  }
+  async function poll(){
+    if(stopped||!document.body.contains(o))return;
+    if(Date.now()-t0>600000){say('La solicitud ha caducado. Vuelve a enviarla.',1);go.disabled=false;return}
+    var st=await nubeRpc('red_estado',{p_id:dispId()},5000);
+    if(stopped||!document.body.contains(o))return;
+    if(st&&st.estado==='aprobado'){enter(st.rol);return}
+    if(st&&(st.estado==='rechazado'||st.estado==='caducado')){say('El administrador no ha dado acceso a este dispositivo.',1);go.disabled=false;return}
+    setTimeout(poll,3000);
+  }
+  go.onclick=async function(){
+    go.disabled=true;say('Comprobando tu red…');
+    var red=await redHash();
+    say('Enviando…');
+    var ok=await nubeRpc('red_pedir',{p_id:dispId(),p_nombre:(nm.value||'Dispositivo').trim().slice(0,30),p_red:red},8000);
+    if(ok!==true){say('No se pudo enviar. Revisa la conexión o que el administrador haya instalado el acceso por wifi.',1);go.disabled=false;return}
+    say(red?'Solicitud enviada. Esperando a que el administrador te dé acceso…':'Solicitud enviada, pero no he podido comprobar tu wifi. El administrador lo verá como «otra red».');
+    t0=Date.now();stopped=false;poll();
+  };
+  nm.focus();nm.select();
+};
+
+/* ---------- ADMINISTRADOR (pestaña Dispositivos) ---------- */
+var rows=[],seq=0;
+window.dispCopyRedSql=function(){
+  navigator.clipboard.writeText(RED_SQL).then(function(){admSay('SQL de acceso por wifi copiado. Pégalo en el SQL Editor de Supabase y pulsa Run.')},function(){admSay('No se pudo copiar el SQL.')});
+};
+function card(h){return '<div class="adx-card" style="margin-bottom:14px">'+h+'</div>'}
+function draw(box,mine){
+  var pend=rows.filter(function(r){return r.estado==='pendiente'}),oth=rows.filter(function(r){return r.estado!=='pendiente'});
+  function ic(){return admDevIcon('Móvil')}
+  function rowHtml(r){
+    var cls='off',pill='Sin acceso',btns='',txt='';
+    var who=escapeHtml(r.nombre||'Dispositivo sin nombre');
+    if(r.estado==='pendiente'){
+      cls=r.misma?'use':'bg';pill=r.misma?'Misma wifi que tú':'Otra red';
+      btns='<select class="adx-red-sel" id="redRol_'+r.id+'" aria-label="Perfil que recibirá"><option value="lectura">Solo lectura</option><option value="alumno">Alumno</option></select>'+
+        '<button class="adx-btn p" onclick="admRedDo(\''+r.id+'\',\'ok\')">Dar acceso</button><button class="adx-btn g" onclick="admRedDo(\''+r.id+'\',\'no\')">Rechazar</button>';
+      txt='<p>Pide acceso '+admAgo(r.hace)+(r.misma?' desde tu misma wifi.':' desde una red distinta de la tuya'+(mine?'.':' (no he podido comprobar tu propia red).'))+'</p>';
+    }else if(r.estado==='aprobado'){
+      cls='use';pill='Con acceso';
+      btns='<button class="adx-btn d" onclick="admRedDo(\''+r.id+'\',\'no\')">Revocar acceso</button>';
+      txt='<p>Perfil: <b>'+escapeHtml(ROLES[r.rol]||r.rol)+'</b> · Caduca el '+fmtDT(r.caduca)+'</p>';
+    }else{
+      cls='off';pill=r.estado==='caducado'?'Acceso caducado':'Rechazado';
+      btns='<button class="adx-btn g" onclick="admRedDo(\''+r.id+'\',\'del\')">Quitar</button>';
+      txt='<p class="mut">Decidido el '+fmtDT(r.decidido||r.creado)+'</p>';
+    }
+    return '<article class="adx-dv '+cls+'"><div class="adx-dv-ic">'+ic()+'</div><div><h4>'+who+'</h4>'+txt+'</div><div class="adx-dv-side"><span class="adx-dv-st '+cls+'"><i></i>'+pill+'</span>'+btns+'</div></article>';
+  }
+  var head='<h3>Acceso por misma wifi</h3><p class="mut" style="margin:0 0 10px">Quien abra la web y pulse «Pedir acceso al administrador» aparece aquí. Te digo si está en tu misma wifi comparando la IP pública con la que sale a Internet (todos los aparatos de una wifi la comparten). La decisión es tuya: tú eliges «Solo lectura» o «Alumno». Nunca se concede perfil de administrador. El acceso dura 30 días y puedes revocarlo cuando quieras.</p><p class="mut" style="margin:0 0 6px">'+(mine?'Tu red actual: <b>reconocida</b>.':'Tu red actual: <b>no he podido comprobarla</b> (¿un bloqueador de anuncios o la red bloquea api.ipify.org?). Las solicitudes se mostrarán como «otra red».')+'</p>';
+  var body=pend.length?'<p class="adx-dv-sum"><b>'+pend.length+'</b> '+(pend.length===1?'solicitud pendiente':'solicitudes pendientes')+'</p>'+pend.map(rowHtml).join(''):'<p class="adx-empty">No hay solicitudes pendientes.</p>';
+  var rest=oth.length?'<h3 style="margin-top:18px">Dispositivos con decisión tomada</h3>'+oth.map(rowHtml).join(''):'';
+  box.innerHTML=card(head+'<div class="adx-tools"><button class="adx-btn g" onclick="admRedRender()">Actualizar solicitudes</button></div>')+body+rest;
+}
+window.admRedRender=async function(){
+  var box=$('admRed');if(!box)return;
+  var C=nubeCfg(),my=++seq;
+  if(!C||!C.user){box.innerHTML=card('<h3>Acceso por misma wifi</h3><p class="mut" style="margin:0">Para dar acceso a otros dispositivos, inicia sesión en Sincronización con el correo que añadiste como administrador.</p>');return}
+  var mine=await redHash();
+  var r=await C.sb.rpc('red_listar',{p_red:mine});
+  if(my!==seq)return;
+  if(r.error){box.innerHTML=card('<h3>Acceso por misma wifi</h3><p class="warn">No se pudo leer: '+escapeHtml(r.error.message)+'.</p><p class="mut" style="margin:8px 0 0">Si es la primera vez, pulsa «Copiar SQL de acceso por wifi», pégalo en el SQL Editor de Supabase y pulsa Run. Después vuelve a esta pestaña.</p>');return}
+  rows=(r.data||[]).filter(function(x){return validId(x.id)}).map(function(x){return{id:x.id,nombre:x.nombre,estado:x.estado,rol:x.rol,misma:!!x.misma,creado:new Date(x.creado).getTime(),decidido:x.decidido?new Date(x.decidido).getTime():0,caduca:x.caduca?new Date(x.caduca).getTime():0,hace:+x.hace||0}});
+  draw(box,!!mine);
+};
+window.admRedDo=async function(id,acc){
+  var C=nubeCfg();if(!C||!C.user||!validId(id))return;
+  var row=rows.find(function(x){return x.id===id});if(!row)return;
+  var nm=row.nombre||'dispositivo',r;
+  if(acc==='ok'){
+    if(!row.misma&&!confirm('Este dispositivo NO está en tu misma wifi (o no se ha podido comprobar). ¿Le das acceso igualmente?'))return;
+    var sel=$('redRol_'+id),rol=(sel&&sel.value==='alumno')?'alumno':'lectura';
+    r=await C.sb.rpc('red_decidir',{p_id:id,p_ok:true,p_rol:rol});
+    if(r.error){admSay('No se pudo dar acceso: '+r.error.message);return}
+    admAudit('Acceso por wifi concedido a «'+nm+'» ('+(ROLES[rol]||rol)+').');admSay('Acceso concedido a «'+nm+'». Entrará en unos segundos.');
+  }else if(acc==='no'){
+    if(!confirm(row.estado==='aprobado'?'¿Revocar el acceso de «'+nm+'»? Se cerrará su sesión.':'¿Rechazar la solicitud de «'+nm+'»?'))return;
+    r=await C.sb.rpc('red_decidir',{p_id:id,p_ok:false,p_rol:'lectura'});
+    if(r.error){admSay('No se pudo cambiar: '+r.error.message);return}
+    admAudit((row.estado==='aprobado'?'Acceso por wifi revocado a «':'Solicitud de acceso rechazada: «')+nm+'».');admSay(row.estado==='aprobado'?'Acceso revocado. Su sesión se cerrará en menos de un minuto.':'Solicitud rechazada.');
+  }else if(acc==='del'){
+    r=await C.sb.rpc('red_olvidar',{p_id:id});
+    if(r.error){admSay('No se pudo quitar: '+r.error.message);return}
+    admSay('Quitado de la lista.');
+  }
+};
+
+window.admDevRolAsk=function(id,sel){
+  var rol=sel.value;sel.value='';
+  if(!ROLES[rol]||!validId(id))return;
+  var host=document.querySelector('.adm.adx')||document.body,old=$('admRolDlg');if(old)old.remove();
+  var row=admDevRows.find(function(x){return x.id===id}),nm=row?((row.nav||'Navegador')+' en '+(row.sis||'sistema desconocido')):'este dispositivo';
+  var bg=document.createElement('div');bg.className='adx-dlg-bg';bg.id='admRolDlg';
+  bg.innerHTML='<div class="adx-dlg" role="dialog" aria-modal="true" aria-labelledby="admRolT"><h3 id="admRolT">Cambiar rol</h3><p class="mut" style="margin:0">'+escapeHtml(nm)+' pasará a tener el rol <b>'+escapeHtml(ROLES[rol])+'</b>.'+(rol==='admin'?' <b>Ojo:</b> verá el panel de administración.':'')+' Escribe tu contraseña de administrador para confirmar.</p><label>Tu contraseña<span class="adx-pw"><input id="admRolPw" type="password" autocomplete="current-password">'+admEyeBtn('admRolPw')+'</span></label><p class="warn" id="admRolErr" hidden></p><div class="adx-quick" style="margin-top:16px;justify-content:flex-end"><button type="button" class="adx-btn g" id="admRolNo">Cancelar</button><button type="button" class="adx-btn p" id="admRolOk">Confirmar</button></div></div>';
+  host.appendChild(bg);
+  var pw=$('admRolPw'),err=$('admRolErr'),fails=0;
+  function bad(t){err.textContent=t;err.hidden=false}
+  $('admRolNo').onclick=function(){bg.remove()};
+  bg.addEventListener('click',function(e){if(e.target===bg)bg.remove()});
+  pw.addEventListener('keydown',function(e){if(e.key==='Enter')$('admRolOk').click();if(e.key==='Escape')bg.remove()});
+  $('admRolOk').onclick=async function(){
+    var b=this;b.disabled=true;err.hidden=true;
+    var acc=lsGet(USERS_KEY,[]).find(function(x){return x.u===currentUser()});
+    if(!acc||currentRole()!=='admin'){bad('Solo un administrador puede cambiar roles.');b.disabled=false;return}
+    if(!acc.h){bad('Esta cuenta entra con Microsoft o Google y no tiene contraseña local. Crea una en Seguridad → Mi contraseña para poder confirmar.');b.disabled=false;return}
+    var ok=false;try{ok=(await hashPass(pw.value,acc.s))===acc.h}catch(e){}
+    if(!ok){
+      fails++;
+      if(fails>=3){bg.remove();admAudit('Intento fallido de cambiar el rol de un dispositivo (contraseña incorrecta 3 veces).');admSay('Contraseña incorrecta 3 veces. No se ha cambiado nada.');return}
+      bad('Contraseña incorrecta. Te quedan '+(3-fails)+' intento(s).');pw.value='';pw.focus();b.disabled=false;return;
+    }
+    var C=nubeCfg();if(!C||!C.user){bad('Inicia sesión en Sincronización con tu correo de administrador.');b.disabled=false;return}
+    var r=await C.sb.rpc('disp_rol_fijar',{p_id:id,p_rol:rol});
+    if(r.error){bad('No se pudo guardar: '+r.error.message+'. ¿Has vuelto a ejecutar el SQL de dispositivos?');b.disabled=false;return}
+    bg.remove();admAudit('Rol «'+ROLES[rol]+'» asignado a un dispositivo ('+id.slice(0,6)+'…).');
+    admSay('Rol «'+ROLES[rol]+'» asignado. El dispositivo lo aplica en menos de un minuto.');
+  };
+  pw.focus();
+};
+})();
+</script>
 </body>
 </html>
