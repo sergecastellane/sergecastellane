@@ -2944,8 +2944,8 @@ body:has(#content .calendar-inline-header) #pageTitle{display:none!important}
     </div>
 
     <div class="sb-actions">
-      <button class="btn-add-event" onclick="openEventForm()" aria-label="Añadir un evento al calendario">+ Añadir evento</button>
-      <button class="btn-add-event btn-add-pausa" onclick="openPausaForm()" aria-label="Anotar una pausa a cualquier hora">+ Pausa</button>
+      <button class="btn-add-event" onclick="openEventForm()" aria-label="Añadir un evento al calendario"><span class="sb-btn-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="sb-btn-tx">Evento</span></button>
+      <button class="btn-add-event btn-add-pausa" onclick="openPausaForm()" aria-label="Anotar una pausa a cualquier hora" title="Anotar una pausa"><span class="sb-btn-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3v2M12 3v2"/></svg></span><span class="sb-btn-tx">Pausa</span></button>
     </div>
 
     <nav class="sidebar-nav">
@@ -3496,16 +3496,27 @@ function renderDayView(container){
   const events = SCHEDULE[dayOfWeek] || [];
   const filtered = filterEvents(events);
 
+  const MES_ABR = ["ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC"];
+  const MES_LARGO = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  const _t0 = new Date(); _t0.setHours(0,0,0,0); const _d0 = new Date(currentDate); _d0.setHours(0,0,0,0);
+  const _diff = Math.round((_d0-_t0)/86400000);
+  const rel = _diff===0?'Hoy':_diff===1?'Mañana':_diff===-1?'Ayer':_diff>1?'En '+_diff+' días':'Hace '+(-_diff)+' días';
+  const nClases = filtered.filter(e=>!e.isBreak&&!e.empty).length;
+  const _sum = daySummaryHTML(currentDate, dayOfWeek, filtered);
   let html = `
-    <div class="day-header calendar-inline-header">
-      <h1 class="calendar-inline-title">Calendario</h1>
-      <div class="day-title">
-        <button onclick="navigateDay(-1)" aria-label="Día anterior">&lt;</button>
-        <span>${DAY_NAMES[currentDate.getDay()]} ${currentDate.getDate()} ${["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"][currentDate.getMonth()]} ${currentDate.getFullYear()}</span>
-        <button onclick="navigateDay(1)" aria-label="Día siguiente">&gt;</button>
+    <div class="day-header calendar-inline-header dv2-head${_diff===0?' is-today':''}">
+      <h1 class="calendar-inline-title dv2-sr">Calendario</h1>
+      <div class="dv2-tile" aria-hidden="true"><span class="dv2-tile-m">${MES_ABR[currentDate.getMonth()]}</span><span class="dv2-tile-d">${currentDate.getDate()}</span></div>
+      <div class="dv2-info">
+        <span class="dv2-rel">${rel}</span>
+        <div class="dv2-date">${DAY_NAMES[currentDate.getDay()]} ${currentDate.getDate()} de ${MES_LARGO[currentDate.getMonth()]} de <span class="dv2-year">${currentDate.getFullYear()}</span></div>
+        ${_sum?'':'<div class="dv2-sub">'+nClases+' '+(nClases===1?'clase':'clases')+'</div>'}
+        ${_sum}
       </div>
-      <div class="filter-btn-group">
-        <div class="filter-count">${filtered.filter(e=>!e.isBreak).length} clases</div>
+      <div class="day-title dv2-nav">
+        <button onclick="navigateDay(-1)" aria-label="Día anterior">&lt;</button>
+        ${_diff===0?'':'<button type="button" class="dv2-today" onclick="goToday()">Hoy</button>'}
+        <button onclick="navigateDay(1)" aria-label="Día siguiente">&gt;</button>
       </div>
     </div>
   `;
@@ -3534,6 +3545,7 @@ function renderDayView(container){
   const nowMinutes = new Date().getHours()*60 + new Date().getMinutes();
   const toMinutes = t=>{ const [h,m]=t.split(':').map(Number); return h*60+m; };
   let nextMarked = false;
+  const groupInfo = dayGroups(filtered);
 
   html += `<div class="event-list">`;
   filtered.forEach((e, idx)=>{
@@ -3550,23 +3562,33 @@ function renderDayView(container){
     } else {
       let statusClass = '';
       let statusLabel = '';
+      let progress = '';
       if(isToday){
         const startM = toMinutes(e.start), endM = toMinutes(e.end);
         if(nowMinutes>=startM && nowMinutes<endM){
           statusClass = ' event-current';
-          statusLabel = '<span class="event-status">Ahora</span>';
+          const left = endM-nowMinutes, pct = Math.round((nowMinutes-startM)/(endM-startM)*100);
+          statusLabel = '<span class="event-status">Ahora · quedan '+left+' min</span>';
+          progress = `<div class="dv2-prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="Progreso de la clase"><i style="width:${pct}%"></i></div>`;
         } else if(!nextMarked && nowMinutes<startM){
           statusClass = ' event-next';
-          statusLabel = '<span class="event-status event-status-next">Siguiente</span>';
+          const inM = startM-nowMinutes;
+          statusLabel = '<span class="event-status event-status-next">Siguiente · en '+(inM>=60?Math.floor(inM/60)+' h '+(inM%60?inM%60+' min':''):inM+' min')+'</span>';
           nextMarked = true;
+        } else if(nowMinutes>=endM){
+          statusClass = ' event-past';
+          statusLabel = '<span class="event-status event-status-past">Terminada</span>';
         }
       }
+      const grp = groupInfo[idx];
+      const grpLabel = grp && grp.total>1 ? `<span class="dv2-grp" title="Clases seguidas de la misma asignatura">Hora ${grp.pos} de ${grp.total}</span>` : '';
       html += `
-        <div class="event-item${statusClass}">
+        <div class="event-item${statusClass}${grp&&grp.total>1?' dv2-in-group':''}" data-start="${e.start}" data-end="${e.end}">
           <div class="event-time">${e.start} – ${e.end}</div>
           <div class="event-details">
-            <div class="event-title"><span class="subj-dot" style="background:${subjectColor(e.subject)}" aria-hidden="true"></span>${e.subject} ${statusLabel}</div>
+            <div class="event-title"><span class="subj-dot" style="background:${subjectColor(e.subject)}" aria-hidden="true"></span>${e.subject} ${statusLabel} ${grpLabel}</div>
             ${e.teacher ? `<div class="event-sub">${e.teacher}${e.room?' · '+e.room:''}</div>` : ''}
+            ${progress}
             ${diaryBoxHTML(hourKey(currentDate,dayOfWeek,idx))}
           </div>
           <div class="event-actions">
@@ -3579,6 +3601,59 @@ function renderDayView(container){
   html += dayNoteHTML(currentDate);
   container.innerHTML = html;
 }
+
+
+/* ===== MEJORAS VISTA DÍA ===== */
+function goToday(){
+  currentDate = new Date();
+  const m=document.getElementById('monthSelect'), y=document.getElementById('yearSelect');
+  if(m) m.value = currentDate.getMonth(); if(y) y.value = currentDate.getFullYear();
+  renderCurrentView();
+}
+function dayGroups(list){
+  const info = {}; let run = [];
+  const flush = ()=>{ run.forEach((i,n)=>{ info[i] = {pos:n+1,total:run.length}; }); run = []; };
+  list.forEach((e,i)=>{
+    if(e.isBreak || e.empty){ flush(); return; }
+    const prev = run.length ? list[run[run.length-1]] : null;
+    if(prev && prev.subject===e.subject && (prev.teacher||'')===(e.teacher||'') && (prev.room||'')===(e.room||'')) run.push(i);
+    else { flush(); run = [i]; }
+  });
+  flush(); return info;
+}
+function daySummaryHTML(date, dow, list){
+  if(isFestDay(date) || dow===0 || dow===6) return '';
+  const cls = list.map((e,i)=>({e:e,i:i})).filter(x=>!x.e.isBreak && !x.e.empty);
+  if(!cls.length) return '';
+  const tm = t=>{ const a=t.split(':').map(Number); return a[0]*60+a[1]; };
+  const mins = cls.reduce((a,x)=>a+(tm(x.e.end)-tm(x.e.start)),0);
+  const first = cls[0].e.start, last = cls[cls.length-1].e.end;
+  const withNote = cls.filter(x=>hasNote(hourKey(date,dow,x.i))).length;
+  const h = Math.floor(mins/60), m = mins%60;
+  const dur = h+' h'+(m?' '+m+' min':'');
+  const subjects = Array.from(new Set(cls.map(x=>x.e.subject)));
+  const pct = Math.round(withNote/cls.length*100);
+  return `<p class="dv2-sum" aria-label="Resumen del día"><span>${first}–${last}</span><span>${cls.length} ${cls.length===1?'clase':'clases'}</span><span>${withNote}/${cls.length} notas</span></p>`;
+}
+function dvAutoGrow(el){ if(!el) return; el.style.height='auto'; el.style.height=Math.min(el.scrollHeight+4, 520)+'px'; }
+document.addEventListener('input', function(ev){ const t=ev.target; if(t && t.classList && t.classList.contains('diary-text') && t.closest('.event-list')) dvAutoGrow(t); });
+function dvAfterRender(){
+  const c = document.getElementById('content'); if(!c) return;
+  c.querySelectorAll('.event-list .diary-text').forEach(dvAutoGrow);
+  if(!dvAfterRender.done && c.querySelector('.event-current')){ dvAfterRender.done = true;
+    const cur = c.querySelector('.event-current'); try{ cur.scrollIntoView({block:'center',behavior:'smooth'}); }catch(e){} }
+}
+(function(){
+  const c = document.getElementById('content'); if(!c || !window.MutationObserver) return;
+  let t; new MutationObserver(function(){ clearTimeout(t); t=setTimeout(dvAfterRender,30); }).observe(c,{childList:true,subtree:true});
+  window.addEventListener('resize', function(){ clearTimeout(t); t=setTimeout(dvAfterRender,100); });
+})();
+/* Refresca estados «Ahora/Terminada» cada minuto sin tocar lo que se escribe */
+setInterval(function(){
+  if(currentView!=='day' && currentView!=='today') return;
+  const a=document.activeElement; if(a && a.classList && a.classList.contains('diary-text')) return;
+  if(isSameDay(currentDate,new Date())) renderCurrentView();
+}, 60000);
 
 function navigateDay(delta){
   currentDate.setDate(currentDate.getDate()+delta);
@@ -3843,7 +3918,7 @@ function uevTag(e){ const t = UEV_TYPES[e.type] || UEV_TYPES.otro; return `<span
 function uevListHTML(date){
   const list = uevOn(date);
   let html = `<div class="uev-head"><h3>Mis eventos</h3><button onclick="openEventForm(null,'${ymd(date)}')">+ Añadir</button></div>`;
-  if(!list.length) return html + `<div style="font-size:.88rem;color:#7f8c8d;margin-bottom:16px;">No tienes eventos este día.</div>`;
+  if(!list.length) return `<div class="uev-head uev-empty"><span>Mis eventos · <em>ninguno este día</em></span><button onclick="openEventForm(null,'${ymd(date)}')">+ Añadir</button></div>`;
   html += `<div class="uev-list">`;
   list.forEach(e=>{
     const t = UEV_TYPES[e.type] || UEV_TYPES.otro;
@@ -3968,6 +4043,8 @@ function addFreeNote(ds){
 }
 /* ===== PAUSA SOCIAL («piti pausa»): menú para anotar con quién y cuánto dura ===== */
 const PAUSA_KEY = 'daw_pausas';
+const PZ_ICONS = {'rapida': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>', 'movil': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>', 'cafe_charla': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3v2M12 3v2"/></svg>', 'comp': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.4A6.5 6.5 0 0 1 21.5 20"/></svg>', 'cafe': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h12v5a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3v2M12 3v2"/></svg>', 'chisme': '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>'};
+function pzIcon(t){ return PZ_ICONS[t.id] || ''; }
 const PAUSA_TYPES = [
   {id:'rapida',      emoji:'⚡', name:'Rápida',           tag:'Un respiro y ya está',        min:4,  max:5,  step:1},
   {id:'movil',       emoji:'📱', name:'Mirando el móvil', tag:'Un scroll y algún clip',       min:5,  max:7,  step:1},
@@ -4000,11 +4077,11 @@ function pausaChip(key){
 function pausaMenuHTML(key){
   const p = pausaGet(key), k = escapeAttr(key), id = did(key), start = pzStartOf(key);
   let h = `<div class="pz-box" role="group" aria-label="Anotar la pausa">
-    <div class="pz-hd"><span class="pz-hd-deco" aria-hidden="true">✦</span><span class="pz-title">¿Cómo ha sido la pausa?</span><span class="pz-hd-deco" aria-hidden="true">✦</span></div>
+    <div class="pz-hd"><span class="pz-title">¿Cómo ha sido la pausa?</span></div>
     <div class="pz-opts">`;
   PAUSA_TYPES.forEach(t=>{
     const on = !!(p && p.t===t.id);
-    h += `<button type="button" class="pz-opt${on?' on':''}" id="pz-${id}-${t.id}" aria-pressed="${on}" onclick="setPausa('${k}','${t.id}')"><span class="pz-em" aria-hidden="true">${t.emoji}</span><span class="pz-tx"><b>${t.name}</b><small>${t.min}–${t.max} min</small><i class="pz-tag">${t.tag}</i></span><span class="pz-check" aria-hidden="true">✓</span></button>`;
+    h += `<button type="button" class="pz-opt${on?' on':''}" id="pz-${id}-${t.id}" aria-pressed="${on}" onclick="setPausa('${k}','${t.id}')"><span class="pz-em" aria-hidden="true">${pzIcon(t)}</span><span class="pz-tx"><b>${t.name}</b><small>${t.min}–${t.max} min</small><i class="pz-tag">${t.tag}</i></span><span class="pz-check" aria-hidden="true">✓</span></button>`;
   });
   h += `</div>`;
   if(p && pausaType(p.t) && pausaType(p.t).legacy) h += `<div class="pz-legacy">Pausa guardada con el menú anterior (${pausaType(p.t).emoji} ${escapeHtml(pausaType(p.t).name)}). Elige una opción nueva para actualizarla.</div>`;
@@ -4013,7 +4090,7 @@ function pausaMenuHTML(key){
     h += `<div class="pz-dur">
       <span class="pz-dur-lbl">Duración real</span>
       <div class="pz-chips" role="group" aria-label="Duración real">${pausaSteps(t).map(m=>`<button type="button" class="pz-chip-btn${m===p.m?' on':''}" id="pzm-${id}-${m}" aria-pressed="${m===p.m}" onclick="setPausaMin('${k}',${m})">${m} min</button>`).join('')}</div>
-      <span class="pz-end" aria-live="polite" title="Hora a la que termina la pausa">🕐 termina a las ${escapeHtml(pausaEnd(start,p.m))}</span>
+      <span class="pz-end" aria-live="polite" title="Hora a la que termina la pausa">Termina a las ${escapeHtml(pausaEnd(start,p.m))}</span>
       <button type="button" class="pz-clear" onclick="clearPausa('${k}')">Quitar</button>
     </div>`;
   }
@@ -4080,37 +4157,40 @@ function openPausaForm(key, dateStr){
   pzForm = {key: editing ? key : '', t: typeId, m: editing ? cur.m : t.min};
   lastFocusedElement = document.activeElement;
   document.getElementById('modalTitle').textContent = editing ? 'Editar pausa' : 'Nueva pausa';
-  const btns = PAUSA_TYPES.map(x=>`<button type="button" class="pz-opt${x.id===typeId?' on':''}" data-t="${x.id}" aria-pressed="${x.id===typeId}" onclick="pzPick('${x.id}')"><span class="pz-em" aria-hidden="true">${x.emoji}</span><span class="pz-tx"><b>${x.name}</b><small>${x.min}–${x.max} min</small><i class="pz-tag">${x.tag}</i></span><span class="pz-check" aria-hidden="true">✓</span></button>`).join('');
+  const btns = PAUSA_TYPES.map(x=>`<button type="button" class="pz-seg-opt${x.id===typeId?' on':''}" data-t="${x.id}" role="radio" aria-checked="${x.id===typeId}" onclick="pzPick('${x.id}')"><span class="pz-seg-ic" aria-hidden="true">${pzIcon(x)}</span><span class="pz-seg-nm">${x.name}</span><span class="pz-seg-rg">${x.min}–${x.max} min</span></button>`).join('');
+  document.getElementById('modalBox').classList.add('pz');
   document.getElementById('modalBody').innerHTML = `
-    <div class="uev-form">
-      <div class="uev-row">
-        <div><label for="pzfDate">Fecha</label><input type="date" id="pzfDate" value="${escapeAttr(date)}"></div>
+    <div class="uev-form pzf">
+      <div class="uev-row pzf-row">
+        <div><label for="pzfDate">Fecha</label><input type="date" id="pzfDate" value="${escapeAttr(date)}" onchange="pzUpdEnd()"></div>
+        <div><label for="pzfStart">Hora de inicio</label><input type="time" id="pzfStart" value="${escapeAttr(start)}" onchange="pzUpdEnd()"></div>
       </div>
-      <label id="pzfTL">¿Cómo ha sido la pausa?</label>
-      <div class="pz-opts pz-opts-modal" role="group" aria-labelledby="pzfTL">${btns}</div>
-      <label for="pzfStart">Hora de inicio</label>
-      <div class="pzf-start-row"><input type="time" id="pzfStart" value="${escapeAttr(start)}" onchange="pzUpdEnd()"></div>
-      <label id="pzfMinL">Duración real</label>
+      <label id="pzfTL">Tipo de pausa</label>
+      <div class="pz-seg" id="pzfSeg" role="radiogroup" aria-labelledby="pzfTL">${btns}</div>
+      <p class="pz-hint" id="pzfHint">${escapeHtml(t.tag||'')}</p>
+      <label id="pzfMinL">Duración</label>
       <div class="pz-chips" id="pzfMinChips" role="group" aria-labelledby="pzfMinL">${pzChipsHTML(t, pzForm.m)}</div>
       ${t.legacy?'<div class="pz-legacy" id="pzfLegacy">Pausa guardada con el menú anterior. Elige una opción nueva para actualizarla.</div>':''}
-      <div class="pz-end" id="pzfEnd" aria-live="polite" title="Hora a la que termina la pausa">🕐 termina a las ${escapeHtml(pausaEnd(start, pzForm.m))}</div>
-      <label for="pzfNote">Nota (opcional)</label>
+      <div class="pz-sum" id="pzfEnd" aria-live="polite" title="Hora a la que termina la pausa">${escapeHtml(start)} – ${escapeHtml(pausaEnd(start, pzForm.m))} · ${pzForm.m} min</div>
+      <label for="pzfNote">Nota <span class="pzf-opt">(opcional)</span></label>
       <textarea id="pzfNote" rows="3" maxlength="500" placeholder="Con quién has hablado, de qué, qué cafetería...">${escapeHtml((editing && cur.note)||'')}</textarea>
       <div class="uev-error" id="pzfError" role="alert"></div>
-      <div class="uev-actions">
+      <div class="uev-actions pzf-actions">
         ${editing?`<button class="danger" onclick="deletePausaLibre()">Eliminar</button>`:''}
         <button class="ghost" onclick="closeModal()">Cancelar</button>
         <button class="primary" onclick="savePausaForm()">Guardar</button>
       </div>
     </div>`;
+  const ff = document.getElementById('pzfNote'); if(ff) ff.addEventListener('keydown', function(e){ if(e.key==='Enter' && (e.ctrlKey||e.metaKey)) savePausaForm(); });
   document.getElementById('modalOverlay').classList.add('active');
-  const f = document.getElementById('pzfStart'); if(f) f.focus();
+  const f = document.querySelector('#pzfSeg .pz-seg-opt.on'); if(f) f.focus();
 }
 function pzPick(id){
   const t = pausaType(id); if(!t || !pzForm) return;
   pzForm.t = id;
   if(!(pzForm.m>=t.min && pzForm.m<=t.max)) pzForm.m = t.min;
-  document.querySelectorAll('#modalBody .pz-opt').forEach(b=>{ const on = b.dataset.t===id; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  document.querySelectorAll('#pzfSeg .pz-seg-opt').forEach(b=>{ const on = b.dataset.t===id; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+  const hh = document.getElementById('pzfHint'); if(hh) hh.textContent = t.tag || '';
   const c = document.getElementById('pzfMinChips'); if(c) c.innerHTML = pzChipsHTML(t, pzForm.m);
   const lg = document.getElementById('pzfLegacy'); if(lg) lg.style.display = 'none';
   pzUpdEnd();
@@ -4124,7 +4204,7 @@ function pzMin(m){
 function pzUpdEnd(){
   const s = document.getElementById('pzfStart'), e = document.getElementById('pzfEnd');
   if(!s || !e || !pzForm) return;
-  if(/^\d{2}:\d{2}$/.test(s.value)) e.textContent = '🕐 termina a las ' + pausaEnd(s.value, pzForm.m);
+  if(/^\d{2}:\d{2}$/.test(s.value)) e.textContent = s.value + ' – ' + pausaEnd(s.value, pzForm.m) + ' · ' + pzForm.m + ' min';
 }
 function savePausaForm(){
   if(typeof can==='function' && !can('editar')){ deny(); return; }
@@ -4503,7 +4583,7 @@ function showDetails(dow, idx){
 
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('active');
-  document.getElementById('modalBox').classList.remove('wide');
+  document.getElementById('modalBox').classList.remove('wide','pz');
   if(lastFocusedElement) lastFocusedElement.focus();
   if(currentView==='courses') renderCurrentView(); // Devuelve el foco al elemento que abrió el modal
 }
@@ -8696,7 +8776,7 @@ addEventListener('keydown',function(e){
     <h3>Atajos de teclado</h3>
     <dl><dt><kbd>H</kbd></dt><dd>Ir a hoy</dd><dt><kbd>D</kbd></dt><dd>Vista día</dd><dt><kbd>S</kbd></dt><dd>Vista semana</dd><dt><kbd>M</kbd></dt><dd>Vista mes</dd><dt><kbd>C</kbd></dt><dd>Mis cursos</dd><dt><kbd>J</kbd></dt><dd>Diario de clase</dd><dt><kbd>A</kbd></dt><dd>Control de asistencia</dd><dt><kbd>N</kbd></dt><dd>Apuntes personales</dd><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Día anterior / siguiente (vista día)</dd><dt><kbd>?</kbd></dt><dd>Abrir esta ayuda</dd><dt><kbd>Esc</kbd></dt><dd>Cerrar ventanas y menús</dd></dl>
     <h3>Tareas frecuentes</h3>
-    <ul><li>Añadir un evento: botón «+ Añadir evento».</li><li>Anotar una pausa a cualquier hora: botón «+ Añadir pausa».</li><li>Borraste algo sin querer: pulsa «Deshacer» en el aviso inferior.</li><li>Guardar tus datos: Más opciones → Copias y datos → Copia de seguridad.</li><li>Cambiar de dispositivo: Más opciones → Copias y datos → Sincronización.</li><li>Leer mejor: botón «Aa» de la barra superior (modo lectura fácil, tipo y tamaño de letra).</li></ul>
+    <ul><li>Añadir un evento: botón «Evento».</li><li>Anotar una pausa a cualquier hora: botón «Pausa».</li><li>Borraste algo sin querer: pulsa «Deshacer» en el aviso inferior.</li><li>Guardar tus datos: Más opciones → Copias y datos → Copia de seguridad.</li><li>Cambiar de dispositivo: Más opciones → Copias y datos → Sincronización.</li><li>Leer mejor: botón «Aa» de la barra superior (modo lectura fácil, tipo y tamaño de letra).</li></ul>
   </div>
 </div>
 <script>
@@ -10841,58 +10921,85 @@ body.fs-2{--nm-z:1.25}
 }
 </style>
 <style id="pausa-menu">
-/* ===== Menú de la pausa: edición «lujosa» ===== */
-.pz-box{position:relative;margin-top:12px;padding:18px 16px 16px;border:1px solid #d9c9a3;border-radius:16px;background:linear-gradient(160deg,#fffdf7 0%,#f9f3e3 55%,#f6efdd 100%);box-shadow:0 14px 34px -20px rgba(31,61,51,.5),inset 0 1px 0 #fff;overflow:hidden}
-.pz-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#a88b4a 18%,#d8b65f 50%,#a88b4a 82%,transparent)}
-.pz-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.pz-hd-deco{color:#c9a961;font-size:.8rem;flex:none}
-.pz-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.18rem;font-weight:700;color:#1f3d33;letter-spacing:.02em;flex:none}
-.pz-opts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-.pz-opt{position:relative;display:flex;align-items:center;gap:14px;text-align:left;padding:14px 16px;min-height:66px;border:1px solid #e4dbc3;border-radius:14px;background:linear-gradient(150deg,#fff,#fdfaf2);color:#1f2d3a;font:inherit;cursor:pointer;box-shadow:0 2px 6px -2px rgba(31,61,51,.18);transition:transform .22s cubic-bezier(.2,.8,.3,1.15),border-color .2s,box-shadow .25s,background .25s}
-.pz-opt:hover{transform:translateY(-3px);border-color:#c2a45c;box-shadow:0 16px 28px -14px rgba(140,108,42,.55)}
-.pz-opt:active{transform:translateY(-1px) scale(.99)}
-.pz-opt.on{border-color:#a88b4a;background:linear-gradient(150deg,#fbf4e0,#f3e7c8);box-shadow:0 16px 30px -12px rgba(160,130,60,.6),inset 0 0 0 1px #a88b4a}
-.pz-em{font-size:1.9rem;line-height:1;flex:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.12));transition:transform .25s cubic-bezier(.2,.8,.3,1.4)}
-.pz-opt:hover .pz-em{transform:scale(1.18) rotate(-6deg)}
-.pz-opt.on .pz-em{animation:pzpop .45s cubic-bezier(.2,.8,.3,1.4)}
-@keyframes pzpop{0%{transform:scale(1)}40%{transform:scale(1.35) rotate(-8deg)}100%{transform:scale(1)}}
-.pz-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
-.pz-tx b{font-size:.95rem;font-weight:600;line-height:1.3}
-.pz-tx small{font-size:.72rem;color:#8a6d3a;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-.pz-tag{font-size:.78rem;color:#6b7a83;font-style:italic}
-.pz-check{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:linear-gradient(140deg,#d8b65f,#a88b4a);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.4);box-shadow:0 3px 6px -2px rgba(0,0,0,.35);transition:opacity .25s,transform .25s cubic-bezier(.2,.8,.3,1.5)}
-.pz-opt.on .pz-check{opacity:1;transform:scale(1)}
-.pz-dur{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding-top:12px;border-top:1px dashed #ddcfa8;animation:pzslide .32s ease}
-@keyframes pzslide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.pz-dur-lbl{font-size:.85rem;color:#4f5d66;font-weight:600}
-.pz-chips{display:flex;flex-wrap:wrap;gap:8px}
-.pz-chip-btn{min-height:40px;padding:8px 14px;border:1px solid #dcd6c4;border-radius:999px;background:#fff;color:#1f2d3a;font:inherit;font-size:.85rem;font-weight:500;cursor:pointer;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s,color .18s}
-.pz-chip-btn:hover{transform:translateY(-2px);border-color:#c2a45c;box-shadow:0 8px 14px -8px rgba(140,108,42,.5)}
-.pz-chip-btn.on{border-color:#a88b4a;background:linear-gradient(140deg,#d8b65f,#a88b4a);color:#241a05;box-shadow:0 8px 16px -8px rgba(140,108,42,.75)}
-.pz-legacy{margin-top:10px;font-size:.8rem;color:#7a5f28;background:rgba(168,139,74,.1);border:1px dashed #c9a961;border-radius:8px;padding:8px 12px}
-.pz-end{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:#1f3d33;background:rgba(168,139,74,.12);border:1px solid rgba(168,139,74,.35);border-radius:999px;padding:6px 12px}
-.pz-clear{min-height:40px;padding:8px 14px;border:0;background:none;color:#8a6d2b;font:inherit;text-decoration:underline;cursor:pointer}
+/* ===== Pausa: diseño sobrio (menú inline + formulario modal) ===== */
+.pz-box{margin-top:12px;padding:14px 16px 16px;border:1px solid #e3e0d8;border-radius:10px;background:#fff}
+.pz-hd{display:flex;align-items:center;margin-bottom:10px}
+.pz-title{font-size:.8rem;font-weight:600;color:#5b6770;letter-spacing:.02em}
+.pz-opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.pz-opt{position:relative;display:flex;align-items:center;gap:12px;text-align:left;padding:10px 14px;min-height:56px;border:1px solid #e3e0d8;border-radius:8px;background:#fff;color:#1f2d3a;font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.pz-opt:hover{border-color:#b9a878;background:#fcfbf8}
+.pz-opt.on{border-color:#8a6d2b;background:#faf6ec;box-shadow:inset 0 0 0 1px #8a6d2b}
+.pz-em{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;flex:none;border-radius:8px;background:#f1eee6;color:#5b6770}
+.pz-opt.on .pz-em{background:#8a6d2b;color:#fff}
+.pz-tx{display:flex;flex-direction:column;gap:1px;min-width:0}
+.pz-tx b{font-size:.92rem;font-weight:600;line-height:1.3}
+.pz-tx small{font-size:.75rem;color:#6b7780;font-weight:500}
+.pz-tag{font-size:.76rem;color:#7b868e;font-style:normal}
+.pz-check{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:#8a6d2b;color:#fff;font-size:.62rem;font-weight:700;display:flex;align-items:center;justify-content:center;opacity:0}
+.pz-opt.on .pz-check{opacity:1}
+.pz-dur{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #ece9e1}
+.pz-dur-lbl{font-size:.82rem;color:#5b6770;font-weight:600}
+.pz-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pz-chip-btn{min-height:36px;padding:6px 14px;border:1px solid #d9dde0;border-radius:6px;background:#fff;color:#2c3e50;font:inherit;font-size:.85rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.pz-chip-btn:hover{border-color:#8a6d2b}
+.pz-chip-btn.on{border-color:#2c3e50;background:#2c3e50;color:#fff}
+.pz-legacy{margin-top:10px;font-size:.8rem;color:#7a5f28;background:#faf6ec;border:1px solid #e8dcb8;border-radius:6px;padding:8px 12px}
+.pz-end{display:inline-flex;align-items:center;font-size:.8rem;font-weight:500;color:#5b6770}
+.pz-clear{min-height:36px;padding:6px 10px;border:0;background:none;color:#8a6d2b;font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer}
 .pz-chip{display:inline-block;margin-left:6px;font-size:.72rem;font-style:normal;color:#8a6d2b;white-space:nowrap}
-.pzf-start-row input[type=time]{min-height:44px}
-html[data-theme="dark"] .pz-box{border-color:#4a4232;background:linear-gradient(160deg,#22261f,#1c201b 55%,#191d19);box-shadow:0 14px 34px -20px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.04)}
-html[data-theme="dark"] .pz-title{color:#e8e3d5}
-html[data-theme="dark"] .pz-hd-deco{color:#8a744a}
-html[data-theme="dark"] .pz-opt{border-color:#3a423c;background:linear-gradient(150deg,#232824,#1e231f);color:#dfe5e0}
-html[data-theme="dark"] .pz-opt:hover{border-color:#8a744a}
-html[data-theme="dark"] .pz-opt.on{border-color:#a88b4a;background:linear-gradient(150deg,#2e2a1e,#25231a);box-shadow:0 16px 30px -12px rgba(0,0,0,.8),inset 0 0 0 1px #a88b4a}
-html[data-theme="dark"] .pz-tx small{color:#c2a96a}
-html[data-theme="dark"] .pz-tag{color:#9aa8a0}
-html[data-theme="dark"] .pz-dur{border-top-color:#4a4232}
-html[data-theme="dark"] .pz-chip-btn{background:#232824;border-color:#3a423c;color:#dfe5e0}
-html[data-theme="dark"] .pz-chip-btn.on{background:linear-gradient(140deg,#d8b65f,#a88b4a);color:#1c1200}
-html[data-theme="dark"] .pz-legacy{color:#c9b98a;background:rgba(168,139,74,.12)}
-html[data-theme="dark"] .pz-end{color:#e8e3d5;background:rgba(168,139,74,.16);border-color:rgba(168,139,74,.45)}
-html[data-theme="dark"] .pz-em,html[data-theme="dark"] .pz-chip{filter:invert(1) hue-rotate(180deg)}
+
+/* Formulario modal */
+#modalBox.pz{padding:26px 28px 0;max-width:520px}
+#modalBox.pz #modalTitle{font-size:1.6rem;line-height:1.2;margin-bottom:4px;padding-right:34px}
+#modalBox.pz .modal-close{top:16px;right:16px}
+.pzf label{font-size:.72rem;font-weight:600;color:#6b7780;text-transform:none;letter-spacing:.02em;margin:18px 0 6px}
+.pzf .pzf-row{gap:12px}
+.pzf .pzf-row label{margin-top:12px}
+.pzf input,.pzf textarea{min-height:42px;border-radius:6px;border-color:#d5dadd}
+.pzf input:focus,.pzf textarea:focus{outline:2px solid rgba(44,62,80,.35);outline-offset:0;border-color:#2c3e50}
+.pzf-opt{font-weight:400;color:#8a949b}
+.pz-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pz-seg-opt{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px 10px;border:1px solid #d9dde0;border-radius:8px;background:#fff;color:#2c3e50;font:inherit;cursor:pointer;text-align:center;transition:border-color .15s,background .15s}
+.pz-seg-opt:hover{border-color:#8a6d2b}
+.pz-seg-opt:focus-visible{outline:2px solid rgba(44,62,80,.45);outline-offset:2px}
+.pz-seg-opt.on{border-color:#2c3e50;background:#2c3e50;color:#fff}
+.pz-seg-ic{display:inline-flex;color:#6b7780}
+.pz-seg-opt.on .pz-seg-ic{color:#fff}
+.pz-seg-nm{font-size:.85rem;font-weight:600;line-height:1.25}
+.pz-seg-rg{font-size:.74rem;opacity:.75}
+.pz-hint{margin:8px 2px 0;font-size:.82rem;color:#7b868e;min-height:1.2em}
+.pz-sum{margin-top:12px;padding:9px 12px;border-radius:6px;background:#f4f5f6;color:#2c3e50;font-size:.88rem;font-weight:600;font-variant-numeric:tabular-nums}
+.pzf-actions{position:sticky;bottom:0;margin:18px -28px 0;padding:14px 28px 18px;background:inherit;border-top:1px solid #ece9e1;align-items:center}
+.pzf-actions button{border-radius:6px;min-height:40px}
+.pzf-actions .ghost{background:transparent;color:#5b6770}
+.pzf-actions .ghost:hover{background:#eceff1}
+.pzf-actions .danger{background:transparent;color:#a04a4a}
+.pzf-actions .danger:hover{background:#f9eeee}
+
+/* Oscuro */
+html[data-theme="dark"] .pz-box,html[data-theme="dark"] .pz-opt,html[data-theme="dark"] .pz-chip-btn,html[data-theme="dark"] .pz-seg-opt{background:#232824;border-color:#3a423c;color:#dfe5e0}
+html[data-theme="dark"] .pz-opt:hover,html[data-theme="dark"] .pz-seg-opt:hover,html[data-theme="dark"] .pz-chip-btn:hover{border-color:#8a744a}
+html[data-theme="dark"] .pz-opt.on{background:#2a281d;border-color:#a88b4a;box-shadow:inset 0 0 0 1px #a88b4a}
+html[data-theme="dark"] .pz-em{background:#2d332e;color:#aab5ad}
+html[data-theme="dark"] .pz-opt.on .pz-em{background:#a88b4a;color:#1c1200}
+html[data-theme="dark"] .pz-title,html[data-theme="dark"] .pz-dur-lbl,html[data-theme="dark"] .pz-end,html[data-theme="dark"] .pzf label{color:#aab5ad}
+html[data-theme="dark"] .pz-tx small{color:#aab5ad}
+html[data-theme="dark"] .pz-tag,html[data-theme="dark"] .pz-hint{color:#8d9a92}
+html[data-theme="dark"] .pz-dur,html[data-theme="dark"] .pzf-actions{border-top-color:#3a423c}
+html[data-theme="dark"] .pz-chip-btn.on,html[data-theme="dark"] .pz-seg-opt.on{background:#a88b4a;border-color:#a88b4a;color:#1c1200}
+html[data-theme="dark"] .pz-seg-ic{color:#aab5ad}
+html[data-theme="dark"] .pz-seg-opt.on .pz-seg-ic{color:#1c1200}
+html[data-theme="dark"] .pz-sum{background:#262b27;color:#e8e3d5}
+html[data-theme="dark"] .pz-legacy{color:#c9b98a;background:rgba(168,139,74,.12);border-color:#4a4232}
+html[data-theme="dark"] .pzf-actions .ghost{color:#aab5ad}
+html[data-theme="dark"] .pzf-actions .ghost:hover{background:#2a302b}
+
+@media(max-width:600px){.pz-opts{grid-template-columns:1fr}#modalBox.pz{padding:22px 18px 0}.pzf-actions{margin:16px -18px 0;padding:12px 18px 16px}}
+@media(max-width:380px){.pz-seg{grid-template-columns:1fr}.pz-seg-opt{flex-direction:row;justify-content:flex-start;gap:10px;padding:10px 12px}.pz-seg-rg{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){.pz-opt,.pz-chip-btn,.pz-seg-opt{transition:none}}
 .btn-add-event.btn-add-pausa{background:transparent;color:#2c3e50;border:1px solid #2c3e50;margin-top:-6px}
 .btn-add-event.btn-add-pausa:hover{background:#2c3e50;color:#fff}
 .week-uev.pz{cursor:pointer}
-@media(max-width:600px){.pz-opts{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.pz-opt,.pz-em,.pz-chip-btn,.pz-check,.pz-dur{transition:none;animation:none}.pz-opt.on .pz-em{animation:none}}
 </style>
 <style id="visionos-fix">
 /* ===== OPTIMIZACIÓN PARA APPLE VISION PRO (Safari en visionOS) =====
@@ -14530,5 +14637,125 @@ function tick(){
 tick(); setInterval(tick,250);
 })();
 </script>
+<style id="dv2-css">
+/* Cabecera visual */
+#content .dv2-head{display:grid!important;grid-template-columns:auto 1fr auto;align-items:center!important;gap:6px 18px!important;margin:6px 0 18px!important;padding:16px 20px;border:1px solid #e3e8e5;border-radius:18px;background:linear-gradient(135deg,#f3f7f4 0%,#fff 70%);text-align:left}
+#content .dv2-head.is-today{background:linear-gradient(135deg,#e6f0e9 0%,#fff 75%);border-color:#cfe0d5}
+.dv2-sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.dv2-tile{width:68px;border-radius:14px;overflow:hidden;background:#fff;border:1px solid #d5ded8;box-shadow:0 2px 8px rgba(31,61,51,.10);text-align:center;font-family:inherit}
+.dv2-tile-m{display:block;background:#1f3d33;color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.12em;padding:4px 0}
+.dv2-tile-d{display:block;font-size:2rem;font-weight:700;color:#1f3d33;line-height:1.25;padding:2px 0 4px}
+.dv2-info{min-width:0}
+.dv2-rel{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8a6d2b;background:#f6efd9;border-radius:999px;padding:2px 10px;margin-bottom:4px}
+.is-today .dv2-rel{color:#fff;background:#4a7c59}
+.dv2-date{font-size:clamp(1.4rem,3.4vw,2.1rem);font-weight:700;color:#1f2d3a;line-height:1.15}
+.dv2-sub{font-size:.88rem;color:#5b6a73;margin-top:2px}
+#content .dv2-nav{display:flex!important;align-items:center!important;gap:8px!important}
+#content .dv2-nav button{min-width:44px;min-height:44px;border-radius:50%!important;background:#fff!important;border:1px solid #d5ded8!important;color:#1f3d33;box-shadow:0 1px 4px rgba(31,61,51,.08);font-size:1.15rem;cursor:pointer}
+#content .dv2-nav button:hover{background:#1f3d33!important;color:#fff;transform:none}
+#content .dv2-nav button.dv2-today{border-radius:999px!important;padding:0 16px!important;font-size:.9rem;font-weight:600;background:#1f3d33!important;color:#fff}
+@media(max-width:600px){#content .dv2-head{grid-template-columns:auto 1fr;padding:14px}#content .dv2-nav{grid-column:1/-1;justify-content:space-between}#content .dv2-tile{width:58px}}
+/* Vista Día · mejoras */
+.dv2-sum{display:flex;flex-wrap:wrap;gap:2px 0;margin:0 0 14px;font-size:.8rem;color:#6b7771;font-variant-numeric:tabular-nums}
+.dv2-sum span+span::before{content:"·";margin:0 8px;color:#aab3ae}
+.dv2-prog{height:6px;border-radius:6px;background:#cfe3d4;margin:6px 0 8px;overflow:hidden}
+.dv2-prog i{display:block;height:100%;background:#4a7c59;border-radius:6px;transition:width .6s}
+.dv2-grp{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:10px;background:#e8f0ec;color:#1f3d33;margin-left:6px;vertical-align:middle}
+.event-list .event-item.event-past{opacity:.72;background:#fafbfa}
+.event-list .event-item.event-past:hover,.event-list .event-item.event-past:focus-within{opacity:1}
+.event-status-past{background:#8a948f}
+.event-list .event-item.dv2-in-group{border-left:4px solid #8bb8c9}
+.event-list .diary-text{overflow:hidden;min-height:96px;max-width:none;transition:height .12s}
+.event-list .diary-label{font-size:.74rem;margin-bottom:6px}
+.uev-head.uev-empty{background:none;border:1px dashed #d7ddd9;border-radius:10px;padding:6px 10px 6px 14px;margin:0 0 16px;font-size:.88rem;color:#5b6a73}
+.uev-head.uev-empty em{font-style:normal;color:#7f8c8d}
+@media(prefers-reduced-motion:reduce){.dv2-prog i,.event-list .diary-text{transition:none}}
+@media print{.dv2-today{display:none}}
+</style>
+<style id="dv2-eton">
+/* Cabecera Vista Día · estilo Eton: azul-verde Eton, oro, serif clásica */
+#content .dv2-head,#content .dv2-head.is-today{position:relative;grid-template-columns:auto 1fr auto;gap:4px 22px!important;margin:6px 0 22px!important;padding:22px 26px 20px;border:1px solid #d9e4dd;border-top:6px solid #96c8a2;border-radius:4px 4px 16px 16px;background:linear-gradient(180deg,#e9f3ec 0%,#fff 82%);box-shadow:0 8px 22px -14px rgba(31,61,51,.45)}
+#content .dv2-head::after{content:"";position:absolute;left:26px;right:26px;bottom:9px;height:0;border-top:1px solid #a88b4a;box-shadow:0 3px 0 -2px rgba(168,139,74,.45)}
+.dv2-tile{width:84px;border-radius:3px 3px 40px 40px;border:2px solid #a88b4a;background:#fff;box-shadow:0 0 0 3px #fff,0 0 0 4px #c9b57b,0 6px 14px rgba(31,61,51,.18);padding-bottom:6px}
+.dv2-tile-m{background:#1f3d33;color:#e0cd9c;font-family:'Cormorant Garamond',Baskerville,Georgia,serif;font-size:.8rem;font-weight:700;letter-spacing:.28em;padding:6px 0 5px;text-indent:.28em}
+.dv2-tile-d{font-family:'Cormorant Garamond',Baskerville,Georgia,serif;font-size:2.7rem;font-weight:600;color:#1f3d33;line-height:1.1;padding:4px 0 0}
+.dv2-rel{font-family:Inter,system-ui,sans-serif;font-size:.68rem;letter-spacing:.3em;color:#8a6d2b;background:none;border-radius:0;padding:0 0 3px;border-bottom:1px solid #a88b4a;margin-bottom:8px}
+.is-today .dv2-rel{color:#8a6d2b;background:none}
+.dv2-date{font-family:'Cormorant Garamond',Baskerville,Georgia,serif;font-size:clamp(2rem,5vw,3.1rem);font-weight:600;color:#1f3d33;line-height:1;letter-spacing:.005em}
+.dv2-sub{font-family:'Cormorant Garamond',Baskerville,Georgia,serif;font-style:italic;font-size:1.08rem;color:#4f5d66;margin-top:6px}
+#content .dv2-nav button{border:1px solid #a88b4a!important;color:#1f3d33;background:#fff!important}
+#content .dv2-nav button:hover{background:#1f3d33!important;color:#e0cd9c;border-color:#1f3d33!important}
+#content .dv2-nav button.dv2-today{font-family:'Cormorant Garamond',Georgia,serif;font-size:1rem;letter-spacing:.06em;background:#1f3d33!important;color:#e0cd9c;border-color:#1f3d33!important}
+.dv2-sum{justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:.98rem;font-style:italic;color:#5b6a73}
+.event-list .event-item.event-current{border-left-color:#96c8a2;background:#eef6f0}
+@media(max-width:600px){#content .dv2-head,#content .dv2-head.is-today{padding:16px 14px 18px;grid-template-columns:auto 1fr}#content .dv2-head::after{left:14px;right:14px}.dv2-tile{width:68px}.dv2-tile-d{font-size:2.2rem}}
+@media print{#content .dv2-head{background:none;box-shadow:none;border-color:#a88b4a}}
+</style>
+<style id="dv2-min">
+/* Cabecera Vista Día · minimalista */
+#content .dv2-head,#content .dv2-head.is-today{grid-template-columns:1fr auto;gap:2px 16px!important;margin:4px 0 18px!important;padding:6px 2px 14px;border:0;border-bottom:1px solid #e3e8e5;border-radius:0;background:none;box-shadow:none}
+#content .dv2-head::after{display:none}
+.dv2-tile{display:none}
+.dv2-rel{border:0;padding:0;margin-bottom:2px;font-size:.66rem;letter-spacing:.22em;color:#8a948f}
+.is-today .dv2-rel{color:#4a7c59}
+.dv2-date{font-size:clamp(1.6rem,4vw,2.1rem);font-weight:600;color:#1f2d3a}
+.dv2-sub{font-style:normal;font-size:.88rem;color:#6b7771;margin-top:2px}
+#content .dv2-nav{gap:2px!important}
+#content .dv2-nav button,#content .dv2-nav button.dv2-today{min-width:36px;min-height:36px;border:0!important;box-shadow:none;background:none!important;color:#59635d;font-size:1.05rem}
+#content .dv2-nav button.dv2-today{font-size:.85rem;font-weight:600;padding:0 10px!important}
+#content .dv2-nav button:hover,#content .dv2-nav button.dv2-today:hover{background:#f0f3f1!important;color:#1f3d33}
+.event-list .event-item.event-current{border-left-width:3px}
+@media(max-width:600px){#content .dv2-head,#content .dv2-head.is-today{grid-template-columns:1fr auto;padding:4px 0 12px}#content .dv2-nav{grid-column:auto;justify-content:flex-end}}
+</style>
+<style id="dv2-one">
+.dv2-info .dv2-sum{justify-content:flex-start;text-align:left;margin:3px 0 0;font-family:inherit;font-style:normal;font-size:.88rem;color:#6b7771}
+.dv2-info .dv2-sum span+span::before{margin:0 7px}
+#content .dv2-nav{align-self:center}
+</style>
+<style id="dv2-space">
+/* Ritmo vertical consistente: 6 · 6 · 4 px entre líneas */
+#content .dv2-head,#content .dv2-head.is-today{padding:18px 4px 18px;margin:0 0 20px!important;row-gap:0!important}
+.dv2-info{display:flex;flex-direction:column;align-items:flex-start}
+.dv2-rel{display:block;line-height:1;margin:0 0 8px!important}
+.dv2-date{line-height:1.1;margin:0}
+.dv2-sub{line-height:1.3;margin:6px 0 0!important}
+.dv2-info .dv2-sum{line-height:1.4;margin:4px 0 0!important}
+#content .dv2-nav{gap:10px!important}
+#content .dv2-nav button{min-width:40px;min-height:40px}
+</style>
+<style id="dv2-bigdate">
+.dv2-date{font-size:clamp(1.7rem,4.6vw,2.6rem)!important;font-weight:600}
+.dv2-date .dv2-year{font-weight:400;color:#8a948f}
+</style>
+<style id="dv2-quiet">
+.dv2-info .dv2-sum{font-size:.78rem!important;color:#9aa39e!important;letter-spacing:.01em;margin-top:6px!important}
+.dv2-info .dv2-sum span+span::before{margin:0 6px;color:#c9cfcb}
+</style>
+<style id="dv2-sum-min">
+.dv2-info .dv2-sum{font-size:.76rem!important;letter-spacing:.01em;color:#8a948f!important;margin-top:6px!important;gap:0!important}
+.dv2-info .dv2-sum span+span::before{content:"/"!important;margin:0 9px!important;color:#cfd5d2!important;font-weight:300}
+</style>
+<style id="sb-actions-pro">
+/* ===== Botones de acción del lateral: icono + jerarquía clara ===== */
+.sidebar .sb-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;box-sizing:border-box}
+.sidebar .sb-actions .btn-add-event{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:0;min-height:44px;padding:0 12px;border-radius:10px;font-size:.88rem;font-weight:600;letter-spacing:0;white-space:nowrap;transition:background .15s,border-color .15s,box-shadow .15s,color .15s}
+.sidebar .sb-actions .sb-btn-tx{overflow:hidden;text-overflow:ellipsis}
+.sidebar .sb-actions .sb-btn-ic{display:inline-flex;align-items:center;justify-content:center;flex:none}
+.sidebar .sb-actions .btn-add-event:not(.btn-add-pausa){background:linear-gradient(180deg,#27493d 0%,#1f3d33 100%);color:#fff;border:1px solid #1a3329;box-shadow:0 1px 2px rgba(31,61,51,.25),inset 0 1px 0 rgba(255,255,255,.1)}
+.sidebar .sb-actions .btn-add-event:not(.btn-add-pausa) .sb-btn-ic{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.16)}
+.sidebar .sb-actions .btn-add-event:not(.btn-add-pausa):hover{background:linear-gradient(180deg,#2f5848 0%,#254a3c 100%);box-shadow:0 3px 8px -2px rgba(31,61,51,.4),inset 0 1px 0 rgba(255,255,255,.12)}
+.sidebar .sb-actions .btn-add-event:not(.btn-add-pausa):active{background:#1a3329;box-shadow:inset 0 1px 2px rgba(0,0,0,.25)}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa{background:#faf6ec;color:#6b5314;border:1px solid #e3d6b0;box-shadow:none;padding:0 12px}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa .sb-btn-ic{color:#a88b4a}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa:hover{background:#f5edd6;border-color:#a88b4a;color:#5a440f}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa:active{background:#efe4c4}
+.sidebar .sb-actions .btn-add-event:focus-visible{outline:2px solid #1f3d33;outline-offset:2px}
+html[data-theme="dark"] .sidebar .sb-actions .btn-add-event:not(.btn-add-pausa){background:linear-gradient(180deg,#3a6b57,#2f5848);border-color:#2b5445;color:#fff}
+html[data-theme="dark"] .sidebar .sb-actions .btn-add-event.btn-add-pausa{background:#2a281d;border-color:#4a4232;color:#e3d6b0}
+html[data-theme="dark"] .sidebar .sb-actions .btn-add-event.btn-add-pausa:hover{background:#34301f;border-color:#a88b4a}
+html[data-theme="dark"] .sidebar .sb-actions .btn-add-event:focus-visible{outline-color:#a88b4a}
+@media(max-width:600px){.sidebar .sb-actions{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){.sidebar .sb-actions .btn-add-event{transition:none}}
+</style>
 </body>
 </html>
