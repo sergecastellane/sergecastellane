@@ -1,0 +1,12 @@
+INSTALACIÓN EN GITHUB PAGES
+1. Haz una copia de seguridad del repositorio.
+2. Sustituye el HTML de tu aplicación por el index.html incluido (si tu página tiene otro nombre, conserva ese nombre). No borres tus otros recursos.
+3. Añade scripts/fetch_substack.py y .github/workflows/substack-pages.yml conservando las carpetas.
+4. Settings > Pages > Build and deployment > Source: GitHub Actions.
+5. Actions > Publicar web con Substack > Run workflow, en la rama predeterminada.
+6. Cuando termine correctamente, abre la web publicada y entra en Substack.
+La descarga RSS ocurre al publicar y cada seis horas aproximadamente, no en cada visita. El horario de GitHub puede sufrir retrasos.
+Si ya tienes un workflow de despliegue Pages, integra la descarga en él o desactiva el antiguo para evitar despliegues que se sobrescriban.
+Este ejemplo publica los archivos del repositorio como sitio estático. Revisa que no contenga archivos que no quieras publicar. No incluyas secretos.
+Si Substack rechaza también la descarga desde Actions, el workflow fallará: revisa el registro. No se ha probado con tu repositorio ni se garantiza acceso al feed.
+Solo se muestra el texto disponible en RSS. No incluye panel privado, comentarios, inicio de sesión ni contenido de pago no publicado en el feed.
