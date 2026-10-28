@@ -803,6 +803,128 @@ body.dys .ql-stat{background:#fdfaf0}
 .ql-gr-it .g{white-space:nowrap;color:var(--navy)}
 .ql-gr-it .g i{font-style:normal;color:var(--taupe);margin-left:8px;font-size:.78rem}
 .ql-gr-it .f{flex-basis:100%;color:var(--taupe);font-size:.8rem}
+/* ===== CUALIFICACIONES · panel visual ===== */
+.cq{--cq:#4f6d8a;margin-top:18px}
+.cq-hero{display:grid;grid-template-columns:auto 1fr;gap:12px 34px;align-items:center;padding:28px 32px;background:linear-gradient(135deg,var(--ivory) 0%,#fff 60%,var(--sand) 100%);border:1px solid var(--hair);border-radius:18px;box-shadow:0 1px 0 #fff inset,0 18px 40px -28px rgba(44,62,80,.35);position:relative;overflow:hidden}
+.cq-hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cq)}
+.cq-gauge{position:relative;width:76px;height:76px;flex:none}
+.cq-gauge-lg{width:178px;height:178px}
+.cq-gauge svg{width:100%;height:100%;display:block}
+.cq-ring-bg{fill:none;stroke:var(--sand)}
+.cq-ring-fg{fill:none;stroke-linecap:round;stroke-dashoffset:var(--o);animation:cqRing 1.1s cubic-bezier(.2,.7,.2,1) both}
+@keyframes cqRing{from{stroke-dashoffset:var(--c)}}
+.cq-gauge-n{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.cq-gauge-n b{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:1.5rem;color:var(--navy)}
+.cq-gauge-lg .cq-gauge-n b{font-size:3.2rem}
+.cq-gauge-n small{margin-top:4px;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe)}
+.cq-eyebrow{font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--taupe)}
+.cq-big{margin:2px 0 8px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:3rem;line-height:1;color:var(--navy)}
+.cq-big small{font-size:1.2rem;color:var(--taupe)}
+.cq-band{display:inline-block;align-self:flex-start;padding:3px 10px;border-radius:999px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--cq);background:color-mix(in srgb,var(--cq) 12%,#fff);border:1px solid color-mix(in srgb,var(--cq) 35%,#fff)}
+.cq-band-lg{font-size:.74rem;padding:4px 14px}
+.cq-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+.cq-kpis>div{background:#fff;border:1px solid var(--hair);border-radius:12px;padding:12px 14px;min-width:0}
+.cq-kpis b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:1.7rem;line-height:1.1;color:var(--navy)}
+.cq-kpis b small{font-size:.8rem;color:var(--taupe);font-family:inherit}
+.cq-kpis span{display:block;margin-top:3px;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);overflow-wrap:anywhere}
+.cq-kpis .cq-best{letter-spacing:.04em;text-transform:none;font-size:.78rem}
+.cq-dist{grid-column:1/-1;margin-top:6px}
+.cq-seg-bar{display:flex;gap:3px;height:12px;border-radius:999px;overflow:hidden;background:var(--sand)}
+.cq-seg{display:block;min-width:8px;transition:flex .4s}
+.cq-leg{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:.8rem;color:var(--navy)}
+.cq-leg li{display:flex;align-items:center;gap:7px}
+.cq-leg i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.cq-leg b{color:var(--taupe);font-weight:600}
+.cq-tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin:26px 0 4px}
+.cq-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cq-chip{font:inherit;font-size:.8rem;color:var(--navy);background:#fff;border:1px solid var(--hair);border-radius:999px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s}
+.cq-chip em{font-style:normal;font-size:.72rem;color:var(--taupe);background:var(--sand);border-radius:999px;padding:1px 8px}
+.cq-chip:hover{border-color:var(--gold)}
+.cq-chip.on{border-color:var(--gold);background:rgba(179,155,110,.14)}
+.cq-chip:focus-visible,.cq-sort select:focus-visible,.cq-det summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.cq-sort{display:flex;align-items:center;gap:10px;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe)}
+.cq-sort select{font:inherit;font-size:.82rem;letter-spacing:0;text-transform:none;color:var(--navy);background:#fff;border:1px solid var(--hair);border-radius:10px;padding:7px 10px}
+.cq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr));gap:14px;margin-top:14px;align-items:start}
+.cq-card{--cq:#4f6d8a;background:#fff;border:1px solid var(--hair);border-top:3px solid var(--cq);border-radius:14px;padding:18px 18px 14px;transition:box-shadow .25s,transform .25s}
+.cq-card:hover{box-shadow:0 16px 30px -22px rgba(44,62,80,.45);transform:translateY(-2px)}
+.cq-card.none{border-top-color:var(--hair);background:var(--ivory)}
+.cq-card-top{display:flex;align-items:center;gap:14px}
+.cq-card-t{min-width:0;display:flex;flex-direction:column;gap:5px}
+.cq-card-t h4{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:1.22rem;line-height:1.15;color:var(--navy);overflow-wrap:anywhere;hyphens:auto}
+.cq-card-t small{font-size:.7rem;letter-spacing:.08em;color:var(--taupe)}
+.cq-bar{position:relative;height:8px;margin-top:16px;background:var(--sand);border-radius:999px;overflow:hidden}
+.cq-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--cq);border-radius:999px;animation:cqBar .9s cubic-bezier(.2,.7,.2,1) both}
+.cq-bar b{position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(44,62,80,.35)}
+@keyframes cqBar{from{width:0}}
+.cq-scale{display:flex;justify-content:space-between;margin-top:5px;font-size:.66rem;color:var(--taupe)}
+.cq-det{margin-top:10px;border-top:1px solid var(--sand)}
+.cq-det summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0 6px;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);cursor:pointer;list-style:none;user-select:none}
+.cq-det summary::-webkit-details-marker{display:none}
+.cq-det summary::marker{content:""}
+.cq-items{display:flex;flex-direction:column;gap:12px;padding:8px 0 4px}
+.cq-it{--cq:#4f6d8a}
+.cq-it-h{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:.86rem}
+.cq-it-t{flex:1;min-width:0;color:var(--navy);overflow-wrap:anywhere}
+.cq-it-g{white-space:nowrap;font-weight:600;color:var(--navy)}
+.cq-it-g i{font-style:normal;font-weight:400;color:var(--taupe);margin-left:5px;font-size:.76rem}
+.cq-it-g em{font-style:normal;font-weight:400;color:var(--taupe);font-size:.78rem}
+.cq-mini{height:5px;margin-top:6px;background:var(--sand);border-radius:999px;overflow:hidden}
+.cq-mini i{display:block;height:100%;background:var(--cq);border-radius:999px}
+.cq-w{display:inline-block;margin-top:5px;font-size:.7rem;color:var(--taupe)}
+.cq-fb{margin:5px 0 0;padding-left:10px;border-left:2px solid var(--gold);font-size:.8rem;line-height:1.55;color:var(--taupe)}
+.cq-src{margin:8px 0 0;font-size:.72rem;color:var(--taupe)}
+.cq-note{margin:16px 2px 0;font-size:.78rem;line-height:1.6;color:var(--taupe)}
+.cq-empty{padding:26px;text-align:center;background:var(--ivory);border:1px dashed var(--hair);border-radius:14px;color:var(--taupe);font-size:.9rem;line-height:1.6}
+.cq-empty p{margin:0 0 10px}
+/* Apartado de notas discreto: oculto por defecto tras un botón discreto */
+.cq-gate{margin:-2px 0 4px}
+.cq-gate-btn{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;font:inherit;font-size:.78rem;letter-spacing:.08em;color:var(--taupe);background:transparent;border:1px solid transparent;border-radius:999px;cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+.cq-gate-btn svg{width:14px;height:14px}
+.cq-gate-btn:hover{color:var(--navy);border-color:var(--hair);background:rgba(255,255,255,.45)}
+.cq-gate-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.cq-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cq-hide{display:inline-flex;align-items:center;justify-content:center;flex:none;width:30px;height:30px;padding:0;color:var(--taupe);background:transparent;border:1px solid transparent;border-radius:999px;cursor:pointer;transition:color .2s,border-color .2s}
+.cq-hide svg{width:15px;height:15px}
+.cq-hide:hover{color:var(--navy);border-color:var(--hair)}
+.cq-hide:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+/* Calificaciones por asignatura (pestaña del curso) */
+.cg{margin-top:4px}
+.cg-hero{display:grid;grid-template-columns:auto 1fr;gap:12px 34px;align-items:center;padding:28px 32px;background:linear-gradient(135deg,var(--ivory) 0%,#fff 60%,var(--sand) 100%);border:1px solid var(--hair);border-radius:18px;box-shadow:0 1px 0 #fff inset,0 18px 40px -28px rgba(44,62,80,.35);position:relative;overflow:hidden}
+.cg-hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cq)}
+.cg-sum{min-width:0}
+.cg-items{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.cg-it{--cq:#4f6d8a;background:#fff;border:1px solid var(--hair);border-left:3px solid var(--cq);border-radius:12px;padding:14px 16px;transition:box-shadow .25s,transform .25s}
+.cg-it:hover{box-shadow:0 14px 26px -20px rgba(44,62,80,.4);transform:translateY(-1px)}
+.cg-it-h{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:.92rem}
+.cg-it-t{flex:1;min-width:0;color:var(--navy);font-weight:500;overflow-wrap:anywhere}
+.cg-it-g{white-space:nowrap;font-weight:600;color:var(--navy)}
+.cg-it-g i{font-style:normal;font-weight:400;color:var(--taupe);margin-left:5px;font-size:.78rem}
+.cg-it-g em{font-style:normal;font-weight:400;color:var(--taupe);font-size:.8rem}
+.cg-it-m{margin-top:2px}
+.cg-w{display:inline-block;margin-top:6px;font-size:.7rem;color:var(--taupe);background:var(--sand);border-radius:999px;padding:1px 10px}
+.cg-foot{margin-top:18px}
+.cg-open{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:12px;padding:9px 12px;font:inherit;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--taupe);background:transparent;border:1px solid var(--hair);border-radius:10px;cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+.cg-open:hover{color:var(--navy);border-color:var(--gold);background:rgba(179,155,110,.08)}
+.cg-open:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.cq-raw{font-size:.72rem;color:var(--taupe)}
+.cg .ql-h{margin-top:30px}
+.cq-det[open] .ql-chev{transform:rotate(180deg)}
+@media (max-width:720px){
+  .cq-hero{grid-template-columns:1fr;justify-items:center;text-align:center;padding:22px 18px}
+  .cq-sum{display:flex;flex-direction:column;align-items:center;width:100%}
+  .cq-kpis{grid-template-columns:1fr 1fr;width:100%;text-align:left}
+  .cq-kpis>div:last-child{grid-column:1/-1}
+  .cg-hero{grid-template-columns:1fr;justify-items:center;text-align:center;padding:22px 18px}
+  .cg-sum{display:flex;flex-direction:column;align-items:center;width:100%}
+  .cq-big{font-size:2.5rem}
+  .cq-gauge-lg{width:150px;height:150px}.cq-gauge-lg .cq-gauge-n b{font-size:2.6rem}
+}
+@media (prefers-reduced-motion:reduce){.cq-ring-fg,.cq-bar i{animation:none}.cq-card{transition:none}.cq-card:hover{transform:none}}
+body.dys .cq{line-height:1.75;letter-spacing:.02em}
+body.dys .cq-kpis span,body.dys .cq-scale,body.dys .cq-src,body.dys .cq-w,body.dys .cq-note,body.dys .cq-band,body.dys .cq-eyebrow,body.dys .cq-sort,body.dys .cq-det summary{font-size:.85rem}
+body.dys .cq-kpis{grid-template-columns:1fr}
+@media print{.cq-tools{display:none}.cq-card{break-inside:avoid;box-shadow:none}.cq-ring-fg,.cq-bar i{animation:none}}
+
 
 .ql-btn{padding:13px 28px;background:transparent;border:1px solid var(--navy);border-radius:2px;color:var(--navy);font:inherit;font-size:.68rem;font-weight:500;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:background .25s,color .25s,opacity .2s}
 .ql-btn:hover{background:var(--navy);color:var(--ivory)}
@@ -941,6 +1063,72 @@ body.dys .ql-cw.open .ql-course{background:#fff}
 body.dys .diary-text,body.dys .diary-entry{background:#fdfaf0}
 body.dys .diary-text{line-height:1.9;letter-spacing:.02em}
 @media print{.diary-add,.diary-del{display:none}}
+
+/* ===== Diario de clase v2: cuaderno por días ===== */
+.dj{max-width:900px;margin:0 auto}
+.dj-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.dj-primary{background:#2c3e50;color:#fff;border:1px solid #2c3e50;padding:10px 22px;font-size:.92rem;font-weight:600;cursor:pointer;border-radius:3px}
+.dj-primary:hover{background:#1f2d3a}
+.dj-ghost,.dj-more>summary{background:#fff;color:#2c3e50;border:1px solid #cfd8dc;padding:10px 16px;font-size:.88rem;font-weight:600;cursor:pointer;border-radius:3px;list-style:none}
+.dj-ghost:hover,.dj-more>summary:hover{background:#f1f5f7}
+.dj-more{position:relative}
+.dj-more>summary::-webkit-details-marker{display:none}
+.dj-more>summary::after{content:" \25BE"}
+.dj-menu{position:absolute;z-index:20;top:calc(100% + 4px);right:0;min-width:250px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #cfd8dc;box-shadow:0 8px 24px rgba(0,0,0,.14);border-radius:4px;padding:6px;display:flex;flex-direction:column}
+.dj-menu button{background:none;border:0;text-align:left;padding:10px 12px;font-size:.88rem;color:#2c3e50;cursor:pointer;border-radius:3px}
+.dj-menu button:hover{background:#f1f5f7}
+.dj-filters{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:8px}
+.dj-f{display:block}
+.dj-f input,.dj-f select,.dj-new-row input,.dj-new-row select{width:100%;padding:10px 12px;border:1px solid #cfd8dc;border-radius:3px;font:inherit;font-size:.92rem;color:#2c3e50;background:#fff}
+.dj-f input:focus,.dj-f select:focus,.dj-new-row input:focus,.dj-new-row select:focus{outline:2px solid #8bb8c9;border-color:#8bb8c9}
+.dj-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.dj-status{display:flex;align-items:center;gap:12px;min-height:28px;margin-bottom:12px;font-size:.84rem;color:#5f6f7a}
+.dj-link{background:none;border:0;color:#2c3e50;text-decoration:underline;cursor:pointer;font-size:.84rem;padding:0;font-weight:600}
+.dj-link[hidden]{display:none}
+.dj-new{border:1px dashed #8bb8c9;background:#f8fbfc;padding:14px 16px;margin-bottom:16px;border-radius:3px}
+.dj-new-title{font-weight:700;color:#2c3e50;margin-bottom:10px;font-size:1.05rem;font-family:Baskerville,'Baskerville Old Face','Hoefler Text',Georgia,serif}
+.dj-new-row{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.dj-new-row label{display:flex;flex-direction:column;gap:4px;font-size:.74rem;font-weight:700;color:#2c3e50;text-transform:uppercase;letter-spacing:.04em}
+.dj-err{color:#a04a4a;font-size:.82rem;min-height:1.1em;margin-top:6px}
+.dj-new-actions{display:flex;gap:8px;margin-top:6px}
+.dj-day{margin-bottom:22px}
+.dj-day-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;font-family:Baskerville,'Baskerville Old Face','Hoefler Text',Georgia,serif;font-size:1.2rem;font-weight:600;color:#2c3e50;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid #e0e0e0}
+.dj-badge{font-family:inherit;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:#c9a227;padding:2px 8px;border-radius:10px}
+.dj-day-h small{margin-left:auto;font-size:.78rem;color:#7f8c8d;font-weight:400;font-family:inherit}
+.dj-card{border:1px solid #e0e0e0;border-left:4px solid #8bb8c9;background:#fff;padding:14px 16px;margin-bottom:10px;border-radius:3px}
+.dj-card.editing{box-shadow:0 0 0 2px #8bb8c9}
+.dj-card-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:8px}
+.dj-chip{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:.92rem;color:#2c3e50}
+.dj-chip::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c,#8bb8c9);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.dj-time{font-size:.8rem;color:#5f6f7a;font-variant-numeric:tabular-nums;background:#f3f5f7;padding:2px 9px;border-radius:10px}
+.dj-text{white-space:pre-wrap;line-height:1.65;color:#2c3e50;font-size:.95rem;overflow-wrap:anywhere}
+.dj-text mark{background:#fff0a8;color:inherit;padding:0 1px}
+.dj-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.dj-act{background:none;border:1px solid #cfd8dc;color:#2c3e50;padding:6px 13px;font-size:.8rem;font-weight:600;cursor:pointer;border-radius:3px}
+.dj-act:hover{background:#f1f5f7}
+.dj-act.primary{background:#2c3e50;border-color:#2c3e50;color:#fff}
+.dj-act.primary:hover{background:#1f2d3a}
+.dj-act.danger{margin-left:auto;color:#a04a4a;border-color:transparent}
+.dj-foot-actions{display:flex;align-items:center;gap:12px}
+.diary-tpl{background:none;border:0;color:#5f6f7a;text-decoration:underline dotted;cursor:pointer;font-size:.75rem;padding:0}
+.diary-tpl[hidden]{display:none}
+.dj-print-head{display:none}
+.dj :focus-visible{outline:2px solid #2c3e50;outline-offset:2px}
+body.dys .dj-card,body.dys .dj-new,body.dys .dj-f input,body.dys .dj-f select{background:#fdfaf0}
+@media(max-width:700px){.dj-filters{grid-template-columns:1fr}.dj-new-row{grid-template-columns:1fr}.dj-primary{flex:1 1 100%}.dj-act.danger{margin-left:0}}
+@media print{
+  .dj-bar,.dj-filters,.dj-status,.dj-new,.dj-actions,.dj .diary-foot,.dj .filter-btn-group{display:none!important}
+  .dj{max-width:none}
+  .dj .day-header{padding-bottom:6px;margin-bottom:10px;border-bottom:1px solid #999}
+  .dj-print-head{display:block;margin-bottom:14px;color:#000;font-size:11pt;border-bottom:1px solid #999;padding-bottom:6px}
+  .dj-print-head span{display:block;color:#444;font-size:9.5pt;margin-top:2px}
+  .dj-card{break-inside:avoid;border:1px solid #bbb;border-left-width:4px;box-shadow:none;background:#fff!important;color:#000}
+  .dj-day-h{break-after:avoid;color:#000}
+  .dj-text{color:#000;font-size:10.5pt}
+  .dj-chip{color:#000}
+  .dj-time{background:none;border:1px solid #ccc;color:#333}
+  .dj-text mark{background:none}
+}
 
 /* Calendario académico 26-27 */
 .acad-list{margin:0 0 16px;display:flex;flex-direction:column;gap:6px}
@@ -2716,29 +2904,57 @@ body:has(#content .calendar-inline-header) #pageTitle{display:none!important}
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <button type="button" class="mini-toggle" id="miniToggle" aria-expanded="false" aria-controls="miniCal" onclick="toggleMini()">Calendario y hora</button>
-    <div class="mini-calendar" id="miniCal">
+    <div class="sb-collapse-row"><button type="button" class="sb-collapse" id="sbCollapse" onclick="toggleSidebar(false)" aria-controls="sbNow miniCal" aria-label="Ocultar la barra lateral" title="Ocultar la barra lateral"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span>Ocultar</span></button></div>
+    <div class="sb-now" id="sbNow">
       <div class="live-clock" role="timer" aria-label="Hora actual">
         <div class="live-clock-time"><span id="clockHM">--:--</span><span class="live-clock-sec" id="clockSec">:--</span></div>
         <div class="live-clock-date" id="clockDate"></div>
       </div>
-      <div class="calendar-controls">
-        <button onclick="changeMonth(-1)" aria-label="Mes anterior">&#9664;</button>
-        <select id="monthSelect" onchange="onMonthYearChange()" aria-label="Seleccionar mes"></select>
-        <select id="yearSelect" onchange="onMonthYearChange()" aria-label="Seleccionar año"></select>
-        <button onclick="changeMonth(1)" aria-label="Mes siguiente">&#9654;</button>
-      </div>
-      <div class="calendar-grid" id="calendarGrid"></div>
+      <button type="button" class="now-card" id="nowCard" onclick="setView('today')" aria-label="Ahora y siguiente. Abrir la vista Hoy">
+        <span class="now-row" id="nowCurRow"><span class="now-k">Ahora</span><span class="now-v" id="nowCur">—</span></span>
+        <span class="now-row" id="nowNextRow"><span class="now-k">Luego</span><span class="now-v" id="nowNext">—</span></span>
+      </button>
     </div>
 
-    <button class="btn-add-event" onclick="openEventForm()" aria-label="Añadir un evento al calendario">+ Añadir evento</button>
-    <button class="btn-add-event btn-add-pausa" onclick="openPausaForm()" aria-label="Anotar una pausa a cualquier hora">+ Añadir pausa</button>
+    <button type="button" class="mini-toggle" id="miniToggle" aria-expanded="true" aria-controls="miniCal" onclick="toggleMini()">Calendario</button>
+    <div class="mini-calendar" id="miniCal">
+      <div class="calendar-controls">
+        <button type="button" class="cal-arrow" onclick="changeMonth(-1)" aria-label="Mes anterior">&#9664;</button>
+        <button type="button" class="cal-title" id="calTitle" aria-expanded="false" aria-controls="calPicker" onclick="toggleCalPicker()" title="Cambiar mes o año">Mes</button>
+        <button type="button" class="cal-arrow" onclick="changeMonth(1)" aria-label="Mes siguiente">&#9654;</button>
+        <button type="button" class="cal-today" onclick="goToToday()" aria-label="Ir al día de hoy">Hoy</button>
+      </div>
+      <div class="cal-picker" id="calPicker" hidden>
+        <select id="monthSelect" onchange="onMonthYearChange()" aria-label="Seleccionar mes"></select>
+        <select id="yearSelect" onchange="onMonthYearChange()" aria-label="Seleccionar año"></select>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <details class="sb-legend">
+        <summary>Leyenda de puntos y subrayados</summary>
+        <ul>
+          <li><i class="lg lg-note"></i>Punto dorado: nota escrita en tu diario</li>
+          <li><i class="lg lg-user"></i>Punto morado: evento tuyo (examen, entrega…)</li>
+          <li><i class="lg lg-acad"></i>Subrayado turquesa: fecha del calendario académico</li>
+          <li><i class="lg lg-fest"></i>Subrayado rojo: festivo o día sin clase</li>
+          <li><i class="lg lg-today"></i>Cuadro oscuro: hoy</li>
+          <li><i class="lg lg-sel"></i>Cuadro azul: día seleccionado</li>
+        </ul>
+        <p class="lg-tip">Pasa el ratón por un día para ver su resumen.</p>
+      </details>
+    </div>
+
+    <div class="sb-actions">
+      <button class="btn-add-event" onclick="openEventForm()" aria-label="Añadir un evento al calendario">+ Añadir evento</button>
+      <button class="btn-add-event btn-add-pausa" onclick="openPausaForm()" aria-label="Anotar una pausa a cualquier hora">+ Pausa</button>
+    </div>
 
     <nav class="sidebar-nav">
+      <div class="sb-nav-h" aria-hidden="true">Horario</div>
       <a onclick="setView('today')" id="navToday" tabindex="0" role="button">Hoy<span class="kbd" aria-hidden="true">H</span></a>
       <a onclick="setView('day')" id="navDay" tabindex="0" role="button" class="active">Vista Día<span class="kbd" aria-hidden="true">D</span></a>
       <a onclick="setView('week')" id="navWeek" tabindex="0" role="button">Vista Semana<span class="kbd" aria-hidden="true">S</span></a>
       <a onclick="setView('month')" id="navMonth" tabindex="0" role="button">Vista Mes<span class="kbd" aria-hidden="true">M</span></a>
+      <div class="sb-nav-h" aria-hidden="true">Estudio y herramientas</div>
       <a id="navMoreBtn" class="nav-more-btn" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-controls="navMore" onclick="toggleMoreMenu()">Más opciones <span class="nav-caret" aria-hidden="true">&#9662;</span><span class="nav-badge nav-more-badge" id="navMoreBadge" style="display:none"></span></a>
       <div class="nm-scrim" id="navScrim" onclick="toggleMoreMenu(false)" aria-hidden="true"></div>
       <div class="nav-more" id="navMore" hidden>
@@ -2751,11 +2967,11 @@ body:has(#content .calendar-inline-header) #pageTitle{display:none!important}
         <div class="nav-h" data-ic="work">Trabajo</div>
         <a onclick="setView('assistant');closeMoreMenu()" id="navAssistant" data-fav="1" tabindex="0" role="button">Asistente · Mi día</a>
         <a onclick="setView('courses');closeMoreMenu()" id="navCourses" data-fav="1" class="kx" tabindex="0" role="button" aria-keyshortcuts="C">Mis cursos<span class="kbd" aria-hidden="true">C</span></a>
-        <a onclick="setView('diary');closeMoreMenu()" id="navDiary" data-fav="1" class="kx" tabindex="0" role="button" aria-keyshortcuts="J">Diario de clase<span class="kbd" aria-hidden="true">J</span></a>
+        <a onclick="setView('diary');closeMoreMenu()" id="navDiary" data-fav="1" class="kx" tabindex="0" role="button" aria-keyshortcuts="J">Diario de clase<span class="kbd" aria-hidden="true">J</span><span class="nav-badge sb-badge" id="sbBadgeDiary" style="display:none"></span></a>
         <a onclick="setView('att');closeMoreMenu()" id="navAtt" data-fav="1" class="kx" tabindex="0" role="button" aria-keyshortcuts="A">Control de asistencia<span class="kbd" aria-hidden="true">A</span></a>
         <a onclick="setView('notes');closeMoreMenu()" id="navNotes" data-fav="1" class="kx" tabindex="0" role="button" aria-keyshortcuts="N">Apuntes personales<span class="kbd" aria-hidden="true">N</span></a>
         <a onclick="setView('files');closeMoreMenu()" id="navFiles" data-fav="1" tabindex="0" role="button">Mi Drive (archivos)</a>
-        <a onclick="setView('deadlines');closeMoreMenu()" id="navDeadlines" data-fav="1" tabindex="0" role="button">Próximas entregas</a>
+        <a onclick="setView('deadlines');closeMoreMenu()" id="navDeadlines" data-fav="1" tabindex="0" role="button">Próximas entregas<span class="nav-badge sb-badge" id="sbBadgeDead" style="display:none"></span></a>
         <a onclick="setView('wellness');closeMoreMenu()" id="navWellness" data-fav="1" tabindex="0" role="button">The Wellness Club</a>
         <a onclick="setView('pastoral');closeMoreMenu()" id="navPastoral" data-fav="1" tabindex="0" role="button">Pastoral</a>
         <a onclick="setView('study');closeMoreMenu()" id="navStudy" data-fav="1" tabindex="0" role="button">Modo estudio</a>
@@ -3944,12 +4160,40 @@ function diaryBoxHTML(key){
   }
   return diaryEditorHTML(key, n.text);
 }
+/* Estructura opcional para una nota nueva (la escritura sigue siendo libre) */
+const DJ_TEMPLATE = ['Qué hemos trabajado:','Qué he aprendido:','Dudas:','Próximos pasos:'];
+const DJ_TPL_TEXT = DJ_TEMPLATE.map(h=>h+'\n').join('\n');
+function isTemplateOnly(t){
+  let s = String(t||''); if(!s.trim()) return false;
+  DJ_TEMPLATE.forEach(h=>{ s = s.split(h).join(''); });
+  return !s.trim();
+}
+/* Texto de estado de guardado: «Guardado · última edición hace 5 min» */
+function diaryAgo(ts){
+  const s = Math.max(0, Math.floor((Date.now()-ts)/1000));
+  if(s<60) return 'hace un momento';
+  const m = Math.floor(s/60); if(m<60) return 'hace '+m+' min';
+  const h = Math.floor(m/60); if(h<24) return 'hace '+h+' h';
+  const d = Math.floor(h/24); if(d===1) return 'ayer'; if(d<7) return 'hace '+d+' días';
+  return 'el '+new Date(ts).toLocaleDateString('es-ES',{day:'numeric',month:'short'});
+}
+function diaryStatusText(ts){ return ts ? 'Guardado · última edición '+diaryAgo(ts) : 'Guardado'; }
+setInterval(function(){
+  document.querySelectorAll('[data-upd]').forEach(function(el){ const t = +el.dataset.upd; if(t) el.textContent = diaryStatusText(t); });
+}, 30000);
+function diaryTemplate(key){
+  const el = document.getElementById('dt-'+did(key)); if(!el || el.value.trim()) return;
+  el.value = DJ_TPL_TEXT; el.focus();
+  const p = DJ_TEMPLATE[0].length; try{ el.setSelectionRange(p,p); }catch(e){}
+  onDiaryInput(el);
+}
 function diaryEditorHTML(key, text){
-  const k = escapeAttr(key); const has = hasNote(key);
-  return `<div class="diary-box" id="dbox-${did(key)}">
-    <label class="diary-label" for="dt-${did(key)}">${isDayNoteKey(key)?(key.split('|')[1]===DAYNOTE?'Nota general del día':'Nota de '+escapeHtml(key.split('|')[1])):(isBreakKey(key)?'Qué he hecho en la pausa':'Qué he hecho en clase')}</label>
-    <textarea class="diary-text" id="dt-${did(key)}" data-key="${k}" placeholder="${isDayNoteKey(key)?'Ej.: He repasado SQL y avanzado el proyecto de Prog. E.S....':(isBreakKey(key)?'Ej.: He tomado un café, he repasado los apuntes y he descansado la vista...':'Ej.: Hemos visto las JOIN en SQL y hecho 5 ejercicios...')}" oninput="onDiaryInput(this)" onblur="flushDiary(this.dataset.key)">${escapeHtml(text||'')}</textarea>
-    <div class="diary-foot"><span id="ds-${did(key)}">${has?'Guardado':'Se guarda solo al escribir'}</span>${has?`<button class="diary-del" onclick="deleteDiary('${k}')">Borrar nota</button>`:''}</div>
+  const k = escapeAttr(key), id = did(key), has = hasNote(key), n = loadDiary()[key];
+  const upd = (has && n && n.updated) ? n.updated : 0;
+  return `<div class="diary-box" id="dbox-${id}">
+    <label class="diary-label" for="dt-${id}">${isDayNoteKey(key)?(key.split('|')[1]===DAYNOTE?'Nota general del día':'Nota de '+escapeHtml(key.split('|')[1])):(isBreakKey(key)?'Qué he hecho en la pausa':'Qué he hecho en clase')}</label>
+    <textarea class="diary-text" id="dt-${id}" data-key="${k}" placeholder="${isDayNoteKey(key)?'Ej.: He repasado SQL y avanzado el proyecto de Prog. E.S....':(isBreakKey(key)?'Ej.: He tomado un café, he repasado los apuntes y he descansado la vista...':'Ej.: Hemos visto las JOIN en SQL y hecho 5 ejercicios...')}" oninput="onDiaryInput(this)" onblur="flushDiary(this.dataset.key)">${escapeHtml(text||'')}</textarea>
+    <div class="diary-foot"><span id="ds-${id}" class="${has?'diary-saved':''}"${upd?` data-upd="${upd}"`:''} aria-live="polite">${has?diaryStatusText(upd):'Se guarda solo al escribir'}</span><span class="dj-foot-actions"><button type="button" class="diary-tpl" id="dtp-${id}" data-key="${k}" ${has?'hidden':''} onclick="diaryTemplate(this.dataset.key)">Estructura sugerida</button>${has?`<button class="diary-del" onclick="deleteDiary('${k}')">Borrar nota</button>`:''}</span></div>
   </div>`;
 }
 function openDiary(key){
@@ -3958,8 +4202,9 @@ function openDiary(key){
   const t = document.getElementById('dt-'+did(key)); if(t) t.focus();
 }
 function onDiaryInput(el){
-  const key = el.dataset.key; const st = document.getElementById('ds-'+did(key));
-  if(st){ st.textContent = 'Escribiendo…'; st.classList.remove('diary-saved'); }
+  const key = el.dataset.key, id = did(key); const st = document.getElementById('ds-'+id);
+  if(st){ st.textContent = 'Guardando…'; st.classList.remove('diary-saved'); delete st.dataset.upd; }
+  const tp = document.getElementById('dtp-'+id); if(tp) tp.hidden = !!el.value.trim();
   clearTimeout(diaryTimers[key]);
   diaryTimers[key] = setTimeout(()=>flushDiary(key), 500);
 }
@@ -3967,47 +4212,235 @@ function flushDiary(key){
   clearTimeout(diaryTimers[key]);
   const el = document.getElementById('dt-'+did(key)); if(!el) return;
   loadDiary();
-  const text = el.value;
-  if(text.trim()){ diaryData[key] = {text:text, updated:Date.now()}; }
-  else if(diaryData[key]){ diaryData[key] = {text:'', updated:Date.now()}; }
-  const ok = saveDiary();
+  const raw = el.value, t = (raw.trim() && !isTemplateOnly(raw)) ? raw : '';
+  const prev = diaryData[key], prevText = (prev && prev.text) || '';
+  let ok = !diaryFailed, changed = false;
+  if(t !== prevText){ diaryData[key] = {text:t, updated:Date.now()}; ok = saveDiary(); changed = true; }
   const st = document.getElementById('ds-'+did(key));
   if(st){
-    st.textContent = ok ? (text.trim()?'Guardado ✓':'Nota vacía') : 'No se ha podido guardar (el navegador bloquea el almacenamiento)';
-    st.classList.toggle('diary-saved', ok && !!text.trim());
+    if(!ok){ st.textContent = 'No se ha podido guardar (el navegador bloquea el almacenamiento)'; st.classList.remove('diary-saved'); delete st.dataset.upd; }
+    else if(t){ const u = diaryData[key].updated || Date.now(); st.dataset.upd = u; st.textContent = diaryStatusText(u); st.classList.add('diary-saved'); }
+    else { st.textContent = prevText ? 'Nota vacía' : 'Se guarda solo al escribir'; st.classList.remove('diary-saved'); delete st.dataset.upd; }
   }
-  renderCalendar();
+  if(changed){ try{ renderCalendar(); }catch(e){} }
 }
 function deleteDiary(key){
   loadDiary(); const prev = diaryData[key]; diaryData[key] = {text:'', updated:Date.now()}; saveDiary(); renderCurrentView();
   toast('Nota borrada',{undo:function(){ diaryData[key] = prev; saveDiary(); renderCurrentView(); toast('Nota restaurada'); }});
 }
 
-/* --- vista "Diario": todas las notas ordenadas --- */
+/* --- vista "Diario": cuaderno agrupado por días --- */
+let djUI = {q:'', subj:'', period:'all', editing:null, newOpen:false, newDate:'', newSubj:'', err:''};
 function parseDiaryKey(k){ const [d,subj,start] = k.split('|'); return {date:d, subject:subj, start:start}; }
-function renderDiaryView(container){
-  const data = loadDiary();
-  const keys = Object.keys(data).filter(hasNote).sort().reverse();
-  const q = (searchTerm||'').toLowerCase();
-  const shown = keys.filter(k=>!q || k.toLowerCase().includes(q) || data[k].text.toLowerCase().includes(q));
-  let html = `<div class="day-header"><div class="day-title"><span>Diario de clase</span></div>
-    <div class="filter-btn-group"><div class="filter-count">${keys.length} notas</div></div></div>
-    <div class="diary-tools"><button onclick="exportDiary()">Descargar diario (.txt)</button><button onclick="backupDiary()">Copia de seguridad (.json)</button><button onclick="document.getElementById('diaryFile').click()">Restaurar copia</button>
-    <input type="file" id="diaryFile" accept=".json,application/json" hidden onchange="restoreDiary(this)"></div>`;
-  if(diaryFailed) html += `<div class="empty-state">El navegador no deja guardar datos aquí. Abre el archivo desde una carpeta normal o descarga una copia.</div>`;
-  if(!shown.length){
-    html += `<div class="empty-state">${keys.length?'No hay notas que coincidan con la búsqueda.':'Todavía no hay notas. Ve a Vista Día y pulsa «Añadir nota de clase» en una asignatura, o elige asignatura en «Notas del día» (también en fines de semana y festivos).'}</div>`;
+function djNorm(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+function djLongDate(d, withYear){
+  let s = d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'}).replace(',','');
+  if(withYear) s += ' de '+d.getFullYear();
+  return s.charAt(0).toUpperCase()+s.slice(1);
+}
+function djSubjLabel(s){ return s==='Descanso' ? 'Pausas' : (s===DAYNOTE ? 'Nota general (sin asignatura)' : s); }
+function djSubjName(m){ return m.subject==='Descanso' ? 'Pausa' : (m.subject===DAYNOTE ? 'Nota del día' : m.subject); }
+function djSubjects(){
+  const out = buildCourses().map(c=>c.name), data = loadDiary();
+  Object.keys(data).filter(hasNote).forEach(k=>{ const s = parseDiaryKey(k).subject; if(s && !out.includes(s)) out.push(s); });
+  return out;
+}
+function djRange(p){
+  const now = new Date(); now.setHours(0,0,0,0);
+  if(p==='week'){ const a = new Date(now); a.setDate(a.getDate()-((now.getDay()+6)%7)); const b = new Date(a); b.setDate(b.getDate()+6); return [ymd(a), ymd(b)]; }
+  if(p==='month'){ return [ymd(new Date(now.getFullYear(), now.getMonth(), 1)), ymd(new Date(now.getFullYear(), now.getMonth()+1, 0))]; }
+  return null;
+}
+function djFiltersActive(){ return !!(djUI.q.trim() || djUI.subj || djUI.period!=='all'); }
+function djTimeLabel(m){
+  if(m.start==='00:00') return (m.subject===DAYNOTE || !m.subject) ? 'Nota del día' : 'Sin hora';
+  const d = parseYMD(m.date), list = d ? (SCHEDULE[d.getDay()]||[]) : [];
+  let i = list.findIndex(e=>e.start===m.start && e.subject===m.subject && !e.empty);
+  if(i<0) return m.start;
+  let end = list[i].end;
+  if(!list[i].isBreak){ while(i+1<list.length && !list[i+1].empty && !list[i+1].isBreak && list[i+1].subject===m.subject){ i++; end = list[i].end; } }
+  return m.start+' – '+end;
+}
+function djHighlight(text, q){
+  const t = String(text||''), terms = djNorm(q).split(/\s+/).filter(Boolean);
+  if(!terms.length) return escapeHtml(t);
+  const norm = djNorm(t); if(norm.length!==t.length) return escapeHtml(t);
+  const mark = new Array(t.length).fill(false);
+  terms.forEach(term=>{ let i = norm.indexOf(term); while(i>=0){ for(let j=i;j<i+term.length;j++) mark[j] = true; i = norm.indexOf(term, i+term.length); } });
+  let out = '', open = false, buf = '';
+  const flush = ()=>{ if(buf) out += open ? '<mark>'+escapeHtml(buf)+'</mark>' : escapeHtml(buf); buf = ''; };
+  for(let i=0;i<t.length;i++){ if(mark[i]!==open){ flush(); open = mark[i]; } buf += t[i]; }
+  flush();
+  return out;
+}
+/* Reúne las entradas: filtradas, agrupadas por día (más reciente primero) y ordenadas por hora real dentro de cada día */
+function djCollect(){
+  const data = loadDiary(), all = Object.keys(data).filter(hasNote);
+  let keys = all.slice();
+  if(djUI.editing && !keys.includes(djUI.editing)) keys.push(djUI.editing);
+  const terms = djNorm(djUI.q.trim()).split(/\s+/).filter(Boolean), rng = djRange(djUI.period);
+  keys = keys.filter(k=>{
+    if(k===djUI.editing) return true;
+    const m = parseDiaryKey(k);
+    if(djUI.subj && m.subject!==djUI.subj) return false;
+    if(rng && (m.date<rng[0] || m.date>rng[1])) return false;
+    if(terms.length){
+      const d = parseYMD(m.date);
+      const hay = djNorm(m.subject+' '+djSubjName(m)+' '+((data[k]&&data[k].text)||'')+' '+(d?djLongDate(d,true):m.date));
+      if(!terms.every(t=>hay.includes(t))) return false;
+    }
+    return true;
+  });
+  const groups = {};
+  keys.forEach(k=>{ const m = parseDiaryKey(k); (groups[m.date] = groups[m.date]||[]).push({key:k, m:m}); });
+  const sortT = m=>m.start==='00:00' ? '99:99' : m.start;
+  const days = Object.keys(groups).sort().reverse();
+  days.forEach(ds=>groups[ds].sort((a,b)=>sortT(a.m).localeCompare(sortT(b.m)) || String(a.m.subject).localeCompare(String(b.m.subject))));
+  return {days:days, groups:groups, total:all.length, shown:keys.filter(k=>hasNote(k)).length};
+}
+function djEditorHTML(key){
+  const k = escapeAttr(key), id = did(key), has = hasNote(key), n = loadDiary()[key];
+  const upd = (has && n && n.updated) ? n.updated : 0;
+  const ph = isDayNoteKey(key) ? 'Ej.: He repasado SQL y avanzado el proyecto de Prog. E.S....' : (isBreakKey(key) ? 'Ej.: He tomado un café, he repasado los apuntes y he descansado la vista...' : 'Ej.: Hemos visto las JOIN en SQL y hecho 5 ejercicios...');
+  return `<textarea class="diary-text" id="dt-${id}" data-key="${k}" aria-label="Contenido de la nota" placeholder="${ph}" oninput="onDiaryInput(this)" onblur="flushDiary(this.dataset.key)" onkeydown="djKey(event)">${escapeHtml(has&&n?n.text:'')}</textarea>
+    <div class="diary-foot"><span id="ds-${id}" class="${has?'diary-saved':''}"${upd?` data-upd="${upd}"`:''} aria-live="polite">${has?(upd?diaryStatusText(upd):'Guardado'):'Se guarda solo al escribir'}</span>
+      <span class="dj-foot-actions"><button type="button" class="diary-tpl" id="dtp-${id}" data-key="${k}" ${has?'hidden':''} onclick="diaryTemplate(this.dataset.key)">Estructura sugerida</button>${has?`<button type="button" class="diary-del" data-key="${k}" onclick="djDelete(this.dataset.key)">Borrar nota</button>`:''}<button type="button" class="dj-act primary" onclick="djDone()">Listo</button></span></div>`;
+}
+function djCardHTML(e, q){
+  const key = e.key, m = e.m, k = escapeAttr(key), c = subjectColor(m.subject), id = did(key);
+  const head = `<header class="dj-card-head"><span class="dj-chip" style="--c:${c}">${escapeHtml(djSubjName(m))}</span><span class="dj-time">${escapeHtml(djTimeLabel(m))}</span></header>`;
+  if(djUI.editing===key) return `<article class="dj-card editing" id="djc-${id}" style="border-left-color:${c}">${head}${djEditorHTML(key)}</article>`;
+  const n = loadDiary()[key];
+  return `<article class="dj-card" id="djc-${id}" style="border-left-color:${c}">${head}<div class="dj-text">${djHighlight(n.text, q)}</div>
+    <footer class="dj-actions"><button type="button" class="dj-act primary" data-key="${k}" onclick="djEdit(this.dataset.key)">Editar</button><button type="button" class="dj-act" data-date="${escapeAttr(m.date)}" onclick="goToDiaryDay(this.dataset.date)">Ver ese día</button><button type="button" class="dj-act danger" data-key="${k}" onclick="djDelete(this.dataset.key)">Borrar</button></footer></article>`;
+}
+function djPrintMeta(){
+  const bits = ['Impreso el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})];
+  if(djUI.subj) bits.push('Asignatura: '+djSubjLabel(djUI.subj));
+  if(djUI.period==='week') bits.push('Periodo: esta semana'); else if(djUI.period==='month') bits.push('Periodo: este mes');
+  if(djUI.q.trim()) bits.push('Búsqueda: «'+djUI.q.trim()+'»');
+  return bits.join(' · ');
+}
+function djRenderList(){
+  const host = document.getElementById('djList'); if(!host) return;
+  const r = djCollect(), q = djUI.q.trim(), active = djFiltersActive();
+  const now = new Date(), todayS = ymd(now); const yd = new Date(now); yd.setDate(yd.getDate()-1); const ydS = ymd(yd);
+  let html = '';
+  if(!r.days.length){
+    html = r.total
+      ? `<div class="empty-state">No hay notas con estos filtros.<br><button type="button" class="dj-link" onclick="djReset()">Restablecer filtros</button></div>`
+      : `<div class="empty-state">Todavía no hay notas en el diario.<br><br><button type="button" class="dj-primary" onclick="djNew()">+ Crear la primera nota</button></div>`;
   } else {
-    shown.forEach(k=>{
-      const m = parseDiaryKey(k); const d = parseYMD(m.date);
-      html += `<div class="diary-entry" style="border-left-color:${subjectColor(m.subject)}">
-        <h3>${escapeHtml(m.subject)}</h3>
-        <div class="de-meta">${d?escapeHtml(formatDate(d)):escapeHtml(m.date)} ${m.start==='00:00'?'':' · desde las '+escapeHtml(m.start)}</div>
-        <div class="de-text">${escapeHtml(data[k].text)}</div>
-        <button class="de-go" onclick="goToDiaryDay('${escapeAttr(m.date)}')">Ver ese día</button></div>`;
+    r.days.forEach(ds=>{
+      const d = parseYMD(ds), list = r.groups[ds], n = list.filter(e=>hasNote(e.key)).length;
+      const label = d ? djLongDate(d, d.getFullYear()!==now.getFullYear()) : ds;
+      const badge = ds===todayS ? '<span class="dj-badge">Hoy</span>' : (ds===ydS ? '<span class="dj-badge" style="background:#7f8c8d">Ayer</span>' : '');
+      html += `<section class="dj-day" aria-labelledby="djd-${escapeAttr(ds)}"><h3 class="dj-day-h" id="djd-${escapeAttr(ds)}"><span>${escapeHtml(label)}</span>${badge}<small>${n} ${n===1?'nota':'notas'}</small></h3>${list.map(e=>djCardHTML(e,q)).join('')}</section>`;
     });
   }
-  container.innerHTML = html;
+  host.innerHTML = html;
+  const c = document.getElementById('djCount'); if(c) c.textContent = active ? r.shown+' de '+r.total+' '+(r.total===1?'nota':'notas') : r.total+' '+(r.total===1?'nota':'notas')+' en total';
+  const rs = document.getElementById('djReset'); if(rs) rs.hidden = !active;
+  const tt = document.getElementById('djTotal'); if(tt) tt.textContent = r.total+' '+(r.total===1?'nota':'notas');
+  const pm = document.getElementById('djPrintMeta'); if(pm) pm.textContent = djPrintMeta();
+}
+function djRenderNew(){
+  const box = document.getElementById('djNewBox'); if(!box) return;
+  if(!djUI.newOpen){ box.innerHTML = ''; return; }
+  const opts = `<option value="">General (sin asignatura)</option>` + buildCourses().map(c=>`<option value="${escapeAttr(c.name)}"${c.name===djUI.newSubj?' selected':''}>${escapeHtml(c.name)}</option>`).join('');
+  box.innerHTML = `<section class="dj-new" aria-label="Nueva nota"><div class="dj-new-title">Nueva nota</div>
+    <div class="dj-new-row"><label>Fecha<input type="date" id="djnDate" value="${escapeAttr(djUI.newDate)}" onchange="djUI.newDate=this.value"></label>
+    <label>Asignatura<select id="djnSubj" onchange="djUI.newSubj=this.value">${opts}</select></label></div>
+    <div class="dj-err" role="alert">${escapeHtml(djUI.err)}</div>
+    <div class="dj-new-actions"><button type="button" class="dj-primary" onclick="djCreate()">Empezar a escribir</button><button type="button" class="dj-ghost" onclick="djCancelNew()">Cancelar</button></div></section>`;
+}
+function djDefaultSubject(){
+  const now = new Date(), nm = now.getHours()*60+now.getMinutes(), list = SCHEDULE[now.getDay()]||[]; let s = '';
+  list.forEach(e=>{ if(e.empty||e.isBreak||!e.subject) return; const p = e.start.split(':'); if(+p[0]*60+ +p[1] <= nm) s = e.subject; });
+  return s;
+}
+function djKeyFor(d, subj){
+  if(!subj) return dayNoteKey(d, '');
+  const dow = d.getDay(), list = SCHEDULE[dow]||[]; let any = null, free = null;
+  list.forEach((e,i)=>{
+    if(e.empty || e.isBreak || e.subject!==subj || !isBlockFirst(dow,i)) return;
+    const k = diaryKey(d, dow, i); if(!any) any = k; if(!free && !hasNote(k)) free = k;
+  });
+  return free || any || dayNoteKey(d, subj);
+}
+function djNew(){
+  if(djUI.editing){ flushDiary(djUI.editing); djUI.editing = null; djRenderList(); }
+  djUI.newOpen = true; djUI.err = ''; djUI.newDate = ymd(new Date()); djUI.newSubj = djDefaultSubject();
+  djRenderNew();
+  const el = document.getElementById('djnSubj'); if(el){ el.focus(); if(el.scrollIntoView) el.scrollIntoView({block:'center',behavior:'smooth'}); }
+}
+function djCancelNew(){ djUI.newOpen = false; djUI.err = ''; djRenderNew(); }
+function djCreate(){
+  const ds = (document.getElementById('djnDate')||{}).value, subj = (document.getElementById('djnSubj')||{}).value || '';
+  const d = parseYMD(ds);
+  if(!d){ djUI.err = 'Elige una fecha válida.'; djRenderNew(); return; }
+  const key = djKeyFor(d, subj), existed = hasNote(key);
+  djUI.q = ''; djUI.subj = ''; djUI.period = 'all';
+  djUI.newOpen = false; djUI.err = ''; djUI.editing = key;
+  djSyncControls(); djRenderNew(); djRenderList(); djFocus(key);
+  if(existed) toast('Ya había una nota para esa clase: la he abierto para editarla.');
+}
+function djFocus(key){
+  const t = document.getElementById('dt-'+did(key)); if(!t) return;
+  t.focus(); try{ t.setSelectionRange(t.value.length, t.value.length); }catch(e){}
+  const c = document.getElementById('djc-'+did(key)); if(c && c.scrollIntoView) c.scrollIntoView({block:'center',behavior:'smooth'});
+}
+function djEdit(key){
+  if(djUI.editing && djUI.editing!==key) flushDiary(djUI.editing);
+  djUI.editing = key; djRenderList(); djFocus(key);
+}
+function djDone(){ if(djUI.editing) flushDiary(djUI.editing); djUI.editing = null; djRenderList(); }
+function djKey(ev){ if(ev.key==='Escape'){ ev.preventDefault(); djDone(); } }
+function djDelete(key){ if(djUI.editing===key) djUI.editing = null; deleteDiary(key); }
+function djSyncControls(){
+  const q = document.getElementById('djQ'), s = document.getElementById('djSubj'), p = document.getElementById('djPeriod');
+  if(q) q.value = djUI.q; if(s) s.value = djUI.subj; if(p) p.value = djUI.period;
+}
+function djSetQ(v){ djUI.q = v; djRenderList(); }
+function djSetSubj(v){ djUI.subj = v; djRenderList(); }
+function djSetPeriod(v){ djUI.period = v; djRenderList(); }
+function djReset(){ djUI.q = ''; djUI.subj = ''; djUI.period = 'all'; djSyncControls(); djRenderList(); const q = document.getElementById('djQ'); if(q) q.focus(); }
+function djMenu(a){
+  const d = document.getElementById('djMore'); if(d) d.open = false;
+  if(a==='txt') exportDiary(); else if(a==='json') backupDiary(); else { const f = document.getElementById('diaryFile'); if(f) f.click(); }
+}
+function djPrint(){
+  if(djUI.editing){ flushDiary(djUI.editing); djUI.editing = null; }
+  djRenderList();
+  if(!djCollect().shown){ toast('No hay notas para imprimir con estos filtros.'); return; }
+  setTimeout(function(){ window.print(); }, 80);
+}
+document.addEventListener('click', function(e){ const d = document.getElementById('djMore'); if(d && d.open && !d.contains(e.target)) d.open = false; });
+document.addEventListener('keydown', function(e){
+  if(e.key!=='Escape') return;
+  const d = document.getElementById('djMore'); if(d && d.open){ d.open = false; const s = d.querySelector('summary'); if(s) s.focus(); }
+});
+function renderDiaryView(container){
+  loadDiary();
+  const total = Object.keys(diaryData).filter(hasNote).length;
+  const subjOpts = `<option value="">Todas las asignaturas</option>` + djSubjects().map(s=>`<option value="${escapeAttr(s)}"${s===djUI.subj?' selected':''}>${escapeHtml(djSubjLabel(s))}</option>`).join('');
+  container.innerHTML = `<div class="dj" id="dj">
+    <div class="day-header"><div class="day-title"><span>Diario de clase</span></div><div class="filter-btn-group"><div class="filter-count" id="djTotal">${total} ${total===1?'nota':'notas'}</div></div></div>
+    <div class="dj-print-head"><b>Diario de clase · DAW · La Salle Gràcia</b><span id="djPrintMeta"></span></div>
+    <div class="dj-bar"><button type="button" class="dj-primary" onclick="djNew()">+ Nueva nota</button><button type="button" class="dj-ghost" onclick="djPrint()">Imprimir</button>
+      <details class="dj-more" id="djMore"><summary>Más opciones</summary><div class="dj-menu"><button type="button" onclick="djMenu('txt')">Descargar diario (.txt)</button><button type="button" onclick="djMenu('json')">Copia de seguridad (.json)</button><button type="button" onclick="djMenu('restore')">Restaurar copia…</button></div></details>
+      <input type="file" id="diaryFile" accept=".json,application/json" hidden onchange="restoreDiary(this)"></div>
+    ${diaryFailed?`<div class="empty-state">El navegador no deja guardar datos aquí. Abre el archivo desde una carpeta normal o descarga una copia.</div>`:''}
+    <div class="dj-filters" role="search">
+      <label class="dj-f"><span class="dj-sr">Buscar en el diario</span><input type="search" id="djQ" placeholder="Buscar en el diario…" value="${escapeAttr(djUI.q)}" oninput="djSetQ(this.value)" autocomplete="off"></label>
+      <label class="dj-f"><span class="dj-sr">Asignatura</span><select id="djSubj" onchange="djSetSubj(this.value)">${subjOpts}</select></label>
+      <label class="dj-f"><span class="dj-sr">Periodo</span><select id="djPeriod" onchange="djSetPeriod(this.value)"><option value="week"${djUI.period==='week'?' selected':''}>Esta semana</option><option value="month"${djUI.period==='month'?' selected':''}>Este mes</option><option value="all"${djUI.period==='all'?' selected':''}>Todo</option></select></label>
+    </div>
+    <div class="dj-status"><span id="djCount" aria-live="polite"></span><button type="button" class="dj-link" id="djReset" onclick="djReset()" hidden>Restablecer filtros</button></div>
+    <div id="djNewBox"></div>
+    <div id="djList"></div>
+  </div>`;
+  djRenderNew(); djRenderList();
 }
 function goToDiaryDay(s){
   const d = parseYMD(s); if(!d) return;
@@ -4915,11 +5348,11 @@ async function renderMoodleData(container){
     body.innerHTML = `
       <div id="mdlStatsBox">${mdlStatsHTML()}</div>
       ${mdlSearchHTML()}
+      ${MOODLE_SHOW_GRADES ? `<div id="cqPanelHost">${moodleGradesPanel()}</div>` : ''}
       <h3 class="ql-h" id="mdlDlTitle">Próximas entregas</h3>
       <div id="mdlDeadlines">${mdlDeadlinesHTML()}</div>
       ${mdlMsgPanelHTML()}
       ${moodleCoursesPanel()}
-      ${MOODLE_SHOW_GRADES ? moodleGradesPanel() : ''}
       ${moodleSyncPanel()}
     `;
     mdlApplyCourses();
@@ -5154,10 +5587,9 @@ function importMoodle(){
 /* ===== SINCRONIZAR MOODLE ↔ MIS CURSOS ===== */
 const MOODLE_MAP_KEY = 'daw_moodle_map'; // { idCursoMoodle: 'nombre del curso del horario' | '' }
 let moodleCache = {courses:[], events:[]};
-/* ===== CALIFICACIONES POR ASIGNATURA ===== */
-/* Pon true para volver a mostrar las calificaciones de Moodle */
-const MOODLE_SHOW_GRADES = false;
-let mdlGrades = {state:'idle', err:'', byCourse:{}, items:{}};
+/* ===== CUALIFICACIONES · panel visual ===== */
+const MOODLE_SHOW_GRADES = true;
+let mdlGrades = {state:'idle', err:'', uid:0, byCourse:{}, items:{}, open:{}, filter:'all', sort:'moodle'};
 function mdlGradeTitle(c){
   const raw = String(c.fullname||c.shortname||'Curso');
   const parts = raw.split('|').map(x=>x.trim());
@@ -5167,65 +5599,289 @@ function mdlGradeTitle(c){
   if(m){ kind = m[1]; t = t.slice(0, m.index); }
   return {title: t.trim()||raw, kind};
 }
+function cqStrip(t){ return String(t==null?'':t).replace(/<[^>]*>/g,'').trim(); }
+function cqNum(s){
+  const m = String(s==null?'':s).replace(/<[^>]*>/g,'').replace(/\s/g,'').replace(',','.').match(/-?\d+(\.\d+)?/);
+  return m ? parseFloat(m[0]) : null;
+}
+function cqFmt(n){ if(n===null||n===undefined||isNaN(n)) return '–'; return (Math.round(n*10)/10).toFixed(1).replace('.',',').replace(/,0$/,''); }
+/* Nota normalizada sobre 10 (o null si no hay nota numérica) */
+function cqScore(cid){
+  const g = mdlGrades.byCourse[cid]; if(!g) return null;
+  const fmt = String(g.fmt||'');
+  if(fmt==='-' && (g.raw===null || g.raw===undefined)) return null;
+  let n = (g.raw!==null && g.raw!==undefined) ? g.raw : cqNum(fmt);
+  if(n===null || isNaN(n)) return null;
+  let max = g.max || null;
+  if(!max){
+    // escala desconocida: solo se normaliza si el valor es un porcentaje
+    if(/%/.test(fmt)){ n = cqNum(fmt); max = 100; }
+    else return null;
+  }
+  return Math.max(0, Math.min(10, n/max*10));
+}
+function cqBand(s){
+  if(s===null) return {k:'none', t:'Sin calificar', c:'#8a8175'};
+  if(s>=9) return {k:'sob', t:'Sobresaliente', c:'#a88b4a'};
+  if(s>=7) return {k:'not', t:'Notable', c:'#3f7a68'};
+  if(s>=5) return {k:'apr', t:'Aprobado', c:'#4f6d8a'};
+  return {k:'ins', t:'Por recuperar', c:'#9a5f52'};
+}
+function cqGauge(score, r, sw, color, big){
+  const c = 2*Math.PI*r, p = score===null ? 0 : Math.max(0,Math.min(1,score/10)), size = (r+sw)*2, h = size/2;
+  return `<div class="cq-gauge${big?' cq-gauge-lg':''}"><svg viewBox="0 0 ${size} ${size}" aria-hidden="true">
+    <circle class="cq-ring-bg" cx="${h}" cy="${h}" r="${r}" stroke-width="${sw}"/>
+    <circle class="cq-ring-fg" cx="${h}" cy="${h}" r="${r}" stroke="${color}" stroke-width="${sw}" stroke-dasharray="${c.toFixed(2)}" style="--c:${c.toFixed(2)};--o:${(c*(1-p)).toFixed(2)}" transform="rotate(-90 ${h} ${h})"/>
+  </svg><span class="cq-gauge-n"><b>${score===null?'–':escapeHtml(cqFmt(score))}</b>${big?'<small>sobre 10</small>':''}</span></div>`;
+}
+function cqItemsHTML(cid){
+  const st = mdlGrades.items[cid];
+  if(st===undefined || st==='loading') return '<div class="ql-empty">Cargando actividades…</div>';
+  if(st.err) return `<div class="ql-empty">Detalle no disponible (${escapeHtml(st.err)}).</div>`;
+  const list = st.list.filter(i=>!i.total);
+  if(!list.length) return '<div class="ql-empty">Aún no hay actividades calificables.</div>';
+  return list.map(i=>{
+    const has = i.raw!==null && i.fmt!=='-';
+    const p = has && i.max ? Math.max(0,Math.min(100,i.raw/i.max*100)) : 0;
+    const b = cqBand(has && i.max ? i.raw/i.max*10 : null);
+    return `<div class="cq-it" style="--cq:${b.c}">
+      <div class="cq-it-h"><span class="cq-it-t">${escapeHtml(i.name)}</span>
+        <span class="cq-it-g">${has ? escapeHtml(i.fmt)+(i.max?`<i>/ ${escapeHtml(cqFmt(i.max))}</i>`:'') : '<em>Pendiente</em>'}</span></div>
+      <div class="cq-mini" aria-hidden="true"><i style="width:${p.toFixed(1)}%"></i></div>
+      ${i.w&&i.w!=='-'&&i.w!=='0,00 %'?`<span class="cq-w">Peso ${escapeHtml(i.w)}</span>`:''}
+      ${i.fb?`<p class="cq-fb">${escapeHtml(i.fb)}</p>`:''}</div>`;
+  }).join('');
+}
+function cqHTML(){
+  const cs = moodleCache.courses||[];
+  const rows = cs.map((c,i)=>({c, i, id:Number(c.id), t:mdlGradeTitle(c), s:cqScore(Number(c.id))}));
+  const graded = rows.filter(r=>r.s!==null);
+  const hasItemsData = rows.some(r=>{ const st = mdlGrades.items[r.id]; return st && st!=='loading' && !st.err; });
+  if(!graded.length && !hasItemsData){
+    if(mdlGrades.state==='loading' || rows.some(r=>mdlGrades.items[r.id]==='loading')){
+      return `<div class="ql-skel" role="status" aria-label="Cargando calificaciones"><div class="sk sk-bar"></div><div class="ql-grid">${'<div class="sk sk-card"></div>'.repeat(3)}</div></div>`;
+    }
+    return `<div class="cq-empty"><p>${escapeHtml(mdlGrades.err || 'Todavía no hay calificaciones publicadas en tus cursos.')}</p>
+      <a class="ql-link" href="${MOODLE_BASE}/grade/report/overview/index.php" target="_blank" rel="noopener">Abrir calificaciones en Moodle</a></div>`;
+  }
+  const hasAgg = graded.length > 0;
+  const avg = hasAgg ? graded.reduce((a,r)=>a+r.s,0)/graded.length : null;
+  const ab = cqBand(avg);
+  const cnt = {sob:0, not:0, apr:0, ins:0};
+  graded.forEach(r=>{ cnt[cqBand(r.s).k]++; });
+  const best = graded.slice().sort((a,b)=>b.s-a.s)[0];
+  const passed = graded.filter(r=>r.s>=5).length;
+  const seg = [['sob','Sobresaliente','#a88b4a'],['not','Notable','#3f7a68'],['apr','Aprobado','#4f6d8a'],['ins','Por recuperar','#9a5f52']];
+  const dist = seg.filter(x=>cnt[x[0]]).map(x=>`<span class="cq-seg" style="flex:${cnt[x[0]]};background:${x[2]}" title="${x[1]}: ${cnt[x[0]]}"></span>`).join('');
+  const leg = seg.map(x=>`<li><i style="background:${x[2]}"></i>${x[1]} <b>${cnt[x[0]]}</b></li>`).join('');
+  const f = mdlGrades.filter, so = mdlGrades.sort;
+  let list = rows.slice();
+  if(f==='top') list = list.filter(r=>r.s!==null && r.s>=7);
+  else if(f==='mid') list = list.filter(r=>r.s!==null && r.s>=5 && r.s<7);
+  else if(f==='low') list = list.filter(r=>r.s!==null && r.s<5);
+  const key = r=>r.s===null ? -1 : r.s;
+  if(so==='high') list.sort((a,b)=>key(b)-key(a));
+  else if(so==='low') list.sort((a,b)=>(a.s===null?99:a.s)-(b.s===null?99:b.s));
+  else if(so==='az') list.sort((a,b)=>a.t.title.localeCompare(b.t.title,'es'));
+  else list.sort((a,b)=>(a.s===null)-(b.s===null) || a.i-b.i);
+  const chip = (v,l,n)=>`<button type="button" class="cq-chip${f===v?' on':''}" data-cq="filter:${v}" aria-pressed="${f===v}" onclick="cqSet('filter','${v}')">${l}<em>${n}</em></button>`;
+  const nTop = graded.filter(r=>r.s>=7).length, nMid = graded.filter(r=>r.s>=5&&r.s<7).length, nLow = graded.filter(r=>r.s<5).length;
+  const cards = list.map(r=>{
+    const b = cqBand(r.s), open = !!mdlGrades.open[r.id];
+    const pct = r.s===null ? 0 : r.s*10;
+    const mVal = String((mdlGrades.byCourse[r.id]||{}).fmt||'-');
+    return `<article class="cq-card${r.s===null?' none':''}" style="--cq:${b.c}">
+      <div class="cq-card-top">${cqGauge(r.s, 30, 7, b.c, false)}
+        <div class="cq-card-t"><h4>${escapeHtml(r.t.title)}</h4>${r.t.kind?`<small>${escapeHtml(r.t.kind)}</small>`:''}<span class="cq-band">${b.t}</span>${r.s===null&&mVal!=='-'?`<span class="cq-raw">Moodle: ${escapeHtml(mVal)}</span>`:''}</div></div>
+      <div class="cq-bar" role="img" aria-label="${r.s===null?'Sin nota normalizada':'Nota '+escapeAttr(cqFmt(r.s))+' sobre 10, '+b.t}"><i style="width:${pct.toFixed(1)}%"></i><b aria-hidden="true"></b></div>
+      <div class="cq-scale" aria-hidden="true"><span>0</span><span>5 · aprobado</span><span>10</span></div>
+      <details class="cq-det" data-cid="${r.id}"${open?' open':''} ontoggle="cqToggle(${r.id},this.open)">
+        <summary>Desglose de actividades<span class="ql-chev" aria-hidden="true"></span></summary>
+        <div class="cq-items">${open?cqItemsHTML(r.id):''}</div>
+        <p class="cq-src">Valor en Moodle: ${escapeHtml(mVal)}</p></details>
+      <button type="button" class="cg-open" onclick="mdlOpenCourse(${r.i},'notas')">Ver asignatura<span aria-hidden="true">→</span></button>
+    </article>`;
+  }).join('') || '<div class="cq-empty"><p>Ninguna asignatura coincide con este filtro.</p></div>';
+  const hero = hasAgg ? `<section class="cq-hero" aria-label="Resumen de calificaciones" style="--cq:${ab.c}">
+      ${cqGauge(avg, 56, 11, ab.c, true)}
+      <div class="cq-sum">
+        <span class="cq-eyebrow">Media general</span>
+        <h4 class="cq-big">${escapeHtml(cqFmt(avg))}<small> / 10</small></h4>
+        <span class="cq-band cq-band-lg">${ab.t}</span>
+        <div class="cq-kpis">
+          <div><b>${graded.length}<small> de ${rows.length}</small></b><span>Asignaturas con nota</span></div>
+          <div><b>${passed}<small> de ${graded.length}</small></b><span>Aprobadas</span></div>
+          <div><b>${escapeHtml(cqFmt(best.s))}</b><span class="cq-best">Mejor: ${escapeHtml(best.t.title)}</span></div>
+        </div>
+      </div>
+      <div class="cq-dist"><div class="cq-seg-bar" role="img" aria-label="Distribución de notas por franja">${dist}</div><ul class="cq-leg">${leg}</ul></div>
+    </section>`
+    : '<p class="cq-note" style="margin:0 0 4px">Todavía no hay notas globales publicadas: consulta el desglose de cada asignatura más abajo.</p>';
+  return `${hero}
+    <div class="cq-tools">
+      <div class="cq-chips" role="group" aria-label="Filtrar asignaturas">${chip('all','Todas',rows.length)}${chip('top','Notable o más',nTop)}${chip('mid','Aprobado',nMid)}${chip('low','Por recuperar',nLow)}</div>
+      <label class="cq-sort">Ordenar<select id="cqSort" onchange="cqSet('sort',this.value)">
+        ${[['moodle','Orden de Moodle'],['high','Mayor nota'],['low','Menor nota'],['az','A–Z']].map(o=>`<option value="${o[0]}"${so===o[0]?' selected':''}>${o[1]}</option>`).join('')}</select></label>
+    </div>
+    <div class="cq-grid">${cards}</div>
+    <p class="cq-note" role="status">Las notas se normalizan sobre 10 para poder compararlas. La media es simple (todas las asignaturas pesan igual) y no sustituye al acta oficial.${mdlGrades.state==='loading'?' Actualizando detalle…':''}</p>`;
+}
 function moodleGradesPanel(){
   const cs = moodleCache.courses||[];
   if(!cs.length) return '';
-  const rows = cs.map(c=>{
-    const g = mdlGradeTitle(c);
-    const v = mdlGrades.byCourse[c.id];
-    const val = (v===undefined||v===null||v===''||v==='-') ? '-' : v;
-    return `<details data-cid="${escapeAttr(c.id)}" ontoggle="if(this.open)mdlLoadGradeItems(${Number(c.id)})">
-      <summary><span class="ql-gr-name">${escapeHtml(g.title)}${g.kind?`<small>${escapeHtml(g.kind)}</small>`:''}</span>
-      <span class="ql-gr-val${val==='-'?' none':''}" id="mgv${Number(c.id)}">${mdlGrades.state==='loading'?'…':escapeHtml(val)}</span><span class="ql-chev" aria-hidden="true"></span></summary>
-      <div class="ql-gr-items" id="mgi${Number(c.id)}"><div class="ql-empty">Abre para ver el detalle.</div></div></details>`;
-  }).join('');
-  return `<h3 class="ql-h">Calificaciones</h3><div class="ql-gr" id="mdlGradesBox">${rows}
-    <p class="ql-gr-note" id="mdlGradesNote" role="status">${mdlGrades.state==='loading'?'Cargando calificaciones…':escapeHtml(mdlGrades.err)}</p></div>`;
+  if(!cqIsOpen()){
+    return `<div class="cq-gate"><button type="button" class="cq-gate-btn" onclick="cqToggleVisible(true)" aria-expanded="false" title="Mostrar cualificaciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.7 10.7a2.5 2.5 0 0 0 3.4 3.4"/><path d="M9.4 5.4A10 10 0 0 1 12 5c5 0 9 4.5 10 7-.4.9-1.3 2.3-2.6 3.6M6.6 6.9C4.6 8.4 3 10.2 2 12c1 2.5 5 7 10 7 1.4 0 2.7-.3 3.9-.8"/></svg>Notas</button></div>`;
+  }
+  return `<div class="cq-title-row"><h3 class="ql-h" id="cqTitle">Cualificaciones por asignatura</h3><button type="button" class="cq-hide" onclick="cqToggleVisible(false)" aria-label="Ocultar cualificaciones" title="Ocultar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.7 10.7a2.5 2.5 0 0 0 3.4 3.4"/><path d="M9.4 5.4A10 10 0 0 1 12 5c5 0 9 4.5 10 7-.4.9-1.3 2.3-2.6 3.6M6.6 6.9C4.6 8.4 3 10.2 2 12c1 2.5 5 7 10 7 1.4 0 2.7-.3 3.9-.8"/></svg></button></div><div class="cq" id="cqRoot">${cqHTML()}</div>`;
 }
-function mdlGradesPaint(){
-  (moodleCache.courses||[]).forEach(c=>{
-    const el = document.getElementById('mgv'+Number(c.id)); if(!el) return;
-    const v = mdlGrades.byCourse[c.id];
-    const val = (v===undefined||v===null||v===''||v==='-') ? '-' : String(v);
-    el.textContent = val; el.classList.toggle('none', val==='-');
-  });
-  const n = document.getElementById('mdlGradesNote');
-  if(n) n.textContent = mdlGrades.state==='loading' ? 'Cargando calificaciones…' : mdlGrades.err;
+/* El apartado de notas permanece oculto por defecto; la preferencia se recuerda */
+function cqIsOpen(){ try{ return !!lsGet('daw_cq_open', false); }catch(e){ return false; } }
+function cqToggleVisible(open){
+  try{ lsSet('daw_cq_open', !!open); }catch(e){}
+  const host = document.getElementById('cqPanelHost');
+  if(host) host.innerHTML = moodleGradesPanel();
+  const btn = document.querySelector(open ? '.cq-hide' : '.cq-gate-btn');
+  if(btn) btn.focus({preventScroll:true});
 }
-async function mdlLoadGrades(){
-  mdlGrades.state = 'loading'; mdlGrades.err = ''; mdlGradesPaint();
-  try{
-    const r = await moodleCall('gradereport_overview_get_course_grades', {userid: mdlMe()});
-    const e = mdlErr(r);
-    if(e){ mdlGrades.err = 'Tu centro no permite consultar las calificaciones desde aquí ('+e+'). Puedes verlas en Moodle > Calificaciones.'; }
-    else{
-      (r.grades||[]).forEach(g=>{ mdlGrades.byCourse[g.courseid] = (g.grade==null?'-':String(g.grade).replace(/<[^>]*>/g,'').trim()) || '-'; });
-      if(!(r.grades||[]).length) mdlGrades.err = 'Moodle no ha devuelto calificaciones todavía.';
-    }
-  }catch(ex){ mdlGrades.err = 'No se han podido cargar las calificaciones ('+(ex.message||'error')+').'; }
-  mdlGrades.state = 'done'; mdlGradesPaint();
+function mdlGradesPaint(){ const el = document.getElementById('cqRoot'); if(el) el.innerHTML = cqHTML(); }
+function cqSet(k, v){
+  mdlGrades[k] = v; mdlGradesPaint();
+  const el = k==='sort' ? document.getElementById('cqSort') : document.querySelector('#cqRoot [data-cq="'+k+':'+v+'"]');
+  if(el) el.focus({preventScroll:true});
+}
+function cqToggle(id, isOpen){
+  if(!!mdlGrades.open[id] === !!isOpen) return;
+  mdlGrades.open[id] = !!isOpen;
+  if(isOpen){
+    mdlGradesPaint();
+    mdlGradeItemsLoad(id).then(()=>mdlGradesPaint());
+  }
 }
 async function mdlLoadGradeItems(cid){
-  const box = document.getElementById('mgi'+cid); if(!box) return;
-  if(mdlGrades.items[cid]){ return; }
-  box.innerHTML = '<div class="ql-empty">Cargando…</div>';
+  if(mdlGrades.items[cid] !== undefined) return;
+  mdlGrades.items[cid] = 'loading';
   try{
     const r = await moodleCall('gradereport_user_get_grade_items', {courseid: cid, userid: mdlMe()});
     const e = mdlErr(r);
-    if(e){ box.innerHTML = `<div class="ql-empty">No disponible (${escapeHtml(e)}).</div>`; return; }
+    if(e){ mdlGrades.items[cid] = {err:e}; return; }
     const ug = (r.usergrades||[])[0];
-    const strip = t=>String(t==null?'':t).replace(/<[^>]*>/g,'').trim();
-    const items = ((ug&&ug.gradeitems)||[]).filter(i=>i.itemtype!=='course' || true);
-    mdlGrades.items[cid] = true;
-    if(!items.length){ box.innerHTML = '<div class="ql-empty">Aún no hay actividades calificables.</div>'; return; }
-    box.innerHTML = items.map(i=>{
-      const name = i.itemtype==='course' ? 'Total del curso' : (strip(i.itemname)||'Actividad');
-      const g = strip(i.gradeformatted)||'-', pct = strip(i.percentageformatted), w = strip(i.weightformatted);
-      const fb = strip(i.feedback);
-      return `<div class="ql-gr-it"><span class="t">${escapeHtml(name)}</span><span class="g">${escapeHtml(g)}${pct&&pct!=='-'?`<i>${escapeHtml(pct)}</i>`:''}${w&&w!=='-'?`<i>peso ${escapeHtml(w)}</i>`:''}</span>${fb?`<span class="f">${escapeHtml(fb)}</span>`:''}</div>`;
-    }).join('');
-    if(ug){ const tot = items.find(i=>i.itemtype==='course'); if(tot){ const gv = strip(tot.gradeformatted); if(gv && gv!=='-'){ mdlGrades.byCourse[cid]=gv; mdlGradesPaint(); } } }
-  }catch(ex){ box.innerHTML = `<div class="ql-empty">No se ha podido cargar (${escapeHtml(ex.message||'error')}).</div>`; }
+    const list = ((ug&&ug.gradeitems)||[]).map(i=>{
+      const raw = (i.graderaw==null||i.graderaw==='') ? null : Number(i.graderaw);
+      return {total:i.itemtype==='course', name:cqStrip(i.itemname)||'Actividad', fmt:cqStrip(i.gradeformatted)||'-',
+        raw:(raw===null||isNaN(raw))?null:raw, max:Number(i.grademax)||null, w:cqStrip(i.weightformatted), fb:cqStrip(i.feedback)};
+    });
+    mdlGrades.items[cid] = {list};
+    const tot = list.find(x=>x.total);
+    if(tot){
+      const g = mdlGrades.byCourse[cid] || (mdlGrades.byCourse[cid] = {fmt:'-', raw:null, max:null});
+      if(tot.max) g.max = tot.max;
+      if(tot.raw!==null) g.raw = tot.raw;
+      if((g.fmt==='-'||!g.fmt) && tot.fmt!=='-') g.fmt = tot.fmt;
+    }
+  }catch(ex){ mdlGrades.items[cid] = {err:ex.message||'error'}; }
+}
+async function mdlLoadGrades(){
+  const uid = mdlMe();
+  if(mdlGrades.uid !== uid) mdlGrades = {state:'idle', err:'', uid, byCourse:{}, items:{}, open:{}, filter:'all', sort:'moodle'};
+  mdlGrades.state = 'loading'; mdlGrades.err = ''; mdlGradesPaint();
+  let overviewFailed = false;
+  try{
+    const r = await moodleCall('gradereport_overview_get_course_grades', {userid: uid});
+    const e = mdlErr(r);
+    if(e){ overviewFailed = true; mdlGrades.err = 'Tu centro no permite consultar el resumen de calificaciones desde aquí ('+e+'). Puedes verlas en Moodle > Calificaciones.'; }
+    else{
+      (r.grades||[]).forEach(g=>{
+        const rawN = (g.rawgrade==null||g.rawgrade==='') ? null : Number(g.rawgrade);
+        mdlGrades.byCourse[g.courseid] = {fmt: cqStrip(g.grade)||'-', raw:(rawN===null||isNaN(rawN))?null:rawN, max:null};
+      });
+      if(!(r.grades||[]).length) mdlGrades.err = 'Moodle no ha devuelto calificaciones todavía.';
+    }
+  }catch(ex){ overviewFailed = true; mdlGrades.err = 'No se han podido cargar las calificaciones ('+(ex.message||'error')+').'; }
+  mdlGradesPaint();
+  // Se cargan las actividades de todas las asignaturas: aunque una no tenga
+  // nota global publicada, su desglose por actividades sí puede existir.
+  const ids = (moodleCache.courses||[]).map(c=>Number(c.id));
+  let k = 0;
+  // Repintado progresivo: cada asignatura aparece en cuanto llegan sus actividades
+  const worker = async()=>{ while(k < ids.length){ await mdlGradeItemsLoad(ids[k++]); mdlGradesPaint(); } };
+  await Promise.all([worker(), worker(), worker()]);
+  if((moodleCache.courses||[]).some(c=>cqScore(Number(c.id))!==null)) mdlGrades.err = '';
+  mdlGrades.state = 'done'; mdlGradesPaint();
+}
+
+/* Carga compartida de actividades: deduplica peticiones en curso para que la pestaña
+   del curso y el panel del resumen se repinten cuando termine la misma petición. */
+function mdlGradeItemsLoad(cid){
+  cid = Number(cid);
+  if(!cid) return Promise.resolve();
+  mdlGrades.pending = mdlGrades.pending || {};
+  if(!mdlGrades.pending[cid]){
+    const p = mdlLoadGradeItems(cid).catch(()=>{}).then(()=>{ try{ delete mdlGrades.pending[cid]; }catch(e){} });
+    mdlGrades.pending[cid] = p;
+  }
+  return mdlGrades.pending[cid];
+}
+
+/* ===== CALIFICACIONES POR ASIGNATURA (pestaña "Calificaciones" del curso) ===== */
+function mdlGradeCourseEnsure(cid){
+  cid = Number(cid);
+  if(!cid) return;
+  const st = mdlGrades.items[cid];
+  if(st !== undefined && st !== 'loading') return;
+  mdlGradeItemsLoad(cid).then(()=>{
+    if(Number(moodleOpenId) === cid && currentView === 'moodle' && mdlTab === 'notas') renderCurrentView();
+  });
+}
+function mdlGradeCourseHTML(mc){
+  const cid = Number(mc.id);
+  const web = `${MOODLE_BASE}/grade/report/user/index.php?id=${encodeURIComponent(cid)}`;
+  let st = mdlGrades.items[cid];
+  if(st === undefined || st === 'loading'){
+    // registra el repintado aunque la petición ya esté en curso (la comparte con el resumen)
+    mdlGradeCourseEnsure(cid);
+    return '<div class="ql-empty">Cargando calificaciones…</div>';
+  }
+  if(st.err) return `<div class="mc-note">No se han podido consultar las calificaciones desde aquí (${escapeHtml(st.err)}). Puedes verlas <a href="${escapeAttr(web)}" target="_blank" rel="noopener noreferrer">en Moodle</a>.</div>`;
+  const list = (st.list||[]).filter(i=>!i.total);
+  const score = cqScore(cid), b = cqBand(score);
+  const g = mdlGrades.byCourse[cid] || {};
+  const graded = list.filter(i=>i.raw!==null && i.fmt!=='-');
+  const pend = list.length - graded.length;
+  const mVal = String(g.fmt||'-');
+  if(score===null && !list.length) return `<div class="ql-empty">Este curso todavía no tiene actividades calificables publicadas. Puedes consultar el libro de calificaciones <a href="${escapeAttr(web)}" target="_blank" rel="noopener noreferrer">en Moodle</a>.</div>`;
+  const rows = list.map(i=>{
+    const has = i.raw!==null && i.fmt!=='-';
+    const p = has && i.max ? Math.max(0,Math.min(100,i.raw/i.max*100)) : 0;
+    const ib = cqBand(has && i.max ? i.raw/i.max*10 : null);
+    return `<div class="cg-it" style="--cq:${ib.c}">
+      <div class="cg-it-h"><span class="cg-it-t">${escapeHtml(i.name)}</span>
+        <span class="cg-it-g">${has?escapeHtml(i.fmt)+(i.max?`<i>/ ${escapeHtml(cqFmt(i.max))}</i>`:''):'<em>Pendiente</em>'}</span></div>
+      <div class="cq-mini" aria-hidden="true"><i style="width:${p.toFixed(1)}%"></i></div>
+      <div class="cg-it-m">${i.w&&i.w!=='-'&&i.w!=='0,00 %'?`<span class="cg-w">Peso ${escapeHtml(i.w)}</span>`:''}${i.fb?`<p class="cq-fb">${escapeHtml(i.fb)}</p>`:''}</div>
+    </div>`;
+  }).join('');
+  const gmax = g.max ? cqFmt(g.max) : null;
+  return `<section class="cg" style="--cq:${b.c}" aria-label="Calificaciones de la asignatura">
+    <div class="cg-hero">
+      ${cqGauge(score, 56, 11, b.c, true)}
+      <div class="cg-sum">
+        <span class="cq-eyebrow">Nota global</span>
+        <h4 class="cq-big">${score===null?escapeHtml(mVal==='-'?'–':mVal):escapeHtml(cqFmt(score))}<small>${score===null?'':' / 10'}</small></h4>
+        <span class="cq-band cq-band-lg">${b.t}</span>
+        <div class="cq-kpis">
+          <div><b>${graded.length}<small> de ${list.length}</small></b><span>Actividades con nota</span></div>
+          <div><b>${pend}</b><span>Pendientes de calificar</span></div>
+          <div><b>${escapeHtml(mVal==='-'?'–':mVal)}${gmax?`<small> / ${escapeHtml(gmax)}</small>`:''}</b><span>Valor en Moodle</span></div>
+        </div>
+      </div>
+    </div>
+    <h3 class="ql-h">Desglose por actividades</h3>
+    <div class="cg-items">${rows || '<div class="ql-empty">Todavía no hay actividades desglosadas para esta asignatura. Consulta el libro de calificaciones <a href="' + escapeAttr(web) + '" target="_blank" rel="noopener noreferrer">en Moodle</a>.</div>'}</div>
+    <div class="cg-foot">
+      <a class="ql-link" href="${escapeAttr(web)}" target="_blank" rel="noopener noreferrer">Abrir libro de calificaciones en Moodle</a>
+    </div>
+    <p class="cq-note">La nota se normaliza sobre 10 solo cuando Moodle indica la escala; el desglose respeta el valor y el peso de cada actividad. Este resumen no sustituye al acta oficial.</p>
+  </section>`;
 }
 
 async function moodleEvents(){
@@ -5570,6 +6226,7 @@ function mdlSectionsHTML(mc, secs){
   return out ? nav + out : (filtering ? '<div class="ql-empty">Ningún elemento de este curso coincide con la búsqueda.</div>' : '<div class="ql-empty">Este curso no tiene contenidos visibles.</div>');
 }
 function mdlPaneHTML(mc, cd){
+  if(mdlTab === 'notas') return mdlGradeCourseHTML(mc);
   if(mdlTab === 'comp') return mdlCompsHTML(mc, cd);
   if(cd.err) return `<div class="mc-note">No se han podido cargar los contenidos (${escapeHtml(cd.err)}). <button type="button" class="ql-link" onclick="mdlRetry()">Reintentar</button></div>`;
   if(!cd.secs) return '<div class="ql-empty">Cargando contenidos…</div>';
@@ -5614,7 +6271,7 @@ function renderMoodleCourse(container){
         <div class="ql-eyebrow">${escapeHtml(eye)}</div>
         <h2 class="mc-title">${escapeHtml(ttl)}</h2>
       </header>
-      ${mdlNextClassHTML(mc)}<div class="mc-tabs" role="tablist">${tab('curso', 'Curso')}${tab('comp', 'Competencias')}</div>
+      ${mdlNextClassHTML(mc)}<div class="mc-tabs" role="tablist">${tab('curso', 'Curso')}${tab('comp', 'Competencias')}${tab('notas', 'Calificaciones')}</div>
       ${find}
       <div class="mc-pane" id="mcPane">${pane}</div>
       <button type="button" class="mc-top" id="mcTop" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
@@ -5780,10 +6437,10 @@ function mdlNextClassHTML(mc){
   const parts = [best.bl.start + '–' + best.bl.end, best.bl.rooms.join(', '), best.bl.teachers.join(', ')].filter(Boolean);
   return `<div class="mc-note mc-next"><span class="ql-eyebrow">Próxima clase en tu horario</span><div>${escapeHtml(when)} · ${escapeHtml(parts.join(' · '))}</div></div>`;
 }
-function mdlOpenCourse(k){
+function mdlOpenCourse(k, tab){
   const mc = moodleCache.courses[k]; if(!mc) return;
   mdlListScroll = window.scrollY; mdlCourseQ = '';
-  moodleOpenId = mc.id; mdlTab = 'curso';
+  moodleOpenId = mc.id; mdlTab = tab || 'curso';
   { const v = lsGet(MDL_VISIT_KEY, {}); mdlPrevVisit[mc.id] = Number(v[mc.id]) || 0; v[mc.id] = Math.floor(Date.now()/1000); lsSet(MDL_VISIT_KEY, v); }
   renderCurrentView();
   window.scrollTo({ top:0 });
@@ -5793,6 +6450,7 @@ function mdlCloseCourse(){ moodleOpenId = null; mdlCourseQ = ''; renderCurrentVi
 function mdlRetry(){ const cd = mdlCourse[moodleOpenId]; if(cd) cd.err = ''; renderCurrentView(); }
 function mdlSetTab(t){
   mdlTab = t;
+  if(t === 'notas') mdlGradeCourseEnsure(moodleOpenId);
   const cd = mdlCourse[moodleOpenId];
   if(t === 'comp' && cd && cd.comps === null && !cd.compsErr && !cd.compsLoading) mdlLoadComps(moodleOpenId);
   renderCurrentView();
@@ -6989,7 +7647,7 @@ function updateClock(){
     lastClockMinute = now.getMinutes();
     const modal = document.getElementById('modalOverlay');
     const typing = document.activeElement && document.activeElement.classList && document.activeElement.classList.contains('diary-text');
-    if(!first && !typing && typeof renderCurrentView === 'function' && !(modal && modal.classList.contains('active'))){
+    if(!first && !typing && !(typeof currentView!=='undefined' && currentView==='diary') && typeof renderCurrentView === 'function' && !(modal && modal.classList.contains('active'))){
       try{ renderCurrentView(); }catch(e){}
     }
   }
@@ -7993,7 +8651,7 @@ document.addEventListener('keydown',function(e){
 
 /* ===== PERMISOS POR PERFIL (bloqueo de acciones y de escritura) ===== */
 (function(){
-  const EDITAR=['openEventForm','saveEventForm','deleteEvent','openDiary','onDiaryInput','flushDiary','deleteDiary','restoreDiary',
+  const EDITAR=['openEventForm','saveEventForm','deleteEvent','openDiary','onDiaryInput','flushDiary','deleteDiary','restoreDiary','djNew','djCreate','djEdit','djDelete','diaryTemplate',
     'addTask','toggleTask','deleteTask','addExam','deleteExam','addLink','deleteLink','saveCourseNotes',
     'handleMoodleFile','importMoodle','runMoodleSync',
     'attMark','attAll','attSaveRoster','attToggleEdit','ntEdit','ntSave','ntDelete','fullRestore'];
@@ -13428,6 +14086,448 @@ window.admDevRolAsk=function(id,sel){
   };
   pw.focus();
 };
+})();
+</script>
+<style id="sb-polish">
+/* ===== Barra lateral: mejoras de uso ===== */
+:root{--sb-top:104px}
+.sidebar{--sb-acc:#1f3d33;--sb-line:#e3e6e3;--sb-soft:#f5f6f4;--sb-mute:#59635d}
+
+/* 1) Reloj discreto + tarjeta Ahora / Luego */
+.sidebar .sb-now{margin-bottom:12px}
+.sidebar .live-clock{display:flex;align-items:baseline;justify-content:space-between;gap:8px;text-align:left;border:0;margin:0 0 8px;padding:0 2px}
+.sidebar .live-clock-time{font-size:1.5rem;line-height:1.1}
+.sidebar .live-clock-sec{display:none}
+.sidebar .live-clock-date{margin:0;font-size:.76rem;text-align:right;color:var(--sb-mute)}
+.sidebar .now-card{display:block;width:100%;text-align:left;font:inherit;background:var(--sb-soft);border:1px solid var(--sb-line);border-radius:8px;padding:9px 11px;cursor:pointer;color:#1f2a26;min-height:0}
+.sidebar .now-card:hover{border-color:var(--sb-acc)}
+.sidebar .now-row{display:flex;gap:9px;align-items:baseline;font-size:.86rem;line-height:1.35}
+.sidebar .now-row+.now-row{margin-top:4px}
+.sidebar .now-k{flex:0 0 42px;font-size:.74rem;font-weight:700;color:var(--sb-acc)}
+.sidebar .now-v{flex:1;min-width:0}
+.sidebar .now-v b{font-weight:600}
+.sidebar .now-card.now-off .now-row+.now-row{display:none}
+.sidebar .now-card.is-live{border-left:3px solid var(--sb-live,#8bb8c9)}
+
+/* 2) Calendario plegable y compacto */
+.sidebar .mini-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;margin:0 0 8px;padding:8px 12px;min-height:40px;background:#fff;border:1px solid var(--sb-line);border-radius:8px;font:inherit;font-size:.86rem;font-weight:600;color:#1f2a26;cursor:pointer}
+.sidebar .mini-toggle::after{content:"\25B4";font-size:.8rem;color:var(--sb-mute)}
+.sidebar .mini-toggle[aria-expanded="false"]::after{content:"\25BE"}
+.sidebar .mini-toggle:hover{border-color:var(--sb-acc)}
+.sidebar .mini-calendar{padding:10px;margin-bottom:12px;position:relative}
+.sidebar .mini-calendar.sb-collapsed{display:none}
+.sidebar .calendar-grid{column-gap:0;row-gap:2px}
+.sidebar .calendar-grid .day{padding:4px 0;border-radius:6px;line-height:1.25}
+.sidebar .calendar-grid .day-name{padding:2px 0}
+
+/* 3) Cabecera limpia: ◀ Octubre 2026 ▶ [Hoy] */
+.sidebar .calendar-controls{display:grid;grid-template-columns:auto 1fr auto auto;gap:4px;align-items:center;margin-bottom:8px}
+.sidebar .calendar-controls button{background:none;border:1px solid transparent;border-radius:6px;color:#1f2a26;font:inherit;cursor:pointer;min-height:34px;padding:0 8px}
+.sidebar .calendar-controls .cal-arrow{width:32px;padding:0;font-size:.8rem}
+.sidebar .calendar-controls .cal-arrow:hover,.sidebar .calendar-controls .cal-title:hover{background:#fff;border-color:var(--sb-line)}
+.sidebar .calendar-controls .cal-title{font-size:.95rem;font-weight:700;text-align:center;white-space:nowrap}
+.sidebar .cal-title::after{content:" \25BE";font-size:.7rem;color:var(--sb-mute)}
+.sidebar .calendar-controls .cal-today{font-size:.78rem;font-weight:600;color:var(--sb-acc);border:1px solid var(--sb-acc);padding:0 9px;min-height:30px}
+.sidebar .calendar-controls .cal-today:hover{background:var(--sb-acc);color:#fff}
+.sidebar .cal-picker{display:flex;gap:6px;margin:0 0 8px}
+.sidebar .cal-picker[hidden]{display:none}
+.sidebar .cal-picker select{flex:1;min-width:0;padding:5px 8px;border:1px solid var(--sb-line);border-radius:6px;background:#fff;font-size:.85rem;color:#1f2a26}
+
+/* Fines de semana atenuados + semana actual resaltada */
+.sidebar .calendar-grid .day.wknd:not(.today):not(.selected){color:#98a29d}
+.sidebar .calendar-grid .day.wknd.fest:not(.today):not(.selected){color:#a04a4a}
+.sidebar .calendar-grid .day-name:nth-child(6),.sidebar .calendar-grid .day-name:nth-child(7){opacity:.55}
+.sidebar .calendar-grid .day.cur-wk:not(.today):not(.selected){background:rgba(139,184,201,.2);border-radius:0}
+.sidebar .calendar-grid .day.cur-wk-start:not(.today):not(.selected){border-radius:6px 0 0 6px}
+.sidebar .calendar-grid .day.cur-wk-end:not(.today):not(.selected){border-radius:0 6px 6px 0}
+
+/* Leyenda plegable */
+.sidebar .sb-legend{margin-top:8px;border-top:1px solid var(--sb-line);padding-top:6px;font-size:.78rem;color:var(--sb-mute)}
+.sidebar .sb-legend summary{cursor:pointer;font-weight:600;padding:4px 0;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.sidebar .sb-legend summary::-webkit-details-marker{display:none}
+.sidebar .sb-legend summary::after{content:"\25BE"}
+.sidebar .sb-legend[open] summary::after{content:"\25B4"}
+.sidebar .sb-legend ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:5px}
+.sidebar .sb-legend li{display:flex;align-items:center;gap:8px;line-height:1.35}
+.sidebar .sb-legend .lg-tip{margin:6px 0 0;font-style:normal}
+.sidebar .lg{display:inline-block;flex:none;width:18px;height:14px;position:relative;border-radius:3px}
+.sidebar .lg-note::after,.sidebar .lg-user::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%}
+.sidebar .lg-note::after{background:#c9a227}
+.sidebar .lg-user::after{background:#7a5c99}
+.sidebar .lg-acad{border-bottom:3px solid #3f8f9c;border-radius:0}
+.sidebar .lg-fest{border-bottom:3px solid #a04a4a;border-radius:0}
+.sidebar .lg-today{background:#2c3e50}
+.sidebar .lg-sel{background:#8bb8c9}
+
+/* 5) Jerarquía de botones: principal relleno + secundario con borde */
+.sidebar .sb-actions{display:grid;grid-template-columns:1fr auto;gap:8px;margin:0 0 14px}
+.sidebar .sb-actions .btn-add-event{width:auto;margin:0;min-height:42px;padding:0 14px;border-radius:8px;font-size:.88rem;font-weight:600}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa{background:transparent;color:var(--sb-acc);border:1.5px solid var(--sb-acc);margin:0;padding:0 12px}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa:hover{background:var(--sb-acc);color:#fff}
+body[data-rol="lectura"] .sidebar .sb-actions{display:none}
+
+/* 6) Menú compacto, agrupado y con marca clara en la sección activa */
+.sidebar .sb-nav-h{font-size:.74rem;font-weight:700;color:var(--sb-mute);padding:10px 10px 2px}
+.sidebar .sb-nav-h:first-child{padding-top:2px}
+@media(min-width:601px){
+  .sidebar .sidebar-nav{gap:2px}
+  .sidebar .sidebar-nav>a{min-height:44px;padding:0 10px;margin-left:0;border-radius:8px}
+  .sidebar .sidebar-nav>a:hover{background:var(--sb-soft)}
+  .sidebar .sidebar-nav>a.active{background:rgba(31,61,51,.1);color:var(--sb-acc);font-weight:700;box-shadow:inset 4px 0 0 var(--sb-acc);padding-left:12px;margin-left:0;border-radius:8px}
+  .sidebar .sidebar-nav>a.active::before{opacity:1}
+}
+@media(max-width:600px){ .sidebar .sb-nav-h{display:none} .sidebar .mini-toggle{margin-bottom:0} .sidebar .sb-now,.sidebar .sb-actions{align-self:stretch;margin-bottom:0} }
+@media(min-width:601px) and (max-width:900px){
+  .sidebar{flex-wrap:wrap;gap:12px 20px}
+  .sidebar .sb-now,.sidebar .sb-actions{flex:1 0 100%}
+  .sidebar .mini-toggle{flex:1 0 100%}
+  .sidebar .mini-calendar{flex:1 1 240px}
+  .sidebar .sidebar-nav{flex:1 1 200px}
+}
+
+/* 7) Avisos con contador */
+.sidebar .sb-badge{min-width:20px}
+@media(pointer:coarse){ .sidebar .calendar-controls button{min-height:40px} }
+
+/* 7) Barra fija con su propio desplazamiento (solo escritorio) */
+@media(min-width:901px){
+  .sidebar{position:sticky;top:var(--sb-top);align-self:flex-start;max-height:calc(100vh - var(--sb-top) - 12px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding-right:6px;padding-bottom:12px}
+}
+
+/* Modo estudio / dislexia / presentación */
+body.dys .sidebar .now-card,body.dys .sidebar .mini-toggle{background:#fdfaf0}
+@media(max-width:700px){body:has(.pas) .sidebar>:is(.sb-now,.sb-actions){display:none!important}}
+@media print{.sidebar .sb-now{display:none!important}}
+</style>
+<script id="sb-polish-js">
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var FULL=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+var DAYS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+function pl(n,s,p){return n+' '+(n===1?s:p)}
+function mins(t){var m=/^(\d{1,2}):(\d{2})$/.exec(t||'');return m?+m[1]*60+ +m[2]:NaN}
+function isFest(d){try{return typeof isFestDay==='function'&&isFestDay(d)}catch(e){return false}}
+
+/* ---- Calendario: título, selector, botón Hoy ---- */
+function mobile(){return window.matchMedia('(max-width:600px)').matches}
+window.toggleCalPicker=function(force){
+  var p=$('calPicker'),b=$('calTitle'); if(!p||!b) return;
+  var open=typeof force==='boolean'?force:p.hidden;
+  p.hidden=!open; b.setAttribute('aria-expanded',open?'true':'false');
+};
+document.addEventListener('click',function(e){
+  var p=$('calPicker'); if(!p||p.hidden) return;
+  if(!e.target.closest('#calPicker')&&!e.target.closest('#calTitle')) window.toggleCalPicker(false);
+});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') window.toggleCalPicker(false); });
+window.goToToday=function(){
+  currentDate=new Date();
+  var m=$('monthSelect'),y=$('yearSelect');
+  if(m) m.value=currentDate.getMonth(); if(y) y.value=currentDate.getFullYear();
+  window.toggleCalPicker(false);
+  renderCalendar();
+  if(typeof renderCurrentView==='function') renderCurrentView();
+};
+window.toggleMini=function(){
+  var c=$('miniCal'),b=$('miniToggle'); if(!c||!b) return;
+  if(mobile()){ var on=c.classList.toggle('open'); b.setAttribute('aria-expanded',on?'true':'false'); return; }
+  var hide=c.classList.toggle('sb-collapsed');
+  b.setAttribute('aria-expanded',hide?'false':'true');
+  try{localStorage.setItem('daw_sb_cal',hide?'0':'1')}catch(e){}
+};
+function syncMini(){
+  var c=$('miniCal'),b=$('miniToggle'); if(!c||!b) return;
+  if(mobile()){ b.setAttribute('aria-expanded',c.classList.contains('open')?'true':'false'); c.classList.remove('sb-collapsed'); return; }
+  var hide=window.innerHeight<820; try{var v=localStorage.getItem('daw_sb_cal'); if(v==='0') hide=true; else if(v==='1') hide=false;}catch(e){}
+  c.classList.toggle('sb-collapsed',hide); b.setAttribute('aria-expanded',hide?'false':'true');
+}
+
+/* ---- Resumen por día (tooltip), fines de semana, semana actual ---- */
+function classCount(date){
+  if(isFest(date)) return 0;
+  var list=(typeof SCHEDULE!=='undefined'&&SCHEDULE[date.getDay()])||[],n=0;
+  list.forEach(function(e){ if(!e||e.empty||e.isBreak||!e.subject) return; n++; });
+  return n;
+}
+function summary(date){
+  var parts=[],n=classCount(date),ae=[],uev=[];
+  if(n) parts.push(pl(n,'clase','clases'));
+  try{ ae=acadEvents(date)||[]; }catch(e){}
+  ae.forEach(function(a){ if(a&&a.text) parts.push(a.text); });
+  try{ uev=uevOn(date)||[]; }catch(e){}
+  var ent=uev.filter(function(u){return u.type==='entrega'}).length,
+      exa=uev.filter(function(u){return u.type==='examen'}).length,
+      oth=uev.length-ent-exa;
+  if(ent) parts.push(pl(ent,'entrega','entregas'));
+  if(exa) parts.push(pl(exa,'examen','exámenes'));
+  if(oth) parts.push(pl(oth,'evento','eventos'));
+  try{ if(dayHasNotes(date)) parts.push('nota escrita'); }catch(e){}
+  return DAYS[date.getDay()]+' '+date.getDate()+(parts.length?' · '+parts.join(' · '):' · sin actividad');
+}
+function decorate(){
+  var grid=$('calendarGrid'),ys=$('yearSelect'),ms=$('monthSelect'); if(!grid||!ys||!ms) return;
+  var y=+ys.value,m=+ms.value;
+  var t=$('calTitle'); if(t&&!isNaN(m)&&!isNaN(y)) t.textContent=FULL[m]+' '+y;
+  var today=new Date(); today.setHours(0,0,0,0);
+  var mon=new Date(today); mon.setDate(today.getDate()-((today.getDay()+6)%7));
+  var sun=new Date(mon); sun.setDate(mon.getDate()+6);
+  grid.querySelectorAll('.day:not(.empty)').forEach(function(el){
+    var dn=parseInt(el.textContent,10); if(!dn) return;
+    var d=new Date(y,m,dn);
+    el.title=summary(d);
+    el.classList.toggle('wknd',d.getDay()===0||d.getDay()===6);
+    var inWk=d>=mon&&d<=sun;
+    el.classList.toggle('cur-wk',inWk);
+    el.classList.toggle('cur-wk-start',inWk&&d.getDay()===1);
+    el.classList.toggle('cur-wk-end',inWk&&d.getDay()===0);
+  });
+}
+var _rc=window.renderCalendar;
+if(typeof _rc==='function'){ window.renderCalendar=function(){ var r=_rc.apply(this,arguments); try{decorate()}catch(e){} return r; }; }
+
+/* ---- Tarjeta Ahora / Luego ---- */
+function blocks(date){
+  if(isFest(date)) return [];
+  var list=(typeof SCHEDULE!=='undefined'&&SCHEDULE[date.getDay()])||[],out=[];
+  list.forEach(function(e){
+    if(!e||e.empty||!e.subject) return;
+    var s=mins(e.start),t=mins(e.end); if(isNaN(s)||isNaN(t)) return;
+    var last=out[out.length-1];
+    if(last&&last.subject===e.subject&&last.brk===!!e.isBreak&&last.end===s){ last.end=t; last.endStr=e.end; }
+    else out.push({subject:e.subject,brk:!!e.isBreak,start:s,end:t,startStr:e.start,endStr:e.end});
+  });
+  return out;
+}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function nowNext(){
+  var card=$('nowCard'),cur=$('nowCur'),nxt=$('nowNext'); if(!card||!cur||!nxt) return;
+  var now=new Date(),nm=now.getHours()*60+now.getMinutes(),bl=blocks(now);
+  card.classList.remove('now-off','is-live'); card.style.removeProperty('--sb-live');
+  if(!bl.length){ card.classList.add('now-off'); cur.textContent='Hoy no hay clase'; nxt.textContent=''; return; }
+  var c=null; bl.forEach(function(b){ if(b.start<=nm&&nm<b.end) c=b; });
+  var after=bl.filter(function(b){ return c?b.start>=c.end:b.start>nm; })[0];
+  if(c){
+    cur.innerHTML='<b>'+esc(c.subject)+'</b> · hasta las '+esc(c.endStr);
+    card.classList.add('is-live');
+    try{ if(!c.brk&&typeof subjectColor==='function') card.style.setProperty('--sb-live',subjectColor(c.subject)); }catch(e){}
+  } else if(nm<bl[0].start){ cur.textContent='Aún no ha empezado la jornada'; }
+  else if(nm>=bl[bl.length-1].end){ cur.textContent='Jornada terminada'; }
+  else { cur.textContent='Sin clase en este momento'; }
+  nxt.innerHTML=after?'<b>'+esc(after.subject)+'</b> · '+esc(after.startStr):'Nada más por hoy';
+}
+
+/* ---- Contadores: Diario (notas de hoy) y Próximas entregas ---- */
+function diaryCount(){
+  try{ var pre=ymd(new Date())+'|',d=loadDiary(),n=0; Object.keys(d).forEach(function(k){ if(k.indexOf(pre)===0&&hasNote(k)) n++; }); return n; }catch(e){ return 0; }
+}
+function deadlineCount(){
+  try{ return loadUev().filter(function(x){ if(!x||x.done||(x.type!=='entrega'&&x.type!=='examen')) return false; var n=daysUntil(x.date); return n!==null&&n>=0; }).length; }catch(e){ return 0; }
+}
+function setBadge(id,favId,n,title){
+  var el=$(id); if(el){ el.textContent=n||''; el.style.display=n?'inline-block':'none'; el.title=title; }
+  var f=document.querySelector('#navFavs a[data-fav-ref="'+favId+'"]'); if(!f) return;
+  var b=f.querySelector('.sb-badge');
+  if(!n){ if(b) b.remove(); return; }
+  if(!b){ b=document.createElement('span'); b.className='nav-badge sb-badge'; f.appendChild(b); }
+  b.textContent=n; b.title=title;
+}
+function badges(){
+  var d=diaryCount(),e=deadlineCount();
+  setBadge('sbBadgeDiary','navDiary',d,pl(d,'nota hoy','notas hoy'));
+  setBadge('sbBadgeDead','navDeadlines',e,pl(e,'pendiente','pendientes'));
+}
+
+function refresh(){ try{nowNext()}catch(e){} try{badges()}catch(e){} }
+var _rf=window.renderFavs; if(typeof _rf==='function'){ window.renderFavs=function(){ var r=_rf.apply(this,arguments); try{badges()}catch(e){} return r; }; }
+var _su=window.saveUev; if(typeof _su==='function'){ window.saveUev=function(){ var r=_su.apply(this,arguments); setTimeout(refresh,0); return r; }; }
+var _sv=window.setView; if(typeof _sv==='function'){ window.setView=function(){ var r=_sv.apply(this,arguments); setTimeout(refresh,50); return r; }; }
+
+/* ---- Barra fija: altura de la cabecera ---- */
+function setTop(){ var tb=document.querySelector('.top-bar'); if(tb&&tb.offsetHeight) document.documentElement.style.setProperty('--sb-top',(tb.offsetHeight+10)+'px'); }
+
+var deb=null; function later(){ clearTimeout(deb); deb=setTimeout(function(){ refresh(); try{decorate()}catch(e){} },700); }
+document.addEventListener('input',later); document.addEventListener('change',later);
+window.addEventListener('resize',function(){ setTop(); syncMini(); });
+try{ window.matchMedia('(max-width:600px)').addEventListener('change',syncMini); }catch(e){}
+setInterval(refresh,20000);
+syncMini(); setTop(); refresh(); decorate();
+setTimeout(function(){ setTop(); refresh(); decorate(); },1500);
+})();
+</script>
+<style id="sb-pro">
+/* ===== Barra lateral: acabado profesional ===== */
+.sidebar{--sb-line:#e4e7e3;--sb-card:#fff;--sb-shadow:0 1px 2px rgba(31,42,38,.06),0 1px 1px rgba(31,42,38,.03);--sb-r:12px}
+.sidebar .now-card,.sidebar .mini-calendar{background:var(--sb-card);border:1px solid var(--sb-line);border-radius:var(--sb-r);box-shadow:var(--sb-shadow)}
+body.dys .sidebar .now-card{background:var(--sb-card)}
+.sidebar .now-card{padding:10px 12px;transition:border-color .15s,box-shadow .15s}
+.sidebar .now-card:hover{border-color:#c9d3cd;box-shadow:0 2px 8px rgba(31,42,38,.08)}
+.sidebar .now-card.is-live{border-left:3px solid var(--sb-live,#8bb8c9)}
+.sidebar .now-k{color:#6b7a73;font-weight:600;font-size:.72rem}
+.sidebar .now-row{font-size:.88rem}
+.sidebar .live-clock{padding:0 4px;margin-bottom:10px}
+.sidebar .live-clock-time{font-size:1.65rem;font-weight:600;letter-spacing:.01em;color:#1f2a26}
+.sidebar .live-clock-date{font-size:.78rem;letter-spacing:0}
+.sidebar .mini-toggle{background:transparent;border:0;border-radius:8px;padding:4px 6px;min-height:32px;margin:0 0 6px;font-size:.74rem;font-weight:700;color:#6b7a73;letter-spacing:.02em}
+.sidebar .mini-toggle:hover{background:rgba(31,61,51,.05);color:#1f3d33}
+.sidebar .mini-toggle:focus:not(:focus-visible){outline:none}
+.sidebar .mini-toggle:focus-visible{outline:2px solid #1f3d33;outline-offset:1px}
+.sidebar .mini-calendar{padding:12px 12px 8px}
+.sidebar .calendar-controls .cal-title{font-size:.95rem;font-weight:600}
+.sidebar .calendar-controls .cal-arrow{color:#59635d;border-radius:8px}
+.sidebar .calendar-controls .cal-today{border-radius:8px;min-height:30px;font-weight:600;border-color:#c9d3cd;color:#1f3d33}
+.sidebar .calendar-controls .cal-today:hover{border-color:#1f3d33}
+.sidebar .calendar-grid .day-name{font-size:.66rem;font-weight:600;color:#8a948f;letter-spacing:.04em}
+.sidebar .calendar-grid .day{font-size:.84rem;border-radius:8px;transition:background .12s}
+.sidebar .calendar-grid .day.today{background:#1f3d33;color:#fff}
+.sidebar .calendar-grid .day.selected{background:#8bb8c9;color:#10262e}
+.sidebar .calendar-grid .day.today.selected{background:#1f3d33;color:#fff;box-shadow:0 0 0 2px #8bb8c9}
+.sidebar .calendar-grid .day:not(.today):not(.selected):not(.empty):hover{background:#eef3f0}
+.sidebar .sb-legend{font-size:.76rem}
+.sidebar .sb-legend summary{font-weight:600;color:#59635d;letter-spacing:0}
+.sidebar .sb-actions{margin-bottom:6px;padding-bottom:16px;border-bottom:1px solid var(--sb-line)}
+.sidebar .sb-actions .btn-add-event{border-radius:10px;min-height:42px;font-weight:600;letter-spacing:0;box-shadow:var(--sb-shadow);transition:background .15s,border-color .15s}
+.sidebar .sb-actions .btn-add-event:not(.btn-add-pausa){background:#1f3d33;color:#fff}
+.sidebar .sb-actions .btn-add-event:not(.btn-add-pausa):hover{background:#2b5445}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa{background:#fff;border:1px solid #c9d3cd;color:#1f3d33;box-shadow:none}
+.sidebar .sb-actions .btn-add-event.btn-add-pausa:hover{background:#f3f6f4;border-color:#1f3d33;color:#1f3d33}
+.sidebar .sb-actions .btn-add-event:focus-visible,.sidebar .calendar-controls button:focus-visible,.sidebar .now-card:focus-visible{outline:2px solid #1f3d33;outline-offset:2px}
+.sidebar .sb-nav-h{font-size:.7rem;font-weight:700;color:#8a948f;letter-spacing:.06em;padding:14px 12px 4px}
+.sidebar .sb-nav-h:first-child{padding-top:6px}
+@media(min-width:601px){
+  .sidebar .sidebar-nav>a{border-radius:10px;font-size:.95rem;font-weight:500;color:#2c3a34;transition:background .15s,color .15s}
+  .sidebar .sidebar-nav>a:hover{background:#eef3f0}
+  .sidebar .sidebar-nav>a.active{background:#e6eee9;color:#1f3d33;font-weight:600;box-shadow:inset 3px 0 0 #1f3d33}
+  .sidebar .sidebar-nav>a:focus-visible{outline:2px solid #1f3d33;outline-offset:-2px}
+  .sidebar .sidebar-nav .kbd{font-size:.66rem;font-weight:600;line-height:1;padding:3px 6px;border:1px solid var(--sb-line);border-radius:6px;background:#fff;color:#8a948f;opacity:1}
+  .sidebar .sidebar-nav a.active .kbd{border-color:#c9d3cd;color:#1f3d33}
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:#d5dbd7;border-radius:6px}
+</style>
+<style id="sb-fix">
+/* Calendario: puntos y subrayados limpios */
+.sidebar .calendar-grid .day{padding:3px 0 9px;min-height:0;line-height:1.2;position:relative}
+.sidebar .calendar-grid .day.cur-wk:not(.today):not(.selected){background-color:rgba(139,184,201,.2)}
+.sidebar .calendar-grid .day.today{background-color:#1f3d33}
+.sidebar .calendar-grid .day.selected{background-color:#8bb8c9}
+.sidebar .calendar-grid .day.today.selected{background-color:#1f3d33}
+/* subrayado recto y corto (no curvo) */
+.sidebar .calendar-grid .day.has-acad,.sidebar .calendar-grid .day.fest{box-shadow:none}
+.sidebar .calendar-grid .day.today.selected{box-shadow:0 0 0 2px #8bb8c9}
+.sidebar .calendar-grid .day.has-acad{background-image:linear-gradient(#3f8f9c,#3f8f9c);background-repeat:no-repeat;background-size:14px 3px;background-position:center calc(100% - 1px)}
+.sidebar .calendar-grid .day.fest{background-image:linear-gradient(#a04a4a,#a04a4a);background-repeat:no-repeat;background-size:14px 3px;background-position:center calc(100% - 1px)}
+.sidebar .calendar-grid .day.today.has-acad,.sidebar .calendar-grid .day.today.fest,.sidebar .calendar-grid .day.selected.has-acad,.sidebar .calendar-grid .day.selected.fest{background-image:linear-gradient(#fff,#fff)}
+/* puntos: siempre centrados, bajo el número */
+.sidebar .calendar-grid .day.has-note::after,.sidebar .calendar-grid .day.has-user::before{bottom:5px;width:4px;height:4px;transform:none;top:auto;margin:0}
+.sidebar .calendar-grid .day.has-note::after{left:calc(50% - 2px);background:#c9a227}
+.sidebar .calendar-grid .day.has-user::before{left:calc(50% - 2px);background:#7a5c99}
+.sidebar .calendar-grid .day.has-note.has-user::after{left:calc(50% - 6px)}
+.sidebar .calendar-grid .day.has-note.has-user::before{left:calc(50% + 2px)}
+.sidebar .calendar-grid .day.today.has-note::after{background:#e7c75a}
+.sidebar .calendar-grid .day.today.has-user::before{background:#c7b0e0}
+.sidebar .calendar-controls{grid-template-columns:26px minmax(0,1fr) 26px auto;gap:2px}
+.sidebar .calendar-controls .cal-arrow{width:26px;min-width:0;padding:0}
+.sidebar .calendar-controls .cal-title{font-size:.9rem;letter-spacing:0;padding:0 2px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.sidebar .calendar-controls .cal-today{padding:0 8px;margin-left:2px;letter-spacing:0}
+/* nada de contenido cortado dentro de la barra */
+.sidebar{overflow-x:hidden}
+.sidebar .mini-calendar,.sidebar .sb-now,.sidebar .sb-actions{box-sizing:border-box;max-width:100%}
+.sidebar .sb-legend li{align-items:flex-start}
+.sidebar .sb-legend .lg{margin-top:3px}
+</style>
+<style id="sb-hide">
+.sidebar .sb-collapse-row{display:flex;justify-content:flex-end;margin:-2px 0 6px}
+.sidebar .sb-collapse{display:inline-flex;align-items:center;gap:4px;background:transparent;border:1px solid transparent;border-radius:8px;padding:3px 8px 3px 4px;min-height:28px;font:inherit;font-size:.76rem;font-weight:600;letter-spacing:0;color:#6b7a73;cursor:pointer}
+.sidebar .sb-collapse:hover{background:#eef3f0;color:#1f3d33}
+.sidebar .sb-collapse:focus-visible{outline:2px solid #1f3d33;outline-offset:1px}
+.sb-show{display:none}
+@media(min-width:601px){
+  body.sb-hidden .sidebar{display:none}
+  body.sb-hidden .page-title{padding-left:20px}
+  body.sb-hidden .sb-show{display:inline-flex;align-items:center;gap:6px;position:fixed;left:14px;top:calc(var(--sb-top,104px) + 2px);z-index:80;background:#fff;border:1px solid #e4e7e3;border-radius:10px;box-shadow:0 1px 3px rgba(31,42,38,.12);padding:8px 12px 8px 8px;min-height:40px;font:inherit;font-size:.82rem;font-weight:600;letter-spacing:0;color:#1f3d33;cursor:pointer}
+  body.sb-hidden .sb-show:hover{background:#f3f6f4;border-color:#1f3d33}
+  body.sb-hidden .sb-show:focus-visible{outline:2px solid #1f3d33;outline-offset:2px}
+}
+@media(max-width:600px){.sidebar .sb-collapse-row{display:none}}
+@media print{.sb-show{display:none!important}}
+</style>
+<script id="sb-hide-js">
+(function(){
+'use strict';
+var KEY='daw_sb_hidden';
+function small(){return window.matchMedia('(max-width:600px)').matches}
+function apply(hidden){
+  document.body.classList.toggle('sb-hidden',hidden&&!small());
+  var b=document.getElementById('sbShow'); if(b) b.setAttribute('aria-expanded',hidden?'false':'true');
+}
+window.toggleSidebar=function(show){
+  var hide=!show; try{localStorage.setItem(KEY,hide?'1':'0')}catch(e){}
+  apply(hide);
+  setTimeout(function(){ var t=document.getElementById(hide?'sbShow':'sbCollapse'); if(t&&t.offsetParent!==null) t.focus(); },0);
+};
+var host=document.querySelector('.main-container')||document.body;
+var sh=document.createElement('button');
+sh.type='button'; sh.id='sbShow'; sh.className='sb-show'; sh.setAttribute('aria-label','Mostrar la barra lateral'); sh.title='Mostrar la barra lateral';
+sh.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Menú</span>';
+sh.onclick=function(){ window.toggleSidebar(true); };
+host.appendChild(sh);
+var h=false; try{h=localStorage.getItem(KEY)==='1'}catch(e){}
+apply(h);
+window.addEventListener('resize',function(){ var v=false; try{v=localStorage.getItem(KEY)==='1'}catch(e){} apply(v); });
+})();
+</script>
+<style id="sb-more">
+/* "Más opciones" en escritorio: panel flotante junto a la barra, siempre completo y con su propio scroll */
+@media(min-width:901px){
+  .sidebar{z-index:60}
+  body.nm-open .sidebar .sidebar-nav .nm-scrim{display:block;position:fixed;inset:0;bottom:0;background:transparent;opacity:1;pointer-events:auto;z-index:-1}
+  .sidebar .sidebar-nav .nav-more:not([hidden]){position:fixed;left:var(--sb-right,300px);top:var(--sb-top,104px);width:310px;max-height:calc(100vh - var(--sb-top,104px) - 16px);overflow-y:auto;overscroll-behavior:contain;z-index:95;margin:0;padding:8px 12px 12px;background:#fff;border:1px solid #e4e7e3;border-radius:14px;box-shadow:0 14px 36px rgba(31,42,38,.18);scrollbar-width:thin}
+  .sidebar .sidebar-nav .nav-more .nm-head{display:flex;align-items:center;justify-content:space-between;position:sticky;top:-8px;z-index:3;margin:-8px -12px 6px;padding:10px 12px 8px;background:#fff;border-bottom:1px solid #eef1ef;border-radius:14px 14px 0 0}
+  .sidebar .sidebar-nav .nav-more .nm-head::before{display:none}
+  .sidebar .sidebar-nav .nav-more .nm-title{font-weight:700;font-size:.95rem;color:#1f3d33}
+  .sidebar .sidebar-nav .nav-more .nm-x{width:30px;height:30px;font-size:1.2rem}
+}
+</style>
+<script id="sb-more-js">
+(function(){
+'use strict';
+function pos(){ var s=document.querySelector('.sidebar'); if(!s) return; var r=s.getBoundingClientRect(); if(r.width) document.documentElement.style.setProperty('--sb-right',Math.round(r.right+12)+'px'); }
+var t=window.toggleMoreMenu;
+if(typeof t==='function'){ window.toggleMoreMenu=function(){ pos(); return t.apply(this,arguments); }; }
+window.addEventListener('resize',pos);
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ var m=document.getElementById('navMore'); if(m&&!m.hidden&&typeof window.toggleMoreMenu==='function') window.toggleMoreMenu(false); } });
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('.sidebar-nav>a'); if(!a||a.id==='navMoreBtn') return;
+  var m=document.getElementById('navMore'); if(m&&!m.hidden&&window.matchMedia('(min-width:901px)').matches) window.toggleMoreMenu(false);
+});
+pos(); setTimeout(pos,1200);
+})();
+</script>
+<style id="sb-sec">
+.sidebar .live-clock-sec{display:inline;font-size:1rem;font-weight:500;color:#6b8f9e;margin-left:3px;letter-spacing:0;font-variant-numeric:tabular-nums}
+.sidebar .live-clock-time{white-space:nowrap}
+.sidebar .live-clock-date{font-size:.74rem;line-height:1.25;max-width:48%;text-wrap:balance}
+.sidebar .sb-sec{height:3px;margin:-2px 4px 10px;border-radius:3px;background:#e4e7e3;overflow:hidden}
+.sidebar .sb-sec i{display:block;height:100%;width:100%;background:#8bb8c9;border-radius:3px;transform-origin:left center;transform:scaleX(0);transition:transform .95s linear}
+.sidebar .sb-sec.reset i{transition:none}
+@media(prefers-reduced-motion:reduce){.sidebar .sb-sec i{transition:none}}
+@media print{.sb-sec{display:none!important}}
+</style>
+<script id="sb-sec-js">
+(function(){
+'use strict';
+var clock=document.querySelector('.sb-now .live-clock'); if(!clock) return;
+var bar=document.createElement('div'); bar.className='sb-sec'; bar.setAttribute('aria-hidden','true'); bar.innerHTML='<i></i>';
+clock.parentNode.insertBefore(bar,clock.nextSibling);
+var i=bar.firstChild,last=-1;
+function tick(){
+  var s=new Date().getSeconds();
+  if(s===last) return;
+  if(s<last||last===-1){ bar.classList.add('reset'); i.style.transform='scaleX('+(s/60)+')'; void i.offsetWidth; bar.classList.remove('reset'); }
+  last=s; i.style.transform='scaleX('+((s+1)/60)+')';
+}
+tick(); setInterval(tick,250);
 })();
 </script>
 </body>
