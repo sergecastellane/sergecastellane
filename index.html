@@ -78,7 +78,35 @@ function mergeDiary(a,b){
   });
   return JSON.stringify(stable(R));
 }
-var MERGE={'daw_diario_clase':mergeDiary,'daw_pausas':mergeDiary};
+/* Apuntes personales: se fusionan nota a nota (por asignatura e id); gana la edición más reciente de cada nota.
+   Las notas borradas o movidas se registran en daw_apuntes_borradas para que no reaparezcan. */
+var NT_TK='daw_apuntes_borradas', NT_T={};
+function mergeTomb(a,b){
+  var A,B;try{A=JSON.parse(a)||{};B=JSON.parse(b)||{}}catch(e){return null}
+  var R={};
+  [A,B].forEach(function(o){Object.keys(o).forEach(function(k){var v=+o[k]||0;if(!(k in R)||v>R[k])R[k]=v})});
+  return JSON.stringify(stable(R));
+}
+function mergeNotes(a,b){
+  var A,B;try{A=JSON.parse(a)||{};B=JSON.parse(b)||{}}catch(e){return null}
+  if(typeof A!=='object'||typeof B!=='object'||Array.isArray(A)||Array.isArray(B))return null;
+  var R={};
+  Object.keys(A).concat(Object.keys(B)).forEach(function(c){
+    if(R.hasOwnProperty(c))return;
+    var la=Array.isArray(A[c])?A[c]:[], lb=Array.isArray(B[c])?B[c]:[], byId={}, noId={};
+    la.concat(lb).forEach(function(n){
+      if(!n||typeof n!=='object')return;
+      if(!n.id){noId[JSON.stringify(stable(n))]=n;return}
+      var o=byId[n.id],nt=+n.ts||0;
+      if(!o||nt>(+o.ts||0)||(nt===(+o.ts||0)&&JSON.stringify(stable(n))>JSON.stringify(stable(o))))byId[n.id]=n;
+    });
+    var out=Object.keys(byId).sort().map(function(i){return byId[i]}).filter(function(n){var t=NT_T[c+'|'+n.id];return !(t&&t>=(+n.ts||0))});
+    Object.keys(noId).sort().forEach(function(k){out.push(noId[k])});
+    if(out.length)R[c]=out;
+  });
+  return JSON.stringify(stable(R));
+}
+var MERGE={'daw_diario_clase':mergeDiary,'daw_pausas':mergeDiary,'daw_apuntes':mergeNotes,'daw_apuntes_borradas':mergeTomb};
 function softRefresh(){
   var ae=document.activeElement,typing=ae&&/^(TEXTAREA|INPUT|SELECT)$/.test(ae.tagName)&&ae.id!=='searchInput'&&!!ae.closest('#appContent');
   var mo=document.getElementById('modalOverlay'),modal=mo&&mo.classList.contains('active');
@@ -99,6 +127,8 @@ async function pull(initial){
   var r=await sb.from('daw_sync').select('k,v,updated_at');
   if(r.error){state.msg='No se pudo leer: '+r.error.message;ui();return}
   var first=rg.call(LS,'daw_sync_uid')!==user.id, t=first?{}:ts(), remote={}, changed=false, backup={};
+  try{NT_T=JSON.parse(rg.call(LS,NT_TK)||'{}')||{}}catch(e){NT_T={}}
+  r.data.forEach(function(x){if(x.k===NT_TK&&x.v){try{var o=JSON.parse(x.v);Object.keys(o).forEach(function(i){var v=+o[i]||0;if(v>(NT_T[i]||0))NT_T[i]=v})}catch(e){}}});
   r.data.forEach(function(x){
     if(!watch(x.k))return; remote[x.k]=1;
     var rt=Date.parse(x.updated_at), lt=t[x.k]||0, lv=rg.call(LS,x.k);
@@ -8139,7 +8169,43 @@ function loadNotes(){
   return notesData;
 }
 function saveNotes(){ try{ localStorage.setItem(NOTES_KEY,JSON.stringify(notesData)); notesFailed=false; }catch(e){ notesFailed=true; } }
-function ntList(c){ return (loadNotes()[c]||[]).slice().sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||b.ts-a.ts); }
+function ntList(c){ return (loadNotes()[c]||[]).slice().sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||(b.ts||0)-(a.ts||0)); }
+/* Asignaturas del horario + las que aún tienen apuntes guardados pero ya no salen en él (así nunca quedan invisibles) */
+function ntCourses(){
+  const base=buildCourses(), have={}; base.forEach(c=>{ have[c.name]=1; });
+  const N=loadNotes();
+  Object.keys(N).forEach(function(k){
+    if(have[k]||!Array.isArray(N[k])||!N[k].length) return;
+    base.push({name:k,sessions:0,teachers:[],rooms:[],blocks:[],color:'#9a9a9a',orphan:true});
+  });
+  return base;
+}
+/* Registro de notas borradas o movidas: permite que la sincronización no las «resucite» desde otro dispositivo */
+const NT_TOMB_KEY='daw_apuntes_borradas';
+function ntTomb(course,id,on){
+  try{
+    const T=lsGet(NT_TOMB_KEY,{})||{}, k=course+'|'+id;
+    if(on===false) delete T[k]; else T[k]=Date.now();
+    const ks=Object.keys(T);
+    if(ks.length>500) ks.sort((a,b)=>T[a]-T[b]).slice(0,ks.length-500).forEach(x=>{ delete T[x]; });
+    lsSet(NT_TOMB_KEY,T);
+  }catch(e){}
+}
+function ntMove(id,to){
+  if(!to) return;
+  if(typeof can==='function'&&!can('editar')){ deny(); return; }
+  ntFlush();
+  const N=loadNotes(), from=notesCourse, arr=N[from]||[], i=arr.findIndex(x=>x.id===id);
+  if(i<0||from===to) return;
+  const snap=JSON.stringify(N), n=arr.splice(i,1)[0];
+  N[to]=Array.isArray(N[to])?N[to]:[]; N[to].push(n);
+  if(!arr.length) delete N[from];
+  saveNotes();
+  if(notesFailed){ notesData=JSON.parse(snap); if(typeof toast==='function') toast('No se pudo mover la nota.',{error:true}); renderCurrentView(); return; }
+  ntTomb(from,id); ntDrive('delete',from,n); ntDrive('save',to,n);
+  notesCourse=to; renderCurrentView();
+  if(typeof toast==='function') toast('Nota movida a «'+to+'».');
+}
 function ntDate(ts){ const d=new Date(ts); return d.getDate()+' '+MONTH_NAMES[d.getMonth()]+' '+d.getFullYear()+' · '+pad2(d.getHours())+':'+pad2(d.getMinutes()); }
 let notesOpen={}, ntOptsOpen=false;
 function ntWords(t){ const m=(t||'').trim().match(/\S+/g); return m?m.length:0; }
@@ -8193,15 +8259,15 @@ function ntBold(){
 }
 function ntCard(n,cur,q){
   const long=(n.text||'').length>520||(n.text||'').split('\n').length>8, open=!!notesOpen[n.id], created=n.cts||n.ts, edited=n.ts-created>60000, w=ntWords(n.text);
-  return `<article class="nt-card" id="nt-${n.id}" style="border-left-color:${cur.color}"><h4>${n.pin?'★ ':''}${ntHl(n.title||'Sin título',q)}</h4>
+  return `<article class="nt-card" id="nt-${n.id}" style="--cc:${cur.color};border-left-color:${cur.color}"><h4>${n.pin?'★ ':''}${ntHl(n.title||'Sin título',q)}</h4>
     <div class="nt-meta"><span>Creada ${ntDate(created)}</span>${edited?`<span>Editada ${ntShort(n.ts)}</span>`:''}<span>${w} ${w===1?'palabra':'palabras'}</span></div>${(n.tags||[]).length?`<div class="nt-tags att-noprint">${n.tags.map(t=>`<button type="button" onclick="ntSearch('#${escapeAttr(t)}')">#${escapeHtml(t)}</button>`).join('')}</div>`:''}
     <div class="nt-text${long&&!open?' clamp':''}">${ntRich(n.text||'',q)}</div>
     ${long?`<button class="nt-more att-noprint" aria-expanded="${open}" onclick="ntToggle('${n.id}')">${open?'Mostrar menos':'Leer nota completa'}</button>`:''}
-    <div class="nt-acts att-noprint"><button class="att-btn" onclick="ntPin('${n.id}')">${n.pin?'Desfijar':'Fijar'}</button><button class="att-btn" onclick="ntSpeak('${n.id}')" title="Leer en voz alta">Escuchar</button>${(n.hist||[]).length?`<button class="att-btn" onclick="ntHist('${n.id}')">Versiones</button>`:''}<button class="att-btn" onclick="ntEdit('${n.id}')">Editar</button><button class="att-btn danger" onclick="ntDelete('${n.id}')">Eliminar</button></div>${notesHist[n.id]?ntHistHTML(n):''}</article>`;
+    <div class="nt-acts att-noprint"><button class="att-btn" onclick="ntPin('${n.id}')">${n.pin?'Desfijar':'Fijar'}</button><button class="att-btn" onclick="ntSpeak('${n.id}')" title="Leer en voz alta">Escuchar</button>${(n.hist||[]).length?`<button class="att-btn" onclick="ntHist('${n.id}')">Versiones</button>`:''}<button class="att-btn" onclick="ntEdit('${n.id}')">Editar</button><button class="att-btn danger" onclick="ntDelete('${n.id}')">Eliminar</button>${cur.orphan?`<select class="att-btn" aria-label="Mover esta nota a otra asignatura" onchange="ntMove('${n.id}',this.value)"><option value="">Mover a…</option>${buildCourses().map(c=>`<option value="${escapeAttr(c.name)}">${escapeHtml(c.name)}</option>`).join('')}</select>`:''}</div>${notesHist[n.id]?ntHistHTML(n):''}</article>`;
 }
 function renderNotesView(container){
   ntFlush();
-  const courses=buildCourses(), N=loadNotes();
+  const courses=ntCourses(), N=loadNotes();
   if(!courses.some(c=>c.name===notesCourse)) notesCourse=courses[0]?courses[0].name:null;
   const cur=courses.find(c=>c.name===notesCourse), q=notesQuery.trim().toLowerCase();
   let h=`<div class="att${ntFocus?' nt-focus':''}" style="${ntFmtVars()}"><div class="att-head"><h2 class="att-title">Apuntes personales</h2></div>
@@ -8211,7 +8277,7 @@ function renderNotesView(container){
   const all=ntList(cur.name), list=all.filter(n=>!q||ntHay(n).includes(q));
   const totW=all.reduce((a,n)=>a+ntWords(n.text),0), exN=all.filter(n=>(n.tags||[]).some(t=>t.indexOf('examen')>-1)).length, lastTs=all.reduce((m,n)=>Math.max(m,n.ts||0),0);
   const sum=all.length?`${all.length} ${all.length===1?'nota':'notas'} · ${totW} ${totW===1?'palabra':'palabras'}${exN?` · ${exN} para examen`:''} · Última edición ${ntShort(lastTs)}`:'Sin notas todavía';
-  h+=`<div class="nt-head"><div><h3>${escapeHtml(cur.name)}</h3><p>${escapeHtml(cur.teachers.join(' · '))}</p></div><button class="att-btn solid att-noprint" onclick="ntEdit('new')">+ Nueva nota</button></div>
+  h+=`<div class="nt-head"><div><h3>${escapeHtml(cur.name)}</h3><p>${cur.orphan?'Esta asignatura ya no aparece en tu horario. Tus apuntes se conservan: puedes leerlos, exportarlos o moverlos a otra asignatura.':escapeHtml(cur.teachers.join(' · '))}</p></div><button class="att-btn solid att-noprint" onclick="ntEdit('new')">+ Nueva nota</button></div>
     <div class="nt-bar att-noprint"><div class="nt-bar-l"><input class="nt-search" id="ntSearch" type="search" placeholder="Buscar por título o contenido" aria-label="Buscar en apuntes" value="${escapeAttr(notesQuery)}" oninput="ntSearch(this.value)"><span class="nt-count" aria-live="polite">${q?`${list.length} de ${all.length} · `:''}${sum}</span></div>
 </div>
     <details class="nt-opts att-noprint"${ntOptsOpen?' open':''} ontoggle="ntOptsOpen=this.open"><summary>Formato y exportación</summary>${ntFmtBar()}
@@ -8314,10 +8380,10 @@ function ntDelete(id){
   if(idx<0) return;
   if(typeof toast!=='function' && !confirm('¿Eliminar esta nota?')) return;
   const removed=arr[idx];
-  N[course]=arr.filter(x=>x.id!==id); saveNotes(); ntDrive('delete',course,removed); renderCurrentView();
+  N[course]=arr.filter(x=>x.id!==id); saveNotes(); ntTomb(course,id); ntDrive('delete',course,removed); renderCurrentView();
   if(typeof toast==='function') toast('Nota eliminada.',{undo:function(){
-    const M=loadNotes(); M[course]=M[course]||[]; M[course].splice(Math.min(idx,M[course].length),0,removed);
-    saveNotes(); ntDrive('save',course,removed); if(currentView==='notes') renderCurrentView();
+    const M=loadNotes(); M[course]=M[course]||[]; removed.ts=Date.now(); M[course].splice(Math.min(idx,M[course].length),0,removed);
+    saveNotes(); ntTomb(course,id,false); ntDrive('save',course,removed); if(currentView==='notes') renderCurrentView();
   }});
 }
 function ntExport(){
@@ -8397,7 +8463,7 @@ function ntParse(text){
 }
 /* Qué se exporta: portada, cursos y notas ya analizadas */
 function ntDocModel(){
-  const N=loadNotes(), all=ntScope==='all', cs=buildCourses().filter(function(c){ return (all||c.name===notesCourse)&&(N[c.name]||[]).length; });
+  const N=loadNotes(), all=ntScope==='all', cs=ntCourses().filter(function(c){ return (all||c.name===notesCourse)&&(N[c.name]||[]).length; });
   if(!cs.length) return null;
   const courses=cs.map(function(c){ return {c:c,notes:ntList(c.name).map(function(n){ return {n:n,blocks:ntParse(n.text)}; })}; });
   const total=courses.reduce(function(s,x){ return s+x.notes.length; },0), words=courses.reduce(function(s,x){ return s+x.notes.reduce(function(a,y){ return a+ntWords(y.n.text); },0); },0);
@@ -11928,6 +11994,192 @@ try{if(isSessionValid())window.tvqrApprove()}catch(e){}
   .att:has(.nt-tab) .nt-course-sel{display:block;width:100%;margin:16px 0 0;padding:10px 12px;font-size:1rem;font-weight:500;color:var(--mn-ink);background:#fff;border:1px solid var(--mn-line);border-radius:6px}
 }
 @media print{.att:has(.nt-tab) .nt-tagbar,.att:has(.nt-tab) .nt-index,.att:has(.nt-tab) .nt-course-sel{display:none}}
+</style>
+<style id="nt-ios">
+/* ===== APUNTES · iOS concept =====
+   Listas agrupadas, título grande, controles de sistema y color de acento único.
+   Solo cambia la apariencia: la tipografía de lectura (Lexend, interlineado, espaciado) sigue mandando en el texto de las notas. */
+.att:has(.nt-tab){
+  --ios-tint:#007aff;--ios-tint-soft:rgba(0,122,255,.12);
+  --ios-bg:#f2f2f7;--ios-card:#fff;
+  --ios-fill:rgba(118,118,128,.12);--ios-fill-soft:rgba(118,118,128,.08);
+  --ios-sep:rgba(60,60,67,.16);
+  --ios-label:#1c1c1e;--ios-sec:rgba(60,60,67,.62);--ios-ter:rgba(60,60,67,.32);
+  --ios-red:#ff3b30;--ios-green:#34c759;
+  --ios-ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue","Segoe UI",Roboto,system-ui,sans-serif;
+  --ios-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --ios-ease:cubic-bezier(.32,.72,0,1);
+  --ios-pad:24px;--ios-cpad:22px;
+  max-width:860px;margin-left:auto;margin-right:auto;
+  padding:28px var(--ios-pad) 44px;border-radius:28px;
+  background:var(--ios-bg);color:var(--ios-label);
+  font-family:var(--ios-ui);-webkit-font-smoothing:antialiased;
+}
+
+/* Título grande */
+.att:has(.nt-tab) .att-head{padding:2px 4px 14px;border:0;text-align:left}
+.att:has(.nt-tab) .att-title{margin:0;font-family:var(--ios-ui);font-size:2.125rem;font-weight:700;line-height:1.1;letter-spacing:-.022em;color:var(--ios-label)}
+
+/* Asignaturas: cápsulas que se desplazan en horizontal */
+.att:has(.nt-tab) .nt-course-sel{display:none!important}
+.att:has(.nt-tab) .att-tabs{display:flex;flex-wrap:nowrap;gap:8px;width:auto;margin:0 calc(var(--ios-pad)*-1);padding:2px var(--ios-pad) 10px;border:0;border-radius:0;background:none;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:var(--ios-pad);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.att:has(.nt-tab) .att-tabs::-webkit-scrollbar{display:none}
+.att:has(.nt-tab) .nt-tab{flex:0 0 auto;scroll-snap-align:start;margin:0;padding:8px 14px;border:0;border-radius:999px;background:var(--ios-card);color:var(--ios-label);font-family:var(--ios-ui);font-size:.9375rem;font-weight:500;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 0 0 .5px rgba(0,0,0,.05);transition:background-color .25s var(--ios-ease),color .25s var(--ios-ease),transform .2s var(--ios-ease)}
+.att:has(.nt-tab) .nt-tab b{display:inline-flex;align-items:center}
+.att:has(.nt-tab) .nt-tab:hover{color:var(--ios-label);background:var(--ios-card)}
+.att:has(.nt-tab) .nt-tab:active{transform:scale(.96)}
+.att:has(.nt-tab) .nt-tab.on{background:var(--ios-tint);color:#fff;font-weight:600;border:0;box-shadow:none}
+.att:has(.nt-tab) .nt-tab.on:hover{background:var(--ios-tint);color:#fff}
+.att:has(.nt-tab) .nt-tab i{width:8px;height:8px;margin-right:8px;box-shadow:0 0 0 1.5px rgba(255,255,255,.9)}
+.att:has(.nt-tab) .nt-tab em,.att:has(.nt-tab) .nt-tab.on em{margin-left:8px;padding:0;background:none;font-size:.8125rem;font-weight:500}
+.att:has(.nt-tab) .nt-tab em{color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-tab.on em{color:rgba(255,255,255,.82)}
+
+/* Cabecera de la asignatura */
+.att:has(.nt-tab) .nt-head{margin:14px 4px 14px;align-items:flex-end;gap:12px}
+.att:has(.nt-tab) .nt-head h3{margin:0;font-family:var(--ios-ui);font-size:1.375rem;font-weight:700;letter-spacing:-.02em;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-head p{margin:3px 0 0;font-size:.8125rem;line-height:1.4;color:var(--ios-sec)}
+
+/* Botones: tint de sistema */
+.att:has(.nt-tab) .att-btn{font-family:var(--ios-ui);font-size:.9375rem;font-weight:500;letter-spacing:-.01em;text-transform:none;color:var(--ios-tint);background:transparent;border:0;border-radius:999px;padding:8px 12px;box-shadow:none;transition:background-color .2s var(--ios-ease),transform .15s var(--ios-ease)}
+.att:has(.nt-tab) .att-btn:hover,.att:has(.nt-tab) .att-btn:active{background:var(--ios-tint-soft);color:var(--ios-tint)}
+.att:has(.nt-tab) .att-btn:active{transform:scale(.97)}
+.att:has(.nt-tab) .att-btn.solid{padding:9px 18px;background:var(--ios-tint);color:#fff;font-weight:600}
+.att:has(.nt-tab) .att-btn.solid:hover,.att:has(.nt-tab) .att-btn.solid:active{background:#0a84ff;color:#fff}
+.att:has(.nt-tab) .att-btn.danger{color:var(--ios-red)}
+.att:has(.nt-tab) .att-btn.danger:hover,.att:has(.nt-tab) .att-btn.danger:active{background:rgba(255,59,48,.1);color:var(--ios-red)}
+.att:has(.nt-tab) .att-btn:focus-visible,.att:has(.nt-tab) .nt-tab:focus-visible,.att:has(.nt-tab) summary:focus-visible,.att:has(.nt-tab) .nt-tagbar button:focus-visible,.att:has(.nt-tab) .nt-more:focus-visible,.att:has(.nt-tab) .nt-opts button:focus-visible{outline:2px solid var(--ios-tint);outline-offset:2px}
+
+/* Buscador estilo iOS */
+.att:has(.nt-tab) .nt-bar{margin:0 0 12px;padding:0}
+.att:has(.nt-tab) .nt-bar-l{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.att:has(.nt-tab) .nt-search{flex:none;width:100%;max-width:none;height:38px;padding:0 12px 0 34px;border:0;border-radius:10px;background-color:var(--ios-fill);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238e8e93' stroke-width='1.7' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='M11 11l3.5 3.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px 50%;background-size:16px;font-family:var(--ios-ui);font-size:1.0625rem;color:var(--ios-label);box-shadow:none;transition:box-shadow .2s var(--ios-ease)}
+.att:has(.nt-tab) .nt-search::placeholder{color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-search:focus{outline:none;background-color:var(--ios-fill);box-shadow:0 0 0 3px rgba(0,122,255,.3)}
+.att:has(.nt-tab) .nt-count{padding:0 4px;font-size:.8125rem;line-height:1.45;color:var(--ios-sec)}
+
+/* Formato, exportación e índice: filas agrupadas con indicador de despliegue */
+.att:has(.nt-tab) .nt-opts,.att:has(.nt-tab) .nt-index{margin:0 0 12px;padding:0;border:0;border-radius:14px;background:var(--ios-card);overflow:hidden}
+.att:has(.nt-tab) .nt-opts>summary,.att:has(.nt-tab) .nt-index>summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:11px 16px;list-style:none;cursor:pointer;font-size:1.0625rem;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-opts>summary:hover,.att:has(.nt-tab) .nt-index>summary:hover{color:var(--ios-label)}
+.att:has(.nt-tab) .nt-opts>summary::after,.att:has(.nt-tab) .nt-index>summary::after{width:8px;height:8px;margin:0 4px 0 0;border-right:2px solid var(--ios-ter);border-bottom:2px solid var(--ios-ter);transform:rotate(-45deg);transition:transform .3s var(--ios-ease)}
+.att:has(.nt-tab) .nt-opts[open]>summary::after,.att:has(.nt-tab) .nt-index[open]>summary::after{transform:rotate(45deg)}
+.att:has(.nt-tab) .nt-opts .nt-fmt{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;border:0;background:none}
+.att:has(.nt-tab) .nt-opts .nt-fmt>b{padding:16px 16px 6px;border-top:.5px solid var(--ios-sep);font-size:.8125rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-opts .nt-fmt label{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;margin:0;padding:8px 16px;border-top:.5px solid var(--ios-sep);font-size:1.0625rem;line-height:1.3;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-opts .nt-fmt b+label{border-top:0}
+.att:has(.nt-tab) .nt-opts .nt-fmt select,.att:has(.nt-tab) .nt-opts .nt-exp select{max-width:62%;padding:4px 0;border:0;border-radius:8px;background-color:transparent;font-family:var(--ios-ui);font-size:1.0625rem;color:var(--ios-tint);text-align:right;text-align-last:right;cursor:pointer}
+.att:has(.nt-tab) .nt-opts .nt-fmt input[type="text"]{width:55%;padding:4px 0;border:0;border-radius:0;background:none;box-shadow:none;font:inherit;font-size:1.0625rem;text-align:right;color:var(--ios-tint)}
+.att:has(.nt-tab) .nt-opts .nt-fmt input[type="text"]::placeholder{color:var(--ios-ter)}
+.att:has(.nt-tab) .nt-opts .nt-fmt input[type="text"]:focus{outline:none}
+
+/* Interruptores verdes de iOS (Justificar, Modo enfoque, Portada, Índice) */
+.att:has(.nt-tab) .nt-opts .nt-fmt>button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:44px;padding:8px 16px;border:0;border-top:.5px solid var(--ios-sep);border-radius:0;background:none;font:inherit;font-size:1.0625rem;font-weight:400;text-align:left;letter-spacing:0;text-transform:none;color:var(--ios-label);cursor:pointer}
+.att:has(.nt-tab) .nt-opts .nt-fmt>button[aria-pressed="true"]{background:none;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-opts .nt-fmt>button::after,.att:has(.nt-tab) .nt-opts input[type="checkbox"]{content:"";flex:0 0 51px;width:51px;height:31px;margin:0;border:0;border-radius:999px;background-color:rgba(120,120,128,.32);background-image:radial-gradient(circle,#fff 13.5px,transparent 14px);background-size:27px 27px;background-repeat:no-repeat;background-position:2px 50%;transition:background-position .28s var(--ios-ease),background-color .28s var(--ios-ease)}
+.att:has(.nt-tab) .nt-opts .nt-fmt>button[aria-pressed="true"]::after,.att:has(.nt-tab) .nt-opts input[type="checkbox"]:checked{background-color:var(--ios-green);background-position:calc(100% - 2px) 50%}
+.att:has(.nt-tab) .nt-opts input[type="checkbox"]{-webkit-appearance:none;appearance:none;cursor:pointer}
+.att:has(.nt-tab) .nt-opts input[type="checkbox"]:focus-visible{outline:2px solid var(--ios-tint);outline-offset:2px}
+.att:has(.nt-tab) .nt-opts .nt-fmt label:has(input[type="checkbox"]){flex-direction:row-reverse}
+
+/* Exportar */
+.att:has(.nt-tab) .nt-opts .nt-exp{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 16px 12px;border:0;border-top:.5px solid var(--ios-sep);background:none}
+.att:has(.nt-tab) .nt-opts .nt-exp>span{display:block;flex:1 1 auto;font-size:1.0625rem;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-opts .nt-exp button{flex:none;padding:7px 16px;border:0;border-radius:999px;background:var(--ios-tint-soft);font-family:var(--ios-ui);font-size:.9375rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ios-tint);cursor:pointer}
+.att:has(.nt-tab) .nt-opts .nt-exp button:hover{background:rgba(0,122,255,.2);color:var(--ios-tint)}
+
+/* Índice */
+.att:has(.nt-tab) .nt-index>div{padding:0}
+.att:has(.nt-tab) .nt-index a{display:block;padding:11px 16px;border-top:.5px solid var(--ios-sep);font-size:1.0625rem;line-height:1.35;color:var(--ios-label);text-decoration:none}
+.att:has(.nt-tab) .nt-index a:hover{background:var(--ios-fill-soft);color:var(--ios-label);text-decoration:none}
+
+/* Etiquetas: cápsulas con scroll horizontal */
+.att:has(.nt-tab) .nt-tagbar{display:flex;flex-wrap:nowrap;gap:8px;margin:0 calc(var(--ios-pad)*-1) 12px;padding:2px var(--ios-pad);overflow-x:auto;scrollbar-width:none}
+.att:has(.nt-tab) .nt-tagbar::-webkit-scrollbar{display:none}
+.att:has(.nt-tab) .nt-tagbar button{flex:none;padding:6px 13px;border:0;border-radius:999px;background:var(--ios-tint-soft);font-family:var(--ios-ui);font-size:.875rem;font-weight:500;color:var(--ios-tint)}
+.att:has(.nt-tab) .nt-tagbar button:hover{background:rgba(0,122,255,.2);color:var(--ios-tint)}
+.att:has(.nt-tab) .nt-tagbar button[aria-pressed="true"]{background:var(--ios-tint);color:#fff}
+.att:has(.nt-tab) .nt-tagbar button em{margin-left:6px;opacity:.7}
+
+/* Notas: tarjetas agrupadas */
+.att:has(.nt-tab) .nt-card{margin:12px 0 0;padding:20px var(--ios-cpad) 6px;border:0!important;border-radius:20px;background:var(--ios-card);box-shadow:0 .5px 0 rgba(0,0,0,.04),0 2px 12px rgba(0,0,0,.05);transition:box-shadow .3s var(--ios-ease)}
+.att:has(.nt-tab) .nt-card:hover{box-shadow:0 .5px 0 rgba(0,0,0,.04),0 2px 12px rgba(0,0,0,.05)}
+.att:has(.nt-tab) .nt-card h4{margin:0;font-family:var(--ios-ui);font-size:1.25rem;font-weight:700;line-height:1.25;letter-spacing:-.02em;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-card h4::before{content:"";display:inline-block;width:10px;height:10px;margin-right:10px;border-radius:50%;background:var(--cc,var(--ios-tint));vertical-align:.08em}
+.att:has(.nt-tab) .nt-meta{display:flex;flex-wrap:wrap;gap:2px 12px;margin:5px 0 14px;font-size:.8125rem;color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-tags{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 14px}
+.att:has(.nt-tab) .nt-tags button{padding:3px 10px;border:0;border-radius:999px;background:var(--ios-tint-soft);font-family:var(--ios-ui);font-size:.8125rem;font-weight:500;color:var(--ios-tint)}
+.att:has(.nt-tab) .nt-tags button:hover{background:rgba(0,122,255,.2);color:var(--ios-tint);text-decoration:none}
+.att:has(.nt-tab) .nt-text,.att:has(.nt-tab) .nt-text .nt-h{color:var(--ios-label)}
+.att:has(.nt-tab) .nt-text .nt-h{font-weight:700}
+.att:has(.nt-tab) .nt-text strong{color:var(--ios-label)}
+.att:has(.nt-tab) .nt-text code{padding:1px 6px;border-radius:6px;background:var(--ios-fill);color:var(--ios-label);font-family:var(--ios-mono);font-size:.9em}
+.att:has(.nt-tab) .nt-text pre.nt-code{padding:14px 16px;border:0;border-radius:12px;background:var(--ios-bg);color:var(--ios-label);font-family:var(--ios-mono)}
+.att:has(.nt-tab) .nt-text pre.nt-code code{padding:0;background:none;font-size:.875rem}
+.att:has(.nt-tab) .nt-hl{padding:0 2px;border-radius:4px;background:rgba(255,204,0,.4);color:inherit}
+.att:has(.nt-tab) .nt-more{display:inline-flex;align-items:center;margin-top:6px;padding:6px 0;border:0;background:none;font-family:var(--ios-ui);font-size:.9375rem;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ios-tint)}
+.att:has(.nt-tab) .nt-more:hover{text-decoration:none;opacity:.75}
+.att:has(.nt-tab) .nt-more::after{content:"";width:6px;height:6px;margin-left:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .3s var(--ios-ease)}
+.att:has(.nt-tab) .nt-more[aria-expanded="true"]::after{transform:translateY(1px) rotate(-135deg)}
+
+/* Barra de acciones con iconos de trazo fino */
+.att:has(.nt-tab) .nt-acts{display:flex;flex-wrap:wrap;gap:0 2px;margin:12px calc(var(--ios-cpad)*-1) 0;padding:4px calc(var(--ios-cpad) - 10px);border:0;border-top:.5px solid var(--ios-sep);opacity:1}
+.att:has(.nt-tab) .nt-acts .att-btn{display:inline-flex;align-items:center;gap:6px;padding:10px;font-size:.9375rem}
+.att:has(.nt-tab) .nt-acts .att-btn.danger{margin-left:auto}
+.att:has(.nt-tab) .nt-acts [onclick^="ntPin"]::before,.att:has(.nt-tab) .nt-acts [onclick^="ntSpeak"]::before,.att:has(.nt-tab) .nt-acts [onclick^="ntHist"]::before,.att:has(.nt-tab) .nt-acts [onclick^="ntEdit"]::before,.att:has(.nt-tab) .nt-acts [onclick^="ntDelete"]::before{content:"";flex:none;width:17px;height:17px;background:currentColor;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.att:has(.nt-tab) .nt-acts [onclick^="ntPin"]::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/%3E%3C/svg%3E")}
+.att:has(.nt-tab) .nt-acts [onclick^="ntSpeak"]::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cpath d='M15.5 8.5a5 5 0 0 1 0 7'/%3E%3Cpath d='M19 5a10 10 0 0 1 0 14'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/%3E%3Cpath d='M15.5 8.5a5 5 0 0 1 0 7'/%3E%3Cpath d='M19 5a10 10 0 0 1 0 14'/%3E%3C/svg%3E")}
+.att:has(.nt-tab) .nt-acts [onclick^="ntHist"]::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolyline points='12 6 12 12 16 14'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolyline points='12 6 12 12 16 14'/%3E%3C/svg%3E")}
+.att:has(.nt-tab) .nt-acts [onclick^="ntEdit"]::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'/%3E%3C/svg%3E")}
+.att:has(.nt-tab) .nt-acts [onclick^="ntDelete"]::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3 6 5 6 21 6'/%3E%3Cpath d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/%3E%3Cpath d='M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3 6 5 6 21 6'/%3E%3Cpath d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/%3E%3Cpath d='M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/%3E%3C/svg%3E")}
+
+/* Editor: hoja flotante */
+.att:has(.nt-tab) .nt-form{margin:12px 0 0;padding:20px;border:0;border-radius:22px;background:var(--ios-card);box-shadow:0 10px 40px rgba(0,0,0,.10),0 0 0 .5px rgba(0,0,0,.04)}
+.att:has(.nt-tab) .nt-form label{display:block;margin:14px 0 6px 4px;font-family:var(--ios-ui);font-size:.8125rem;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-form label:first-child{margin-top:0}
+.att:has(.nt-tab) .nt-form input,.att:has(.nt-tab) .nt-form textarea{width:100%;padding:12px 14px;border:0;border-radius:12px;background:var(--ios-fill-soft);color:var(--ios-label);box-shadow:none;font-family:var(--ios-ui);font-size:1.0625rem;transition:box-shadow .2s var(--ios-ease)}
+.att:has(.nt-tab) .nt-form textarea{min-height:260px;padding:16px;border-radius:14px;font-family:var(--nt-ff,var(--ios-ui))}
+.att:has(.nt-tab) .nt-form input#ntTitle{font-size:1.375rem;font-weight:700;letter-spacing:-.02em}
+.att:has(.nt-tab) .nt-form input#ntTags{margin:0;padding:12px 14px;border:0;border-radius:12px;font-size:1.0625rem}
+.att:has(.nt-tab) .nt-form input,.att:has(.nt-tab) .nt-form textarea{margin:0}
+.att:has(.nt-tab) .nt-form input:focus,.att:has(.nt-tab) .nt-form textarea:focus{outline:none;background:var(--ios-fill-soft);box-shadow:0 0 0 3px rgba(0,122,255,.3)}
+.att:has(.nt-tab) .nt-edtools{display:flex;gap:2px;margin:0 0 10px;padding:3px;overflow-x:auto;border-radius:12px;background:var(--ios-fill);scrollbar-width:none}
+.att:has(.nt-tab) .nt-edtools::-webkit-scrollbar{display:none}
+.att:has(.nt-tab) .nt-bold{flex:none;min-width:36px;height:34px;padding:0 10px;border:0;border-radius:9px;background:transparent;font-family:var(--ios-ui);font-weight:600;color:var(--ios-label);transition:background-color .2s var(--ios-ease)}
+.att:has(.nt-tab) .nt-bold.w{font-size:.8125rem;font-weight:500}
+.att:has(.nt-tab) .nt-bold:hover{background:var(--ios-card);color:var(--ios-label);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.att:has(.nt-tab) .nt-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:14px;padding:0;border:0}
+.att:has(.nt-tab) .nt-foot .nt-count,.att:has(.nt-tab) .nt-hint{font-size:.8125rem;color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-form.nt-full{border-radius:0;box-shadow:none}
+
+/* Estados vacíos y secundarios */
+.att:has(.nt-tab) .nt-empty{margin-top:12px;padding:44px 24px 36px;border:0;border-radius:20px;background:var(--ios-card);text-align:center}
+.att:has(.nt-tab) .nt-empty::before{content:"";display:block;width:52px;height:52px;margin:0 auto 14px;background:var(--ios-ter);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/%3E%3Cpath d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/%3E%3Cpath d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/%3E%3C/svg%3E") center/contain no-repeat}
+.att:has(.nt-tab) .nt-empty h4{margin:0;font-family:var(--ios-ui);font-size:1.25rem;font-weight:700;letter-spacing:-.02em;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-empty p{max-width:34ch;margin:6px auto 18px;font-size:.9375rem;line-height:1.45;color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-other{display:flex;flex-direction:column;gap:0;margin:0 0 12px;padding:0;border:0;border-radius:14px;background:var(--ios-card);overflow:hidden}
+.att:has(.nt-tab) .nt-other b{padding:12px 16px 8px;font-size:.8125rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ios-sec)}
+.att:has(.nt-tab) .nt-other button{padding:11px 16px;border-top:.5px solid var(--ios-sep);border-radius:0;font-size:1.0625rem;color:var(--ios-label)}
+.att:has(.nt-tab) .nt-other button:hover{background:var(--ios-fill-soft)}
+.att:has(.nt-tab) .nt-other em{font-size:.8125rem;color:var(--ios-sec);opacity:1}
+.att:has(.nt-tab) .nt-hist{margin:10px 0 12px;padding:12px 14px;border:0;border-radius:12px;background:var(--ios-fill-soft)}
+.att:has(.nt-tab) .nt-hist b{font-size:.8125rem;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ios-sec)}
+
+@media(max-width:700px){
+  .att:has(.nt-tab){--ios-pad:16px;--ios-cpad:18px;border-radius:0;padding-top:20px;padding-bottom:calc(36px + env(safe-area-inset-bottom,0px))}
+  .att:has(.nt-tab) .att-title{font-size:2rem}
+  .att:has(.nt-tab) .att-tabs{display:flex}
+  .att:has(.nt-tab) .nt-head{flex-wrap:wrap}
+  .att:has(.nt-tab) .nt-card{border-radius:18px}
+  .att:has(.nt-tab) .nt-form{padding:16px;border-radius:20px}
+  .att:has(.nt-tab) .nt-acts .att-btn{padding:10px 8px}
+}
+@media(prefers-reduced-motion:reduce){.att:has(.nt-tab) *,.att:has(.nt-tab) *::before,.att:has(.nt-tab) *::after{transition:none!important}}
+@media print{
+  .att:has(.nt-tab){background:#fff;border-radius:0;padding:0}
+  .att:has(.nt-tab) .nt-card{border-radius:0;box-shadow:none;padding-left:0;padding-right:0}
+  .att:has(.nt-tab) .nt-acts,.att:has(.nt-tab) .att-tabs,.att:has(.nt-tab) .nt-tagbar{display:none}
+}
 </style>
 <style id="mi-drive">
 /* ===== MI DRIVE (archivos internos: carpetas, subida, papelera) ===== */
