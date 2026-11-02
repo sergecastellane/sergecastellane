@@ -1,4 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><style id="login-minimal">
+#loginScreen .login-box #loginModeBtn,#loginScreen .lx-pad #loginModeBtn,#loginScreen .login-box .login-forgot:not(#loginModeBtn){min-height:0!important;padding:3px 0!important;margin:0!important;font-size:.78rem!important;font-weight:400!important;letter-spacing:.01em!important;color:var(--lx-soft,#6b7780)!important;text-decoration-color:transparent}
+#loginScreen .login-box #loginModeBtn,#loginScreen .lx-pad #loginModeBtn{margin-top:12px!important}
+#loginScreen .login-box #loginModeBtn:hover,#loginScreen .login-box .login-forgot:not(#loginModeBtn):hover{color:var(--lx-ink,#1f2d3a)!important;text-decoration-color:currentColor}
+</style>
+</head><body>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,13 +28,20 @@
   catch(error){
    const data=new Map();
    const store={get length(){return data.size},key:i=>[...data.keys()][i]??null,getItem:k=>data.get(String(k))??null,setItem:(k,v)=>data.set(String(k),String(v)),removeItem:k=>data.delete(String(k)),clear:()=>data.clear()};
-   try{Object.defineProperty(window,name,{value:store,configurable:true});window.__dawTemporaryStorage=true}catch(e){}
+   try{Object.defineProperty(window,name,{value:store,configurable:true});if(name==='localStorage')window.__dawTemporaryStorage=true}catch(e){}
   }
  }
  if(window.__dawTemporaryStorage)document.addEventListener('DOMContentLoaded',()=>{
   const form=document.getElementById('loginForm');if(!form)return;
-  const p=document.createElement('p');p.textContent='Vista temporal: este entorno bloquea el almacenamiento. Los cambios se perderán al cerrar o recargar. Abre la aplicación en una pestaña con almacenamiento permitido para conservarlos.';
-  p.style.cssText='padding:12px;border:1px solid #a8894b;background:#fff4d7;color:#503d18;border-radius:6px;font-size:14px;line-height:1.6';form.prepend(p);
+  const box=document.createElement('div');box.setAttribute('role','status');
+  box.style.cssText='padding:12px;border:1px solid #a8894b;background:#fff4d7;color:#503d18;border-radius:6px;font-size:14px;line-height:1.6';
+  const p=document.createElement('p');p.textContent='El navegador no permite guardar datos en esta vista. Abre la aplicación fuera de la vista previa. Mientras tanto, exporta una copia antes de salir y restáurala al volver.';box.append(p);
+  const save=document.createElement('button');save.type='button';save.textContent='Exportar copia';
+  save.onclick=()=>{const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);data[k]=localStorage.getItem(k)}const blob=new Blob([JSON.stringify({format:'daw-storage-backup-v1',data},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='copia-horario.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+  const restore=document.createElement('button');restore.type='button';restore.textContent='Restaurar copia';
+  const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.hidden=true;
+  restore.onclick=()=>input.click();input.onchange=async()=>{try{const backup=JSON.parse(await input.files[0].text());if(backup.format!=='daw-storage-backup-v1'||!backup.data||typeof backup.data!=='object'||Array.isArray(backup.data))throw Error();const entries=Object.entries(backup.data);if(entries.some(([k,v])=>typeof v!=='string'||['__proto__','constructor','prototype'].includes(k)))throw Error();if(!confirm('Restaurar esta copia sustituirá las claves coincidentes. ¿Continuar?'))return;entries.forEach(([k,v])=>localStorage.setItem(k,v));p.textContent='Copia restaurada en esta vista. No recargues: inicia sesión para continuar. Antes de salir, exporta otra copia.';if(typeof loginFirstRun==='function')loginFirstRun()}catch(e){p.textContent='No se ha podido restaurar la copia. Selecciona un archivo exportado desde esta opción.'}};
+  box.append(save,document.createTextNode(' '),restore,input);form.prepend(box);
  });
 })();
 
@@ -2989,16 +3001,21 @@ html[data-theme="dark"],html[data-theme="dark"] body{background-color:#121212}
     <div id="loginError" class="login-error" role="alert" aria-live="assertive"></div>
     <button type="submit" class="login-btn" id="loginSubmitBtn">Iniciar sesión</button>
     <p class="login-session-note" id="loginSessionNote"></p>
-    <button type="button" class="login-forgot" onclick="setLoginError('Pide a tu profesor o al centro que te recuerde tus credenciales.')">¿Has olvidado tu contraseña?</button>
+    <button type="button" class="login-forgot" onclick="setLoginError('Pide a tu profesor o al centro que te recuerde tus credenciales.')">¿Olvidaste tu contraseña?</button>
     </div>    </div></div>
-    <button type="button" class="login-forgot" id="loginModeBtn" onclick="loginSetMode()"></button>
-    <button type="button" class="login-forgot" id="redAskBtn" onclick="redAskOpen()">Pedir acceso al administrador (misma wifi)</button>
+    <div class="login-access-row"><button type="button" class="login-forgot" id="loginModeBtn" onclick="loginSetMode()"></button><span aria-hidden="true">/</span><button type="button" class="login-forgot" id="redAskBtn" onclick="redAskOpen()">Pedir acceso</button></div>
     <div class="lg-mini"><button type="button" class="lg-link" onclick="openLegal('priv')">Política de privacidad</button></div>
   </form>
   </div>
   <div class="lg-copy lg-copy-fixed">© 2026 <b>Sergi Cruceta Arboles</b> · Todos los derechos reservados</div>
 </div>
 
+<style id="minimalLinks">
+#loginScreen .login-box #loginModeBtn,#loginScreen .login-box .login-forgot:not(#loginModeBtn){font-size:.78rem!important;font-weight:400!important;letter-spacing:.03em!important;color:#5b6670!important;text-decoration:none!important;min-height:40px!important;padding:0!important;margin:0!important;display:flex!important;align-items:center;justify-content:center}
+#loginScreen .login-box #loginModeBtn{color:#1f2d3a!important}
+#loginScreen .login-box #loginModeBtn:hover,#loginScreen .login-box .login-forgot:not(#loginModeBtn):hover{color:#000!important;text-decoration:underline!important;text-underline-offset:4px}
+#loginScreen .login-box .login-session-note{font-size:.74rem!important;font-weight:400!important;color:#5b6670!important}
+</style>
 <!-- ===== CONTENIDO DE LA APP (oculto hasta iniciar sesión) ===== -->
 <div id="appContent" style="display:none;">
 
@@ -3207,8 +3224,8 @@ html[data-theme="dark"],html[data-theme="dark"] body{background-color:#121212}
 <h2>Registro de cuentas</h2>
 <p>Si la sincronización está configurada, al crear una cuenta o iniciar sesión se guarda en Supabase tu nombre de usuario, tu perfil, si la cuenta está activa y las fechas de creación y último acceso, para que el administrador pueda gestionarla. Nunca se envían contraseñas. Además, mientras la página está abierta con tu sesión iniciada, se guarda un identificador aleatorio del dispositivo, su tipo, navegador y sistema, el tamaño de pantalla, la sección que estás viendo y la hora de la última señal, para que el administrador pueda ver qué dispositivos están conectados y cerrar sesiones que no reconozca.</p>
 <h2>Servicios de terceros</h2>
-<p>Si usas «Pedir acceso al administrador (misma wifi)», tu navegador consulta tu dirección IP pública al servicio api.ipify.org. Esa dirección no se guarda: solo se guarda en Supabase una huella irreversible (hash) para saber si dos dispositivos comparten la misma red, junto con el nombre que escribas y un identificador aleatorio del dispositivo.</p>
-<p>Si conectas tu cuenta de Outlook, el inicio de sesión y la lectura de tu correo o calendario los gestiona Microsoft (Microsoft Entra y Microsoft Graph) bajo su propia política de privacidad. Si utilizas la integración con Moodle, la consulta pasa por un servicio intermedio [indica tu proveedor, por ejemplo Cloudflare Workers, o elimina esta frase si no lo usas]. Si importas datos de Apple Salud (pestaña Salud de The Wellness Club), el archivo se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen diario (pasos, energía activa, minutos de ejercicio, sueño, frecuencia cardíaca en reposo, peso y entrenamientos recientes) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Si además activas la actualización diaria, un Atajo de tu iPhone envía ese mismo resumen diario a tu cuenta de Supabase (en tu proyecto de sincronización), donde solo tú puedes leerlo, y se borra al desactivar la función. Si importas tu archivo de Strava (pestaña Salud), se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen de tus actividades recientes (fecha, tipo, duración, distancia, desnivel y frecuencia cardíaca media) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Son datos de salud, de categoría especial, y solo se tratan con tu consentimiento al importarlos. La aplicación carga además una librería desde jsDelivr y las tipografías desde Google Fonts, por lo que estos proveedores pueden recibir tu dirección IP al servir esos recursos. Si activas la sincronización, los datos se alojan en Supabase [indica la región de tu proyecto, por ejemplo la UE], bajo su propia política de privacidad.</p>
+<p>Si usas «Pedir acceso (misma wifi)», tu navegador consulta tu dirección IP pública al servicio api.ipify.org. Esa dirección no se guarda: solo se guarda en Supabase una huella irreversible (hash) para saber si dos dispositivos comparten la misma red, junto con el nombre que escribas y un identificador aleatorio del dispositivo.</p>
+<p>Si conectas tu cuenta de Outlook, el inicio de sesión y la lectura de tu correo o calendario los gestiona Microsoft (Microsoft Entra y Microsoft Graph) bajo su propia política de privacidad. Si utilizas la integración con Moodle, la consulta pasa por un servicio intermedio. Si importas datos de Apple Salud (pestaña Salud de The Wellness Club), el archivo se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen diario (pasos, energía activa, minutos de ejercicio, sueño, frecuencia cardíaca en reposo, peso y entrenamientos recientes) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Si además activas la actualización diaria, un Atajo de tu iPhone envía ese mismo resumen diario a tu cuenta de Supabase (en tu proyecto de sincronización), donde solo tú puedes leerlo, y se borra al desactivar la función. Si importas tu archivo de Strava (pestaña Salud), se lee únicamente en tu dispositivo y no se envía a ningún servidor; solo se guarda un resumen de tus actividades recientes (fecha, tipo, duración, distancia, desnivel y frecuencia cardíaca media) en el almacenamiento local de tu navegador, y puedes borrarlo en cualquier momento desde esa misma pestaña. Son datos de salud, de categoría especial, y solo se tratan con tu consentimiento al importarlos. La aplicación carga además una librería desde jsDelivr y las tipografías desde Google Fonts, por lo que estos proveedores pueden recibir tu dirección IP al servir esos recursos. Si activas la sincronización, los datos se alojan en Supabase [indica la región de tu proyecto, por ejemplo la UE], bajo su propia política de privacidad.</p>
 <h2>Finalidad y base jurídica</h2>
 <p>Los datos se usan solo para que la aplicación funcione y te sea útil. La base jurídica es tu consentimiento y el uso voluntario de las funciones. No se elaboran perfiles, no se envía publicidad y no se toman decisiones automatizadas.</p>
 <h2>Conservación y cesiones</h2>
@@ -7695,9 +7712,9 @@ function loginSetMode(reg){
   loginReg = (typeof reg === 'boolean') ? reg : !loginReg;
   const b = document.getElementById('loginSubmitBtn'), n = document.getElementById('loginSessionNote'), m = document.getElementById('loginModeBtn'), p = document.getElementById('loginPass');
   if(b){ if(!b.dataset.txt) b.dataset.txt = b.textContent; b.textContent = loginReg ? 'Crear mi cuenta' : b.dataset.txt; }
-  if(m) m.textContent = loginReg ? '\u00bfYa tienes cuenta? Iniciar sesi\u00f3n' : '\u00bfPrimera vez? Crear mi cuenta';
+  if(m) m.textContent = loginReg ? 'Iniciar sesi\u00f3n' : 'Crear cuenta';
   if(p) p.autocomplete = loginReg ? 'new-password' : 'current-password';
-  if(n) n.textContent = loginReg ? 'Elige un usuario (3 a 30 letras, n\u00fameros, punto, guion) y una contrase\u00f1a de 8 caracteres o m\u00e1s. Tu cuenta ser\u00e1 de alumno y no necesitas a ning\u00fan administrador.' : '';
+  if(n) n.textContent = loginReg ? 'Usuario de 3 a 30 caracteres y contrase\u00f1a de 8 o m\u00e1s.' : '';
   setLoginError('');
 }
 function loginFirstRun(){
@@ -15083,7 +15100,7 @@ function draw(box,mine){
     }
     return '<article class="adx-dv '+cls+'"><div class="adx-dv-ic">'+ic()+'</div><div><h4>'+who+'</h4>'+txt+'</div><div class="adx-dv-side"><span class="adx-dv-st '+cls+'"><i></i>'+pill+'</span>'+btns+'</div></article>';
   }
-  var head='<h3>Acceso por misma wifi</h3><p class="mut" style="margin:0 0 10px">Quien abra la web y pulse «Pedir acceso al administrador» aparece aquí. Te digo si está en tu misma wifi comparando la IP pública con la que sale a Internet (todos los aparatos de una wifi la comparten). La decisión es tuya: tú eliges «Solo lectura» o «Alumno». Nunca se concede perfil de administrador. El acceso dura 30 días y puedes revocarlo cuando quieras.</p><p class="mut" style="margin:0 0 6px">'+(mine?'Tu red actual: <b>reconocida</b>.':'Tu red actual: <b>no he podido comprobarla</b> (¿un bloqueador de anuncios o la red bloquea api.ipify.org?). Las solicitudes se mostrarán como «otra red».')+'</p>';
+  var head='<h3>Acceso por misma wifi</h3><p class="mut" style="margin:0 0 10px">Quien abra la web y pulse «Pedir acceso» aparece aquí. Te digo si está en tu misma wifi comparando la IP pública con la que sale a Internet (todos los aparatos de una wifi la comparten). La decisión es tuya: tú eliges «Solo lectura» o «Alumno». Nunca se concede perfil de administrador. El acceso dura 30 días y puedes revocarlo cuando quieras.</p><p class="mut" style="margin:0 0 6px">'+(mine?'Tu red actual: <b>reconocida</b>.':'Tu red actual: <b>no he podido comprobarla</b> (¿un bloqueador de anuncios o la red bloquea api.ipify.org?). Las solicitudes se mostrarán como «otra red».')+'</p>';
   var body=pend.length?'<p class="adx-dv-sum"><b>'+pend.length+'</b> '+(pend.length===1?'solicitud pendiente':'solicitudes pendientes')+'</p>'+pend.map(rowHtml).join(''):'<p class="adx-empty">No hay solicitudes pendientes.</p>';
   var rest=oth.length?'<h3 style="margin-top:18px">Dispositivos con decisión tomada</h3>'+oth.map(rowHtml).join(''):'';
   box.innerHTML=card(head+'<div class="adx-tools"><button class="adx-btn g" onclick="admRedRender()">Actualizar solicitudes</button></div>')+body+rest;
@@ -17507,54 +17524,78 @@ html[data-theme=dark] body.ac-academic{background:#faf8f2!important}
 .ac-nav .study-nav>summary:hover{background:rgba(0,0,0,.05)}
 .ac-nav .study-nav .ac-actions{gap:4px;margin-top:4px}
 .ac .ac-nav .study-nav .ac-actions button{font-size:.78rem;padding:4px 10px;min-height:0;border-radius:8px}
-.md-hero{background:linear-gradient(135deg,#1f3d33 0%,#2f5d4a 60%,#4a7c59 100%);color:#fff;border-radius:20px;padding:26px 28px 20px;margin-bottom:18px;box-shadow:0 14px 34px rgba(31,61,51,.22);position:relative;overflow:hidden}
-.md-hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%);pointer-events:none}
-.md-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;position:relative}
-.md-rel{display:inline-block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85;margin-bottom:6px}
-.ac .md-hero h1{margin:0;color:#fff;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.05;text-transform:capitalize;font-weight:700}
-.md-hero h1 em{display:block;font-style:normal;font-size:.5em;font-weight:500;text-transform:none;opacity:.85;margin-top:6px}
-.ac .md-date{color:#fff;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;opacity:.95}
-.ac .md-date input{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:8px 10px;color-scheme:dark}
-.md-status{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px;position:relative}
-.md-now{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 16px 7px 8px;font-size:.92rem}
-.md-now span:last-child{opacity:.85}
-.md-pill{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 10px;background:rgba(0,0,0,.12);color:inherit}
-.md-hero .md-pill{background:rgba(255,255,255,.2);color:#fff}
+.md-hero{color:var(--ac-ink,#233b30);padding:2px 0 18px;margin-bottom:18px;border-bottom:1px solid var(--ac-line,#d8dfd6)}
+.md-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap}
+.md-rel{display:inline-block;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ac-muted,#5d6a62);margin-bottom:4px}
+.ac .md-hero h1{margin:0;color:var(--ac-ink,#233b30);font-size:clamp(1.7rem,3.4vw,2.3rem);line-height:1.1;text-transform:capitalize;font-weight:600}
+.md-hero h1 em{display:block;font-style:normal;font-size:.5em;font-weight:400;text-transform:none;color:var(--ac-muted,#5d6a62);margin-top:4px}
+.ac .md-date{color:var(--ac-muted,#5d6a62);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.ac .md-date input{background:transparent;color:var(--ac-ink,#233b30);border:1px solid var(--ac-line,#d8dfd6);border-radius:8px;padding:6px 8px;font-size:.85rem}
+.md-status{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:12px}
+.md-now{display:flex;align-items:center;gap:8px;font-size:.9rem}
+.md-now span:last-child{color:var(--ac-muted,#5d6a62)}
+.md-pill{display:inline-block;font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:2px 9px;background:rgba(0,0,0,.08);color:inherit}
+.md-hero .md-pill{background:transparent;color:var(--ac-muted,#5d6a62);border:1px solid var(--ac-line,#d8dfd6)}
 .md-pill.live{background:#e5b94a!important;color:#3a2c05!important;animation:mdpulse 2s ease-in-out infinite}
+.md-hero .md-pill.live{border-color:transparent}
 .md-pill.done{background:#dcebe2;color:#1f3d33}
+.md-hero .md-pill.done{background:transparent;color:#2f5d4a;border-color:currentColor}
 @keyframes mdpulse{0%,100%{box-shadow:0 0 0 0 rgba(229,185,74,.5)}50%{box-shadow:0 0 0 6px rgba(229,185,74,0)}}
-.md-day{height:8px;border-radius:99px;background:rgba(255,255,255,.2);margin-top:20px;overflow:hidden;position:relative}
-.md-day i{display:block;height:100%;background:linear-gradient(90deg,#e5b94a,#f4d98a);border-radius:99px;transition:width .6s}
-.md-daylbl{display:flex;justify-content:space-between;font-size:.72rem;opacity:.8;margin-top:6px;font-variant-numeric:tabular-nums}
-.md-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
-.md-tile{background:var(--ac-bg,#fffdf8);border:1px solid var(--ac-line,#d8dfd6);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.md-ic{grid-row:1/3;width:42px;height:42px;border-radius:12px;background:#e8f0ea;display:grid;place-items:center;font-size:1.2rem}
-.md-tile b{font-size:1.6rem;line-height:1.1;color:#1f3d33}
+.md-day{height:2px;background:var(--ac-line,#d8dfd6);margin-top:18px;overflow:hidden;position:relative}
+.md-day i{display:block;height:100%;background:#2f5d4a;transition:width .6s}
+.md-daylbl{display:flex;justify-content:space-between;font-size:.7rem;color:var(--ac-muted,#5d6a62);margin-top:6px;font-variant-numeric:tabular-nums}
+.md-tiles{display:flex;flex-wrap:wrap;gap:8px 0;margin-bottom:20px}
+.md-tile{display:flex;align-items:baseline;gap:7px;padding-right:24px;margin-right:24px;border-right:1px solid var(--ac-line,#d8dfd6)}
+.md-tile:last-child{border-right:0;margin-right:0;padding-right:0}
+.md-ic{display:none}
+.md-tile b{font-size:1.2rem;font-weight:600;line-height:1.1;color:var(--ac-ink,#233b30)}
 .md-tile small{color:var(--ac-muted,#5d6a62);font-size:.78rem}
 .md-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
 .ac .md-actions button{border-radius:999px;padding:10px 18px}
 .ac .md-actions button.primary{box-shadow:0 6px 16px rgba(31,61,51,.25)}
 .md-panel{border-radius:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
-.md-tl{list-style:none;margin:14px 0 0;padding:0;position:relative}
-.md-class{display:grid;grid-template-columns:54px 22px 1fr;gap:0 10px;align-items:stretch;position:relative}
-.md-class time{text-align:right;padding-top:12px;display:flex;flex-direction:column;font-variant-numeric:tabular-nums}
-.md-class time b{font-size:.98rem;color:var(--ac-ink,#233b30)}.md-class time small{font-size:.74rem;color:var(--ac-muted,#5d6a62)}
+.md-tl{list-style:none;margin:6px 0 0;padding:0;position:relative}
+.md-class{display:grid;grid-template-columns:44px 10px 1fr;gap:0 14px;align-items:stretch;position:relative}
+.md-class time{text-align:right;padding-top:11px;display:flex;flex-direction:column;font-variant-numeric:tabular-nums}
+.md-class time b{font-size:.9rem;font-weight:600;color:var(--ac-ink,#233b30)}.md-class time small{font-size:.72rem;color:var(--ac-muted,#5d6a62)}
 .md-dot{position:relative;display:block}
-.md-dot::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--ac-line,#d8dfd6)}
-.md-dot::after{content:"";position:absolute;left:50%;top:16px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--c);border:3px solid var(--ac-bg,#fffdf8);box-shadow:0 0 0 2px var(--c)}
-.md-class:first-child .md-dot::before{top:22px}.md-class:last-child .md-dot::before{bottom:calc(100% - 24px)}
-.md-card{margin:6px 0;padding:11px 16px;border-radius:14px;background:color-mix(in srgb,var(--c) 9%,var(--ac-bg,#fff));border-left:5px solid var(--c);display:flex;flex-direction:column;gap:3px;min-width:0}
+.md-dot::before{display:none}
+.md-dot::after{content:"";position:absolute;left:50%;top:17px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--c)}
+.md-card{margin:0;padding:10px 0;border-radius:0;background:none;border:0;border-bottom:1px solid var(--ac-line,#d8dfd6);display:flex;flex-direction:column;gap:2px;min-width:0}
+.md-class:last-child .md-card{border-bottom:0}
 .md-ctop{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.md-card strong{font-size:1.05rem}.md-card small{color:var(--ac-muted,#5d6a62)}
-.md-class.is-past .md-card{opacity:.55}.md-class.is-past .md-dot::after{background:#9fb5a8;box-shadow:0 0 0 2px #9fb5a8}
-.md-class.is-now .md-card{background:color-mix(in srgb,var(--c) 18%,var(--ac-bg,#fff));box-shadow:0 8px 22px color-mix(in srgb,var(--c) 30%,transparent);transform:scale(1.015)}
-.md-class.is-now .md-dot::after{width:18px;height:18px;margin-left:-9px;top:14px;animation:mdpulse 2s infinite}
-.md-class.is-next .md-card{outline:2px dashed color-mix(in srgb,var(--c) 55%,transparent);outline-offset:-2px}
-.md-bar{height:6px;border-radius:99px;background:rgba(0,0,0,.1);overflow:hidden;margin-top:6px}.md-bar i{display:block;height:100%;background:var(--c);border-radius:99px}
-.md-gap{list-style:none;grid-column:1/-1;display:grid;grid-template-columns:54px 22px 1fr;gap:0 10px}
-.md-gap span{grid-column:3;font-size:.76rem;color:var(--ac-muted,#5d6a62);padding:2px 16px}
-@media(max-width:800px){.md-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.md-hero{padding:20px 18px 16px;border-radius:16px}}
-@media(max-width:480px){.md-class{grid-template-columns:44px 18px 1fr}.md-gap{grid-template-columns:44px 18px 1fr}}
+.md-card strong{font-size:.98rem;font-weight:600}.md-card small{color:var(--ac-muted,#5d6a62);font-size:.8rem}
+.md-class .md-pill.done{background:none;padding:0;color:var(--ac-muted,#5d6a62);font-size:.8rem;letter-spacing:0}
+.md-class.is-past .md-card{opacity:.5}.md-class.is-past .md-dot::after{background:#9fb5a8}
+.md-class.is-now .md-card{background:none;box-shadow:none;transform:none}
+.md-class.is-now .md-dot::after{width:10px;height:10px;margin-left:-5px;top:16px;animation:mdpulse 2s infinite}
+.md-class.is-next .md-card{outline:0}
+.md-bar{height:2px;border-radius:0;background:var(--ac-line,#d8dfd6);overflow:hidden;margin-top:6px}.md-bar i{display:block;height:100%;background:var(--c)}
+.md-gap{list-style:none;grid-column:1/-1;display:grid;grid-template-columns:44px 10px 1fr;gap:0 14px}
+.md-sched.md-panel{box-shadow:none;background:transparent;border:0;border-top:1px solid var(--ac-line,#d8dfd6);border-radius:0;padding-left:4px;padding-right:4px}
+.ac .md-sched h2{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ac-muted,#5d6a62);margin:0}
+.ac .md-sched h2 small{font-size:inherit;color:inherit}
+.md-gap span{grid-column:3;font-size:.72rem;color:var(--ac-muted,#5d6a62);padding:4px 0}
+@media(max-width:800px){.md-tiles{gap:8px 20px}.md-tile{border-right:0;margin-right:0;padding-right:0}.md-hero{padding:2px 0 14px}}
+@media(max-width:480px){.md-class,.md-gap{gap:0 10px}}
+.ac .sp-sum{box-shadow:none;padding:14px 4px;background:transparent;border:0;border-top:1px solid var(--ac-line,#d8dfd6);border-radius:0}
+.sp-sum-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.ac .sp-sum h2{margin:0;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ac-muted,#5d6a62)}
+.ac .sp-sum .sp-sum-h button{background:none;border:0;box-shadow:none;padding:2px 0;min-height:0;border-radius:0;font-size:.85rem;font-weight:500;color:#2f5d4a;text-decoration:underline;text-underline-offset:3px;text-decoration-color:transparent;cursor:pointer}
+.ac .sp-sum .sp-sum-h button:hover{text-decoration-color:currentColor}
+.ac .sp-sum .ac-empty{background:none;padding:0;margin:8px 0 0;font-style:normal;font-size:.9rem;color:var(--ac-muted,#5d6a62)}
+.ac .sp-sum p{margin:8px 0 0;font-size:.9rem}
+.md-sched>.ac-meta{display:none}
+.md-sched .ac-row{gap:14px;padding:12px 0}
+.md-sched .ac-row time{flex:0 0 44px;font-size:.8rem;color:var(--ac-muted,#5d6a62)}
+.md-sched .ac-row .ac-status{background:none;padding:0;margin:0 0 2px;border-radius:0;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ac-muted,#5d6a62)}
+.md-sched .ac-row strong{font-size:.98rem;font-weight:600;line-height:1.4}
+.md-sched .ac-row small{font-size:.8rem;color:var(--ac-muted,#5d6a62)}
+.ac .md-sched .ac-row .ac-actions{display:flex;flex-wrap:wrap;gap:2px 16px;width:auto;justify-content:flex-start;margin-top:6px}
+.ac .md-sched .ac-row .ac-actions button{width:auto;background:none;border:0;box-shadow:none;border-radius:0;padding:2px 0;min-height:0;font-size:.82rem;font-weight:500;color:var(--ac-muted,#5d6a62);cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:transparent}
+.ac .md-sched .ac-row .ac-actions button:first-child{color:#2f5d4a}
+.ac .md-sched .ac-row .ac-actions button:hover{text-decoration-color:currentColor}
+.ac .md-sched .ac-empty{background:none;padding:0;margin:8px 0 0;font-style:normal;font-size:.9rem;color:var(--ac-muted,#5d6a62)}
 @media(prefers-reduced-motion:reduce){.md-pill.live,.md-class.is-now .md-dot::after{animation:none}.md-day i{transition:none}}
 </style>
 <script>
@@ -17626,23 +17667,23 @@ function dayView(){
   else if(nextIdx>=0){status=`<div class="md-now"><span class="md-pill">Siguiente</span><b>${E(lessons[nextIdx].subject)}</b><span>a las ${E(lessons[nextIdx].start)}</span></div>`;}
   else status=`<div class="md-now"><span class="md-pill done">Listo</span><span>Has terminado las clases de hoy</span></div>`;
  }
- const tile=(n,l,ic)=>`<div class="md-tile"><span class="md-ic" aria-hidden="true">${ic}</span><b>${n}</b><small>${l}</small></div>`;
+ const tile=(n,l,ic)=>`<div class="md-tile"><b>${n}</b><small>${l}</small></div>`;
  const tl=lessons.length?lessons.map((l,i)=>{
   const st=!isToday?'':(i===curIdx?' is-now':mins(l.end)<=nm?' is-past':(i===nextIdx?' is-next':''));
   const c=colors[l.subject]||'#6b8f7b';
   const dur=mins(l.end)-mins(l.start);
   const prog=(i===curIdx)?`<div class="md-bar" role="progressbar" aria-valuenow="${Math.round((nm-mins(l.start))*100/Math.max(1,dur))}" aria-valuemin="0" aria-valuemax="100"><i style="width:${Math.round((nm-mins(l.start))*100/Math.max(1,dur))}%"></i></div>`:'';
   const gapMin=i>0?mins(l.start)-mins(lessons[i-1].end):0;
-  const gap=gapMin>=10?`<li class="md-gap" aria-hidden="true"><span>☕ ${gapMin} min de descanso</span></li>`:'';
+  const gap=gapMin>=10?`<li class="md-gap" aria-hidden="true"><span>${gapMin} min de descanso</span></li>`:'';
   return gap+`<li class="md-class${st}" style="--c:${E(c)}"><time><b>${E(l.start)}</b><small>${E(l.end)}</small></time><span class="md-dot" aria-hidden="true"></span><div class="md-card"><div class="md-ctop"><strong>${E(l.subject)}</strong>${i===curIdx?'<span class="md-pill live">Ahora</span>':i===nextIdx?'<span class="md-pill">Siguiente</span>':(st===' is-past'?'<span class="md-pill done">✓</span>':'')}</div><small>${E([l.teacher,l.room?'Aula '+l.room:'',dur+' min'].filter(Boolean).join(' · '))}</small>${prog}</div></li>`;
  }).join(''):'';
  return `<div class="md-hero"><div class="md-hero-top"><div><span class="md-rel">${E(rel)} · ${E(greet)}</span><h1>${E(date.toLocaleDateString('es-ES',{weekday:'long'}))}<em>${date.getDate()} de ${E(date.toLocaleDateString('es-ES',{month:'long',year:'numeric'}))}</em></h1></div><label class="md-date">Fecha<input id="acDate" type="date" value="${state.date}" data-change="date"></label></div>
   ${status?`<div class="md-status">${status}</div>`:''}${isToday&&lessons.length?`<div class="md-day" title="Progreso de la jornada"><i style="width:${dayPct}%"></i></div><div class="md-daylbl"><span>${E(lessons[0].start)}</span><span>${dayPct}% de la jornada</span><span>${E(lessons[lessons.length-1].end)}</span></div>`:''}</div>
  <div class="md-tiles">${tile(lessons.length,lessons.length===1?'clase':'clases','🎓')}${tile(hrs,'horas lectivas','⏱')}${tile(pending.length,pending.length===1?'pendiente':'pendientes','✅')}${tile(evs.length,evs.length===1?'examen/evento':'exámenes/eventos','📌')}</div>
  <div class="md-actions"><button data-action="new" class="primary">＋ Añadir pendiente</button><button data-action="view" data-view="concentration">🎯 Empezar concentración</button><button data-action="view" data-view="unifiedcalendar">📅 Calendario unificado</button><button data-action="view" data-view="day">Calendario clásico</button></div>${window.DawCalendar?.noticeSummary()||''}${window.DawSmart?.daySummary(state.date)||''}
- <div class="ac-grid"><div class="ac-stack"><section class="ac-panel md-panel"><h2>Clases del día <small>· ${lessons.length}</small></h2>${academic.map(e=>`<p class="ac-alert">${E(e.text)}</p>`).join('')}${lessons.length?`<ol class="md-tl">${tl}</ol>`:empty('No hay clases programadas para esta fecha. ¡Día libre!')}</section>
- <section class="ac-panel md-panel"><h2>Exámenes y eventos del día</h2>${evs.map(t=>row(t)).join('')||empty('Sin exámenes ni eventos en esta fecha. Puedes añadirlos en Entregas.')}</section></div>
- <section class="ac-panel md-panel"><h2>Tareas pendientes <small>· ${pending.length}</small></h2><p class="ac-meta">Todas tus tareas y trabajos, primero los que vencen antes. Incluye pendientes de otros días para que no se queden atrás.</p>${pending.map(t=>row(t)).join('')||empty('Todo al día. Añade una tarea para preparar tu próxima sesión.')}<h2 style="margin-top:var(--space-6,24px)">Entregas de esta fecha</h2>${dueToday.map(t=>row(t)).join('')||empty('No hay tareas con fecha límite este día.')}</section></div>`;
+ <div class="ac-grid"><div class="ac-stack"><section class="ac-panel md-panel md-sched"><h2>Clases del día <small>· ${lessons.length}</small></h2>${academic.map(e=>`<p class="ac-alert">${E(e.text)}</p>`).join('')}${lessons.length?`<ol class="md-tl">${tl}</ol>`:empty('No hay clases programadas para esta fecha. ¡Día libre!')}</section>
+ <section class="ac-panel md-panel md-sched"><h2>Exámenes y eventos del día</h2>${evs.map(t=>row(t)).join('')||empty('Sin exámenes ni eventos en esta fecha. Puedes añadirlos en Entregas.')}</section></div>
+ <section class="ac-panel md-panel md-sched"><h2>Tareas pendientes <small>· ${pending.length}</small></h2><p class="ac-meta">Todas tus tareas y trabajos, primero los que vencen antes. Incluye pendientes de otros días para que no se queden atrás.</p>${pending.map(t=>row(t)).join('')||empty('Todo al día. Añade una tarea para preparar tu próxima sesión.')}<h2 style="margin-top:var(--space-6,24px)">Entregas de esta fecha</h2>${dueToday.map(t=>row(t)).join('')||empty('No hay tareas con fecha límite este día.')}</section></div>`;
 }
 function editor(){
  const t=state.edit||{title:'',course:'',date:state.date,type:'entrega',priority:'normal',note:'',start:''};
@@ -18346,7 +18387,7 @@ function openContext(type,key){ui.type=type;ui.context=key;ui.answer=null;ui.que
 window.DawSmart={
  handles:v=>views.includes(v),
  render(v){autoCheck();const p=read(),labels={smartplanner:['Planificador inteligente','Sesiones realistas según tus tareas, disponibilidad, clases y eventos.'],overload:['Detección de sobrecarga','Avisos de acumulación y trabajo que requiere revisar el plan.'],recommendations:['Recomendaciones de estudio','Qué asignatura conviene preparar primero y por qué.'],contexthelp:['Ayuda contextual','Consulta una tarea, una asignatura o un apunte concreto.']},h=labels[v];return `<div class="smart-tools"><header class="ac-head"><div><div class="ac-kicker">Asistente inteligente · local</div><h1>${h[0]}</h1><p class="ac-meta">${h[1]}</p></div></header>${ui.message?`<p class="ac-alert ${ui.error?'error':''}" role="status">${E(ui.message)}</p>`:''}${({smartplanner:planView,overload:overloadView,recommendations:recommendationView,contexthelp:contextView}[v])(p)}<p class="ac-meta">Sin servicios externos. La replanificación se revisa al abrir estas vistas, al volver a la pestaña y cada minuto mientras esté visible. Al cerrar el HTML no se ejecuta ni envía notificaciones.</p></div>`},
- daySummary(date){autoCheck();const p=read(),due=p.sessions.filter(s=>s.status==='planned'&&s.date===date),o=overloads(p),active=o.windows.filter(w=>w.start<=addDays(date,7)&&w.end>=date);return `<section class="ac-panel" style="margin-bottom:24px"><h2>Tu plan de estudio</h2>${active.length||o.late.length?`<p class="ac-alert">${o.late.length} pendientes vencidas${active.length?' · Acumulación próxima de entregas':''}. <button data-action="view" data-view="overload">Revisar sobrecarga</button></p>`:''}${due.length?due.map(s=>`<p>${clock(s.start)}–${clock(s.end)} · ${E(s.title)} · ${E(s.course||'General')}</p>`).join(''):empty('Sin sesiones de estudio planificadas para esta fecha.')}<button data-action="view" data-view="smartplanner">Abrir planificador</button></section>`},
+ daySummary(date){autoCheck();const p=read(),due=p.sessions.filter(s=>s.status==='planned'&&s.date===date),o=overloads(p),active=o.windows.filter(w=>w.start<=addDays(date,7)&&w.end>=date);return `<section class="ac-panel sp-sum" style="margin-bottom:24px"><div class="sp-sum-h"><h2>Tu plan de estudio</h2><button data-action="view" data-view="smartplanner">Abrir planificador</button></div>${active.length||o.late.length?`<p class="ac-alert">${o.late.length} pendientes vencidas${active.length?' · Acumulación próxima de entregas':''}. <button data-action="view" data-view="overload">Revisar sobrecarga</button></p>`:''}${due.length?due.map(s=>`<p>${clock(s.start)}–${clock(s.end)} · ${E(s.title)} · ${E(s.course||'General')}</p>`).join(''):empty('Sin sesiones de estudio planificadas para esta fecha.')}</section>`},
  finishSession(id){const p=read(),s=p.sessions.find(x=>x.id===id);if(s&&s.status!=='done'){s.status='done';s.completedAt=Date.now();s.via='pomodoro';save(p)}},
  check:autoCheck
 };
@@ -19377,6 +19418,191 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #content .cc-att .cc-meta{text-align:center;font-size:.82rem}
 @media(max-width:760px){#content .cc-grid{grid-template-columns:1fr}#content .cc-card,#content .cc-next,#content .cc-study,#content .cc-att{grid-column:auto}#content .cc-big{font-size:1.7rem}}
 </style>
+<style id="mi-dia-minimal">
+/* ===== Mi día · versión minimalista (solo CSS; no toca datos ni lógica) ===== */
+#content{--m-ink:#1f2a26;--m-mut:#7b8580;--m-line:#ebe8e0;--m-acc:#2f6a53}
+
+/* --- Cabecera de fecha: sin tarjeta, sin degradado, sin sombra --- */
+#content .dv2-head,#content .dv2-head.is-today{background:none!important;border:0!important;border-bottom:1px solid var(--m-line)!important;border-radius:0!important;box-shadow:none!important;padding:8px 0 18px!important;margin:0 0 22px!important;overflow:visible}
+#content .dv2-head::after,#content .dv2-head::before{display:none!important}
+#content .dv2-rel,#content .is-today .dv2-rel{color:var(--m-mut);letter-spacing:.14em;font-size:.68rem;font-weight:600}
+#content .is-today .dv2-rel::before{width:6px;height:6px;margin-right:8px;box-shadow:none}
+#content .dv2-date{font-size:clamp(1.5rem,3.4vw,2rem);font-weight:500;color:var(--m-ink)}
+#content .dv2-year{color:var(--m-mut);font-style:normal}
+#content .dv2-info .dv2-sum{margin:6px 0 0!important;gap:0!important}
+#content .dv2-sum span{background:none;border:0;padding:0;border-radius:0;font-size:.8rem;color:var(--m-mut)}
+#content .dv2-sum span+span::before{content:"·"!important;margin:0 8px!important;color:#c9cfcb}
+#content .dv2-nav button,#content .dv2-nav button.dv2-today{background:none!important;border:0!important;box-shadow:none!important;color:var(--m-mut);min-width:36px;min-height:36px}
+#content .dv2-nav button:hover,#content .dv2-nav button.dv2-today:hover{background:#f3f2ec!important;color:var(--m-ink)}
+#content .dv2-nav button.dv2-today{font-family:inherit;letter-spacing:0;font-size:.85rem}
+
+/* --- Centro de control --- */
+#content .cc{margin:0 0 30px}
+#content .cc-k{display:none}
+#content .cc-top{margin:0 0 6px;align-items:center}
+#content .cc-top h2{font-family:inherit;font-size:.95rem;font-weight:600;letter-spacing:0;color:var(--m-ink)}
+#content .cc-cont{border:0;background:none;box-shadow:none;padding:4px 0;border-radius:0;color:var(--m-acc);gap:8px}
+#content .cc-cont:hover{background:none;color:var(--m-ink);border-color:transparent}
+#content .cc-cont small{display:inline;font-size:.78rem;letter-spacing:0;opacity:.75}
+#content .cc-cont small::after{content:" · "}
+#content .cc-cont span:first-child{display:flex;align-items:baseline;gap:0}
+#content .cc-cont b{font-family:inherit;font-size:.9rem;font-weight:600}
+
+/* Tarjetas -> secciones separadas por una línea fina */
+#content .cc-grid{gap:0 40px}
+#content .cc-card,#content .cc-next{background:none;border:0;border-top:1px solid var(--m-line);border-radius:0;box-shadow:none;padding:20px 0 22px;overflow:visible}
+#content .cc-next::before{display:none}
+#content .cc-card h3{margin:0 0 14px;font-size:.7rem;letter-spacing:.12em;font-weight:600;color:var(--m-mut)}
+#content .cc-card h3 button{font-size:.76rem;font-weight:500;color:var(--m-mut)}
+#content .cc-card h3 button:hover{color:var(--m-ink);text-decoration:none}
+
+/* Próxima clase: el pill pasa a texto plano */
+#content .cc-pill,#content .cc-pill.n{background:none;color:var(--m-acc);padding:0;border-radius:0;font-size:.7rem;letter-spacing:.12em;font-weight:600}
+#content .cc-big{font-family:inherit;font-size:1.9rem;font-weight:500;color:var(--m-ink);margin:6px 0 4px}
+#content .cc-meta{color:var(--m-mut);font-size:.9rem}
+#content .cc-meta b{color:var(--m-ink);font-weight:500}
+#content .cc-acts{margin-top:12px;gap:16px}
+#content .cc-btn{border:0;background:none;padding:0;border-radius:0;color:var(--m-acc);font-size:.84rem;letter-spacing:0;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#cfd8d3}
+#content .cc-btn:hover{background:none;color:var(--m-ink);border-color:transparent}
+
+/* Listas, etiquetas y progresos */
+#content .cc-list li{font-size:.92rem}
+#content .cc-tag,#content .cc-tag.r,#content .cc-tag.g{background:none;padding:0;border-radius:0;font-size:.72rem;letter-spacing:.04em;text-transform:none;font-weight:500;color:var(--m-mut)}
+#content .cc-tag.r{color:#a3402f}
+#content .cc-ok{font-family:inherit;font-size:.95rem;color:var(--m-mut)}
+#content .cc-ex b{font-family:inherit;font-size:1rem;font-weight:500}
+#content .cc-prog,#content .cc-ex .cc-prog{height:2px;border-radius:0;background:var(--m-line)}
+#content .cc-prog i{background:var(--m-acc)}
+
+/* Horas para estudiar */
+#content .cc-bar{height:6px;border-radius:3px;background:#eef2ee;margin:14px 0 4px}
+#content .cc-bar .p{background:#dcd9cf;opacity:1}
+#content .cc-ax{font-size:.66rem}
+
+/* Asistencia: anillo fino y limpio */
+#content .cc-ring{width:84px;height:84px;background:conic-gradient(var(--rc) calc(var(--p)*1%),var(--m-line) 0)}
+#content .cc-ring::before{inset:3px}
+#content .cc-ring b{font-family:inherit;font-size:1.3rem;font-weight:500}
+
+@media(max-width:760px){#content .cc-grid{gap:0}#content .cc-big{font-size:1.6rem}}
+</style>
+<style id="nav-compact">
+/* ===== Barra de secciones en una sola línea ===== */
+@media(min-width:601px){
+  html body .ac .ac-nav{display:flex;align-items:center;gap:2px!important;padding-bottom:8px;margin-bottom:16px;position:relative}
+  html body .ac .ac-nav>button,html body .ac .ac-nav .study-nav>summary{font-size:.84rem!important;font-weight:500;padding:6px 10px!important;min-height:0!important;line-height:1.2;white-space:nowrap;border-radius:8px;color:var(--ac-muted,#5d6a62)}
+  html body .ac .ac-nav>button[aria-current=page]{font-weight:600}
+  html body .ac .ac-nav .study-nav,html body .ac .ac-nav .study-nav[open]{flex:0 0 auto!important;flex-basis:auto!important;margin:0!important;position:relative}
+  html body .ac .ac-nav .study-nav>summary{list-style:none;display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+  html body .ac .ac-nav .study-nav>summary::-webkit-details-marker{display:none}
+  html body .ac .ac-nav .study-nav>summary::marker{content:""}
+  html body .ac .ac-nav .study-nav>summary::after{content:"";width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.6;margin-left:3px}
+  html body .ac .ac-nav .study-nav[open]>summary{background:rgba(0,0,0,.05);color:#1f3d33}
+  html body .ac .ac-nav .study-nav.has-current>summary{color:#1f3d33;font-weight:600}
+  html body .ac .ac-nav .study-nav>.ac-actions{position:absolute;top:calc(100% + 6px);left:0;z-index:70;display:flex;flex-direction:column;align-items:stretch;gap:2px;margin:0;padding:6px;min-width:200px;width:max-content;max-width:300px;background:#fff;border:1px solid #e7e2d6;border-radius:12px;box-shadow:0 12px 28px -14px rgba(31,42,38,.3)}
+  html body .ac .ac-nav .study-nav .ac-actions button{justify-content:flex-start;text-align:left;font-size:.84rem!important;padding:7px 10px!important;border:0;background:none;box-shadow:none;min-height:0!important}
+  html body .ac .ac-nav .study-nav .ac-actions button:hover{background:#f3f2ec}
+  html body .ac .ac-nav .study-nav .ac-actions button[aria-current=page]{background:#e8f0ea;font-weight:600}
+}
+@media(min-width:901px){
+  html body .ac .ac-nav{flex-wrap:nowrap!important;gap:0!important}
+  html body .ac .ac-nav>button,html body .ac .ac-nav .study-nav>summary{font-size:clamp(.7rem,1.02vw,.84rem)!important;letter-spacing:0!important;padding:6px clamp(5px,.6vw,10px)!important}
+  html body .ac .ac-nav .study-nav>summary::after{margin-left:2px}
+}
+@media(min-width:601px) and (max-width:900px){html body .ac .ac-nav{flex-wrap:wrap!important}}
+</style>
+<script id="nav-compact-js">
+(function(){
+'use strict';
+/* Los grupos arrancan cerrados (son desplegables) y se cierran al elegir o al hacer clic fuera */
+function sync(root){
+  (root||document).querySelectorAll('.ac-nav .study-nav').forEach(function(d){
+    var cur=!!d.querySelector('[aria-current="page"]');
+    d.classList.toggle('has-current',cur);
+    if(!d.dataset.ncInit){d.dataset.ncInit='1';d.removeAttribute('open');}
+  });
+}
+document.addEventListener('click',function(e){
+  document.querySelectorAll('.ac-nav .study-nav[open]').forEach(function(d){if(!d.contains(e.target))d.removeAttribute('open');});
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')document.querySelectorAll('.ac-nav .study-nav[open]').forEach(function(d){d.removeAttribute('open');});
+});
+document.addEventListener('toggle',function(e){
+  var t=e.target;
+  if(t&&t.matches&&t.matches('.ac-nav .study-nav')&&t.open){
+    document.querySelectorAll('.ac-nav .study-nav[open]').forEach(function(d){if(d!==t)d.removeAttribute('open');});
+  }
+},true);
+var c=document.getElementById('content');
+if(c){new MutationObserver(function(){sync(c)}).observe(c,{childList:true,subtree:true});}
+sync(document);
+})();
+</script>
+<style id="mi-dia-calm">
+/* ===== Mi día · aún más discreto: menos tamaño, menos contraste, menos aire ===== */
+#content{--m-ink:#3a4540;--m-mut:#98a19c;--m-line:#f0eee8}
+#content .dv2-head,#content .dv2-head.is-today{padding:2px 0 12px!important;margin:0 0 14px!important}
+#content .dv2-date{font-size:clamp(1.15rem,2.2vw,1.4rem);font-weight:500;color:var(--m-ink)}
+#content .dv2-rel,#content .is-today .dv2-rel{font-size:.62rem;letter-spacing:.1em;font-weight:500}
+#content .dv2-sum span{font-size:.74rem}
+#content .cc{margin:0 0 18px}
+#content .cc-top{margin:0 0 2px}
+#content .cc-top h2{font-size:.8rem;font-weight:500;color:var(--m-mut)}
+#content .cc-cont small{font-size:.72rem}
+#content .cc-cont b{font-size:.8rem;font-weight:500}
+#content .cc-grid{gap:0 32px}
+#content .cc-card,#content .cc-next{padding:12px 0 14px;border-top-color:var(--m-line)}
+#content .cc-card h3{margin:0 0 8px;font-size:.62rem;font-weight:500;letter-spacing:.1em;color:var(--m-mut)}
+#content .cc-card h3 button{font-size:.7rem;font-weight:400;color:var(--m-mut)}
+#content .cc-pill,#content .cc-pill.n{font-size:.62rem;font-weight:500;color:var(--m-mut)}
+#content .cc-big{font-size:1.25rem;font-weight:500;color:var(--m-ink);margin:2px 0}
+#content .cc-meta{font-size:.8rem;line-height:1.5;color:var(--m-mut)}
+#content .cc-meta b{font-weight:500;color:#5b6761}
+#content .cc-acts{margin-top:6px}
+#content .cc-btn{font-size:.76rem;color:var(--m-mut);text-decoration-color:var(--m-line)}
+#content .cc-btn:hover{color:var(--m-ink)}
+#content .cc-list{gap:5px}
+#content .cc-list li{font-size:.84rem;color:#55605a}
+#content .cc-tag,#content .cc-tag.r,#content .cc-tag.g{font-size:.68rem;font-weight:400}
+#content .cc-ok{font-size:.84rem;margin:0}
+#content .cc-ex b{font-size:.88rem}
+#content .cc-ex small{font-size:.7rem}
+#content .cc-prog,#content .cc-ex .cc-prog{height:1px}
+/* Horas para estudiar */
+#content .cc-time{gap:8px}
+#content .cc-time .cc-big{font-size:1.25rem}
+#content .cc-bar{height:3px;margin:10px 0 3px}
+#content .cc-ax{font-size:.62rem;color:#b3bab6}
+#content .cc-study .cc-meta{margin-top:6px!important}
+/* Asistencia: anillo pequeño a la izquierda, datos a la derecha */
+#content .cc-att{display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:center}
+#content .cc-att h3{grid-column:1/-1}
+#content .cc-att .cc-ring{width:52px;height:52px;margin:0}
+#content .cc-att .cc-ring::before{inset:2px}
+#content .cc-att .cc-ring b{font-size:.85rem;font-weight:500}
+#content .cc-att .cc-meta{text-align:left;font-size:.74rem;line-height:1.55;margin:0}
+@media(max-width:760px){#content .cc-big{font-size:1.15rem}}
+</style>
+<style id="mi-dia-bottom">
+/* ===== Centro de control al final del día, en segundo plano ===== */
+#content .cc{margin:34px 0 8px;padding-top:6px;opacity:.78;transition:opacity .2s}
+#content .cc:hover,#content .cc:focus-within{opacity:1}
+#content .cc-top{margin:0 0 0}
+#content .cc-top h2{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:#aab1ad}
+#content .cc-cont small{font-size:.68rem}
+#content .cc-cont b{font-size:.74rem;font-weight:500}
+#content .cc-acts{display:none}
+#content .cc-card,#content .cc-next{padding:10px 0 10px}
+#content .cc-big,#content .cc-time .cc-big{font-size:1.05rem}
+#content .cc-meta,#content .cc-att .cc-meta{font-size:.72rem}
+#content .cc-list li{font-size:.78rem}
+#content .cc-ex b{font-size:.8rem}
+#content .cc-att .cc-ring{width:40px;height:40px}
+#content .cc-att .cc-ring b{font-size:.72rem}
+#content .cc-ax{display:none}
+#content .cc-bar{margin:8px 0 2px}
+</style>
 <script id="mi-dia-cc-js">
 (function(){
 var LK='daw_ultima_actividad',N={week:'Semana',month:'Mes',courses:'Asignaturas',moodle:'Moodle',diary:'Diario de clase',outlook:'Outlook',drive:'Drive',deadlines:'Entregas y exámenes',att:'Asistencia',notes:'Apuntes personales',wellness:'Bienestar',tereas:'Tareas',pastoral:'Pastoral',substack:'Lectura',study:'Estudio',files:'Archivos',assistant:'Asistente'};
@@ -19436,7 +19662,7 @@ function build(now){
  if(l&&N[l.v])ct='<button type="button" class="cc-cont" onclick="ccGo(\''+l.v+'\',\''+E(l.d||'')+'\')"><span><small>Continuar donde lo dejaste · '+ago(l.t)+'</small><b>'+E(N[l.v])+'</b></span><span aria-hidden="true">→</span></button>';
  return'<section class="cc" aria-label="Centro de control de Mi día"><div class="cc-top"><div><span class="cc-k">Centro de control</span><h2>Tu día de un vistazo</h2></div>'+ct+'</div><div class="cc-grid">'+nextC(now)+tk.h+exams(now)+study(now,hoy,tk.load)+att(now,hoy)+'</div></section>'}
 var prev=renderDayView;
-renderDayView=function(c){prev(c);try{var now=new Date();if(Y(currentDate)!==Y(now))return;var hd=c.querySelector('.dv2-head');if(!hd||c.querySelector('.cc'))return;hd.insertAdjacentHTML('afterend',build(now));var s=c.querySelector('.dia-det>summary');if(s&&s.firstChild&&s.firstChild.nodeType===3)s.firstChild.nodeValue='Más herramientas del día '}catch(e){}};
+renderDayView=function(c){prev(c);try{var now=new Date();if(Y(currentDate)!==Y(now))return;var hd=c.querySelector('.dv2-head');if(!hd||c.querySelector('.cc'))return;c.insertAdjacentHTML('beforeend',build(now));var s=c.querySelector('.dia-det>summary');if(s&&s.firstChild&&s.firstChild.nodeType===3)s.firstChild.nodeValue='Más herramientas del día '}catch(e){}};
 try{if(currentView==='day'||currentView==='today')renderCurrentView()}catch(e){}
 })();
 </script>
@@ -19444,4 +19670,7 @@ try{if(currentView==='day'||currentView==='today')renderCurrentView()}catch(e){}
 </body>
 </html>
 
-</body></html>
+</body></html><style>
+#loginScreen .login-box .login-access-row{display:flex!important;align-items:center;justify-content:center;gap:10px;width:100%;margin:12px auto 0;white-space:nowrap}
+#loginScreen .login-box .login-access-row #loginModeBtn,#loginScreen .login-box .login-access-row #redAskBtn{display:inline-flex!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;margin:0!important;padding:3px 0!important;white-space:nowrap}
+</style>
